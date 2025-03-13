@@ -6,6 +6,8 @@ android-compileSdk = "35"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinMultiplatform = { module = "org.jetbrains.kotlin.multiplatform:org.jetbrains.kotlin.multiplatform.gradle.plugin", version.ref = "kotlin" }
+agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
