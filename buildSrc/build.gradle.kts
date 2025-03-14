@@ -14,6 +14,7 @@ dependencies {
     implementation(gradleApi())
     implementation(libs.kotlinMultiplatform)
     implementation(libs.agp)
+    implementation(libs.detekt.gradle.plugin)
 }
 
 gradlePlugin {
