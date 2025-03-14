@@ -6,6 +6,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 class BuildPlugin : Plugin<Project> {
 
@@ -37,6 +38,11 @@ class BuildPlugin : Plugin<Project> {
                         implementation("org.jetbrains.kotlin:kotlin-test")
                     }
                 }
+            }
+            compilerOptions {
+                allWarningsAsErrors.set(true)
+                apiVersion.set(KotlinVersion.KOTLIN_1_8)
+                languageVersion.set(KotlinVersion.KOTLIN_1_8)
             }
         }
     }
