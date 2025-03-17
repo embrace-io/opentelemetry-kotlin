@@ -3,47 +3,44 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    id("org.jetbrains.kotlin.multiplatform")
+    id("com.android.library")
     alias(libs.plugins.vanniktech.mavenPublish)
+    id("io.embrace.otel.build-logic")
 }
 
 group = "io.embrace.opentelemetry.kotlin"
 version = "0.1.0"
 
-kotlin {
-    jvm()
-    androidTarget {
-        publishLibraryVariants("release")
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
-        }
-    }
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                //put your multiplatform dependencies here
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.kotlin.test)
-            }
-        }
-    }
+buildLogic {
+    containsPublicApi.set(true)
 }
+
+//kotlin {
+//    jvm()
+//    androidTarget {
+//        publishLibraryVariants("release")
+//        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+//        compilerOptions {
+//            jvmTarget.set(JvmTarget.JVM_1_8)
+//        }
+//    }
+//    sourceSets {
+//        val commonMain by getting {
+//            dependencies {
+//                //put your multiplatform dependencies here
+//            }
+//        }
+//        val commonTest by getting {
+//            dependencies {
+//                implementation(libs.kotlin.test)
+//            }
+//        }
+//    }
+//}
 
 android {
     namespace = "io.embrace.opentelemetry.kotlin"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
 }
 
 mavenPublishing {
