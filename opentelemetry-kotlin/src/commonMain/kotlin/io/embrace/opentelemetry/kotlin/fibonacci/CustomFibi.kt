@@ -1,6 +1,6 @@
 package io.embrace.opentelemetry.kotlin.fibonacci
 
-fun generateFibi() = sequence {
+public fun generateFibi(): Sequence<Int> = sequence {
     var a = firstElement
     yield(a)
     var b = secondElement
@@ -13,5 +13,5 @@ fun generateFibi() = sequence {
     }
 }
 
-expect val firstElement: Int
-expect val secondElement: Int
+public expect val firstElement: Int
+public expect val secondElement: Int

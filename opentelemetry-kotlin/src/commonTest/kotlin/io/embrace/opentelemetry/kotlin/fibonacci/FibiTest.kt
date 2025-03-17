@@ -1,4 +1,4 @@
-package io.embrace.opentelemetry.kotlin.fibonacci.io.embrace.opentelemetry.kotlin.fibonacci
+package io.embrace.opentelemetry.kotlin.fibonacci
 
 import io.embrace.opentelemetry.kotlin.fibonacci.firstElement
 import io.embrace.opentelemetry.kotlin.fibonacci.generateFibi
@@ -6,7 +6,7 @@ import io.embrace.opentelemetry.kotlin.fibonacci.secondElement
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class FibiTest {
+internal class FibiTest {
 
     @Test
     fun `test 3rd element`() {

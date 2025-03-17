@@ -1,13 +1,10 @@
 package io.embrace.otel
 
-import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
-fun Project.configureKotlin() {
-    val kotlin = project.extensions.getByType(KotlinMultiplatformExtension::class.java)
-
+fun configureKotlin(kotlin: KotlinMultiplatformExtension) {
     kotlin.apply {
         jvm()
         androidTarget {

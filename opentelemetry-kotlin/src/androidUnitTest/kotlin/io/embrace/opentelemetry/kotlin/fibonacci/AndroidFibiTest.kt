@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.fibonacci
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class AndroidFibiTest {
+internal class AndroidFibiTest {
 
     @Test
     fun `test 3rd element`() {
