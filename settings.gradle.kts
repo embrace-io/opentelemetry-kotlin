@@ -14,4 +14,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "opentelemetry-kotlin"
-include(":opentelemetry-kotlin")
+include(
+    ":opentelemetry-kotlin",
+    "examples:jvm-app",
+    "examples:jvm-compat-app",
+)
