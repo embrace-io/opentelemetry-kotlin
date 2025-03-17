@@ -3,10 +3,10 @@ package io.embrace.opentelemetry.kotlin.fibonacci
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class FibiTest {
+class AndroidFibiTest {
 
     @Test
     fun `test 3rd element`() {
-        assertEquals(firstElement + secondElement, generateFibi().take(3).last())
+        assertEquals(3, generateFibi().take(3).last())
     }
 }
