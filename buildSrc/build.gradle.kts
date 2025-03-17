@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.kotlinMultiplatform)
     implementation(libs.agp)
     implementation(libs.detekt.gradle.plugin)
+    implementation(libs.binary.compatibility.validator)
 }
 
 gradlePlugin {
