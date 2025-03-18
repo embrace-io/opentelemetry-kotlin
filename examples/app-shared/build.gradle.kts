@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    api(project(":examples:app-shared"))
+    api(project(":opentelemetry-kotlin"))
 }
