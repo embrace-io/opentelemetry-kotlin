@@ -1,3 +1,18 @@
+public abstract interface class io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
+	public abstract fun setBooleanAttribute (Ljava/lang/String;Z)V
+	public abstract fun setBooleanListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public abstract fun setDoubleAttribute (Ljava/lang/String;D)V
+	public abstract fun setDoubleListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public abstract fun setLongAttribute (Ljava/lang/String;J)V
+	public abstract fun setLongListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public abstract fun setStringAttribute (Ljava/lang/String;Ljava/lang/String;)V
+	public abstract fun setStringListAttribute (Ljava/lang/String;Ljava/util/List;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/attributes/AttributeContainerExtKt {
+	public static final fun setAttributes (Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;Ljava/util/Map;)V
+}
+
 public final class io/embrace/opentelemetry/kotlin/print/CustomPrintAndroidKt {
 	public static final fun getMessage ()Ljava/lang/String;
 }
