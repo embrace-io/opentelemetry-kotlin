@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":opentelemetry-kotlin"))
+    api(project(":opentelemetry-kotlin-api"))
     api(platform(libs.opentelemetry.bom))
     api(libs.opentelemetry.api)
     implementation(libs.opentelemetry.sdk)
