@@ -1,9 +1,0 @@
-public final class io/embrace/opentelemetry/kotlin/fibonacci/CustomFibiAndroidKt {
-	public static final fun getFirstElement ()I
-	public static final fun getSecondElement ()I
-}
-
-public final class io/embrace/opentelemetry/kotlin/fibonacci/CustomFibiKt {
-	public static final fun generateFibi ()Lkotlin/sequences/Sequence;
-}
-
