@@ -1,0 +1,4 @@
+public final class io/embrace/opentelemetry/kotlin/attributes/AttributeContainerExtKt {
+	public static final fun setAttributes (Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;Ljava/util/Map;)V
+}
+
