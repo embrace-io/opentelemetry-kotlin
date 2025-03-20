@@ -25,10 +25,6 @@ public abstract interface class io/embrace/opentelemetry/kotlin/attributes/Attri
 	public abstract fun setStringListAttribute (Ljava/lang/String;Ljava/util/List;)V
 }
 
-public final class io/embrace/opentelemetry/kotlin/attributes/AttributeContainerExtKt {
-	public static final fun setAttributes (Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;Ljava/util/Map;)V
-}
-
 public final class io/embrace/opentelemetry/kotlin/print/CustomPrintAndroidKt {
 	public static final fun getMessage ()Ljava/lang/String;
 }

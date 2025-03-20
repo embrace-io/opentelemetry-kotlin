@@ -15,10 +15,14 @@ android {
     namespace = "io.embrace.opentelemetry.kotlin.compat.kotlin.to.official"
 }
 
-dependencies {
-    implementation(project(":opentelemetry-kotlin-api"))
-
-    api(project(":opentelemetry-kotlin-api"))
-    api(platform(libs.opentelemetry.bom))
-    api(libs.opentelemetry.api)
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":opentelemetry-kotlin-api"))
+                api(project.dependencies.platform(libs.opentelemetry.bom))
+                api(libs.opentelemetry.api)
+            }
+        }
+    }
 }
