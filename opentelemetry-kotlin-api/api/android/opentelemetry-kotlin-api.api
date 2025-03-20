@@ -33,13 +33,21 @@ public final class io/embrace/opentelemetry/kotlin/print/CustomPrintKt {
 	public static final fun printPlatformString ()V
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Link {
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Link : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
+	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Span : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanContext {
+	public abstract fun getSpanId ()Ljava/lang/String;
+	public abstract fun getTraceId ()Ljava/lang/String;
+	public abstract fun isRemote ()Z
+	public abstract fun isValid ()Z
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanEvent : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/SpanKind : java/lang/Enum {
@@ -52,9 +60,15 @@ public final class io/embrace/opentelemetry/kotlin/tracing/SpanKind : java/lang/
 	public static fun values ()[Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceFlags {
+	public abstract fun isSampled ()Z
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceState {
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Tracer {
 	public abstract fun createSpan (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/tracing/Span;
-	public abstract fun getEnabled ()Z
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TracerProvider {
@@ -63,5 +77,8 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TracerPr
 
 public final class io/embrace/opentelemetry/kotlin/tracing/TracerProvider$DefaultImpls {
 	public static synthetic fun getTracer$default (Lio/embrace/opentelemetry/kotlin/tracing/TracerProvider;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/tracing/Tracer;
+}
+
+public abstract interface annotation class io/embrace/opentelemetry/kotlin/tracing/TracingDsl : java/lang/annotation/Annotation {
 }
 

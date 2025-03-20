@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 
 /**
- * A span represents a single operation within a trace.
+ * Represents an event that happened on a span
  */
 @TracingDsl
-public interface Span : AttributeContainer // TODO: stub interface
+public interface SpanEvent : AttributeContainer
