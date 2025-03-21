@@ -22,6 +22,7 @@ kotlin {
                 api(project(":opentelemetry-kotlin-api"))
                 api(project.dependencies.platform(libs.opentelemetry.bom))
                 api(libs.opentelemetry.api)
+                implementation(libs.opentelemetry.sdk)
             }
         }
     }
