@@ -5,4 +5,10 @@ package io.embrace.opentelemetry.kotlin.tracing
  *
  * https://opentelemetry.io/docs/specs/otel/trace/api/#tracestate
  */
-public interface TraceState // TODO: stub interface
+public interface TraceState {
+
+    /**
+     * Returns the value associated with the given key, or null if the key is not present.
+     */
+    public fun get(key: String): String?
+}

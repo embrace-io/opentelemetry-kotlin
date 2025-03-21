@@ -20,6 +20,11 @@ public interface SpanContext {
     public val spanId: String
 
     /**
+     * Contains details about the trace.
+     */
+    public val traceFlags: TraceFlags
+
+    /**
      * True if the SpanContext has a valid trace ID and span ID.
      */
     public val isValid: Boolean
@@ -28,4 +33,15 @@ public interface SpanContext {
      * True if the SpanContext was propagated from a remote parent.
      */
     public val isRemote: Boolean
+
+    /**
+     * Contains state about the trace.
+     */
+    public fun getTraceState(): TraceState
+
+    /**
+     * Mutates the trace state with the given action and replaces [traceState] with a new immutable object
+     * containing the changes.
+     */
+    public fun updateTraceState(action: TraceStateMutator.() -> Unit)
 }
