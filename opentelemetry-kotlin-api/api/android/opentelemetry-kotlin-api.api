@@ -42,9 +42,12 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Span : i
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanContext {
 	public abstract fun getSpanId ()Ljava/lang/String;
+	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;
 	public abstract fun getTraceId ()Ljava/lang/String;
+	public abstract fun getTraceState ()Lio/embrace/opentelemetry/kotlin/tracing/TraceState;
 	public abstract fun isRemote ()Z
 	public abstract fun isValid ()Z
+	public abstract fun updateTraceState (Lkotlin/jvm/functions/Function1;)V
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanEvent : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
@@ -61,10 +64,17 @@ public final class io/embrace/opentelemetry/kotlin/tracing/SpanKind : java/lang/
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceFlags {
+	public abstract fun isRandom ()Z
 	public abstract fun isSampled ()Z
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceState {
+	public abstract fun get (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceStateMutator {
+	public abstract fun put (Ljava/lang/String;Ljava/lang/String;)V
+	public abstract fun remove (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Tracer {

@@ -11,4 +11,9 @@ public interface TraceFlags {
      * True if the trace is sampled.
      */
     public val isSampled: Boolean
+
+    /**
+     * True if the trace is random.
+     */
+    public val isRandom: Boolean
 }
