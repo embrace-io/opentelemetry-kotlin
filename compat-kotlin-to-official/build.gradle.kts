@@ -2,6 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("com.android.library")
     id("io.embrace.otel.build-logic")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 group = "io.embrace.opentelemetry.kotlin"
@@ -23,6 +24,11 @@ kotlin {
                 api(project.dependencies.platform(libs.opentelemetry.bom))
                 api(libs.opentelemetry.api)
                 implementation(libs.opentelemetry.sdk)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.serialization)
             }
         }
     }
