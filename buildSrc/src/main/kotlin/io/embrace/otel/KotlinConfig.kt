@@ -1,5 +1,6 @@
 package io.embrace.otel
 
+import org.gradle.kotlin.dsl.exclude
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
@@ -21,7 +22,10 @@ fun configureKotlin(kotlin: KotlinMultiplatformExtension) {
             }
             getByName("commonTest").apply {
                 dependencies {
-                    implementation("org.jetbrains.kotlin:kotlin-test")
+                    implementation("org.jetbrains.kotlin:kotlin-test") {
+                        exclude(group = "junit")
+                        exclude(group = "org.junit")
+                    }
                 }
             }
         }
