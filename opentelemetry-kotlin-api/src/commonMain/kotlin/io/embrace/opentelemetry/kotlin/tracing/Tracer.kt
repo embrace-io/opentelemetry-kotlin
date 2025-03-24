@@ -10,6 +10,9 @@ public interface Tracer {
      */
     public fun createSpan(
         name: String,
-        action: Span.() -> Unit
+        parent: SpanContext? = null,
+        spanKind: SpanKind = SpanKind.INTERNAL,
+        startTimestamp: Long = 0, // TODO: supply via clock
+        action: SpanRelationshipContainer.() -> Unit
     ): Span
 }
