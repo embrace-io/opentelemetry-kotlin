@@ -8,28 +8,30 @@ import io.embrace.opentelemetry.kotlin.tracing.SpanEvent
 import io.embrace.opentelemetry.kotlin.tracing.SpanKind
 import java.util.concurrent.TimeUnit
 
-internal class SpanAdapter(private val impl: io.opentelemetry.api.trace.Span) : Span {
+internal class SpanAdapter(
+    private val impl: io.opentelemetry.api.trace.Span,
+    override var spanKind: SpanKind,
+) : Span {
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         TODO("Not yet implemented")
     }
 
+    private var implName: String = ""
+    private var implStatus: StatusCode = StatusCode.Unset
+
     override var name: String
-        get() = TODO()
+        get() = implName
         set(value) {
+            implName = value
             impl.updateName(value)
         }
 
     override var status: StatusCode
-        get() = TODO()
+        get() = implStatus
         set(value) {
+            implStatus = value
             impl.setStatus(value.convertToOtelJava())
-        }
-
-    override var spanKind: SpanKind
-        get() = TODO("Not yet implemented")
-        set(value) {
-            TODO("$value")
         }
 
     override var parent: SpanContext?

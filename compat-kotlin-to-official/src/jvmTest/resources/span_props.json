@@ -1,0 +1,40 @@
+[
+  {
+    "name": "new_name",
+    "kind": "INTERNAL",
+    "statusData": {
+      "code": 1,
+      "description": ""
+    },
+    "spanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "01",
+      "traceState": {}
+    },
+    "parentSpanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "00",
+      "traceState": {}
+    },
+    "startTimestampNs": 0,
+    "attributes": {},
+    "events": [],
+    "links": [],
+    "endTimestampNs": 0,
+    "ended": true,
+    "totalRecordedEvents": 0,
+    "totalRecordedLinks": 0,
+    "totalAttributeCount": 0,
+    "resource": {
+      "schemaUrl": "null",
+      "attributes": {
+        "service.name": "unknown_service:java",
+        "telemetry.sdk.language": "java",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.48.0"
+      }
+    }
+  }
+]
