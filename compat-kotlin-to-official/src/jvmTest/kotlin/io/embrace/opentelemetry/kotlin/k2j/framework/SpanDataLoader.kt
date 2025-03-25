@@ -4,13 +4,12 @@ import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableS
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import java.io.File
 
 @OptIn(ExperimentalSerializationApi::class)
 internal fun loadSpanData(resName: String): List<SerializableSpanData> {
-    val dir = System.getProperty("user.dir")
-    val file = File(dir, "src/fixtures/$resName")
-    return file.inputStream().buffered().use {
+    val classLoader = checkNotNull(SerializableSpanData::class.java.classLoader)
+    val stream = checkNotNull(classLoader.getResourceAsStream(resName))
+    return stream.buffered().use {
         Json.decodeFromStream<List<SerializableSpanData>>(it)
     }
 }
