@@ -37,7 +37,7 @@ internal class OtelJavaHarness {
         val spans = supplier()
         throw TimeoutException(
             "Timeout. Expected $expectedCount spans, but got ${spans.size}. " +
-                    "Found spans: ${spans.joinToString { it.name }}"
+                "Found spans: ${spans.joinToString { it.name }}"
         )
     }
 }
