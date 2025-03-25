@@ -1,10 +1,10 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework
 
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanData
-import java.io.File
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
+import java.io.File
 
 @OptIn(ExperimentalSerializationApi::class)
 internal fun loadSpanData(resName: String): List<SerializableSpanData> {
