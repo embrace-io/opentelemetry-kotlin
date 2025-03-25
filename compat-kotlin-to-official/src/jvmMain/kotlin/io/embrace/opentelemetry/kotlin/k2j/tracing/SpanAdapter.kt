@@ -38,13 +38,13 @@ internal class SpanAdapter(private val impl: io.opentelemetry.api.trace.Span) : 
             TODO("$value")
         }
 
-    override fun updateStartTimestamp(timestamp: Long, unit: TimeUnit) {
+    override fun updateStartTimestamp(timestamp: Long) {
         TODO("Not yet implemented")
     }
 
-    override fun end(timestamp: Long?, unit: TimeUnit) {
+    override fun end(timestamp: Long?) {
         if (timestamp != null) {
-            impl.end(timestamp, unit)
+            impl.end(timestamp, TimeUnit.NANOSECONDS)
         } else {
             impl.end()
         }
@@ -88,6 +88,4 @@ internal class SpanAdapter(private val impl: io.opentelemetry.api.trace.Span) : 
     override fun setDoubleListAttribute(key: String, value: List<Double>) {
         TODO("Not yet implemented")
     }
-
-    override fun close() = end()
 }

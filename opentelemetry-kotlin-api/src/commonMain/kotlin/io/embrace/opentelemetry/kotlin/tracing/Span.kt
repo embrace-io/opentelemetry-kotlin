@@ -1,13 +1,12 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.StatusCode
-import java.util.concurrent.TimeUnit
 
 /**
  * A span represents a single operation within a trace.
  */
 @TracingDsl
-public interface Span : SpanRelationshipContainer, AutoCloseable {
+public interface Span : SpanRelationshipContainer {
 
     /**
      * Sets the name of the span. Must be non-empty.
@@ -32,12 +31,12 @@ public interface Span : SpanRelationshipContainer, AutoCloseable {
     /**
      * Sets the start timestamp of the span. In span creation this defaults to the current time.
      */
-    public fun updateStartTimestamp(timestamp: Long, unit: TimeUnit)
+    public fun updateStartTimestamp(timestamp: Long)
 
     /**
      * Ends the span. An optional timestamp in nanoseconds can be supplied.
      */
-    public fun end(timestamp: Long? = null, unit: TimeUnit = TimeUnit.NANOSECONDS)
+    public fun end(timestamp: Long? = null)
 
     /**
      * Returns true if the span is currently recording.

@@ -9,7 +9,7 @@ class BuildPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         val buildLogic = project.extensions.create("buildLogic", BuildLogicExtension::class.java)
         val kotlin = project.project.extensions.getByType(KotlinMultiplatformExtension::class.java)
-        configureKotlin(kotlin)
+        project.configureKotlin(buildLogic, kotlin)
         project.configureAndroid()
         project.configureDetekt()
         project.configureBinaryCompatValidation(buildLogic)
