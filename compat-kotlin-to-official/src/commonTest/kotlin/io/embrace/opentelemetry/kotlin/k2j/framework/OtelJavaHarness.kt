@@ -1,5 +1,7 @@
-package io.embrace.opentelemetry.kotlin.k2j
+package io.embrace.opentelemetry.kotlin.k2j.framework
 
+import io.embrace.opentelemetry.kotlin.k2j.InMemorySpanExporter
+import io.embrace.opentelemetry.kotlin.k2j.InMemorySpanProcessor
 import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.sdk.OpenTelemetrySdk
 import io.opentelemetry.sdk.trace.SdkTracerProvider
@@ -12,10 +14,14 @@ internal class OtelJavaHarness {
 
     private val exporter = InMemorySpanExporter()
 
-    val sdk: OpenTelemetry = OpenTelemetrySdk.builder().setTracerProvider(
-        SdkTracerProvider.builder().addSpanProcessor(InMemorySpanProcessor(exporter)).build()
-    ).build()
+    private val tracerProvider: SdkTracerProvider = SdkTracerProvider.builder()
+        .addSpanProcessor(InMemorySpanProcessor(exporter))
+        .setClock(FakeClock())
+        .build()
 
+    val sdk: OpenTelemetry = OpenTelemetrySdk.builder().setTracerProvider(
+        tracerProvider
+    ).build()
 
     fun awaitSpans(expectedCount: Int, filter: (SpanData) -> Boolean = { true }): List<SpanData> {
         val supplier = { exporter.exportedSpans.filter(filter) }
