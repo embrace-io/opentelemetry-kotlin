@@ -4,18 +4,19 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("com.android.library")
     id("io.embrace.otel.build-logic")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 group = "io.embrace.opentelemetry.kotlin"
 version = "0.1.0"
 
 buildLogic {
-    containsPublicApi.set(true)
+    containsPublicApi.set(false)
     targetPlatforms.set(listOf(TargetPlatform.JVM, TargetPlatform.ANDROID))
 }
 
 android {
-    namespace = "io.embrace.opentelemetry.kotlin.compat.official.to.kotlin"
+    namespace = "io.embrace.opentelemetry.kotlin.compat.shared"
 }
 
 project.afterEvaluate {
@@ -24,13 +25,11 @@ project.afterEvaluate {
             val jvmMain by getting {
                 dependencies {
                     api(project(":opentelemetry-kotlin-api"))
-                    api(project.dependencies.platform(libs.opentelemetry.bom))
-                    api(libs.opentelemetry.api)
-                }
-            }
-            val jvmTest by getting {
-                dependencies {
-                    implementation(project(":compat-shared"))
+                    implementation(libs.kotlin.serialization)
+                    implementation("org.jetbrains.kotlin:kotlin-test") {
+                        exclude(group = "junit")
+                        exclude(group = "org.junit")
+                    }
                 }
             }
         }

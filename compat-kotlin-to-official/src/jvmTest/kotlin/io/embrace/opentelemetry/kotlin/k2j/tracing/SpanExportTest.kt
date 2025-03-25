@@ -1,7 +1,6 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelJavaHarness
-import io.embrace.opentelemetry.kotlin.k2j.framework.assertSpans
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 import kotlin.test.BeforeTest

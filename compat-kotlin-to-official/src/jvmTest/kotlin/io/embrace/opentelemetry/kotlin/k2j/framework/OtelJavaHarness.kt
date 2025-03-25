@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.k2j.framework
 
 import io.embrace.opentelemetry.kotlin.k2j.InMemorySpanExporter
 import io.embrace.opentelemetry.kotlin.k2j.InMemorySpanProcessor
+import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.toSerializable
 import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.sdk.OpenTelemetrySdk
 import io.opentelemetry.sdk.trace.SdkTracerProvider
@@ -23,7 +24,7 @@ internal class OtelJavaHarness {
         tracerProvider
     ).build()
 
-    fun awaitSpans(expectedCount: Int, filter: (SpanData) -> Boolean = { true }): List<SpanData> {
+    private fun awaitSpans(expectedCount: Int, filter: (SpanData) -> Boolean = { true }): List<SpanData> {
         val supplier = { exporter.exportedSpans.filter(filter) }
         val tries = 1000
         val countDownLatch = CountDownLatch(1)
@@ -39,5 +40,19 @@ internal class OtelJavaHarness {
             "Timeout. Expected $expectedCount spans, but got ${spans.size}. " +
                 "Found spans: ${spans.joinToString { it.name }}"
         )
+    }
+
+    internal fun assertSpans(
+        expectedCount: Int,
+        goldenFileName: String? = null,
+        spanDataAssertions: List<SpanData>.() -> Unit = {},
+        spanDataFilter: (SpanData) -> Boolean = { true },
+    ) {
+        val observedSpans: List<SpanData> = awaitSpans(expectedCount, spanDataFilter)
+        spanDataAssertions(observedSpans)
+
+        if (goldenFileName != null) {
+            compareGoldenFile(observedSpans.map(SpanData::toSerializable), goldenFileName)
+        }
     }
 }

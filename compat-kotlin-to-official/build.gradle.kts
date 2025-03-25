@@ -32,7 +32,7 @@ project.afterEvaluate {
             }
             val jvmTest by getting {
                 dependencies {
-                    implementation(libs.kotlin.serialization)
+                    implementation(project(":compat-shared"))
                 }
             }
         }
