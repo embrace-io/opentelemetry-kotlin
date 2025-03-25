@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 
 @OptIn(ExperimentalSerializationApi::class)
-internal fun loadSpanData(resName: String): List<SerializableSpanData> {
+fun loadSpanData(resName: String): List<SerializableSpanData> {
     val classLoader = checkNotNull(SerializableSpanData::class.java.classLoader)
     val stream = checkNotNull(classLoader.getResourceAsStream(resName))
     return stream.buffered().use {
