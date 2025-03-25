@@ -2,7 +2,6 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelJavaHarness
-import io.embrace.opentelemetry.kotlin.tracing.SpanKind
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 import org.junit.Assert.assertFalse
@@ -49,13 +48,9 @@ internal class SpanExportTest {
         span.status = StatusCode.Ok
         assertEquals(StatusCode.Ok, span.status)
 
-        assertEquals(SpanKind.INTERNAL, span.spanKind)
-        span.spanKind = SpanKind.CLIENT // FIXME: future: not respected in exported spans
-        assertEquals(SpanKind.CLIENT, span.spanKind)
-
-        assertTrue(span.isRecording)
+        assertTrue(span.isRecording())
         span.end()
-        assertFalse(span.isRecording)
+        assertFalse(span.isRecording())
 
         harness.assertSpans(
             expectedCount = 1,

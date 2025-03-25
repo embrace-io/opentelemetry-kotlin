@@ -46,4 +46,9 @@ public interface AttributeContainer {
      * Sets an attribute with a list of double values.
      */
     public fun setDoubleListAttribute(key: String, value: List<Double>)
+
+    /**
+     * Returns a snapshot of the attributes as a map.
+     */
+    public fun attributes(): Map<String, Any>
 }

@@ -20,4 +20,14 @@ public interface SpanRelationshipContainer : AttributeContainer {
         timestamp: Long? = null,
         action: SpanEvent.() -> Unit
     )
+
+    /**
+     * Returns a snapshot of the events on this span.
+     */
+    public fun events(): List<SpanEvent>
+
+    /**
+     * Returns a snapshot of the links on this span.
+     */
+    public fun links(): List<Link>
 }

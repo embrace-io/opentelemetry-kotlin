@@ -20,7 +20,7 @@ internal class TracerAdapter(private val tracer: io.opentelemetry.api.trace.Trac
             .setStartTimestamp(startTimestamp, TimeUnit.NANOSECONDS)
 
         val span = builder.startSpan()
-        return SpanAdapter(span, spanKind).apply {
+        return SpanAdapter(span).apply {
             this.name = name
             action(this)
             // TODO: populate other fields
