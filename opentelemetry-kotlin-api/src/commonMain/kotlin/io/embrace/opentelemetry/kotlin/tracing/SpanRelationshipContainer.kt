@@ -10,7 +10,7 @@ public interface SpanRelationshipContainer : AttributeContainer {
     /**
      * Adds a link to the span that associates it with another [SpanContext].
      */
-    public fun addLink(spanContext: SpanContext, action: Link.() -> Unit)
+    public fun addLink(spanContext: SpanContext, action: AttributeContainer.() -> Unit)
 
     /**
      * Adds an event to the span.
@@ -18,7 +18,7 @@ public interface SpanRelationshipContainer : AttributeContainer {
     public fun addEvent(
         name: String,
         timestamp: Long? = null,
-        action: SpanEvent.() -> Unit
+        action: AttributeContainer.() -> Unit
     )
 
     /**

@@ -1,14 +1,15 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.StatusCode
+import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelJavaHarness
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 internal class SpanExportTest {
 
@@ -56,5 +57,73 @@ internal class SpanExportTest {
             expectedCount = 1,
             goldenFileName = "span_props.json",
         )
+    }
+
+    @Test
+    fun `test span attributes export`() {
+        val spanName = "span_attrs"
+        val span = tracer.createSpan(spanName)
+        span.assertAttributes()
+        span.end()
+
+        harness.assertSpans(
+            expectedCount = 1,
+            goldenFileName = "span_attrs.json",
+        )
+    }
+
+    @Test
+    fun `test span events export`() {
+        val spanName = "span_events"
+        val span = tracer.createSpan(spanName).apply {
+            assertTrue(events().isEmpty())
+
+            val eventName = "my_event"
+            val eventTimestamp = 150L
+            addEvent(eventName, eventTimestamp) {
+                assertAttributes()
+            }
+
+            val event = events().single()
+            assertEquals(eventName, event.name)
+            assertEquals(eventTimestamp, event.timestamp)
+        }
+        span.end()
+
+        harness.assertSpans(
+            expectedCount = 1,
+            goldenFileName = "span_events.json",
+        )
+    }
+
+    private fun AttributeContainer.assertAttributes() {
+        assertTrue(attributes().isEmpty())
+
+        // set attributes
+        setStringAttribute("string_key", "value")
+        setStringAttribute("string_key", "second_value")
+        setBooleanAttribute("bool_key", true)
+        setLongAttribute("long_key", 42)
+        setDoubleAttribute("double_key", 3.14)
+        setStringListAttribute("string_list_key", listOf("a"))
+        setBooleanListAttribute("bool_list_key", listOf(true))
+        setLongListAttribute("long_list_key", listOf(42))
+        setDoubleListAttribute("double_list_key", listOf(3.14))
+
+        val observed = attributes()
+        val expected = mapOf(
+            "string_key" to "second_value",
+            "bool_key" to true,
+            "long_key" to 42L,
+            "double_key" to 3.14,
+            "string_list_key" to listOf("a"),
+            "bool_list_key" to listOf(true),
+            "long_list_key" to listOf(42L),
+            "double_list_key" to listOf(3.14),
+        )
+        assertEquals(expected.size, observed.size)
+        expected.forEach { entry ->
+            assertEquals(entry.value, observed[entry.key])
+        }
     }
 }
