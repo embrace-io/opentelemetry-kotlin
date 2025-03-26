@@ -20,10 +20,9 @@ include(
     ":compat-shared",
     ":compat-official-to-kotlin",
     ":compat-kotlin-to-official",
-    "examples:jvm-app",
-    "examples:jvm-compat-app",
-    "examples:android-app",
-    "examples:android-compat-app",
-    "examples:app-shared",
-    "examples:compat-app-shared",
+    "examples:jvm-app-java-api",
+    "examples:jvm-app-kotlin-api",
+    "examples:android-app-java-api",
+    "examples:android-app-kotlin-api",
+    "examples:example-shared"
 )
