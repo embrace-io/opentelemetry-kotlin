@@ -45,11 +45,9 @@ internal class OtelJavaHarness {
     internal fun assertSpans(
         expectedCount: Int,
         goldenFileName: String? = null,
-        spanDataAssertions: List<SpanData>.() -> Unit = {},
         spanDataFilter: (SpanData) -> Boolean = { true },
     ) {
         val observedSpans: List<SpanData> = awaitSpans(expectedCount, spanDataFilter)
-        spanDataAssertions(observedSpans)
 
         if (goldenFileName != null) {
             compareGoldenFile(observedSpans.map(SpanData::toSerializable), goldenFileName)
