@@ -5,12 +5,10 @@ import io.embrace.opentelemetry.kotlin.tracing.Link
 import io.embrace.opentelemetry.kotlin.tracing.Span
 import io.embrace.opentelemetry.kotlin.tracing.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.SpanEvent
-import io.embrace.opentelemetry.kotlin.tracing.SpanKind
 import java.util.concurrent.TimeUnit
 
 internal class SpanAdapter(
     private val impl: io.opentelemetry.api.trace.Span,
-    override var spanKind: SpanKind,
 ) : Span {
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
@@ -40,10 +38,6 @@ internal class SpanAdapter(
             TODO("$value")
         }
 
-    override fun updateStartTimestamp(timestamp: Long) {
-        TODO("Not yet implemented")
-    }
-
     override fun end(timestamp: Long?) {
         if (timestamp != null) {
             impl.end(timestamp, TimeUnit.NANOSECONDS)
@@ -52,8 +46,7 @@ internal class SpanAdapter(
         }
     }
 
-    override val isRecording: Boolean
-        get() = impl.isRecording
+    override fun isRecording(): Boolean = impl.isRecording
 
     override fun addLink(spanContext: SpanContext, action: Link.() -> Unit) {
         TODO("Not yet implemented")
@@ -88,6 +81,18 @@ internal class SpanAdapter(
     }
 
     override fun setDoubleListAttribute(key: String, value: List<Double>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun attributes(): Map<String, Any> {
+        TODO("Not yet implemented")
+    }
+
+    override fun events(): List<SpanEvent> {
+        TODO("Not yet implemented")
+    }
+
+    override fun links(): List<Link> {
         TODO("Not yet implemented")
     }
 }

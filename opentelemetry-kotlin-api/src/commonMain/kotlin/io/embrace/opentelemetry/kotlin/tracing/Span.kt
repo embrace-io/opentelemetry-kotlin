@@ -19,19 +19,9 @@ public interface Span : SpanRelationshipContainer {
     public var status: StatusCode
 
     /**
-     * Sets the kind of the span. This defaults to [SpanKind.INTERNAL].
+     * Gets the parent span context. This defaults to null.
      */
-    public var spanKind: SpanKind
-
-    /**
-     * Sets the parent span context. This defaults to null.
-     */
-    public var parent: SpanContext?
-
-    /**
-     * Sets the start timestamp of the span. In span creation this defaults to the current time.
-     */
-    public fun updateStartTimestamp(timestamp: Long)
+    public val parent: SpanContext?
 
     /**
      * Ends the span. An optional timestamp in nanoseconds can be supplied.
@@ -41,5 +31,5 @@ public interface Span : SpanRelationshipContainer {
     /**
      * Returns true if the span is currently recording.
      */
-    public val isRecording: Boolean
+    public fun isRecording(): Boolean
 }
