@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework
 
+import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
 import io.embrace.opentelemetry.kotlin.k2j.InMemorySpanExporter
 import io.embrace.opentelemetry.kotlin.k2j.InMemorySpanProcessor
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.toSerializable
@@ -23,6 +24,8 @@ internal class OtelKotlinHarness {
     val sdk: OpenTelemetry = OpenTelemetrySdk.builder().setTracerProvider(
         tracerProvider
     ).build()
+
+    val clock: ClockAdapter = ClockAdapter(FakeClock())
 
     private fun awaitSpans(expectedCount: Int, filter: (SpanData) -> Boolean = { true }): List<SpanData> {
         val supplier = { exporter.exportedSpans.filter(filter) }

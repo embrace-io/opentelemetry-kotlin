@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
 import io.embrace.opentelemetry.kotlin.tracing.Link
 import io.embrace.opentelemetry.kotlin.tracing.Span
 import io.embrace.opentelemetry.kotlin.tracing.SpanContext
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit
 
 internal class SpanAdapter(
     private val impl: io.opentelemetry.api.trace.Span,
+    private val clock: ClockAdapter,
 ) : Span {
 
     private val attrs: MutableMap<String, Any> = ConcurrentHashMap()
@@ -58,7 +60,7 @@ internal class SpanAdapter(
     override fun addEvent(name: String, timestamp: Long?, action: AttributeContainer.() -> Unit) {
         val container = AttributeContainerImpl()
         action(container)
-        val time = timestamp ?: 0 // FIXME: future: pass in clock
+        val time = timestamp ?: clock.now()
         events.add(SpanEventImpl(name, time, container))
         impl.addEvent(name, container.otelJavaAttributes(), time, TimeUnit.NANOSECONDS)
     }
