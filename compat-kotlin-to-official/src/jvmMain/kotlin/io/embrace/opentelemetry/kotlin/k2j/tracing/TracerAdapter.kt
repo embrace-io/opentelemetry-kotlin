@@ -12,12 +12,12 @@ internal class TracerAdapter(private val tracer: io.opentelemetry.api.trace.Trac
         name: String,
         parent: SpanContext?,
         spanKind: SpanKind,
-        startTimestamp: Long,
+        startTimestamp: Long?,
         action: SpanRelationshipContainer.() -> Unit
     ): Span {
         val builder = tracer.spanBuilder(name)
             .setSpanKind(spanKind.convertToOtelJava())
-            .setStartTimestamp(startTimestamp, TimeUnit.NANOSECONDS)
+            .setStartTimestamp(startTimestamp ?: 0, TimeUnit.NANOSECONDS) // TODO: use clock if not provided
 
         val span = builder.startSpan()
         return SpanAdapter(span).apply {
