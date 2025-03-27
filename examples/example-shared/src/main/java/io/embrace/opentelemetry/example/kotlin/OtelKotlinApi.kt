@@ -15,6 +15,6 @@ class OtelKotlinApi {
         .build()
     private val instrumentationScopeName = "com.example.app"
 
-    val tracer = TracerProviderAdapter(otel)
+    val tracer = TracerProviderAdapter(otel.tracerProvider)
     val logger = otel.sdkLoggerProvider.get(instrumentationScopeName)
 }

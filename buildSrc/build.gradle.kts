@@ -10,11 +10,14 @@ repositories {
     mavenCentral()
 }
 
+version = project.properties["version"] as String
+
 dependencies {
     implementation(gradleApi())
     implementation(libs.kotlinMultiplatform)
     implementation(libs.agp)
     implementation(libs.detekt.gradle.plugin)
+    implementation(libs.mavenPublish)
     implementation(libs.binary.compatibility.validator)
 }
 
