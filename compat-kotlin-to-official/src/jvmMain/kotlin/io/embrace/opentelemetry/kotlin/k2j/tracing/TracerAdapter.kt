@@ -25,7 +25,7 @@ internal class TracerAdapter(
             .setStartTimestamp(startTimestamp ?: clock.now(), TimeUnit.NANOSECONDS)
 
         val span = builder.startSpan()
-        return SpanAdapter(span, clock).apply {
+        return SpanAdapter(span, clock, parent).apply {
             this.name = name
             action(this)
         }

@@ -1,7 +1,7 @@
 [
   {
     "name": "new_name",
-    "kind": "INTERNAL",
+    "kind": "CLIENT",
     "statusData": {
       "code": 1,
       "description": ""
@@ -18,11 +18,11 @@
       "traceFlags": "00",
       "traceState": {}
     },
-    "startTimestampNs": 0,
+    "startTimestampNs": 500,
     "attributes": {},
     "events": [],
     "links": [],
-    "endTimestampNs": 0,
+    "endTimestampNs": 1000,
     "ended": true,
     "totalRecordedEvents": 0,
     "totalRecordedLinks": 0,

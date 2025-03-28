@@ -38,6 +38,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Span : i
 	public abstract fun end (Ljava/lang/Long;)V
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
+	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
 	public abstract fun getStatus ()Lio/embrace/opentelemetry/kotlin/StatusCode;
 	public abstract fun isRecording ()Z
 	public abstract fun setName (Ljava/lang/String;)V
@@ -90,6 +91,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceFla
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceState {
+	public abstract fun asMap ()Ljava/util/Map;
 	public abstract fun get (Ljava/lang/String;)Ljava/lang/String;
 }
 
