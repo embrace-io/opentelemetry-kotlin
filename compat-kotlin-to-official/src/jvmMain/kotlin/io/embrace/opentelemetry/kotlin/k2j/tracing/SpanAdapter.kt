@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
@@ -12,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.TimeUnit
 
+@OptIn(ExperimentalApi::class)
 internal class SpanAdapter(
     val impl: io.opentelemetry.api.trace.Span,
     private val clock: ClockAdapter,

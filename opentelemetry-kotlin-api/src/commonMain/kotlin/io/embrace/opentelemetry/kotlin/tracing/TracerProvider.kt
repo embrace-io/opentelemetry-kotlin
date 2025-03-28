@@ -1,8 +1,11 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+
 /**
  * TracerProvider is a factory for retrieving instances of [Tracer].
  */
+@ExperimentalApi
 public interface TracerProvider {
 
     /**

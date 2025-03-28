@@ -2,6 +2,9 @@ public abstract interface class io/embrace/opentelemetry/kotlin/Clock {
 	public abstract fun now ()J
 }
 
+public abstract interface annotation class io/embrace/opentelemetry/kotlin/ExperimentalApi : java/lang/annotation/Annotation {
+}
+
 public abstract class io/embrace/opentelemetry/kotlin/StatusCode {
 }
 

@@ -1,12 +1,14 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 
+@ExperimentalApi
 public class TracerProviderAdapter(
     private val tracerProvider: io.opentelemetry.api.trace.TracerProvider,
-    private val clock: ClockAdapter
+    private val clock: ClockAdapter = ClockAdapter()
 ) : TracerProvider {
 
     override fun getTracer(name: String, version: String?): Tracer {

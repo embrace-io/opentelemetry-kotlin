@@ -2,12 +2,14 @@ package io.embrace.opentelemetry.example.kotlin
 
 import io.embrace.opentelemetry.example.ExampleLogRecordProcessor
 import io.embrace.opentelemetry.example.ExampleSpanProcessor
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.TracerProviderAdapter
 import io.opentelemetry.sdk.OpenTelemetrySdk
 import io.opentelemetry.sdk.logs.SdkLoggerProvider
 import io.opentelemetry.sdk.trace.SdkTracerProvider
 
+@OptIn(ExperimentalApi::class)
 class OtelKotlinApi {
 
     private val otel: OpenTelemetrySdk = OpenTelemetrySdk.builder()
