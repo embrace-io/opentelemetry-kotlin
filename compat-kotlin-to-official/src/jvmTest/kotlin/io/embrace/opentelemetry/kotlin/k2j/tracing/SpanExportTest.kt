@@ -3,9 +3,11 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
+import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.toSerializable
 import io.embrace.opentelemetry.kotlin.tracing.SpanKind
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
+import io.opentelemetry.api.trace.SpanContext
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -35,6 +37,7 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_minimal.json",
+            sanitizeSpanContextIds = true,
         )
     }
 
@@ -63,6 +66,7 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_props.json",
+            sanitizeSpanContextIds = true,
         )
     }
 
@@ -76,6 +80,7 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_attrs.json",
+            sanitizeSpanContextIds = true,
         )
     }
 
@@ -100,20 +105,37 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_events.json",
+            sanitizeSpanContextIds = true,
         )
     }
 
     @Test
     fun `test span context parent`() {
         val a = tracer.createSpan("a")
-        val b = tracer.createSpan("b", parent = a.spanContext)
-        val c = tracer.createSpan("c", parent = b.spanContext)
+        val b = tracer.createSpan("b", parent = a)
+        val c = tracer.createSpan("c", parent = b)
 
         assertNull(a.parent)
         assertNotNull(a.spanContext)
         assertEquals(a.spanContext, b.parent)
         assertEquals(b.spanContext, c.parent)
         assertNotNull(c.spanContext)
+
+        a.end()
+        b.end()
+        c.end()
+
+        harness.assertSpans(3, null, false) { spans ->
+            val exportA = spans[0]
+            val exportB = spans[1]
+            val exportC = spans[2]
+
+            assertEquals(SpanContext.getInvalid().toSerializable(false), exportA.parentSpanContext)
+            assertNotNull(exportA.spanContext)
+            assertEquals(exportA.spanContext, exportB.parentSpanContext)
+            assertEquals(exportB.spanContext, exportC.parentSpanContext)
+            assertNotNull(exportC.spanContext)
+        }
     }
 
     @Test
@@ -151,6 +173,7 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 2,
             goldenFileName = "span_links.json",
+            sanitizeSpanContextIds = true,
         )
     }
 

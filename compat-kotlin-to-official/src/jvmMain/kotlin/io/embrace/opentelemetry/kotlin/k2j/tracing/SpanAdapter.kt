@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.TimeUnit
 
 internal class SpanAdapter(
-    private val impl: io.opentelemetry.api.trace.Span,
+    val impl: io.opentelemetry.api.trace.Span,
     private val clock: ClockAdapter,
     override val parent: SpanContext?,
 ) : Span {

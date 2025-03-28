@@ -10,7 +10,7 @@ public interface Tracer {
      */
     public fun createSpan(
         name: String,
-        parent: SpanContext? = null,
+        parent: Span? = null,
         spanKind: SpanKind = SpanKind.INTERNAL,
         startTimestamp: Long? = null,
         action: SpanRelationshipContainer.() -> Unit = {}

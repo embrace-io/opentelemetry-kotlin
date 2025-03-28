@@ -3,6 +3,7 @@ package io.embrace.opentelemetry.kotlin.k2j.framework
 import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
 import io.embrace.opentelemetry.kotlin.k2j.InMemorySpanExporter
 import io.embrace.opentelemetry.kotlin.k2j.InMemorySpanProcessor
+import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.toSerializable
 import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.sdk.OpenTelemetrySdk
@@ -27,8 +28,8 @@ internal class OtelKotlinHarness {
 
     val clock: ClockAdapter = ClockAdapter(FakeClock())
 
-    private fun awaitSpans(expectedCount: Int, filter: (SpanData) -> Boolean = { true }): List<SpanData> {
-        val supplier = { exporter.exportedSpans.filter(filter) }
+    private fun awaitSpans(expectedCount: Int): List<SpanData> {
+        val supplier = { exporter.exportedSpans }
         val tries = 1000
         val countDownLatch = CountDownLatch(1)
         repeat(tries) {
@@ -48,12 +49,15 @@ internal class OtelKotlinHarness {
     internal fun assertSpans(
         expectedCount: Int,
         goldenFileName: String? = null,
-        spanDataFilter: (SpanData) -> Boolean = { true },
+        sanitizeSpanContextIds: Boolean = true,
+        assertions: (spans: List<SerializableSpanData>) -> Unit = {},
     ) {
-        val observedSpans: List<SpanData> = awaitSpans(expectedCount, spanDataFilter)
+        val observedSpans: List<SpanData> = awaitSpans(expectedCount)
+        val data = observedSpans.map { it.toSerializable(sanitizeSpanContextIds) }
+        assertions(data)
 
         if (goldenFileName != null) {
-            compareGoldenFile(observedSpans.map(SpanData::toSerializable), goldenFileName)
+            compareGoldenFile(data, goldenFileName)
         }
     }
 }
