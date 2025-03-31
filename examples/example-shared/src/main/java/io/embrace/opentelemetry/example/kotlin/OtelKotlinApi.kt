@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.example.kotlin
 
 import io.embrace.opentelemetry.example.ExampleLogRecordProcessor
 import io.embrace.opentelemetry.example.ExampleSpanProcessor
+import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.TracerProviderAdapter
 import io.opentelemetry.sdk.OpenTelemetrySdk
 import io.opentelemetry.sdk.logs.SdkLoggerProvider
@@ -15,6 +16,6 @@ class OtelKotlinApi {
         .build()
     private val instrumentationScopeName = "com.example.app"
 
-    val tracer = TracerProviderAdapter(otel.tracerProvider)
+    val tracer = TracerProviderAdapter(otel.tracerProvider, ClockAdapter())
     val logger = otel.sdkLoggerProvider.get(instrumentationScopeName)
 }
