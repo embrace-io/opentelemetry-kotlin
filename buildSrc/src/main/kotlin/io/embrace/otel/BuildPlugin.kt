@@ -14,5 +14,6 @@ class BuildPlugin : Plugin<Project> {
         project.configureDetekt()
         project.configureBinaryCompatValidation(buildLogic)
         project.configureExplicitApiMode(buildLogic, kotlin)
+        project.configurePublishing()
     }
 }
