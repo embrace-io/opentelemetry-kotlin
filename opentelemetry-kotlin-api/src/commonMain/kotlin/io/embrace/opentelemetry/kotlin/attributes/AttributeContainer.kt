@@ -1,10 +1,13 @@
 package io.embrace.opentelemetry.kotlin.attributes
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+
 /**
  * Implementations of this interface hold 'attributes' as described in the OTel specification.
  *
  * https://opentelemetry.io/docs/specs/otel/common/#attribute
  */
+@ExperimentalApi
 public interface AttributeContainer {
 
     /**

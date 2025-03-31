@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
@@ -16,6 +17,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+@OptIn(ExperimentalApi::class)
 internal class SpanExportTest {
 
     private lateinit var harness: OtelKotlinHarness

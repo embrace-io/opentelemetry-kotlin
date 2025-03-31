@@ -1,8 +1,11 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+
 /**
  * A Tracer is responsible for creating spans.
  */
+@ExperimentalApi
 public interface Tracer {
 
     /**
