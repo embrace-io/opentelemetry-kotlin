@@ -20,5 +20,5 @@ public sealed class StatusCode {
     /**
      * The operation completed with an error. An optional description of the error may be provided.
      */
-    public class Error(public val description: String) : StatusCode()
+    public class Error(public val description: String?) : StatusCode()
 }

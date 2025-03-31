@@ -1,7 +1,9 @@
 package io.embrace.opentelemetry.kotlin.j2k.tracing
 
+import io.embrace.opentelemetry.kotlin.attributes.setAttributes
 import io.opentelemetry.api.common.AttributeKey
 import io.opentelemetry.api.common.Attributes
+import io.opentelemetry.api.common.AttributesBuilder
 import io.opentelemetry.api.trace.Span
 import io.opentelemetry.api.trace.SpanBuilder
 import io.opentelemetry.api.trace.SpanContext
@@ -9,18 +11,24 @@ import io.opentelemetry.api.trace.SpanKind
 import io.opentelemetry.context.Context
 import java.util.concurrent.TimeUnit
 
-@Suppress("UNUSED_PARAMETER")
 internal class SpanBuilderAdapter(
-    @Suppress("unused") private val tracer: io.embrace.opentelemetry.kotlin.tracing.Tracer,
-    spanName: String
+    private val tracer: io.embrace.opentelemetry.kotlin.tracing.Tracer,
+    private val spanName: String
 ) : SpanBuilder {
 
+    private var start: Long? = null
+    private var parent: Context? = null // TODO: pass parent context to createSpan
+    private var kind: SpanKind = SpanKind.INTERNAL
+    private val attrs: AttributesBuilder = Attributes.builder()
+
     override fun setParent(context: Context): SpanBuilder {
-        TODO("Not yet implemented")
+        parent = context
+        return this
     }
 
     override fun setNoParent(): SpanBuilder {
-        TODO("Not yet implemented")
+        parent = null
+        return this
     }
 
     override fun addLink(spanContext: SpanContext): SpanBuilder {
@@ -32,34 +40,48 @@ internal class SpanBuilderAdapter(
     }
 
     override fun setAttribute(key: String, value: String): SpanBuilder {
-        TODO("Not yet implemented")
+        attrs.put(key, value)
+        return this
     }
 
     override fun setAttribute(key: String, value: Long): SpanBuilder {
-        TODO("Not yet implemented")
+        attrs.put(key, value)
+        return this
     }
 
     override fun setAttribute(key: String, value: Double): SpanBuilder {
-        TODO("Not yet implemented")
+        attrs.put(key, value)
+        return this
     }
 
     override fun setAttribute(key: String, value: Boolean): SpanBuilder {
-        TODO("Not yet implemented")
+        attrs.put(key, value)
+        return this
     }
 
     override fun <T : Any?> setAttribute(key: AttributeKey<T>, value: T): SpanBuilder {
-        TODO("Not yet implemented")
+        attrs.put(key, value)
+        return this
     }
 
     override fun setSpanKind(spanKind: SpanKind): SpanBuilder {
-        TODO("Not yet implemented")
+        kind = spanKind
+        return this
     }
 
     override fun setStartTimestamp(startTimestamp: Long, unit: TimeUnit): SpanBuilder {
-        TODO("Not yet implemented")
+        start = startTimestamp
+        return this
     }
 
     override fun startSpan(): Span {
-        TODO("Not yet implemented")
+        val span = tracer.createSpan(
+            name = spanName,
+            spanKind = kind.convertToOtelKotlin(),
+            startTimestamp = start
+        ) {
+            setAttributes(attrs.build().asMap().mapKeys { it.key.key })
+        }
+        return SpanAdapter(span)
     }
 }

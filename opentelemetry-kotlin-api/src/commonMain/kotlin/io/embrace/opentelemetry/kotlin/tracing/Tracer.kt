@@ -12,7 +12,7 @@ public interface Tracer {
         name: String,
         parent: SpanContext? = null,
         spanKind: SpanKind = SpanKind.INTERNAL,
-        startTimestamp: Long = 0, // TODO: supply via clock
+        startTimestamp: Long? = null,
         action: SpanRelationshipContainer.() -> Unit = {}
     ): Span
 }

@@ -24,6 +24,7 @@ project.afterEvaluate {
             val jvmMain by getting {
                 dependencies {
                     api(project(":opentelemetry-kotlin-api"))
+                    api(project(":opentelemetry-kotlin-api-ext"))
                     api(project.dependencies.platform(libs.opentelemetry.bom))
                     api(libs.opentelemetry.api)
                 }
