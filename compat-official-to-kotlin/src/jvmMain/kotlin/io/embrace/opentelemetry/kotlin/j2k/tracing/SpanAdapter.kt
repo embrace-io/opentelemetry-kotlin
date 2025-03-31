@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.j2k.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.opentelemetry.api.common.AttributeKey
 import io.opentelemetry.api.common.Attributes
 import io.opentelemetry.api.trace.Span
@@ -7,6 +8,7 @@ import io.opentelemetry.api.trace.SpanContext
 import io.opentelemetry.api.trace.StatusCode
 import java.util.concurrent.TimeUnit
 
+@OptIn(ExperimentalApi::class)
 internal class SpanAdapter(private val span: io.embrace.opentelemetry.kotlin.tracing.Span) : Span {
 
     override fun <T : Any?> setAttribute(key: AttributeKey<T>, value: T): Span {

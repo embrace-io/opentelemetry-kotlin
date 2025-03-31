@@ -1,10 +1,12 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 
 /**
  * Provides operations that add relationships (events + links) to a span
  */
+@ExperimentalApi
 public interface SpanRelationshipContainer : AttributeContainer {
 
     /**

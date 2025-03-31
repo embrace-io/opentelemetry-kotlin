@@ -1,9 +1,11 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.opentelemetry.api.common.AttributeKey
 import io.opentelemetry.api.common.Attributes
 
+@OptIn(ExperimentalApi::class)
 internal class AttributeContainerImpl : AttributeContainer {
 
     private val attrs = Attributes.builder()

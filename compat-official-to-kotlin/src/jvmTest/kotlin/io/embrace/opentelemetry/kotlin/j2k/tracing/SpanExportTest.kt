@@ -1,10 +1,12 @@
 package io.embrace.opentelemetry.kotlin.j2k.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.framework.OtelJavaHarness
 import io.opentelemetry.api.trace.Tracer
 import io.opentelemetry.api.trace.TracerProvider
 import kotlin.test.Test
 
+@OptIn(ExperimentalApi::class)
 internal class SpanExportTest {
 
     private lateinit var harness: OtelJavaHarness

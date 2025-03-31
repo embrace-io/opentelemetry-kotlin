@@ -1,11 +1,13 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.StatusCode
 
 /**
  * A span represents a single operation within a trace.
  */
 @TracingDsl
+@ExperimentalApi
 public interface Span : SpanRelationshipContainer {
 
     /**

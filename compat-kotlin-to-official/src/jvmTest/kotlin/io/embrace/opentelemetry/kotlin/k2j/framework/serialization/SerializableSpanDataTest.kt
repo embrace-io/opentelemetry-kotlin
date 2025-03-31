@@ -17,7 +17,7 @@ internal class SerializableSpanDataTest {
     @Test
     fun `test conversion`() {
         val fake = FakeSpanData()
-        val observed = fake.toSerializable()
+        val observed = fake.toSerializable(true)
 
         assertEquals(fake.implName, observed.name)
         assertEquals(fake.kind.name, observed.kind)
