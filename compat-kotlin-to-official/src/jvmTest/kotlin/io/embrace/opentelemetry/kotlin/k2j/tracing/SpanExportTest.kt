@@ -3,13 +3,16 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
+import io.embrace.opentelemetry.kotlin.tracing.SpanKind
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 internal class SpanExportTest {
 
@@ -38,7 +41,11 @@ internal class SpanExportTest {
     @Test
     fun `test span properties export`() {
         val spanName = "my_span"
-        val span = tracer.createSpan(spanName)
+        val span = tracer.createSpan(
+            name = spanName,
+            spanKind = SpanKind.CLIENT,
+            startTimestamp = 500
+        )
         assertEquals(spanName, span.name)
 
         val name = "new_name"
@@ -50,7 +57,7 @@ internal class SpanExportTest {
         assertEquals(StatusCode.Ok, span.status)
 
         assertTrue(span.isRecording())
-        span.end()
+        span.end(1000)
         assertFalse(span.isRecording())
 
         harness.assertSpans(
@@ -93,6 +100,57 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_events.json",
+        )
+    }
+
+    @Test
+    fun `test span context parent`() {
+        val a = tracer.createSpan("a")
+        val b = tracer.createSpan("b", parent = a.spanContext)
+        val c = tracer.createSpan("c", parent = b.spanContext)
+
+        assertNull(a.parent)
+        assertNotNull(a.spanContext)
+        assertEquals(a.spanContext, b.parent)
+        assertEquals(b.spanContext, c.parent)
+        assertNotNull(c.spanContext)
+    }
+
+    @Test
+    fun `test span trace flags`() {
+        val span = tracer.createSpan("my_span")
+        val flags = span.spanContext.traceFlags
+        assertEquals("01", flags.convertToOtelJava().asHex())
+        assertTrue(flags.isSampled)
+        assertFalse(flags.isRandom)
+    }
+
+    @Test
+    fun `test span trace state`() {
+        val span = tracer.createSpan("my_span")
+        val state = span.spanContext.getTraceState()
+        assertEquals(emptyMap(), state.asMap())
+    }
+
+    @Test
+    fun `test span links export`() {
+        val linkedSpan = tracer.createSpan("linked_span")
+        val span = tracer.createSpan("span_links").apply {
+            assertTrue(events().isEmpty())
+
+            addLink(linkedSpan.spanContext) {
+                assertAttributes()
+            }
+
+            val link = links().single()
+            assertEquals(linkedSpan.spanContext, link.spanContext)
+        }
+        span.end()
+        linkedSpan.end()
+
+        harness.assertSpans(
+            expectedCount = 2,
+            goldenFileName = "span_links.json",
         )
     }
 

@@ -11,4 +11,9 @@ public interface TraceState {
      * Returns the value associated with the given key, or null if the key is not present.
      */
     public fun get(key: String): String?
+
+    /**
+     * Returns the trace state as a map of key-value pairs.
+     */
+    public fun asMap(): Map<String, String>
 }

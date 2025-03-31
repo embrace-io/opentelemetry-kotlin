@@ -24,6 +24,11 @@ public interface Span : SpanRelationshipContainer {
     public val parent: SpanContext?
 
     /**
+     * Gets the span context that uniquely identifies this span.
+     */
+    public val spanContext: SpanContext
+
+    /**
      * Ends the span. An optional timestamp in nanoseconds can be supplied.
      */
     public fun end(timestamp: Long? = null)

@@ -15,10 +15,12 @@ import java.util.concurrent.TimeUnit
 internal class SpanAdapter(
     private val impl: io.opentelemetry.api.trace.Span,
     private val clock: ClockAdapter,
+    override val parent: SpanContext?,
 ) : Span {
 
     private val attrs: MutableMap<String, Any> = ConcurrentHashMap()
     private val events: ConcurrentLinkedQueue<SpanEvent> = ConcurrentLinkedQueue()
+    private val links: ConcurrentLinkedQueue<Link> = ConcurrentLinkedQueue()
 
     private var implName: String = ""
     private var implStatus: StatusCode = StatusCode.Unset
@@ -37,11 +39,7 @@ internal class SpanAdapter(
             impl.setStatus(value.convertToOtelJava())
         }
 
-    override var parent: SpanContext?
-        get() = TODO("Not yet implemented")
-        set(value) {
-            TODO("$value")
-        }
+    override val spanContext: SpanContext = SpanContextAdapter(impl.spanContext)
 
     override fun end(timestamp: Long?) {
         if (timestamp != null) {
@@ -54,7 +52,10 @@ internal class SpanAdapter(
     override fun isRecording(): Boolean = impl.isRecording
 
     override fun addLink(spanContext: SpanContext, action: AttributeContainer.() -> Unit) {
-        TODO("Not yet implemented")
+        val container = AttributeContainerImpl()
+        action(container)
+        links.add(LinkImpl(spanContext, container))
+        impl.addLink(spanContext.convertToOtelJava(), container.otelJavaAttributes())
     }
 
     override fun addEvent(name: String, timestamp: Long?, action: AttributeContainer.() -> Unit) {
@@ -65,13 +66,9 @@ internal class SpanAdapter(
         impl.addEvent(name, container.otelJavaAttributes(), time, TimeUnit.NANOSECONDS)
     }
 
-    override fun events(): List<SpanEvent> {
-        return events.toList()
-    }
+    override fun events(): List<SpanEvent> = events.toList()
 
-    override fun links(): List<Link> {
-        TODO("Not yet implemented")
-    }
+    override fun links(): List<Link> = links.toList()
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         impl.setAttribute(key, value)
