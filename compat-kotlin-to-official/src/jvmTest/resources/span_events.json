@@ -1,0 +1,56 @@
+[
+  {
+    "name": "span_events",
+    "kind": "INTERNAL",
+    "statusData": {
+      "code": 0,
+      "description": ""
+    },
+    "spanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "01",
+      "traceState": {}
+    },
+    "parentSpanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "00",
+      "traceState": {}
+    },
+    "startTimestampNs": 0,
+    "attributes": {},
+    "events": [
+      {
+        "name": "my_event",
+        "attributes": {
+          "bool_key": "true",
+          "bool_list_key": "[true]",
+          "double_key": "3.14",
+          "double_list_key": "[3.14]",
+          "long_key": "42",
+          "long_list_key": "[42]",
+          "string_key": "second_value",
+          "string_list_key": "[a]"
+        },
+        "timestampNs": 150,
+        "totalAttributesCount": 8
+      }
+    ],
+    "links": [],
+    "endTimestampNs": 0,
+    "ended": true,
+    "totalRecordedEvents": 1,
+    "totalRecordedLinks": 0,
+    "totalAttributeCount": 0,
+    "resource": {
+      "schemaUrl": "null",
+      "attributes": {
+        "service.name": "unknown_service:java",
+        "telemetry.sdk.language": "java",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.48.0"
+      }
+    }
+  }
+]

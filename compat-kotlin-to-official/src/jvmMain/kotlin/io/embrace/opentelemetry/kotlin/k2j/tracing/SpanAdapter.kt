@@ -1,19 +1,22 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.StatusCode
+import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.tracing.Link
 import io.embrace.opentelemetry.kotlin.tracing.Span
 import io.embrace.opentelemetry.kotlin.tracing.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.SpanEvent
+import io.opentelemetry.api.common.AttributeKey
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.TimeUnit
 
 internal class SpanAdapter(
     private val impl: io.opentelemetry.api.trace.Span,
 ) : Span {
 
-    override fun setBooleanAttribute(key: String, value: Boolean) {
-        TODO("Not yet implemented")
-    }
+    private val attrs: MutableMap<String, Any> = ConcurrentHashMap()
+    private val events: ConcurrentLinkedQueue<SpanEvent> = ConcurrentLinkedQueue()
 
     private var implName: String = ""
     private var implStatus: StatusCode = StatusCode.Unset
@@ -48,51 +51,65 @@ internal class SpanAdapter(
 
     override fun isRecording(): Boolean = impl.isRecording
 
-    override fun addLink(spanContext: SpanContext, action: Link.() -> Unit) {
+    override fun addLink(spanContext: SpanContext, action: AttributeContainer.() -> Unit) {
         TODO("Not yet implemented")
     }
 
-    override fun addEvent(name: String, timestamp: Long?, action: SpanEvent.() -> Unit) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setStringAttribute(key: String, value: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setLongAttribute(key: String, value: Long) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setDoubleAttribute(key: String, value: Double) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setBooleanListAttribute(key: String, value: List<Boolean>) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setStringListAttribute(key: String, value: List<String>) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setLongListAttribute(key: String, value: List<Long>) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setDoubleListAttribute(key: String, value: List<Double>) {
-        TODO("Not yet implemented")
-    }
-
-    override fun attributes(): Map<String, Any> {
-        TODO("Not yet implemented")
+    override fun addEvent(name: String, timestamp: Long?, action: AttributeContainer.() -> Unit) {
+        val container = AttributeContainerImpl()
+        action(container)
+        val time = timestamp ?: 0 // FIXME: future: pass in clock
+        events.add(SpanEventImpl(name, time, container))
+        impl.addEvent(name, container.otelJavaAttributes(), time, TimeUnit.NANOSECONDS)
     }
 
     override fun events(): List<SpanEvent> {
-        TODO("Not yet implemented")
+        return events.toList()
     }
 
     override fun links(): List<Link> {
         TODO("Not yet implemented")
     }
+
+    override fun setBooleanAttribute(key: String, value: Boolean) {
+        impl.setAttribute(key, value)
+        attrs[key] = value
+    }
+
+    override fun setStringAttribute(key: String, value: String) {
+        impl.setAttribute(key, value)
+        attrs[key] = value
+    }
+
+    override fun setLongAttribute(key: String, value: Long) {
+        impl.setAttribute(key, value)
+        attrs[key] = value
+    }
+
+    override fun setDoubleAttribute(key: String, value: Double) {
+        impl.setAttribute(key, value)
+        attrs[key] = value
+    }
+
+    override fun setBooleanListAttribute(key: String, value: List<Boolean>) {
+        impl.setAttribute(AttributeKey.booleanArrayKey(key), value)
+        attrs[key] = value
+    }
+
+    override fun setStringListAttribute(key: String, value: List<String>) {
+        impl.setAttribute(AttributeKey.stringArrayKey(key), value)
+        attrs[key] = value
+    }
+
+    override fun setLongListAttribute(key: String, value: List<Long>) {
+        impl.setAttribute(AttributeKey.longArrayKey(key), value)
+        attrs[key] = value
+    }
+
+    override fun setDoubleListAttribute(key: String, value: List<Double>) {
+        impl.setAttribute(AttributeKey.doubleArrayKey(key), value)
+        attrs[key] = value
+    }
+
+    override fun attributes(): Map<String, Any> = attrs.toMap()
 }
