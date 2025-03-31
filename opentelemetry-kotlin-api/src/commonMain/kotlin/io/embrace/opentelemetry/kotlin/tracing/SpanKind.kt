@@ -2,6 +2,8 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 /**
  * Clarifies the relationship between spans correlated via parent/child relationship or span links.
+ *
+ * https://opentelemetry.io/docs/specs/otel/trace/api/#spankind
  */
 public enum class SpanKind {
 

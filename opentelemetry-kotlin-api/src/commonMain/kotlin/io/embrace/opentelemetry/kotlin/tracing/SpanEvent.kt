@@ -5,6 +5,8 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 
 /**
  * Represents an event that happened on a span
+ *
+ * https://opentelemetry.io/docs/specs/otel/trace/api/#add-events
  */
 @TracingDsl
 @ExperimentalApi

@@ -5,6 +5,8 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 
 /**
  * Represents a link to a [SpanContext] and optional attributes further describing the link.
+ *
+ * https://opentelemetry.io/docs/specs/otel/trace/api/#link
  */
 @ExperimentalApi
 public interface Link : AttributeContainer {

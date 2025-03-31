@@ -4,6 +4,8 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 
 /**
  * A Tracer is responsible for creating spans.
+ *
+ * https://opentelemetry.io/docs/specs/otel/trace/api/#tracerprovider
  */
 @ExperimentalApi
 public interface Tracer {

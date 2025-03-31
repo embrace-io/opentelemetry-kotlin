@@ -5,6 +5,8 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 
 /**
  * Provides operations that add relationships (events + links) to a span
+ *
+ * https://opentelemetry.io/docs/specs/otel/trace/api/
  */
 @ExperimentalApi
 public interface SpanRelationshipContainer : AttributeContainer {

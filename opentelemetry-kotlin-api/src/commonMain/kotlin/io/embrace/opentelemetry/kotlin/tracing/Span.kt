@@ -5,6 +5,8 @@ import io.embrace.opentelemetry.kotlin.StatusCode
 
 /**
  * A span represents a single operation within a trace.
+ *
+ * https://opentelemetry.io/docs/specs/otel/trace/api/#span
  */
 @TracingDsl
 @ExperimentalApi

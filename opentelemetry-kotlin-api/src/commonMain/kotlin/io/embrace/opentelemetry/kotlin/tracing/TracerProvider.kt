@@ -4,6 +4,8 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 
 /**
  * TracerProvider is a factory for retrieving instances of [Tracer].
+ *
+ * https://opentelemetry.io/docs/specs/otel/trace/api/#tracerprovider
  */
 @ExperimentalApi
 public interface TracerProvider {
