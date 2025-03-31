@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.k2j.framework.OtelJavaHarness
+import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 import org.junit.Assert.assertFalse
@@ -13,13 +13,13 @@ import kotlin.test.assertEquals
 
 internal class SpanExportTest {
 
-    private lateinit var harness: OtelJavaHarness
+    private lateinit var harness: OtelKotlinHarness
     private lateinit var tracerProvider: TracerProvider
     private lateinit var tracer: Tracer
 
     @BeforeTest
     fun setUp() {
-        harness = OtelJavaHarness()
+        harness = OtelKotlinHarness()
         tracerProvider = TracerProviderAdapter(harness.sdk)
         tracer = tracerProvider.getTracer("name", "version")
     }

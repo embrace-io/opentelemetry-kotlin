@@ -1,0 +1,5 @@
+public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TracerProviderAdapter : io/embrace/opentelemetry/kotlin/tracing/TracerProvider {
+	public fun <init> (Lio/opentelemetry/api/OpenTelemetry;)V
+	public fun getTracer (Ljava/lang/String;Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/Tracer;
+}
+
