@@ -5,6 +5,11 @@ public abstract interface class io/embrace/opentelemetry/kotlin/Clock {
 public abstract interface annotation class io/embrace/opentelemetry/kotlin/ExperimentalApi : java/lang/annotation/Annotation {
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/OpenTelemetry {
+	public abstract fun getLoggerProvider ()Lio/embrace/opentelemetry/kotlin/logging/LoggerProvider;
+	public abstract fun getTracerProvider ()Lio/embrace/opentelemetry/kotlin/tracing/TracerProvider;
+}
+
 public abstract class io/embrace/opentelemetry/kotlin/StatusCode {
 }
 
