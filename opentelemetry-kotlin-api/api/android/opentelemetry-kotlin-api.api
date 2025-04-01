@@ -36,6 +36,16 @@ public abstract interface class io/embrace/opentelemetry/kotlin/attributes/Attri
 	public abstract fun setStringListAttribute (Ljava/lang/String;Ljava/util/List;)V
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/context/Context {
+	public abstract fun createKey (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/context/ContextKey;
+	public abstract fun getValue (Lio/embrace/opentelemetry/kotlin/context/ContextKey;)Ljava/lang/Object;
+	public abstract fun setValue (Lio/embrace/opentelemetry/kotlin/context/ContextKey;Ljava/lang/Object;)Lio/embrace/opentelemetry/kotlin/context/Context;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/context/ContextKey {
+	public abstract fun getName ()Ljava/lang/String;
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Link : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
 	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
 }
