@@ -1,11 +1,8 @@
-import com.vanniktech.maven.publish.SonatypeHost
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("com.android.library")
     id("io.embrace.otel.build-logic")
+    id("com.vanniktech.maven.publish")
 }
 
 group = "io.embrace.opentelemetry.kotlin"
@@ -25,6 +22,7 @@ project.afterEvaluate {
             val commonMain by getting {
                 dependencies {
                     implementation(project(":opentelemetry-kotlin-api"))
+                }
             }
         }
     }

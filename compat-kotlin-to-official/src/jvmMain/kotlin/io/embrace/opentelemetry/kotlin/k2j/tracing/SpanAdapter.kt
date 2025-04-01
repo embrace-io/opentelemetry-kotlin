@@ -5,9 +5,11 @@ import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
 import io.embrace.opentelemetry.kotlin.tracing.Link
+import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.Span
 import io.embrace.opentelemetry.kotlin.tracing.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.SpanEvent
+import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.TimeUnit
