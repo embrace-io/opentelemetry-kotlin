@@ -54,4 +54,16 @@ public interface SpanContext {
      */
     @ThreadSafe
     public fun updateTraceState(action: TraceStateMutator.() -> Unit)
+
+    /**
+     * Creates a new [SpanContext] from the given parameters.
+     */
+    @ThreadSafe
+    public fun create(
+        traceId: String,
+        spanId: String,
+        traceFlags: TraceFlags,
+        traceState: TraceState,
+        origin: SpanContextOrigin = SpanContextOrigin.LOCAL,
+    ): SpanContext
 }
