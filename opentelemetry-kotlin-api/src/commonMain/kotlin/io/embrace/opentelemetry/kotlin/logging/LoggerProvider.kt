@@ -1,29 +1,29 @@
-package io.embrace.opentelemetry.kotlin.tracing
+package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 
 /**
- * TracerProvider is a factory for retrieving instances of [Tracer].
+ * Provider for retrieving [Logger] instances.
  *
- * https://opentelemetry.io/docs/specs/otel/trace/api/#tracerprovider
+ * https://opentelemetry.io/docs/specs/otel/logs/api/#loggerprovider
  */
 @ExperimentalApi
 @ThreadSafe
-public interface TracerProvider {
+public interface LoggerProvider {
 
     /**
-     * Returns a [Tracer] matching the given name. An optional version, schema URL, and attributes describing
-     * the [Tracer] can be supplied.
+     * Returns a [Logger] matching the given name. An optional version, schema URL, and attributes describing
+     * the [Logger] can be supplied.
      *
      * The name must document the instrumentation scope: https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope
      */
     @ThreadSafe
-    public fun getTracer(
+    public fun getLogger(
         name: String,
         version: String? = null,
         schemaUrl: String? = null,
         attributes: AttributeContainer.() -> Unit = {},
-    ): Tracer
+    ): Logger
 }

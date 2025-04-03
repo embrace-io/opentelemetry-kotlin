@@ -6,12 +6,11 @@ import io.embrace.opentelemetry.kotlin.tracing.Span
 import io.embrace.opentelemetry.kotlin.tracing.SpanKind
 import io.embrace.opentelemetry.kotlin.tracing.SpanRelationshipContainer
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
-import io.opentelemetry.context.Context
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
 internal class TracerAdapter(
-    private val tracer: io.opentelemetry.api.trace.Tracer,
+    private val tracer: OtelJavaTracer,
     private val clock: ClockAdapter
 ) : Tracer {
 
@@ -38,10 +37,10 @@ internal class TracerAdapter(
         }
     }
 
-    private fun Span.findSpanContext(): Context? {
+    private fun Span.findSpanContext(): OtelJavaContext? {
         when (this) {
             is SpanAdapter -> {
-                val ctx = Context.current() ?: Context.root()
+                val ctx = OtelJavaContext.current() ?: OtelJavaContext.root()
                 return ctx.with(impl)
             }
 
