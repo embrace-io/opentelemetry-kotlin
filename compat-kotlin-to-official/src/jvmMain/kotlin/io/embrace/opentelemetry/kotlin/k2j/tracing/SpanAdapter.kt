@@ -4,6 +4,8 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
+import io.embrace.opentelemetry.kotlin.k2j.OtelJavaAttributeKey
+import io.embrace.opentelemetry.kotlin.k2j.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.tracing.Link
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.Span

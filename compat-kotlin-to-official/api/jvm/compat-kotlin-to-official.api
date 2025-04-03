@@ -5,6 +5,12 @@ public final class io/embrace/opentelemetry/kotlin/k2j/ClockAdapter : io/embrace
 	public fun now ()J
 }
 
+public final class io/embrace/opentelemetry/kotlin/k2j/OpenTelemetrySdk : io/embrace/opentelemetry/kotlin/OpenTelemetry {
+	public fun <init> (Lio/opentelemetry/api/OpenTelemetry;)V
+	public fun getLoggerProvider ()Lio/embrace/opentelemetry/kotlin/logging/LoggerProvider;
+	public fun getTracerProvider ()Lio/embrace/opentelemetry/kotlin/tracing/TracerProvider;
+}
+
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TracerProviderAdapter : io/embrace/opentelemetry/kotlin/tracing/TracerProvider {
 	public fun <init> (Lio/opentelemetry/api/trace/TracerProvider;Lio/embrace/opentelemetry/kotlin/k2j/ClockAdapter;)V
 	public synthetic fun <init> (Lio/opentelemetry/api/trace/TracerProvider;Lio/embrace/opentelemetry/kotlin/k2j/ClockAdapter;ILkotlin/jvm/internal/DefaultConstructorMarker;)V

@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
+import io.embrace.opentelemetry.kotlin.k2j.OtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.tracing.SpanKind
 
 internal fun SpanKind.convertToOtelJava(): OtelJavaSpanKind = when (this) {

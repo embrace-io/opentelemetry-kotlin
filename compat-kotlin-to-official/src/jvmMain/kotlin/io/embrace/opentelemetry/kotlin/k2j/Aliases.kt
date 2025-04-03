@@ -1,5 +1,6 @@
-package io.embrace.opentelemetry.kotlin.k2j.tracing
+package io.embrace.opentelemetry.kotlin.k2j
 
+import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.api.common.AttributeKey
 import io.opentelemetry.api.common.Attributes
 import io.opentelemetry.api.internal.ImmutableSpanContext
@@ -27,3 +28,4 @@ internal typealias OtelJavaTracer = Tracer
 internal typealias OtelJavaTracerProvider = TracerProvider
 internal typealias OtelJavaClock = Clock
 internal typealias OtelJavaImmutableSpanContext = ImmutableSpanContext
+internal typealias OtelJavaOpenTelemetry = OpenTelemetry
