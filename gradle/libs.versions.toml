@@ -1,12 +1,12 @@
 [versions]
-agp = "8.9.0"
+agp = "8.9.1"
 kotlin = "2.1.20"
 android-minSdk = "21"
 android-compileSdk = "35"
 detekt = "1.23.8"
 binaryCompatibilityValidator = "0.17.0"
 otel = "1.48.0"
-kotlinSerialization = "1.8.0"
+kotlinSerialization = "1.8.1"
 mavenPublish = "0.31.0"
 
 [libraries]
