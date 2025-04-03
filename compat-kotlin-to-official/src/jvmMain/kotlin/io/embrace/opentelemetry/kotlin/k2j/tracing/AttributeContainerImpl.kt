@@ -2,13 +2,11 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.opentelemetry.api.common.AttributeKey
-import io.opentelemetry.api.common.Attributes
 
 @OptIn(ExperimentalApi::class)
 internal class AttributeContainerImpl : AttributeContainer {
 
-    private val attrs = Attributes.builder()
+    private val attrs = OtelJavaAttributes.builder()
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         attrs.put(key, value)
@@ -27,22 +25,22 @@ internal class AttributeContainerImpl : AttributeContainer {
     }
 
     override fun setBooleanListAttribute(key: String, value: List<Boolean>) {
-        attrs.put(AttributeKey.booleanArrayKey(key), value)
+        attrs.put(OtelJavaAttributeKey.booleanArrayKey(key), value)
     }
 
     override fun setStringListAttribute(key: String, value: List<String>) {
-        attrs.put(AttributeKey.stringArrayKey(key), value)
+        attrs.put(OtelJavaAttributeKey.stringArrayKey(key), value)
     }
 
     override fun setLongListAttribute(key: String, value: List<Long>) {
-        attrs.put(AttributeKey.longArrayKey(key), value)
+        attrs.put(OtelJavaAttributeKey.longArrayKey(key), value)
     }
 
     override fun setDoubleListAttribute(key: String, value: List<Double>) {
-        attrs.put(AttributeKey.doubleArrayKey(key), value)
+        attrs.put(OtelJavaAttributeKey.doubleArrayKey(key), value)
     }
 
     override fun attributes(): Map<String, Any> = attrs.build().toMap()
 
-    fun otelJavaAttributes(): Attributes = attrs.build()
+    fun otelJavaAttributes(): OtelJavaAttributes = attrs.build()
 }

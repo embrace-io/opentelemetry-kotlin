@@ -7,7 +7,7 @@ import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 
 @ExperimentalApi
 public class TracerProviderAdapter(
-    private val tracerProvider: io.opentelemetry.api.trace.TracerProvider,
+    private val tracerProvider: OtelJavaTracerProvider,
     private val clock: ClockAdapter = ClockAdapter()
 ) : TracerProvider {
 

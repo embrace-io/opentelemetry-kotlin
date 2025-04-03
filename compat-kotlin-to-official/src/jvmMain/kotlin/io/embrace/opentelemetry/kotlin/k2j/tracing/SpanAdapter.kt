@@ -8,14 +8,13 @@ import io.embrace.opentelemetry.kotlin.tracing.Link
 import io.embrace.opentelemetry.kotlin.tracing.Span
 import io.embrace.opentelemetry.kotlin.tracing.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.SpanEvent
-import io.opentelemetry.api.common.AttributeKey
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
 internal class SpanAdapter(
-    val impl: io.opentelemetry.api.trace.Span,
+    val impl: OtelJavaSpan,
     private val clock: ClockAdapter,
     override val parent: SpanContext?,
 ) : Span {
@@ -93,22 +92,22 @@ internal class SpanAdapter(
     }
 
     override fun setBooleanListAttribute(key: String, value: List<Boolean>) {
-        impl.setAttribute(AttributeKey.booleanArrayKey(key), value)
+        impl.setAttribute(OtelJavaAttributeKey.booleanArrayKey(key), value)
         attrs[key] = value
     }
 
     override fun setStringListAttribute(key: String, value: List<String>) {
-        impl.setAttribute(AttributeKey.stringArrayKey(key), value)
+        impl.setAttribute(OtelJavaAttributeKey.stringArrayKey(key), value)
         attrs[key] = value
     }
 
     override fun setLongListAttribute(key: String, value: List<Long>) {
-        impl.setAttribute(AttributeKey.longArrayKey(key), value)
+        impl.setAttribute(OtelJavaAttributeKey.longArrayKey(key), value)
         attrs[key] = value
     }
 
     override fun setDoubleListAttribute(key: String, value: List<Double>) {
-        impl.setAttribute(AttributeKey.doubleArrayKey(key), value)
+        impl.setAttribute(OtelJavaAttributeKey.doubleArrayKey(key), value)
         attrs[key] = value
     }
 
