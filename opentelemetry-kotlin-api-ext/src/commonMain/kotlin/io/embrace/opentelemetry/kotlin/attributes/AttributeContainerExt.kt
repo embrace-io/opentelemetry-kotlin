@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.attributes
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.ThreadSafe
 
 /**
  * Sets attributes on an [AttributeContainer] from a [Map]. Only values in the map of a type supported by the
@@ -10,6 +11,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
  */
 @Suppress("UNUSED_PARAMETER")
 @ExperimentalApi
+@ThreadSafe
 public fun AttributeContainer.setAttributes(attributes: Map<String, Any>) {
     TODO("Implement me")
 }

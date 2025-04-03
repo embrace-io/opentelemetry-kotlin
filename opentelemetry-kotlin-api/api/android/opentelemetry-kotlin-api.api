@@ -21,6 +21,9 @@ public final class io/embrace/opentelemetry/kotlin/StatusCode$Unset : io/embrace
 	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/StatusCode$Unset;
 }
 
+public abstract interface annotation class io/embrace/opentelemetry/kotlin/ThreadSafe : java/lang/annotation/Annotation {
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
 	public abstract fun attributes ()Ljava/util/Map;
 	public abstract fun setBooleanAttribute (Ljava/lang/String;Z)V
