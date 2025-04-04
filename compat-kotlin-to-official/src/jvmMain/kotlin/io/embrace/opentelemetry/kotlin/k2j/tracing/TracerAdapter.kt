@@ -2,6 +2,8 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
+import io.embrace.opentelemetry.kotlin.k2j.OtelJavaContext
+import io.embrace.opentelemetry.kotlin.k2j.OtelJavaTracer
 import io.embrace.opentelemetry.kotlin.tracing.Span
 import io.embrace.opentelemetry.kotlin.tracing.SpanKind
 import io.embrace.opentelemetry.kotlin.tracing.SpanRelationshipContainer
