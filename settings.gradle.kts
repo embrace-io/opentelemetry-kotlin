@@ -17,6 +17,7 @@ rootProject.name = "opentelemetry-kotlin"
 include(
     ":opentelemetry-kotlin-api",
     ":opentelemetry-kotlin-api-ext",
+    ":opentelemetry-kotlin-api-noop",
     ":opentelemetry-kotlin-implementation",
     ":compat-shared",
     ":compat-official-to-kotlin",

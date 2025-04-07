@@ -1,0 +1,6 @@
+public final class io/embrace/opentelemetry/kotlin/NoopOpenTelemetry : io/embrace/opentelemetry/kotlin/OpenTelemetry {
+	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/NoopOpenTelemetry;
+	public fun getLoggerProvider ()Lio/embrace/opentelemetry/kotlin/logging/LoggerProvider;
+	public fun getTracerProvider ()Lio/embrace/opentelemetry/kotlin/tracing/TracerProvider;
+}
+
