@@ -1,12 +1,13 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework
 
 import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
-import io.embrace.opentelemetry.kotlin.k2j.InMemorySpanExporter
-import io.embrace.opentelemetry.kotlin.k2j.InMemorySpanProcessor
+import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableLogRecordData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.toSerializable
 import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.sdk.OpenTelemetrySdk
+import io.opentelemetry.sdk.logs.SdkLoggerProvider
+import io.opentelemetry.sdk.logs.data.LogRecordData
 import io.opentelemetry.sdk.trace.SdkTracerProvider
 import io.opentelemetry.sdk.trace.data.SpanData
 import java.util.concurrent.CountDownLatch
@@ -15,36 +16,31 @@ import java.util.concurrent.TimeoutException
 
 internal class OtelKotlinHarness {
 
-    private val exporter = InMemorySpanExporter()
+    private companion object {
+        private const val EXPORT_POLL_ATTEMPTS = 1000
+        private const val EXPORT_POLL_WAIT_US = 10L
+    }
+
+    private val spanExporter = InMemorySpanExporter()
+    private val logRecordExporter = InMemoryLogRecordExporter()
+    private val fakeClock = FakeClock()
 
     private val tracerProvider: SdkTracerProvider = SdkTracerProvider.builder()
-        .addSpanProcessor(InMemorySpanProcessor(exporter))
-        .setClock(FakeClock())
+        .addSpanProcessor(InMemorySpanProcessor(spanExporter))
+        .setClock(fakeClock)
         .build()
 
-    val sdk: OpenTelemetry = OpenTelemetrySdk.builder().setTracerProvider(
-        tracerProvider
-    ).build()
+    private val loggerProvider: SdkLoggerProvider = SdkLoggerProvider.builder()
+        .addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
+        .setClock(fakeClock)
+        .build()
 
-    val clock: ClockAdapter = ClockAdapter(FakeClock())
+    val sdk: OpenTelemetry = OpenTelemetrySdk.builder()
+        .setTracerProvider(tracerProvider)
+        .setLoggerProvider(loggerProvider)
+        .build()
 
-    private fun awaitSpans(expectedCount: Int): List<SpanData> {
-        val supplier = { exporter.exportedSpans }
-        val tries = 1000
-        val countDownLatch = CountDownLatch(1)
-        repeat(tries) {
-            if (supplier().size != expectedCount) {
-                countDownLatch.await(1.toLong(), TimeUnit.MILLISECONDS)
-            } else {
-                return supplier()
-            }
-        }
-        val spans = supplier()
-        throw TimeoutException(
-            "Timeout. Expected $expectedCount spans, but got ${spans.size}. " +
-                "Found spans: ${spans.joinToString { it.name }}"
-        )
-    }
+    val clock: ClockAdapter = ClockAdapter(fakeClock)
 
     internal fun assertSpans(
         expectedCount: Int,
@@ -52,12 +48,52 @@ internal class OtelKotlinHarness {
         sanitizeSpanContextIds: Boolean = true,
         assertions: (spans: List<SerializableSpanData>) -> Unit = {},
     ) {
-        val observedSpans: List<SpanData> = awaitSpans(expectedCount)
+        val observedSpans: List<SpanData> = awaitExportedData(
+            expectedCount = expectedCount,
+            supplier = { spanExporter.exportedSpans }
+        )
         val data = observedSpans.map { it.toSerializable(sanitizeSpanContextIds) }
         assertions(data)
 
         if (goldenFileName != null) {
             compareGoldenFile(data, goldenFileName)
         }
+    }
+
+    internal fun assertLogRecords(
+        expectedCount: Int,
+        goldenFileName: String? = null,
+        sanitizeSpanContextIds: Boolean = true,
+        assertions: (logs: List<SerializableLogRecordData>) -> Unit = {},
+    ) {
+        val observedLogRecords: List<LogRecordData> = awaitExportedData(
+            expectedCount = expectedCount,
+            supplier = { logRecordExporter.exportedLogRecords }
+        )
+        val data = observedLogRecords.map { it.toSerializable(sanitizeSpanContextIds) }
+        assertions(data)
+
+        if (goldenFileName != null) {
+            compareGoldenFile(data, goldenFileName)
+        }
+    }
+
+    private fun <T> awaitExportedData(
+        expectedCount: Int,
+        supplier: () -> List<T>
+    ): List<T> {
+        val countDownLatch = CountDownLatch(1)
+        repeat(EXPORT_POLL_ATTEMPTS) {
+            if (supplier().size != expectedCount) {
+                countDownLatch.await(EXPORT_POLL_WAIT_US, TimeUnit.MICROSECONDS)
+            } else {
+                return supplier()
+            }
+        }
+        val data = supplier()
+        throw TimeoutException(
+            "Timeout. Expected $expectedCount elements, but got ${data.size}. " +
+                "Found: ${data.joinToString { it.toString() }}"
+        )
     }
 }

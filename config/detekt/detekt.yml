@@ -17,6 +17,8 @@ complexity:
     thresholdInObjects: 31
     thresholdInEnums: 31
     ignoreOverridden: true
+  CyclomaticComplexMethod:
+    active: false
 empty-blocks:
   EmptyFunctionBlock:
     ignoreOverridden: true

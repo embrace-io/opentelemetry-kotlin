@@ -1,4 +1,4 @@
-package io.embrace.opentelemetry.kotlin.k2j
+package io.embrace.opentelemetry.kotlin.k2j.framework
 
 import io.opentelemetry.context.Context
 import io.opentelemetry.sdk.trace.ReadWriteSpan
