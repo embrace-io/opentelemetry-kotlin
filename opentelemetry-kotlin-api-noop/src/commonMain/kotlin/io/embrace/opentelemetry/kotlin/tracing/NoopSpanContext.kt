@@ -15,12 +15,4 @@ internal object NoopSpanContext : SpanContext {
 
     override fun updateTraceState(action: TraceStateMutator.() -> Unit) {
     }
-
-    override fun create(
-        traceId: String,
-        spanId: String,
-        traceFlags: TraceFlags,
-        traceState: TraceState,
-        origin: SpanContextOrigin
-    ): SpanContext = NoopSpanContext
 }
