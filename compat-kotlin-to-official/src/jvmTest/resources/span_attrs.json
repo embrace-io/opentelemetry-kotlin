@@ -42,7 +42,7 @@
         "service.name": "unknown_service:java",
         "telemetry.sdk.language": "java",
         "telemetry.sdk.name": "opentelemetry",
-        "telemetry.sdk.version": "1.48.0"
+        "telemetry.sdk.version": "1.49.0"
       }
     }
   }
