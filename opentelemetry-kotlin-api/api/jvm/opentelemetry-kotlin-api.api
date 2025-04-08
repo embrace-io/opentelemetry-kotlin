@@ -127,7 +127,6 @@ public final class io/embrace/opentelemetry/kotlin/tracing/Span$DefaultImpls {
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanContext {
-	public abstract fun create (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/TraceState;Lio/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin;)Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
 	public abstract fun getSpanId ()Ljava/lang/String;
 	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;
 	public abstract fun getTraceId ()Ljava/lang/String;
@@ -135,10 +134,6 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanCont
 	public abstract fun isRemote ()Z
 	public abstract fun isValid ()Z
 	public abstract fun updateTraceState (Lkotlin/jvm/functions/Function1;)V
-}
-
-public final class io/embrace/opentelemetry/kotlin/tracing/SpanContext$DefaultImpls {
-	public static synthetic fun create$default (Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/TraceState;Lio/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin : java/lang/Enum {
@@ -206,5 +201,13 @@ public final class io/embrace/opentelemetry/kotlin/tracing/TracerProvider$Defaul
 }
 
 public abstract interface annotation class io/embrace/opentelemetry/kotlin/tracing/TracingDsl : java/lang/annotation/Annotation {
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TracingFactory {
+	public abstract fun createSpanContext (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/TraceState;Lio/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin;)Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/TracingFactory$DefaultImpls {
+	public static synthetic fun createSpanContext$default (Lio/embrace/opentelemetry/kotlin/tracing/TracingFactory;Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/TraceState;Lio/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
 }
 
