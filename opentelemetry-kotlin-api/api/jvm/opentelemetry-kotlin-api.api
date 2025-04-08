@@ -51,6 +51,32 @@ public abstract interface class io/embrace/opentelemetry/kotlin/context/ContextK
 	public abstract fun getName ()Ljava/lang/String;
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/creation/LoggerProviderParams {
+	public abstract fun getClock ()Lio/embrace/opentelemetry/kotlin/Clock;
+	public abstract fun setClock (Lio/embrace/opentelemetry/kotlin/Clock;)V
+}
+
+public abstract interface annotation class io/embrace/opentelemetry/kotlin/creation/SdkCreationDsl : java/lang/annotation/Annotation {
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/creation/SdkFactory {
+	public abstract fun createOpenTelemetry (Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/creation/SdkParams {
+	public abstract fun getClock ()Lio/embrace/opentelemetry/kotlin/Clock;
+	public abstract fun getLoggerProviderParams ()Lio/embrace/opentelemetry/kotlin/creation/LoggerProviderParams;
+	public abstract fun getTracerProviderParams ()Lio/embrace/opentelemetry/kotlin/creation/TracerProviderParams;
+	public abstract fun loggerProviderParams (Lkotlin/jvm/functions/Function1;)V
+	public abstract fun setClock (Lio/embrace/opentelemetry/kotlin/Clock;)V
+	public abstract fun tracerProviderParams (Lkotlin/jvm/functions/Function1;)V
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/creation/TracerProviderParams {
+	public abstract fun getClock ()Lio/embrace/opentelemetry/kotlin/Clock;
+	public abstract fun setClock (Lio/embrace/opentelemetry/kotlin/Clock;)V
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/logging/LogRecord : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
 	public abstract fun getBody ()Ljava/lang/String;
 	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
