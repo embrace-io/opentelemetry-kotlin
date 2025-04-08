@@ -16,6 +16,7 @@ import io.opentelemetry.api.trace.TraceState
 import io.opentelemetry.api.trace.Tracer
 import io.opentelemetry.api.trace.TracerProvider
 import io.opentelemetry.context.Context
+import io.opentelemetry.context.ContextKey
 import io.opentelemetry.sdk.common.Clock
 
 internal typealias OtelJavaAttributes = Attributes
@@ -27,6 +28,7 @@ internal typealias OtelJavaTraceState = TraceState
 internal typealias OtelJavaSpanKind = SpanKind
 internal typealias OtelJavaStatusCode = StatusCode
 internal typealias OtelJavaContext = Context
+internal typealias OtelJavaContextKey<T> = ContextKey<T>
 internal typealias OtelJavaTracer = Tracer
 internal typealias OtelJavaTracerProvider = TracerProvider
 internal typealias OtelJavaClock = Clock

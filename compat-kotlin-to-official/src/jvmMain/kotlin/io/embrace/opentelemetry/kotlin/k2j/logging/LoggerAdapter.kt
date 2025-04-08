@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.k2j.OtelJavaLogger
+import io.embrace.opentelemetry.kotlin.k2j.context.ContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.AttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.logging.Logger
 import io.embrace.opentelemetry.kotlin.logging.SeverityNumber
@@ -33,7 +34,7 @@ internal class LoggerAdapter(private val impl: OtelJavaLogger) : Logger {
             builder.setObservedTimestamp(observedTimestampNs, TimeUnit.NANOSECONDS)
         }
         if (context != null) {
-            // TODO: populate context
+            builder.setContext(ContextAdapter(context))
         }
         if (severityNumber != null) {
             builder.setSeverity(severityNumber.convertToOtelJava())
