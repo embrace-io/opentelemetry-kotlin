@@ -6,7 +6,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 internal object NoopTracer : Tracer {
     override fun createSpan(
         name: String,
-        parent: Span?,
+        parent: SpanContext?,
         spanKind: SpanKind,
         startTimestamp: Long?,
         action: SpanRelationshipContainer.() -> Unit
