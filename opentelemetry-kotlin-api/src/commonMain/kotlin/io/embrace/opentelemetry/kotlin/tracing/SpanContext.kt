@@ -46,12 +46,5 @@ public interface SpanContext {
      * Contains state about the trace.
      */
     @ThreadSafe
-    public fun getTraceState(): TraceState
-
-    /**
-     * Mutates the trace state with the given action and replaces [traceState] with a new immutable object
-     * containing the changes.
-     */
-    @ThreadSafe
-    public fun updateTraceState(action: TraceStateMutator.() -> Unit)
+    public val traceState: TraceState
 }

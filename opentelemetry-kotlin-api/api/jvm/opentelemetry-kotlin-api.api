@@ -133,7 +133,6 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanCont
 	public abstract fun getTraceState ()Lio/embrace/opentelemetry/kotlin/tracing/TraceState;
 	public abstract fun isRemote ()Z
 	public abstract fun isValid ()Z
-	public abstract fun updateTraceState (Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin : java/lang/Enum {
