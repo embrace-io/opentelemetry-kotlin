@@ -1,0 +1,44 @@
+name: Release RC and Update Docs
+
+env:
+  SONATYPE_USERNAME: ${{ secrets.SONATYPE_TOKEN_USER }}
+  SONATYPE_PASSWORD: ${{ secrets.SONATYPE_TOKEN_USER_PASSWORD }}
+  MAVEN_QA_USER: github
+  MAVEN_QA_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+  mavenSigningKeyId: ${{ secrets.MAVEN_ANDROID_SIGNING_KEY }}
+  mavenSigningKeyRingFileEncoded: ${{ secrets.MAVEN_ANDROID_GPG_KEY }}
+  mavenSigningKeyPassword: ${{ secrets.MAVEN_ANDROID_SIGNING_PASSWORD }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      rc_version:
+        description: 'SDK version this workflow run will release. Specify <major.minor.patch> e.g. 1.3.0. It will use the branch "release/<version>".'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release-to-maven-central:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout SDK
+        uses: actions/checkout@v4
+        with:
+          ref: release/${{ inputs.rc_version }}
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Release to Maven Central
+        run: |
+          ./gradlew findSonatypeStagingRepository releaseSonatypeStagingRepository -Dorg.gradle.parallel=false --no-build-cache --no-configuration-cache --stacktrace

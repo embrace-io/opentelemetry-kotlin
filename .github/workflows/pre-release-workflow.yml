@@ -1,0 +1,34 @@
+name: Prepare New Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      rc_version:
+        description: 'Version to release. Specify <major.minor.patch>  e.g. 1.3.0. A new branch called "release/<version>" will be created where the release-specific changes will be committed.'
+        required: true
+      next_version:
+        description: 'Next version. Specify <major.minor.patch>, e.g. 1.4.0 (Do NOT include -SNAPSHOT, will be added automatically)'
+        required: true
+
+jobs:
+  create-release-branch:
+    name: Create Release Branch
+    uses: ./.github/workflows/create-release-branch.yml
+    secrets: inherit
+    with:
+      rc_version: ${{ inputs.rc_version }}
+
+  bump-snapshot-version:
+    name: Bump Snapshot Version
+    uses: ./.github/workflows/bump-snapshot-version.yml
+    secrets: inherit
+    with:
+      next_version: ${{ inputs.next_version }}
+
+  upload-artifacts-to-sonatype:
+    name: Upload RC artifacts to Sonatype
+    needs: create-release-branch
+    uses: ./.github/workflows/upload-artifacts-to-sonatype.yml
+    secrets: inherit
+    with:
+      rc_version: ${{ inputs.rc_version }}

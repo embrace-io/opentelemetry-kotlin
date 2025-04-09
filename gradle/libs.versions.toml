@@ -8,6 +8,7 @@ binaryCompatibilityValidator = "0.17.0"
 otel = "1.49.0"
 kotlinSerialization = "1.8.1"
 mavenPublish = "0.31.0"
+nexus = "2.0.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -28,3 +29,4 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 vanniktech-mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexus" }
