@@ -13,7 +13,7 @@ internal fun SpanContext.convertToOtelJava(): OtelJavaSpanContext {
         traceId,
         spanId,
         traceFlags.convertToOtelJava(),
-        getTraceState().convertToOtelJava(),
+        traceState.convertToOtelJava(),
         isRemote,
         false
     )

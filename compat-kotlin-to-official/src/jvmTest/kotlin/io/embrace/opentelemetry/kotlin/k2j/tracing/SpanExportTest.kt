@@ -39,7 +39,6 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_minimal.json",
-            sanitizeSpanContextIds = true,
         )
     }
 
@@ -68,7 +67,6 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_props.json",
-            sanitizeSpanContextIds = true,
         )
     }
 
@@ -82,7 +80,6 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_attrs.json",
-            sanitizeSpanContextIds = true,
         )
     }
 
@@ -107,7 +104,6 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_events.json",
-            sanitizeSpanContextIds = true,
         )
     }
 
@@ -152,7 +148,7 @@ internal class SpanExportTest {
     @Test
     fun `test span trace state`() {
         val span = tracer.createSpan("my_span")
-        val state = span.spanContext.getTraceState()
+        val state = span.spanContext.traceState
         assertEquals(emptyMap(), state.asMap())
     }
 
@@ -175,7 +171,6 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 2,
             goldenFileName = "span_links.json",
-            sanitizeSpanContextIds = true,
         )
     }
 
