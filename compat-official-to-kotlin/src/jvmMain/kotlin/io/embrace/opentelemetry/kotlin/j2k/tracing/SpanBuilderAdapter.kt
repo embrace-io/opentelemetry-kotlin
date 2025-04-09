@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.j2k.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.setAttributes
+import io.embrace.opentelemetry.kotlin.j2k.OtelKotlinTracer
 import io.opentelemetry.api.common.AttributeKey
 import io.opentelemetry.api.common.Attributes
 import io.opentelemetry.api.common.AttributesBuilder
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
 internal class SpanBuilderAdapter(
-    private val tracer: io.embrace.opentelemetry.kotlin.tracing.Tracer,
+    private val tracer: OtelKotlinTracer,
     private val spanName: String
 ) : SpanBuilder {
 
