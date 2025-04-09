@@ -7,20 +7,20 @@ import io.embrace.opentelemetry.kotlin.tracing.TraceState
 import io.embrace.opentelemetry.kotlin.tracing.TraceStateMutator
 
 internal class SpanContextAdapter(
-    private val spanContext: OtelJavaSpanContext
+    val impl: OtelJavaSpanContext
 ) : SpanContext {
 
-    override val traceId: String = spanContext.traceId
-    override val spanId: String = spanContext.spanId
-    override val traceFlags: TraceFlags = TraceFlagsAdapter(spanContext.traceFlags)
-    override val isValid: Boolean = spanContext.isValid
-    override val isRemote: Boolean = spanContext.isRemote
+    override val traceId: String = impl.traceId
+    override val spanId: String = impl.spanId
+    override val traceFlags: TraceFlags = TraceFlagsAdapter(impl.traceFlags)
+    override val isValid: Boolean = impl.isValid
+    override val isRemote: Boolean = impl.isRemote
 
     override fun updateTraceState(action: TraceStateMutator.() -> Unit) {
         TODO("Not yet implemented")
     }
 
     override fun getTraceState(): TraceState {
-        return TraceStateAdapter(spanContext.traceState)
+        return TraceStateAdapter(impl.traceState)
     }
 }

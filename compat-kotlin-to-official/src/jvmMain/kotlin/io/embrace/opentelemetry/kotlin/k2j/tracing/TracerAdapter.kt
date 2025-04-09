@@ -3,8 +3,10 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
 import io.embrace.opentelemetry.kotlin.k2j.OtelJavaContext
+import io.embrace.opentelemetry.kotlin.k2j.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.k2j.OtelJavaTracer
 import io.embrace.opentelemetry.kotlin.tracing.Span
+import io.embrace.opentelemetry.kotlin.tracing.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.SpanKind
 import io.embrace.opentelemetry.kotlin.tracing.SpanRelationshipContainer
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
@@ -18,7 +20,7 @@ internal class TracerAdapter(
 
     override fun createSpan(
         name: String,
-        parent: Span?,
+        parent: SpanContext?,
         spanKind: SpanKind,
         startTimestamp: Long?,
         action: SpanRelationshipContainer.() -> Unit
@@ -27,26 +29,22 @@ internal class TracerAdapter(
             .setSpanKind(spanKind.convertToOtelJava())
             .setStartTimestamp(startTimestamp ?: clock.now(), TimeUnit.NANOSECONDS)
 
-        val ctx = parent?.let { parent.findSpanContext() }
-        if (ctx != null) {
+        if (parent != null) {
+            val ctx = findContext(parent)
             builder.setParent(ctx)
         }
 
         val span = builder.startSpan()
-        return SpanAdapter(span, clock, parent?.spanContext).apply {
+        return SpanAdapter(span, clock, parent).apply {
             this.name = name
             action(this)
         }
     }
 
-    private fun Span.findSpanContext(): OtelJavaContext? {
-        when (this) {
-            is SpanAdapter -> {
-                val ctx = OtelJavaContext.current() ?: OtelJavaContext.root()
-                return ctx.with(impl)
-            }
-
-            else -> return null
-        }
+    private fun findContext(spanContext: SpanContext): OtelJavaContext {
+        val ctx = OtelJavaContext.current() ?: OtelJavaContext.root()
+        val impl = (spanContext as SpanContextAdapter).impl
+        val span = OtelJavaSpan.wrap(impl)
+        return ctx.with(span)
     }
 }

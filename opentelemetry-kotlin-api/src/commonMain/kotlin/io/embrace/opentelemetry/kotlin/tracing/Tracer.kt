@@ -18,7 +18,7 @@ public interface Tracer {
     @ThreadSafe
     public fun createSpan(
         name: String,
-        parent: Span? = null,
+        parent: SpanContext? = null,
         spanKind: SpanKind = SpanKind.INTERNAL,
         startTimestamp: Long? = null,
         action: SpanRelationshipContainer.() -> Unit = {}

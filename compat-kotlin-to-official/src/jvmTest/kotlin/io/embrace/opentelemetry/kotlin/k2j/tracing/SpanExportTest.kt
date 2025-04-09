@@ -114,8 +114,8 @@ internal class SpanExportTest {
     @Test
     fun `test span context parent`() {
         val a = tracer.createSpan("a")
-        val b = tracer.createSpan("b", parent = a)
-        val c = tracer.createSpan("c", parent = b)
+        val b = tracer.createSpan("b", parent = a.spanContext)
+        val c = tracer.createSpan("c", parent = b.spanContext)
 
         assertNull(a.parent)
         assertNotNull(a.spanContext)
