@@ -7,6 +7,9 @@ plugins {
     alias(libs.plugins.nexus.publish)
 }
 
+group = "io.embrace"
+version = project.version
+
 nexusPublishing {
     repositories {
         sonatype {

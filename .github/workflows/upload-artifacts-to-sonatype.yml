@@ -5,9 +5,9 @@ env:
   SONATYPE_PASSWORD: ${{ secrets.SONATYPE_TOKEN_USER_PASSWORD }}
   MAVEN_QA_USER: github
   MAVEN_QA_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-  mavenSigningKeyId: ${{ secrets.MAVEN_ANDROID_SIGNING_KEY }}
-  mavenSigningKeyRingFileEncoded: ${{ secrets.MAVEN_ANDROID_GPG_KEY }}
-  mavenSigningKeyPassword: ${{ secrets.MAVEN_ANDROID_SIGNING_PASSWORD }}
+  ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.MAVEN_ANDROID_SIGNING_KEY }}
+  ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.MAVEN_ANDROID_GPG_KEY }}
+  ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.MAVEN_ANDROID_SIGNING_PASSWORD }}
 
 on:
   workflow_call:
@@ -32,7 +32,7 @@ jobs:
       - name: Decode Keystore
         run: |
           mkdir "$RUNNER_TEMP"/keystore
-          echo $mavenSigningKeyRingFileEncoded | base64 -di > "$RUNNER_TEMP"/keystore/2DE631C1.gpg
+          echo $ORG_GRADLE_PROJECT_signingInMemoryKeyId | base64 -di > "$RUNNER_TEMP"/keystore/2DE631C1.gpg
           echo "mavenSigningKeyRingFile=$RUNNER_TEMP/keystore/2DE631C1.gpg" >> $GITHUB_ENV
 
       - name: Configure git
