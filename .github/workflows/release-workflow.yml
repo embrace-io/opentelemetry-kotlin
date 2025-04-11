@@ -5,9 +5,6 @@ env:
   SONATYPE_PASSWORD: ${{ secrets.SONATYPE_TOKEN_USER_PASSWORD }}
   MAVEN_QA_USER: github
   MAVEN_QA_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-  mavenSigningKeyId: ${{ secrets.MAVEN_ANDROID_SIGNING_KEY }}
-  mavenSigningKeyRingFileEncoded: ${{ secrets.MAVEN_ANDROID_GPG_KEY }}
-  mavenSigningKeyPassword: ${{ secrets.MAVEN_ANDROID_SIGNING_PASSWORD }}
 
 on:
   workflow_dispatch:
