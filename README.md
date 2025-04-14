@@ -1,9 +1,9 @@
-# Opentelemetry Kotlin
+# OpenTelemetry Kotlin
 
 An implementation of the [OpenTelemetry specification](https://opentelemetry.io/docs/specs/otel/) as a Kotlin
 Multiplatform Library, developed by [embrace.io](https://embrace.io/).
 
-Currently this API is a facade for the [Opentelemetry Java SDK](https://github.com/open-telemetry/opentelemetry-java). In the near future this library will provide its own KMP implementation of the OpenTelemetry specification.
+Currently this API is a facade for the [OpenTelemetry Java SDK](https://github.com/open-telemetry/opentelemetry-java). In the near future this library will provide its own KMP implementation of the OpenTelemetry specification.
 
 ## Supported targets
 
