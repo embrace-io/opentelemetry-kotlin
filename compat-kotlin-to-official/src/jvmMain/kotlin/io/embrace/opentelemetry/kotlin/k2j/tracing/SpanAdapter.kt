@@ -46,12 +46,12 @@ internal class SpanAdapter(
 
     override val spanContext: SpanContext = SpanContextAdapter(impl.spanContext)
 
-    override fun end(timestamp: Long?) {
-        if (timestamp != null) {
-            impl.end(timestamp, TimeUnit.NANOSECONDS)
-        } else {
-            impl.end()
-        }
+    override fun end() {
+        impl.end()
+    }
+
+    override fun end(timestamp: Long) {
+        impl.end(timestamp, TimeUnit.NANOSECONDS)
     }
 
     override fun isRecording(): Boolean = impl.isRecording

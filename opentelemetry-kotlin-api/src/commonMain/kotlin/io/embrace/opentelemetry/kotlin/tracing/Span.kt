@@ -39,10 +39,16 @@ public interface Span : SpanRelationshipContainer {
     public val spanContext: SpanContext
 
     /**
-     * Ends the span. An optional timestamp in nanoseconds can be supplied.
+     * Ends the span.
      */
     @ThreadSafe
-    public fun end(timestamp: Long? = null)
+    public fun end()
+
+    /**
+     * Ends the span, setting an explicit end-time in nanoseconds.
+     */
+    @ThreadSafe
+    public fun end(timestamp: Long)
 
     /**
      * Returns true if the span is currently recording.

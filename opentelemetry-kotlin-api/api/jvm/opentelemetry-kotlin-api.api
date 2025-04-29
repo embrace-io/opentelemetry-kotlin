@@ -112,7 +112,8 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Link : i
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Span : io/embrace/opentelemetry/kotlin/tracing/SpanRelationshipContainer {
-	public abstract fun end (Ljava/lang/Long;)V
+	public abstract fun end ()V
+	public abstract fun end (J)V
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
 	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
@@ -120,10 +121,6 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Span : i
 	public abstract fun isRecording ()Z
 	public abstract fun setName (Ljava/lang/String;)V
 	public abstract fun setStatus (Lio/embrace/opentelemetry/kotlin/StatusCode;)V
-}
-
-public final class io/embrace/opentelemetry/kotlin/tracing/Span$DefaultImpls {
-	public static synthetic fun end$default (Lio/embrace/opentelemetry/kotlin/tracing/Span;Ljava/lang/Long;ILjava/lang/Object;)V
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanContext {
