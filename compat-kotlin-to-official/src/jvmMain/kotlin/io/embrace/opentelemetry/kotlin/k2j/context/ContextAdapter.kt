@@ -11,11 +11,11 @@ internal class ContextAdapter(
 ) : OtelJavaContext {
 
     override fun <V : Any?> get(key: OtelJavaContextKey<V>): V? {
-        return impl.getValue(ContextKeyAdapter(key))
+        return impl[ContextKeyAdapter(key)]
     }
 
     override fun <V : Any?> with(key: OtelJavaContextKey<V>, value: V): OtelJavaContext {
-        val ctx = impl.setValue(ContextKeyAdapter(key), value)
+        val ctx = impl.set(ContextKeyAdapter(key), value)
         return ContextAdapter(ctx)
     }
 }
