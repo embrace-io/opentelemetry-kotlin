@@ -59,7 +59,7 @@ val logger = otelKotlin.loggerProvider.getLogger("my_logger")
 logger.log("Hello, World!")
 ```
 
-### Example Apps
+### Example Apps
 
 Example usage of the library can be found [here](examples).
 
