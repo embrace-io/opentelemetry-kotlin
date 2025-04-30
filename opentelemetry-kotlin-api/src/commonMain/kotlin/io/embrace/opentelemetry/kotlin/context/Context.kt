@@ -29,7 +29,7 @@ public interface Context {
      * This function returns a new immutable [Context] that contains the key-value pair.
      */
     @ThreadSafe
-    public fun <T> setValue(key: ContextKey<T>, value: T): Context
+    public operator fun <T> set(key: ContextKey<T>, value: T): Context
 
     /**
      * Retrieves a value from the [Context] associated with the given [ContextKey].
@@ -37,5 +37,5 @@ public interface Context {
      * [T] represents the type of the value that is stored in the context.
      */
     @ThreadSafe
-    public fun <T> getValue(key: ContextKey<T>): T?
+    public operator fun <T> get(key: ContextKey<T>): T?
 }
