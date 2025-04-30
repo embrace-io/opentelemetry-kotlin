@@ -12,7 +12,10 @@ internal object NoopSpan : Span {
     override val parent: SpanContext? = null
     override val spanContext: SpanContext = NoopSpanContext
 
-    override fun end(timestamp: Long?) {
+    override fun end() {
+    }
+
+    override fun end(timestamp: Long) {
     }
 
     override fun addLink(spanContext: SpanContext, action: AttributeContainer.() -> Unit) {
