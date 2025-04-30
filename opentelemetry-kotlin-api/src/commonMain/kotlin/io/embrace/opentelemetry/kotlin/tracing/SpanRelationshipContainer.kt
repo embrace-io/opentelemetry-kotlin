@@ -25,7 +25,7 @@ public interface SpanRelationshipContainer : AttributeContainer {
     public fun addEvent(
         name: String,
         timestamp: Long? = null,
-        action: AttributeContainer.() -> Unit
+        action: AttributeContainer.() -> Unit = {},
     )
 
     /**
