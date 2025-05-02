@@ -8,7 +8,7 @@ import io.embrace.opentelemetry.kotlin.k2j.OtelJavaTracer
 import io.embrace.opentelemetry.kotlin.tracing.Span
 import io.embrace.opentelemetry.kotlin.tracing.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.SpanKind
-import io.embrace.opentelemetry.kotlin.tracing.SpanRelationshipContainer
+import io.embrace.opentelemetry.kotlin.tracing.SpanRelationships
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import java.util.concurrent.TimeUnit
 
@@ -23,7 +23,7 @@ internal class TracerAdapter(
         parent: SpanContext?,
         spanKind: SpanKind,
         startTimestamp: Long?,
-        action: SpanRelationshipContainer.() -> Unit
+        action: SpanRelationships.() -> Unit
     ): Span {
         val builder = tracer.spanBuilder(name)
             .setSpanKind(spanKind.convertToOtelJava())

@@ -10,7 +10,7 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
  * https://opentelemetry.io/docs/specs/otel/trace/api/
  */
 @ExperimentalApi
-public interface SpanRelationshipContainer : AttributeContainer {
+public interface SpanRelationships : AttributeContainer {
 
     /**
      * Adds a link to the span that associates it with another [SpanContext].

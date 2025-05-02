@@ -9,6 +9,6 @@ internal object NoopTracer : Tracer {
         parent: SpanContext?,
         spanKind: SpanKind,
         startTimestamp: Long?,
-        action: SpanRelationshipContainer.() -> Unit
+        action: SpanRelationships.() -> Unit
     ): Span = NoopSpan
 }

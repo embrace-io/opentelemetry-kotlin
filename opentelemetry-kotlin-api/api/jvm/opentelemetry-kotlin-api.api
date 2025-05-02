@@ -111,7 +111,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Link : i
 	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Span : io/embrace/opentelemetry/kotlin/tracing/SpanRelationshipContainer {
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Span : io/embrace/opentelemetry/kotlin/tracing/SpanRelationships {
 	public abstract fun end ()V
 	public abstract fun end (J)V
 	public abstract fun getName ()Ljava/lang/String;
@@ -154,15 +154,15 @@ public final class io/embrace/opentelemetry/kotlin/tracing/SpanKind : java/lang/
 	public static fun values ()[Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanRelationshipContainer : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanRelationships : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
 	public abstract fun addEvent (Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)V
 	public abstract fun addLink (Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;Lkotlin/jvm/functions/Function1;)V
 	public abstract fun events ()Ljava/util/List;
 	public abstract fun links ()Ljava/util/List;
 }
 
-public final class io/embrace/opentelemetry/kotlin/tracing/SpanRelationshipContainer$DefaultImpls {
-	public static synthetic fun addEvent$default (Lio/embrace/opentelemetry/kotlin/tracing/SpanRelationshipContainer;Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+public final class io/embrace/opentelemetry/kotlin/tracing/SpanRelationships$DefaultImpls {
+	public static synthetic fun addEvent$default (Lio/embrace/opentelemetry/kotlin/tracing/SpanRelationships;Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceFlags {

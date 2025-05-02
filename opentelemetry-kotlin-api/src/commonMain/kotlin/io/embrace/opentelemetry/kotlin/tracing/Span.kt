@@ -12,7 +12,7 @@ import io.embrace.opentelemetry.kotlin.ThreadSafe
 @TracingDsl
 @ExperimentalApi
 @ThreadSafe
-public interface Span : SpanRelationshipContainer {
+public interface Span : SpanRelationships {
 
     /**
      * Sets the name of the span. Must be non-empty.

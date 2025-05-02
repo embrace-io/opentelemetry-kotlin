@@ -21,6 +21,6 @@ public interface Tracer {
         parent: SpanContext? = null,
         spanKind: SpanKind = SpanKind.INTERNAL,
         startTimestamp: Long? = null,
-        action: SpanRelationshipContainer.() -> Unit = {}
+        action: SpanRelationships.() -> Unit = {}
     ): Span
 }
