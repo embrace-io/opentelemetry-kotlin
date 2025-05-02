@@ -10,6 +10,7 @@ fun Project.configureKotlin(
     buildLogic: BuildLogicExtension,
     kotlin: KotlinMultiplatformExtension
 ) {
+    kotlin.jvmToolchain(8)
     afterEvaluate {
         kotlin.apply {
             val platforms = buildLogic.targetPlatforms.get()
