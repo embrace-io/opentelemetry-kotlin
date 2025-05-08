@@ -166,6 +166,7 @@ public final class io/embrace/opentelemetry/kotlin/tracing/SpanRelationships$Def
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceFlags {
+	public abstract fun getHex ()Ljava/lang/String;
 	public abstract fun isRandom ()Z
 	public abstract fun isSampled ()Z
 }

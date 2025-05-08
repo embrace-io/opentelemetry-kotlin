@@ -9,4 +9,5 @@ internal class TraceFlagsAdapter(
 
     override val isSampled: Boolean = traceFlags.isSampled
     override val isRandom: Boolean = traceFlags.asHex()[0] == '1'
+    override val hex: String = traceFlags.asHex()
 }

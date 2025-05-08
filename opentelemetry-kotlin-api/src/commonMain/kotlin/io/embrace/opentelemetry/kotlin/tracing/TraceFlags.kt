@@ -21,4 +21,10 @@ public interface TraceFlags {
      */
     @ThreadSafe
     public val isRandom: Boolean
+
+    /**
+     * Returns the hexadecimal representation of the trace flags.
+     */
+    @ThreadSafe
+    public val hex: String
 }
