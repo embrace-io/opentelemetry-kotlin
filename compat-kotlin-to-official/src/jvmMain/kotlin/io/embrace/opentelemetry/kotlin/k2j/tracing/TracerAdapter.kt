@@ -1,10 +1,12 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
 import io.embrace.opentelemetry.kotlin.k2j.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.k2j.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.k2j.OtelJavaTracer
+import io.embrace.opentelemetry.kotlin.k2j.context.ContextAdapter
 import io.embrace.opentelemetry.kotlin.tracing.Span
 import io.embrace.opentelemetry.kotlin.tracing.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.SpanKind
@@ -23,6 +25,7 @@ internal class TracerAdapter(
         parent: SpanContext?,
         spanKind: SpanKind,
         startTimestamp: Long?,
+        context: Context?,
         action: SpanRelationships.() -> Unit
     ): Span {
         val builder = tracer.spanBuilder(name)
@@ -32,6 +35,11 @@ internal class TracerAdapter(
         if (parent != null) {
             val ctx = findContext(parent)
             builder.setParent(ctx)
+        }
+        if (context != null) {
+            builder.setParent(ContextAdapter(context))
+        } else {
+            builder.setNoParent()
         }
 
         val span = builder.startSpan()
