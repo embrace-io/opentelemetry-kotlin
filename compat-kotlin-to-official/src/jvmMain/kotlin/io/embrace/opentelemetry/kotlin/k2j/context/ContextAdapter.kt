@@ -6,7 +6,7 @@ import io.embrace.opentelemetry.kotlin.k2j.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.k2j.OtelJavaContextKey
 
 @ExperimentalApi
-internal class ContextAdapter(
+public class ContextAdapter(
     private val impl: Context
 ) : OtelJavaContext {
 

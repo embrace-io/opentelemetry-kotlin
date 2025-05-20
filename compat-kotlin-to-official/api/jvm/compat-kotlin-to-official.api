@@ -11,6 +11,17 @@ public final class io/embrace/opentelemetry/kotlin/k2j/OpenTelemetrySdk : io/emb
 	public fun getTracerProvider ()Lio/embrace/opentelemetry/kotlin/tracing/TracerProvider;
 }
 
+public final class io/embrace/opentelemetry/kotlin/k2j/context/ContextAdapter : io/opentelemetry/context/Context {
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/context/Context;)V
+	public fun get (Lio/opentelemetry/context/ContextKey;)Ljava/lang/Object;
+	public fun with (Lio/opentelemetry/context/ContextKey;Ljava/lang/Object;)Lio/opentelemetry/context/Context;
+}
+
+public final class io/embrace/opentelemetry/kotlin/k2j/context/ContextKeyAdapter : io/embrace/opentelemetry/kotlin/context/ContextKey {
+	public fun <init> (Lio/opentelemetry/context/ContextKey;)V
+	public fun getName ()Ljava/lang/String;
+}
+
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanAdapter : io/embrace/opentelemetry/kotlin/tracing/Span {
 	public fun <init> (Lio/opentelemetry/api/trace/Span;Lio/embrace/opentelemetry/kotlin/k2j/ClockAdapter;Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;)V
 	public fun addEvent (Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)V
