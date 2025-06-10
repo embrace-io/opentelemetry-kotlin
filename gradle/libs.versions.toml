@@ -9,6 +9,7 @@ otel = "1.49.0"
 kotlinSerialization = "1.8.1"
 mavenPublish = "0.32.0"
 nexus = "2.0.0"
+junit4 = "4.13.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -22,6 +23,7 @@ opentelemetry-api = { group = "io.opentelemetry", name = "opentelemetry-api"}
 opentelemetry-sdk = { group = "io.opentelemetry", name = "opentelemetry-sdk"}
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 mavenPublish = { module = "com.vanniktech.maven.publish:com.vanniktech.maven.publish.gradle.plugin", version.ref = "mavenPublish" }
+junit4 = { module = "junit:junit", version.ref = "junit4" }
 
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
