@@ -3,9 +3,8 @@
 package io.embrace.opentelemetry.kotlin.telescope
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.k2j.tracing.TracerProviderAdapter
 import io.embrace.opentelemetry.kotlin.telescope.telemetry.SessionTelemetry
-import io.opentelemetry.sdk.testing.junit4.OpenTelemetryRule
+import io.embrace.opentelemetry.kotlin.testing.junit4.OpenTelemetryRule
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -15,14 +14,13 @@ import org.junit.Test
 class SessionTelemetryTest {
 
     @get:Rule
-    val openTelemetryRule: OpenTelemetryRule = OpenTelemetryRule.create()
+    val openTelemetryRule: OpenTelemetryRule = OpenTelemetryRule()
 
     private lateinit var sessionTelemetry: SessionTelemetry
 
     @Before
     fun setUp() {
-        val javaTracer = openTelemetryRule.openTelemetry.tracerProvider
-        val kotlinTracer = TracerProviderAdapter(javaTracer).getTracer("test")
+        val kotlinTracer = openTelemetryRule.tracerProviderAdapter.getTracer("test")
         sessionTelemetry = SessionTelemetry(kotlinTracer)
     }
 

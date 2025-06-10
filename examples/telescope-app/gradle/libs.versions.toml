@@ -9,7 +9,7 @@ lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
 composeBom = "2025.02.00"
 opentelemetry-bom = "1.46.0"
-opentelemetry-kotlin-api = "0.1.0"
+opentelemetry-kotlin-api = "0.2.0-SNAPSHOT"
 opentelemetry-semconv = "1.28.0-alpha"
 navigationCompose = "2.8.8"
 
@@ -29,8 +29,8 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 opentelemetry-bom = { group = "io.opentelemetry", name = "opentelemetry-bom", version.ref = "opentelemetry-bom" }
-opentelemetry-sdk-testing = { module = "io.opentelemetry:opentelemetry-sdk-testing" }
 opentelemetry-kotlin-api = { group = "io.embrace.opentelemetry.kotlin", name = "opentelemetry-kotlin-api", version.ref = "opentelemetry-kotlin-api" }
+opentelemetry-kotlin-testing = { module = "io.embrace.opentelemetry.kotlin:opentelemetry-kotlin-testing", version.ref = "opentelemetry-kotlin-api" }
 opentelemetry-kotlin-api-ext = { module = "io.embrace.opentelemetry.kotlin:opentelemetry-kotlin-api-ext", version.ref = "opentelemetry-kotlin-api" }
 opentelemetry-kotlin-compat = { module = "io.embrace.opentelemetry.kotlin:compat-kotlin-to-official", version.ref = "opentelemetry-kotlin-api" }
 opentelemetry-context = { group = "io.opentelemetry", name = "opentelemetry-context" }
