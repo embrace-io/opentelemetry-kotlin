@@ -20,7 +20,7 @@ class SessionTelemetryTest {
 
     @Before
     fun setUp() {
-        val kotlinTracer = openTelemetryRule.tracerProviderAdapter.getTracer("test")
+        val kotlinTracer = openTelemetryRule.getTracer("test")
         sessionTelemetry = SessionTelemetry(kotlinTracer)
     }
 
