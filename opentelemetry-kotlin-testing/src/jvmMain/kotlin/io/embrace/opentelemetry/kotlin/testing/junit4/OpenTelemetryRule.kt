@@ -60,4 +60,4 @@ public class OpenTelemetryRule : ExternalResource() {
     override fun before() {
         spanExporter.reset()
     }
-} 
+}

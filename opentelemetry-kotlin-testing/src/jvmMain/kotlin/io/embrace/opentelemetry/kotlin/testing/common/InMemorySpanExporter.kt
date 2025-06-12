@@ -4,13 +4,13 @@ import io.opentelemetry.sdk.common.CompletableResultCode
 import io.opentelemetry.sdk.trace.data.SpanData
 import io.opentelemetry.sdk.trace.export.SpanExporter
 
-public class InMemorySpanExporter() : SpanExporter {
+internal class InMemorySpanExporter : SpanExporter {
     private val impl = mutableListOf<SpanData>()
 
-    public val exportedSpans: List<SpanData>
+    internal val exportedSpans: List<SpanData>
         get() = impl
 
-    public fun reset() {
+    internal fun reset() {
         impl.clear()
     }
 

@@ -5,7 +5,7 @@ import io.opentelemetry.sdk.trace.ReadWriteSpan
 import io.opentelemetry.sdk.trace.ReadableSpan
 import io.opentelemetry.sdk.trace.SpanProcessor
 
-public class InMemorySpanProcessor(private val exporter: InMemorySpanExporter) : SpanProcessor {
+internal class InMemorySpanProcessor(private val exporter: InMemorySpanExporter) : SpanProcessor {
     override fun onStart(parentContext: Context, span: ReadWriteSpan) {
     }
 

@@ -2,9 +2,9 @@ package io.embrace.opentelemetry.kotlin.telescope.telemetry
 
 import android.content.res.Resources
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.k2j.tracing.TracerProviderAdapter
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter
+import io.opentelemetry.sdk.OpenTelemetrySdk
 import io.opentelemetry.sdk.resources.Resource
 import io.opentelemetry.sdk.trace.SdkTracerProvider
 import io.opentelemetry.sdk.trace.export.BatchSpanProcessor
@@ -33,7 +33,13 @@ class AppTracerProvider(
             .setResource(resource)
             .build()
 
-        return TracerProviderAdapter(sdkTracerProvider).getTracer("AppTracer")
+        val javaSdk = OpenTelemetrySdk.builder()
+            .setTracerProvider(sdkTracerProvider)
+            .build()
+
+        val kotlinSdk = io.embrace.opentelemetry.kotlin.k2j.OpenTelemetrySdk(javaSdk)
+
+        return kotlinSdk.tracerProvider.getTracer("AppTracer")
     }
 
     private fun getScreenResolution() = "${resources.displayMetrics.widthPixels}x${resources.displayMetrics.heightPixels}"
