@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import io.embrace.opentelemetry.kotlin.telescope.telemetry.SessionTelemetry
 
 @Composable
 fun TelescopeShopApp(sessionTelemetry: SessionTelemetry) {

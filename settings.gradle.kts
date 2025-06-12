@@ -22,6 +22,7 @@ include(
     ":compat-shared",
     ":compat-official-to-kotlin",
     ":compat-kotlin-to-official",
+    ":opentelemetry-kotlin-testing",
     "examples:jvm-app-java-api",
     "examples:jvm-app-kotlin-api",
     "examples:android-app-java-api",
