@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class SessionTelemetryTest {
+class SessionTelemetryTestJunit4 {
 
     @get:Rule
     val openTelemetryRule: OpenTelemetryRule = OpenTelemetryRule()

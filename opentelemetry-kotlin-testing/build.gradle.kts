@@ -33,6 +33,7 @@ project.afterEvaluate {
                     api(project(":compat-kotlin-to-official"))
 
                     compileOnly(libs.junit4)
+                    compileOnly(libs.junit5.api)
                 }
             }
         }
