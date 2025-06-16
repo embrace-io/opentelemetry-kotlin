@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 @OptIn(ExperimentalApi::class)
 internal class SpanAdapter(private val span: OtelKotlinSpan) : Span {
 
-    override fun <T : Any?> setAttribute(key: AttributeKey<T>, value: T): Span {
+    override fun <T : Any?> setAttribute(key: AttributeKey<T?>, value: T?): Span? {
         TODO("Not yet implemented")
     }
 
