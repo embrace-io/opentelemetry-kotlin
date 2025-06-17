@@ -1,21 +1,21 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework
 
-import io.opentelemetry.sdk.common.CompletableResultCode
-import io.opentelemetry.sdk.logs.data.LogRecordData
-import io.opentelemetry.sdk.logs.export.LogRecordExporter
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaCompletableResultCode
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordData
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordExporter
 
-internal class InMemoryLogRecordExporter : LogRecordExporter {
+internal class InMemoryLogRecordExporter : OtelJavaLogRecordExporter {
 
-    private val impl = mutableListOf<LogRecordData>()
+    private val impl = mutableListOf<OtelJavaLogRecordData>()
 
-    val exportedLogRecords: List<LogRecordData>
+    val exportedLogRecords: List<OtelJavaLogRecordData>
         get() = impl
 
-    override fun export(logs: MutableCollection<LogRecordData>): CompletableResultCode {
+    override fun export(logs: MutableCollection<OtelJavaLogRecordData>): OtelJavaCompletableResultCode {
         impl.addAll(logs)
-        return CompletableResultCode.ofSuccess()
+        return OtelJavaCompletableResultCode.ofSuccess()
     }
 
-    override fun flush(): CompletableResultCode = CompletableResultCode.ofSuccess()
-    override fun shutdown(): CompletableResultCode = CompletableResultCode.ofSuccess()
+    override fun flush(): OtelJavaCompletableResultCode = OtelJavaCompletableResultCode.ofSuccess()
+    override fun shutdown(): OtelJavaCompletableResultCode = OtelJavaCompletableResultCode.ofSuccess()
 }

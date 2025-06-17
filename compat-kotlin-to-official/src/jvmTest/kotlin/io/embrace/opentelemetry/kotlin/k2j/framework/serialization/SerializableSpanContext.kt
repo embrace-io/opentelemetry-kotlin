@@ -1,14 +1,14 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework.serialization
 
-import io.opentelemetry.api.trace.SpanContext
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 
-internal fun SpanContext.toSerializable(sanitizeSpanContextIds: Boolean) = SerializableSpanContext(
+internal fun OtelJavaSpanContext.toSerializable(sanitizeSpanContextIds: Boolean) = SerializableSpanContext(
     traceId = when {
-        sanitizeSpanContextIds -> SpanContext.getInvalid().traceId
+        sanitizeSpanContextIds -> OtelJavaSpanContext.getInvalid().traceId
         else -> traceId
     },
     spanId = when {
-        sanitizeSpanContextIds -> SpanContext.getInvalid().spanId
+        sanitizeSpanContextIds -> OtelJavaSpanContext.getInvalid().spanId
         else -> spanId
     },
     traceFlags = traceFlags.asHex(),

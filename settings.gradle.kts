@@ -23,6 +23,7 @@ include(
     ":compat-official-to-kotlin",
     ":compat-kotlin-to-official",
     ":opentelemetry-kotlin-testing",
+    ":opentelemetry-java-typealiases",
     "examples:jvm-app-java-api",
     "examples:jvm-app-kotlin-api",
     "examples:android-app-java-api",

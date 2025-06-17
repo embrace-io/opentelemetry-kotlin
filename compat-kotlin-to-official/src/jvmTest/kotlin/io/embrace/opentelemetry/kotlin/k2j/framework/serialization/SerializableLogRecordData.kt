@@ -1,8 +1,8 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework.serialization
 
-import io.opentelemetry.sdk.logs.data.LogRecordData
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordData
 
-internal fun LogRecordData.toSerializable(sanitizeSpanContextIds: Boolean) = SerializableLogRecordData(
+internal fun OtelJavaLogRecordData.toSerializable(sanitizeSpanContextIds: Boolean) = SerializableLogRecordData(
     resource = resource.toSerializable(),
     instrumentationScopeInfo = instrumentationScopeInfo.toSerializable(),
     timestampEpochNanos = timestampEpochNanos,

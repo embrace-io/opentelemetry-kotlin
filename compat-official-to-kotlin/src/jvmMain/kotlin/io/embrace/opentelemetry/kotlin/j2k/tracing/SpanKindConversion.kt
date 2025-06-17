@@ -1,12 +1,12 @@
 package io.embrace.opentelemetry.kotlin.j2k.tracing
 
-import io.embrace.opentelemetry.kotlin.j2k.OtelKotlinSpanKind
-import io.opentelemetry.api.trace.SpanKind
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanKind
+import io.embrace.opentelemetry.kotlin.tracing.SpanKind
 
-internal fun SpanKind.convertToOtelKotlin(): OtelKotlinSpanKind = when (this) {
-    SpanKind.INTERNAL -> OtelKotlinSpanKind.INTERNAL
-    SpanKind.CLIENT -> OtelKotlinSpanKind.CLIENT
-    SpanKind.SERVER -> OtelKotlinSpanKind.SERVER
-    SpanKind.PRODUCER -> OtelKotlinSpanKind.PRODUCER
-    SpanKind.CONSUMER -> OtelKotlinSpanKind.CONSUMER
+internal fun OtelJavaSpanKind.convertToOtelKotlin(): SpanKind = when (this) {
+    OtelJavaSpanKind.INTERNAL -> SpanKind.INTERNAL
+    OtelJavaSpanKind.CLIENT -> SpanKind.CLIENT
+    OtelJavaSpanKind.SERVER -> SpanKind.SERVER
+    OtelJavaSpanKind.PRODUCER -> SpanKind.PRODUCER
+    OtelJavaSpanKind.CONSUMER -> SpanKind.CONSUMER
 }

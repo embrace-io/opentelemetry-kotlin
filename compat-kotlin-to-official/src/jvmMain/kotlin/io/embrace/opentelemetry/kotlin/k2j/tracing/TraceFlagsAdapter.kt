@@ -1,6 +1,6 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaTraceFlags
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.TraceFlags
 
 internal class TraceFlagsAdapter(

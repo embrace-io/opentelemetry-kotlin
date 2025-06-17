@@ -1,9 +1,9 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaAttributeKey
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaAttributes
 
 @OptIn(ExperimentalApi::class)
 internal class AttributeContainerImpl : AttributeContainer {

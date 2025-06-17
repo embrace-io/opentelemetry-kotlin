@@ -1,17 +1,17 @@
 package io.embrace.opentelemetry.kotlin.testing.common
 
-import io.opentelemetry.context.Context
-import io.opentelemetry.sdk.trace.ReadWriteSpan
-import io.opentelemetry.sdk.trace.ReadableSpan
-import io.opentelemetry.sdk.trace.SpanProcessor
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadableSpan
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanProcessor
 
-internal class InMemorySpanProcessor(private val exporter: InMemorySpanExporter) : SpanProcessor {
-    override fun onStart(parentContext: Context, span: ReadWriteSpan) {
+internal class InMemorySpanProcessor(private val exporter: InMemorySpanExporter) : OtelJavaSpanProcessor {
+    override fun onStart(parentContext: OtelJavaContext, span: OtelJavaReadWriteSpan) {
     }
 
     override fun isStartRequired(): Boolean = true
 
-    override fun onEnd(span: ReadableSpan) {
+    override fun onEnd(span: OtelJavaReadableSpan) {
         exporter.export(mutableListOf(span.toSpanData()))
     }
 

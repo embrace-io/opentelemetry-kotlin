@@ -1,21 +1,21 @@
 package io.embrace.opentelemetry.kotlin.j2k.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.j2k.OtelKotlinTracerProvider
-import io.opentelemetry.api.trace.Tracer
-import io.opentelemetry.api.trace.TracerProvider
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracerProvider
+import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 
 @OptIn(ExperimentalApi::class)
 internal class TracerProviderAdapter(
-    private val tracerProvider: OtelKotlinTracerProvider
-) : TracerProvider {
+    private val tracerProvider: TracerProvider
+) : OtelJavaTracerProvider {
 
-    override fun get(instrumentationScopeName: String): Tracer {
+    override fun get(instrumentationScopeName: String): OtelJavaTracer {
         val tracer = tracerProvider.getTracer(instrumentationScopeName)
         return TracerAdapter(tracer)
     }
 
-    override fun get(instrumentationScopeName: String, instrumentationScopeVersion: String): Tracer {
+    override fun get(instrumentationScopeName: String, instrumentationScopeVersion: String): OtelJavaTracer {
         val tracer = tracerProvider.getTracer(instrumentationScopeName, instrumentationScopeVersion)
         return TracerAdapter(tracer)
     }

@@ -1,13 +1,13 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework.serialization
 
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaEventData
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLinkData
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaResource
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.fakes.FakeSpanData
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
-import io.opentelemetry.api.common.Attributes
-import io.opentelemetry.api.trace.SpanContext
-import io.opentelemetry.sdk.resources.Resource
-import io.opentelemetry.sdk.trace.data.EventData
-import io.opentelemetry.sdk.trace.data.LinkData
-import io.opentelemetry.sdk.trace.data.StatusData
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -36,23 +36,23 @@ internal class SerializableSpanDataTest {
         compareResource(fake.resource, observed.resource)
     }
 
-    private fun compareSpanContexts(expected: SpanContext, observed: SerializableSpanContext) {
+    private fun compareSpanContexts(expected: OtelJavaSpanContext, observed: SerializableSpanContext) {
         assertEquals(expected.traceId, observed.traceId)
         assertEquals(expected.spanId, observed.spanId)
         assertEquals(expected.traceState.asMap(), observed.traceState)
         assertEquals(expected.traceFlags.asHex(), observed.traceFlags)
     }
 
-    private fun compareStatusData(expected: StatusData, observed: SerializableSpanStatusData) {
+    private fun compareStatusData(expected: OtelJavaStatusData, observed: SerializableSpanStatusData) {
         assertEquals(expected.statusCode.ordinal, observed.code)
         assertEquals(expected.description, observed.description)
     }
 
-    private fun compareAttributes(expected: Attributes, observed: Map<String, String>) {
+    private fun compareAttributes(expected: OtelJavaAttributes, observed: Map<String, String>) {
         assertEquals(expected.toMap(), observed)
     }
 
-    private fun compareEvents(expected: List<EventData>, observed: List<SerializableEventData>) {
+    private fun compareEvents(expected: List<OtelJavaEventData>, observed: List<SerializableEventData>) {
         assertEquals(expected.size, observed.size)
 
         expected.forEachIndexed { index, data ->
@@ -63,7 +63,7 @@ internal class SerializableSpanDataTest {
         }
     }
 
-    private fun compareLinks(expected: List<LinkData>, observed: List<SerializableLinkData>) {
+    private fun compareLinks(expected: List<OtelJavaLinkData>, observed: List<SerializableLinkData>) {
         assertEquals(expected.size, observed.size)
 
         expected.forEachIndexed { index, data ->
@@ -73,7 +73,7 @@ internal class SerializableSpanDataTest {
         }
     }
 
-    private fun compareResource(expected: Resource, observed: SerializableResource) {
+    private fun compareResource(expected: OtelJavaResource, observed: SerializableResource) {
         assertEquals(expected.schemaUrl, observed.schemaUrl)
         assertEquals(expected.attributes.toMap(), observed.attributes)
     }

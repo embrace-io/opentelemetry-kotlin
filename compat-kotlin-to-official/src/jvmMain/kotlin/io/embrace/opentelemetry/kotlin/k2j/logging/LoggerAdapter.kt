@@ -1,9 +1,9 @@
 package io.embrace.opentelemetry.kotlin.k2j.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogger
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaLogger
 import io.embrace.opentelemetry.kotlin.k2j.context.ContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.context.ContextKeyRepository
 import io.embrace.opentelemetry.kotlin.k2j.tracing.AttributeContainerImpl

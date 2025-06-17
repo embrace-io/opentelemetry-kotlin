@@ -1,9 +1,9 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework.serialization
 
-import io.opentelemetry.sdk.trace.data.EventData
-import io.opentelemetry.sdk.trace.data.SpanData
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaEventData
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
 
-internal fun SpanData.toSerializable(sanitizeSpanContextIds: Boolean) = SerializableSpanData(
+internal fun OtelJavaSpanData.toSerializable(sanitizeSpanContextIds: Boolean) = SerializableSpanData(
     name = name,
     kind = kind.name,
     statusData = status.toSerializable(),
@@ -11,7 +11,7 @@ internal fun SpanData.toSerializable(sanitizeSpanContextIds: Boolean) = Serializ
     parentSpanContext = parentSpanContext.toSerializable(sanitizeSpanContextIds),
     startTimestampNs = startEpochNanos,
     attributes = attributes.toSerializable(),
-    events = events.map(EventData::toSerializable),
+    events = events.map(OtelJavaEventData::toSerializable),
     links = links.map { it.toSerializable(sanitizeSpanContextIds) },
     endTimestampNs = endEpochNanos,
     ended = hasEnded(),

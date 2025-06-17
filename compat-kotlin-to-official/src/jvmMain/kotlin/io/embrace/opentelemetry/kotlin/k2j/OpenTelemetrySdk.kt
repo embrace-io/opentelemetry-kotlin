@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.k2j
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetry
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
 import io.embrace.opentelemetry.kotlin.k2j.logging.LoggerProviderAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.TracerProviderAdapter
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider

@@ -1,21 +1,21 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework
 
-import io.opentelemetry.sdk.common.CompletableResultCode
-import io.opentelemetry.sdk.trace.data.SpanData
-import io.opentelemetry.sdk.trace.export.SpanExporter
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaCompletableResultCode
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanExporter
 
-internal class InMemorySpanExporter : SpanExporter {
+internal class InMemorySpanExporter : OtelJavaSpanExporter {
 
-    private val impl = mutableListOf<SpanData>()
+    private val impl = mutableListOf<OtelJavaSpanData>()
 
-    val exportedSpans: List<SpanData>
+    val exportedSpans: List<OtelJavaSpanData>
         get() = impl
 
-    override fun export(spans: MutableCollection<SpanData>): CompletableResultCode {
+    override fun export(spans: MutableCollection<OtelJavaSpanData>): OtelJavaCompletableResultCode {
         impl.addAll(spans)
-        return CompletableResultCode.ofSuccess()
+        return OtelJavaCompletableResultCode.ofSuccess()
     }
 
-    override fun flush(): CompletableResultCode = CompletableResultCode.ofSuccess()
-    override fun shutdown(): CompletableResultCode = CompletableResultCode.ofSuccess()
+    override fun flush(): OtelJavaCompletableResultCode = OtelJavaCompletableResultCode.ofSuccess()
+    override fun shutdown(): OtelJavaCompletableResultCode = OtelJavaCompletableResultCode.ofSuccess()
 }

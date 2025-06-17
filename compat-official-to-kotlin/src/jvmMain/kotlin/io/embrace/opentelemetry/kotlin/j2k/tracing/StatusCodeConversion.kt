@@ -1,9 +1,10 @@
 package io.embrace.opentelemetry.kotlin.j2k.tracing
 
-import io.opentelemetry.api.trace.StatusCode
+import io.embrace.opentelemetry.kotlin.StatusCode
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
 
-internal fun StatusCode.convertToOtelKotlin(description: String?): io.embrace.opentelemetry.kotlin.StatusCode = when (this) {
-    StatusCode.UNSET -> io.embrace.opentelemetry.kotlin.StatusCode.Unset
-    StatusCode.OK -> io.embrace.opentelemetry.kotlin.StatusCode.Ok
-    StatusCode.ERROR -> io.embrace.opentelemetry.kotlin.StatusCode.Error(description)
+internal fun OtelJavaStatusCode.convertToOtelKotlin(description: String?): StatusCode = when (this) {
+    OtelJavaStatusCode.UNSET -> StatusCode.Unset
+    OtelJavaStatusCode.OK -> StatusCode.Ok
+    OtelJavaStatusCode.ERROR -> StatusCode.Error(description)
 }

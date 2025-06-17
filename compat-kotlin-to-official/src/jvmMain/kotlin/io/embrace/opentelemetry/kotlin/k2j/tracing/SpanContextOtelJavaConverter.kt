@@ -1,9 +1,9 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaImmutableSpanContext
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaSpanContext
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaTraceFlags
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaTraceState
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaImmutableSpanContext
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceFlags
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.tracing.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.TraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.TraceState

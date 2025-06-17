@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin.k2j.context
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaContextKey
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContextKey
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals

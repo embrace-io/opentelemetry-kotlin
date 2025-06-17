@@ -1,39 +1,39 @@
 package io.embrace.opentelemetry.kotlin.j2k.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.j2k.OtelKotlinSpan
-import io.opentelemetry.api.common.AttributeKey
-import io.opentelemetry.api.common.Attributes
-import io.opentelemetry.api.trace.Span
-import io.opentelemetry.api.trace.SpanContext
-import io.opentelemetry.api.trace.StatusCode
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
+import io.embrace.opentelemetry.kotlin.tracing.Span
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
-internal class SpanAdapter(private val span: OtelKotlinSpan) : Span {
+internal class SpanAdapter(private val span: Span) : OtelJavaSpan {
 
-    override fun <T : Any?> setAttribute(key: AttributeKey<T?>, value: T?): Span? {
+    override fun <T : Any?> setAttribute(key: OtelJavaAttributeKey<T?>, value: T?): OtelJavaSpan? {
         TODO("Not yet implemented")
     }
 
-    override fun addEvent(name: String, attributes: Attributes): Span {
+    override fun addEvent(name: String, attributes: OtelJavaAttributes): OtelJavaSpan {
         TODO("Not yet implemented")
     }
 
-    override fun addEvent(name: String, attributes: Attributes, timestamp: Long, unit: TimeUnit): Span {
+    override fun addEvent(name: String, attributes: OtelJavaAttributes, timestamp: Long, unit: TimeUnit): OtelJavaSpan {
         TODO("Not yet implemented")
     }
 
-    override fun setStatus(statusCode: StatusCode, description: String): Span {
+    override fun setStatus(statusCode: OtelJavaStatusCode, description: String): OtelJavaSpan {
         statusCode.convertToOtelKotlin(description)
         return this
     }
 
-    override fun recordException(exception: Throwable, additionalAttributes: Attributes): Span {
+    override fun recordException(exception: Throwable, additionalAttributes: OtelJavaAttributes): OtelJavaSpan {
         TODO("Not yet implemented")
     }
 
-    override fun updateName(name: String): Span {
+    override fun updateName(name: String): OtelJavaSpan {
         span.name = name
         return this
     }
@@ -46,7 +46,7 @@ internal class SpanAdapter(private val span: OtelKotlinSpan) : Span {
         span.end(unit.toNanos(timestamp))
     }
 
-    override fun getSpanContext(): SpanContext {
+    override fun getSpanContext(): OtelJavaSpanContext {
         TODO("Not yet implemented")
     }
 
