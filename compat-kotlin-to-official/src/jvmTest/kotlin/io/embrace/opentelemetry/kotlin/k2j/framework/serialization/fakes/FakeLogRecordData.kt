@@ -1,35 +1,35 @@
-@file:Suppress("DEPRECATION")
+@file:Suppress("DEPRECATION", "TYPEALIAS_EXPANSION_DEPRECATION")
 
 package io.embrace.opentelemetry.kotlin.k2j.framework.serialization.fakes
 
-import io.opentelemetry.api.common.Attributes
-import io.opentelemetry.api.logs.Severity
-import io.opentelemetry.api.trace.SpanContext
-import io.opentelemetry.sdk.common.InstrumentationScopeInfo
-import io.opentelemetry.sdk.logs.data.Body
-import io.opentelemetry.sdk.logs.data.LogRecordData
-import io.opentelemetry.sdk.resources.Resource
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaBody
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaInstrumentationScopeInfo
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordData
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaResource
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSeverity
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 
 internal class FakeLogRecordData(
-    private val implResource: Resource = Resource.empty(),
-    private val implScopeInfo: InstrumentationScopeInfo = InstrumentationScopeInfo.empty(),
+    private val implResource: OtelJavaResource = OtelJavaResource.empty(),
+    private val implScopeInfo: OtelJavaInstrumentationScopeInfo = OtelJavaInstrumentationScopeInfo.empty(),
     private val implTimestamp: Long = 0,
     private val implObservedTimestamp: Long = 0,
-    private val implSpanContext: SpanContext = SpanContext.getInvalid(),
-    private val implSeverity: Severity = Severity.WARN,
+    private val implSpanContext: OtelJavaSpanContext = OtelJavaSpanContext.getInvalid(),
+    private val implSeverity: OtelJavaSeverity = OtelJavaSeverity.WARN,
     private val implSeverityText: String? = "warning",
     private val implBody: String = "Hello, world",
-    private val implAttributes: Attributes = Attributes.empty(),
-) : LogRecordData {
+    private val implAttributes: OtelJavaAttributes = OtelJavaAttributes.empty(),
+) : OtelJavaLogRecordData {
 
-    override fun getResource(): Resource = implResource
-    override fun getInstrumentationScopeInfo(): InstrumentationScopeInfo = implScopeInfo
+    override fun getResource(): OtelJavaResource = implResource
+    override fun getInstrumentationScopeInfo(): OtelJavaInstrumentationScopeInfo = implScopeInfo
     override fun getTimestampEpochNanos(): Long = implTimestamp
     override fun getObservedTimestampEpochNanos(): Long = implObservedTimestamp
-    override fun getSpanContext(): SpanContext = implSpanContext
-    override fun getSeverity(): Severity = implSeverity
+    override fun getSpanContext(): OtelJavaSpanContext = implSpanContext
+    override fun getSeverity(): OtelJavaSeverity = implSeverity
     override fun getSeverityText(): String? = implSeverityText
-    override fun getBody(): Body = Body.string(implBody)
-    override fun getAttributes(): Attributes = implAttributes
+    override fun getBody(): OtelJavaBody = OtelJavaBody.string(implBody)
+    override fun getAttributes(): OtelJavaAttributes = implAttributes
     override fun getTotalAttributeCount(): Int = implAttributes.size()
 }

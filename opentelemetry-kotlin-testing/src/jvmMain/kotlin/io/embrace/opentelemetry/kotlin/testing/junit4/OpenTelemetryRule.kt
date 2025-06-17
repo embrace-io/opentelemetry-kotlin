@@ -3,12 +3,13 @@
 package io.embrace.opentelemetry.kotlin.testing.junit4
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetrySdk
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProvider
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
 import io.embrace.opentelemetry.kotlin.k2j.OpenTelemetrySdk
 import io.embrace.opentelemetry.kotlin.testing.common.InMemorySpanExporter
 import io.embrace.opentelemetry.kotlin.testing.common.InMemorySpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
-import io.opentelemetry.sdk.trace.SdkTracerProvider
-import io.opentelemetry.sdk.trace.data.SpanData
 import org.junit.rules.ExternalResource
 
 /**
@@ -40,17 +41,17 @@ public class OpenTelemetryRule : ExternalResource() {
 
     private val spanExporter = InMemorySpanExporter()
 
-    private val tracerProvider: SdkTracerProvider = SdkTracerProvider.builder()
+    private val tracerProvider: OtelJavaSdkTracerProvider = OtelJavaSdkTracerProvider.builder()
         .addSpanProcessor(InMemorySpanProcessor(spanExporter))
         .build()
 
-    private val sdk = io.opentelemetry.sdk.OpenTelemetrySdk.builder()
+    private val sdk = OtelJavaOpenTelemetrySdk.builder()
         .setTracerProvider(tracerProvider)
         .build()
 
     public val openTelemetry: OpenTelemetrySdk = OpenTelemetrySdk(sdk)
 
-    public val spans: List<SpanData>
+    public val spans: List<OtelJavaSpanData>
         get() = spanExporter.exportedSpans
 
     public fun getTracer(name: String): Tracer {

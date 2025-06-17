@@ -29,6 +29,7 @@ project.afterEvaluate {
                     api(project(":opentelemetry-kotlin-api-ext"))
                     api(project.dependencies.platform(libs.opentelemetry.bom))
                     api(libs.opentelemetry.api)
+                    implementation(project(":opentelemetry-java-typealiases"))
                 }
             }
             val jvmTest by getting {

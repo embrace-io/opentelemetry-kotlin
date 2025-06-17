@@ -1,9 +1,9 @@
 package io.embrace.opentelemetry.kotlin.k2j.context
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContextKey
 import io.embrace.opentelemetry.kotlin.context.Context
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaContext
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaContextKey
 
 @ExperimentalApi
 internal class ContextAdapter(

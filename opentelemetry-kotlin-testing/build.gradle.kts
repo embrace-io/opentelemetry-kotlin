@@ -25,6 +25,7 @@ project.afterEvaluate {
                     api(project(":opentelemetry-kotlin-api"))
                     api(project(":opentelemetry-kotlin-api-ext"))
                     implementation(project(":opentelemetry-kotlin-implementation"))
+                    implementation(project(":opentelemetry-java-typealiases"))
 
                     api(project.dependencies.platform(libs.opentelemetry.bom))
                     api(libs.opentelemetry.api)

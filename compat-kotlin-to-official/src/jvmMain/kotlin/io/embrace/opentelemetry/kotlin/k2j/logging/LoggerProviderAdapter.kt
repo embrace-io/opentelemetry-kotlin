@@ -1,8 +1,8 @@
 package io.embrace.opentelemetry.kotlin.k2j.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLoggerProvider
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.k2j.OtelJavaLoggerProvider
 import io.embrace.opentelemetry.kotlin.logging.Logger
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
 import java.util.concurrent.ConcurrentHashMap

@@ -1,17 +1,17 @@
 package io.embrace.opentelemetry.kotlin.j2k.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracerProvider
 import io.embrace.opentelemetry.kotlin.framework.OtelJavaHarness
-import io.opentelemetry.api.trace.Tracer
-import io.opentelemetry.api.trace.TracerProvider
 import kotlin.test.Test
 
 @OptIn(ExperimentalApi::class)
 internal class SpanExportTest {
 
     private lateinit var harness: OtelJavaHarness
-    private lateinit var tracerProvider: TracerProvider
-    private lateinit var tracer: Tracer
+    private lateinit var tracerProvider: OtelJavaTracerProvider
+    private lateinit var tracer: OtelJavaTracer
 
     // TODO: future: requires implementation of TracerProvider + exporter infrastructure before test can be written
     @Test(expected = NotImplementedError::class)

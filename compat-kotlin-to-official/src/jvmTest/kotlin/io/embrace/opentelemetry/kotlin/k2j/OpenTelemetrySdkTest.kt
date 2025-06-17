@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.k2j
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
 import org.junit.Assert.assertNotSame
 import org.junit.Assert.assertSame
 import org.junit.Test
