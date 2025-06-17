@@ -7,15 +7,16 @@ import io.embrace.opentelemetry.kotlin.k2j.OtelJavaContextKey
 
 @ExperimentalApi
 internal class ContextAdapter(
-    private val impl: Context
+    private val impl: Context,
+    private val repository: ContextKeyRepository,
 ) : OtelJavaContext {
 
     override fun <V : Any?> get(key: OtelJavaContextKey<V>): V? {
-        return impl[ContextKeyAdapter(key)]
+        return impl[repository.get(key)]
     }
 
     override fun <V : Any?> with(key: OtelJavaContextKey<V>, value: V): OtelJavaContext {
-        val ctx = impl.set(ContextKeyAdapter(key), value)
-        return ContextAdapter(ctx)
+        val ctx = impl.set(repository.get(key), value)
+        return ContextAdapter(ctx, repository)
     }
 }

@@ -5,9 +5,12 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.k2j.OtelJavaLoggerProvider
 import io.embrace.opentelemetry.kotlin.logging.Logger
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
+import java.util.concurrent.ConcurrentHashMap
 
 @ExperimentalApi
 internal class LoggerProviderAdapter(private val impl: OtelJavaLoggerProvider) : LoggerProvider {
+
+    private val map = ConcurrentHashMap<String, LoggerAdapter>()
 
     override fun getLogger(
         name: String,
@@ -15,14 +18,17 @@ internal class LoggerProviderAdapter(private val impl: OtelJavaLoggerProvider) :
         schemaUrl: String?,
         attributes: AttributeContainer.() -> Unit
     ): Logger {
-        val builder = impl.loggerBuilder(name)
+        val key = name.plus(version).plus(schemaUrl)
+        return map.getOrPut(key) {
+            val builder = impl.loggerBuilder(name)
 
-        if (schemaUrl != null) {
-            builder.setSchemaUrl(schemaUrl)
+            if (schemaUrl != null) {
+                builder.setSchemaUrl(schemaUrl)
+            }
+            if (version != null) {
+                builder.setInstrumentationVersion(version)
+            }
+            LoggerAdapter(builder.build())
         }
-        if (version != null) {
-            builder.setInstrumentationVersion(version)
-        }
-        return LoggerAdapter(builder.build())
     }
 }
