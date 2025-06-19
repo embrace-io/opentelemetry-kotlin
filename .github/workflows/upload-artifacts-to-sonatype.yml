@@ -1,10 +1,8 @@
 name: Upload artifacts to Sonatype
 
 env:
-  SONATYPE_USERNAME: ${{ secrets.SONATYPE_TOKEN_USER }}
-  SONATYPE_PASSWORD: ${{ secrets.SONATYPE_TOKEN_USER_PASSWORD }}
-  MAVEN_QA_USER: github
-  MAVEN_QA_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+  ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_TOKEN_USER }}
+  ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_TOKEN_USER_PASSWORD }}
   ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.MAVEN_ANDROID_SIGNING_KEY }}
   ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.MAVEN_ANDROID_GPG_KEY }}
   ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.MAVEN_ANDROID_SIGNING_PASSWORD }}

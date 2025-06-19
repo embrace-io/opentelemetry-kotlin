@@ -9,7 +9,7 @@ fun Project.configurePublishing() {
         val mavenPublishing = project.extensions.getByType(MavenPublishBaseExtension::class.java)
 
         mavenPublishing.apply {
-            publishToMavenCentral(SonatypeHost.S01)
+            publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
             signAllPublications()
             coordinates("io.embrace.opentelemetry.kotlin", project.name, project.version.toString())
 
