@@ -12,7 +12,7 @@ public final class io/embrace/opentelemetry/kotlin/k2j/OpenTelemetrySdk : io/emb
 }
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanAdapter : io/embrace/opentelemetry/kotlin/tracing/Span {
-	public fun <init> (Lio/opentelemetry/api/trace/Span;Lio/embrace/opentelemetry/kotlin/k2j/ClockAdapter;Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;)V
+	public fun <init> (Lio/opentelemetry/api/trace/Span;Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;)V
 	public fun addEvent (Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)V
 	public fun addLink (Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;Lkotlin/jvm/functions/Function1;)V
 	public fun attributes ()Ljava/util/Map;
@@ -47,6 +47,11 @@ public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanContextAdapte
 	public fun getTraceState ()Lio/embrace/opentelemetry/kotlin/tracing/TraceState;
 	public fun isRemote ()Z
 	public fun isValid ()Z
+}
+
+public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TracerAdapter : io/embrace/opentelemetry/kotlin/tracing/Tracer {
+	public fun <init> (Lio/opentelemetry/api/trace/Tracer;Lio/embrace/opentelemetry/kotlin/Clock;)V
+	public fun createSpan (Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/tracing/Span;
 }
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TracerProviderAdapter : io/embrace/opentelemetry/kotlin/tracing/TracerProvider {

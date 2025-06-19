@@ -7,20 +7,28 @@ import io.opentelemetry.api.common.AttributeKey
 import io.opentelemetry.api.common.Attributes
 import io.opentelemetry.api.common.AttributesBuilder
 import io.opentelemetry.api.internal.ImmutableSpanContext
+import io.opentelemetry.api.logs.LogRecordBuilder
 import io.opentelemetry.api.logs.Logger
 import io.opentelemetry.api.logs.LoggerProvider
 import io.opentelemetry.api.logs.Severity
 import io.opentelemetry.api.trace.Span
 import io.opentelemetry.api.trace.SpanBuilder
 import io.opentelemetry.api.trace.SpanContext
+import io.opentelemetry.api.trace.SpanId
 import io.opentelemetry.api.trace.SpanKind
 import io.opentelemetry.api.trace.StatusCode
 import io.opentelemetry.api.trace.TraceFlags
+import io.opentelemetry.api.trace.TraceId
 import io.opentelemetry.api.trace.TraceState
+import io.opentelemetry.api.trace.TraceStateBuilder
 import io.opentelemetry.api.trace.Tracer
+import io.opentelemetry.api.trace.TracerBuilder
 import io.opentelemetry.api.trace.TracerProvider
 import io.opentelemetry.context.Context
 import io.opentelemetry.context.ContextKey
+import io.opentelemetry.context.ImplicitContextKeyed
+import io.opentelemetry.context.Scope
+import io.opentelemetry.context.propagation.ContextPropagators
 import io.opentelemetry.sdk.OpenTelemetrySdk
 import io.opentelemetry.sdk.common.Clock
 import io.opentelemetry.sdk.common.CompletableResultCode
@@ -33,9 +41,12 @@ import io.opentelemetry.sdk.logs.data.Body
 import io.opentelemetry.sdk.logs.data.LogRecordData
 import io.opentelemetry.sdk.logs.export.LogRecordExporter
 import io.opentelemetry.sdk.resources.Resource
+import io.opentelemetry.sdk.resources.ResourceBuilder
+import io.opentelemetry.sdk.trace.IdGenerator
 import io.opentelemetry.sdk.trace.ReadWriteSpan
 import io.opentelemetry.sdk.trace.ReadableSpan
 import io.opentelemetry.sdk.trace.SdkTracerProvider
+import io.opentelemetry.sdk.trace.SpanLimits
 import io.opentelemetry.sdk.trace.SpanProcessor
 import io.opentelemetry.sdk.trace.data.EventData
 import io.opentelemetry.sdk.trace.data.LinkData
@@ -83,3 +94,14 @@ typealias OtelJavaBody = Body
 typealias OtelJavaInstrumentationLibraryInfo = InstrumentationLibraryInfo
 typealias OtelJavaAttributesBuilder = AttributesBuilder
 typealias OtelJavaSpanBuilder = SpanBuilder
+typealias OtelJavaContextPropagators = ContextPropagators
+typealias OtelJavaImplicitContextKeyed = ImplicitContextKeyed
+typealias OtelJavaScope = Scope
+typealias OtelJavaTracerBuilder = TracerBuilder
+typealias OtelJavaSpanId = SpanId
+typealias OtelJavaTraceId = TraceId
+typealias OtelJavaIdGenerator = IdGenerator
+typealias OtelJavaTraceStateBuilder = TraceStateBuilder
+typealias OtelJavaLogRecordBuilder = LogRecordBuilder
+typealias OtelJavaResourceBuilder = ResourceBuilder
+typealias OtelJavaSpanLimits = SpanLimits
