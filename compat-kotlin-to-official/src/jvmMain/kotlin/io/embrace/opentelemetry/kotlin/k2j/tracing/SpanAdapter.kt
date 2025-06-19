@@ -12,6 +12,7 @@ import io.embrace.opentelemetry.kotlin.tracing.Span
 import io.embrace.opentelemetry.kotlin.tracing.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.SpanEvent
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
+import io.embrace.opentelemetry.kotlin.tracing.SpanKind
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.TimeUnit
@@ -21,6 +22,8 @@ public class SpanAdapter( // temporarily public, will be internal in future
     public val impl: OtelJavaSpan,
     private val clock: Clock,
     override val parent: SpanContext?,
+    override val spanKind: SpanKind,
+    override val startTimestamp: Long,
 ) : Span {
 
     private val attrs: MutableMap<String, Any> = ConcurrentHashMap()

@@ -39,6 +39,18 @@ public interface Span : SpanRelationships {
     public val spanContext: SpanContext
 
     /**
+     * The kind of this span
+     */
+    @ThreadSafe
+    public val spanKind: SpanKind
+
+    /**
+     * The timestamp at which this span started, in nanoseconds.
+     */
+    @ThreadSafe
+    public val startTimestamp: Long
+
+    /**
      * Ends the span.
      */
     @ThreadSafe

@@ -64,6 +64,8 @@ internal class SpanExportTest {
         span.end(1000)
         assertFalse(span.isRecording())
 
+        assertEquals(SpanKind.CLIENT, span.spanKind)
+        assertEquals(500, span.startTimestamp)
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_props.json",

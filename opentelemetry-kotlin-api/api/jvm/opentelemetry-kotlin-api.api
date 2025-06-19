@@ -117,6 +117,8 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Span : i
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
 	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
+	public abstract fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
+	public abstract fun getStartTimestamp ()J
 	public abstract fun getStatus ()Lio/embrace/opentelemetry/kotlin/StatusCode;
 	public abstract fun isRecording ()Z
 	public abstract fun setName (Ljava/lang/String;)V

@@ -11,6 +11,8 @@ internal object NoopSpan : Span {
     override var status: StatusCode = StatusCode.Unset
     override val parent: SpanContext? = null
     override val spanContext: SpanContext = NoopSpanContext
+    override val spanKind: SpanKind = SpanKind.INTERNAL
+    override val startTimestamp: Long = -1L
 
     override fun end() {
     }
