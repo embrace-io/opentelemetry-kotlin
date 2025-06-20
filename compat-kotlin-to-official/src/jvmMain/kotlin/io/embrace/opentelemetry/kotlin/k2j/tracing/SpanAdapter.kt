@@ -1,11 +1,11 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
+import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
 import io.embrace.opentelemetry.kotlin.tracing.Link
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.Span
@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit
 @OptIn(ExperimentalApi::class)
 public class SpanAdapter( // temporarily public, will be internal in future
     public val impl: OtelJavaSpan,
-    private val clock: ClockAdapter,
+    private val clock: Clock,
     override val parent: SpanContext?,
 ) : Span {
 
