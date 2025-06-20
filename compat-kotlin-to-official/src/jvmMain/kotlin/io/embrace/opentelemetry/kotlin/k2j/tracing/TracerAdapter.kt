@@ -25,9 +25,10 @@ public class TracerAdapter(
         startTimestamp: Long?,
         action: SpanRelationships.() -> Unit
     ): Span {
+        val start = startTimestamp ?: clock.now()
         val builder = tracer.spanBuilder(name)
             .setSpanKind(spanKind.convertToOtelJava())
-            .setStartTimestamp(startTimestamp ?: clock.now(), TimeUnit.NANOSECONDS)
+            .setStartTimestamp(start, TimeUnit.NANOSECONDS)
 
         if (parent != null) {
             val ctx = findContext(parent)
@@ -35,7 +36,13 @@ public class TracerAdapter(
         }
 
         val span = builder.startSpan()
-        return SpanAdapter(span, clock, parent).apply {
+        return SpanAdapter(
+            impl = span,
+            clock = clock,
+            parent = parent,
+            spanKind = spanKind,
+            startTimestamp = start
+        ).apply {
             this.name = name
             action(this)
         }
