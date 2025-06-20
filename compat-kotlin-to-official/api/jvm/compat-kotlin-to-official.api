@@ -11,7 +11,7 @@ public final class io/embrace/opentelemetry/kotlin/k2j/OpenTelemetrySdk : io/emb
 	public fun getTracerProvider ()Lio/embrace/opentelemetry/kotlin/tracing/TracerProvider;
 }
 
-public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanAdapter : io/embrace/opentelemetry/kotlin/tracing/Span {
+public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanAdapter : io/embrace/opentelemetry/kotlin/tracing/Span, io/opentelemetry/context/ImplicitContextKeyed {
 	public fun <init> (Lio/opentelemetry/api/trace/Span;Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;J)V
 	public fun addEvent (Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)V
 	public fun addLink (Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;Lkotlin/jvm/functions/Function1;)V
@@ -28,6 +28,7 @@ public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanAdapter : io/
 	public fun getStatus ()Lio/embrace/opentelemetry/kotlin/StatusCode;
 	public fun isRecording ()Z
 	public fun links ()Ljava/util/List;
+	public fun makeCurrent ()Lio/opentelemetry/context/Scope;
 	public fun setBooleanAttribute (Ljava/lang/String;Z)V
 	public fun setBooleanListAttribute (Ljava/lang/String;Ljava/util/List;)V
 	public fun setDoubleAttribute (Ljava/lang/String;D)V
@@ -38,6 +39,7 @@ public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanAdapter : io/
 	public fun setStatus (Lio/embrace/opentelemetry/kotlin/StatusCode;)V
 	public fun setStringAttribute (Ljava/lang/String;Ljava/lang/String;)V
 	public fun setStringListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public fun storeInContext (Lio/opentelemetry/context/Context;)Lio/opentelemetry/context/Context;
 }
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanContextAdapter : io/embrace/opentelemetry/kotlin/tracing/SpanContext {

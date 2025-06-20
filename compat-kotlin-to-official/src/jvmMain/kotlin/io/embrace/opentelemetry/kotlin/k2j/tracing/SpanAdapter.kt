@@ -13,6 +13,9 @@ import io.embrace.opentelemetry.kotlin.tracing.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.SpanEvent
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanKind
+import io.opentelemetry.context.Context
+import io.opentelemetry.context.ImplicitContextKeyed
+import io.opentelemetry.context.Scope
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.TimeUnit
@@ -24,7 +27,7 @@ public class SpanAdapter( // temporarily public, will be internal in future
     override val parent: SpanContext?,
     override val spanKind: SpanKind,
     override val startTimestamp: Long,
-) : Span {
+) : Span, ImplicitContextKeyed {
 
     private val attrs: MutableMap<String, Any> = ConcurrentHashMap()
     private val events: ConcurrentLinkedQueue<SpanEvent> = ConcurrentLinkedQueue()
@@ -119,4 +122,12 @@ public class SpanAdapter( // temporarily public, will be internal in future
     }
 
     override fun attributes(): Map<String, Any> = attrs.toMap()
+
+    override fun storeInContext(context: Context): Context? {
+        return impl.storeInContext(context)
+    }
+
+    override fun makeCurrent(): Scope? {
+        return impl.makeCurrent()
+    }
 }
