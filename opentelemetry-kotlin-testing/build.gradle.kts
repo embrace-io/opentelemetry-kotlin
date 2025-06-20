@@ -9,7 +9,7 @@ plugins {
 }
 
 buildLogic {
-    containsPublicApi.set(true)
+    containsPublicApi.set(false)
     targetPlatforms.set(listOf(TargetPlatform.JVM, TargetPlatform.ANDROID))
 }
 
