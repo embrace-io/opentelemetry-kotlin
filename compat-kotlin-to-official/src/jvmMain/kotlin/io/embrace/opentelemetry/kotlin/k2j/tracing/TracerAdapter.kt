@@ -33,6 +33,8 @@ public class TracerAdapter(
         if (parent != null) {
             val ctx = findContext(parent)
             builder.setParent(ctx)
+        } else {
+            builder.setNoParent()
         }
 
         val span = builder.startSpan()
