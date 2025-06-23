@@ -10,6 +10,10 @@ public abstract interface class io/embrace/opentelemetry/kotlin/OpenTelemetry {
 	public abstract fun getTracerProvider ()Lio/embrace/opentelemetry/kotlin/tracing/TracerProvider;
 }
 
+public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstance {
+	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;
+}
+
 public abstract class io/embrace/opentelemetry/kotlin/StatusCode {
 }
 
