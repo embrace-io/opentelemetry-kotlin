@@ -1,14 +1,12 @@
+public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstanceExtKt {
+	public static final fun compatWithOtelJava (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lio/opentelemetry/api/OpenTelemetry;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
+}
+
 public final class io/embrace/opentelemetry/kotlin/k2j/ClockAdapter : io/embrace/opentelemetry/kotlin/Clock {
 	public fun <init> ()V
 	public fun <init> (Lio/opentelemetry/sdk/common/Clock;)V
 	public synthetic fun <init> (Lio/opentelemetry/sdk/common/Clock;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun now ()J
-}
-
-public final class io/embrace/opentelemetry/kotlin/k2j/OpenTelemetrySdk : io/embrace/opentelemetry/kotlin/OpenTelemetry {
-	public fun <init> (Lio/opentelemetry/api/OpenTelemetry;)V
-	public fun getLoggerProvider ()Lio/embrace/opentelemetry/kotlin/logging/LoggerProvider;
-	public fun getTracerProvider ()Lio/embrace/opentelemetry/kotlin/tracing/TracerProvider;
 }
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanAdapter : io/embrace/opentelemetry/kotlin/tracing/Span, io/opentelemetry/context/ImplicitContextKeyed {

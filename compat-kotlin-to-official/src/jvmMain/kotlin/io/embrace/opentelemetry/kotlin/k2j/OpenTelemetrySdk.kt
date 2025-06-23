@@ -9,7 +9,7 @@ import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 
 @ExperimentalApi
-public class OpenTelemetrySdk(
+internal class OpenTelemetrySdk(
     private val impl: OtelJavaOpenTelemetry
 ) : OpenTelemetry {
 

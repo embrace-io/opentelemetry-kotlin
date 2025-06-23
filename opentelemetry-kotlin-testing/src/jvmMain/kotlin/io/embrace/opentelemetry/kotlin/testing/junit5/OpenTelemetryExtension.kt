@@ -3,10 +3,12 @@
 package io.embrace.opentelemetry.kotlin.testing.junit5
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.OpenTelemetry
+import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetrySdk
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProvider
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
-import io.embrace.opentelemetry.kotlin.k2j.OpenTelemetrySdk
+import io.embrace.opentelemetry.kotlin.compatWithOtelJava
 import io.embrace.opentelemetry.kotlin.testing.common.InMemorySpanExporter
 import io.embrace.opentelemetry.kotlin.testing.common.InMemorySpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
@@ -49,7 +51,7 @@ public class OpenTelemetryExtension : BeforeEachCallback {
         .setTracerProvider(tracerProvider)
         .build()
 
-    public val openTelemetry: OpenTelemetrySdk = OpenTelemetrySdk(sdk)
+    public val openTelemetry: OpenTelemetry = OpenTelemetryInstance.compatWithOtelJava(sdk)
 
     public val spans: List<OtelJavaSpanData>
         get() = spanExporter.exportedSpans
