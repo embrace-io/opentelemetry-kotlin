@@ -14,5 +14,5 @@ buildLogic {
 }
 
 android {
-    namespace = "io.embrace.opentelemetry.kotlin"
+    namespace = "io.embrace.opentelemetry.kotlin.api"
 }

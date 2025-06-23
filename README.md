@@ -25,8 +25,7 @@ Support for iOS and other platforms is planned for the future.
 
 ```
 dependencies {
-    implementation("io.embrace.opentelemetry.kotlin:opentelemetry-kotlin-api:<latest-version>")
-    implementation("io.embrace.opentelemetry.kotlin:opentelemetry-kotlin-api-ext:<latest-version>")
+    implementation("io.embrace.opentelemetry.kotlin:opentelemetry-kotlin:<latest-version>")
     implementation("io.embrace.opentelemetry.kotlin:compat-kotlin-to-official:<latest-version>")
 }
 ```
@@ -35,7 +34,7 @@ dependencies {
 
 ```
 val otelJava = io.opentelemetry.sdk.OpenTelemetrySdk.builder().build()
-val otelKotlin = OpenTelemetrySdk(otelJava)
+val otelKotlin = OpenTelemetryInstance.compatWithOtelJava(otelJava)
 ```
 
 3. Use the Kotlin API instead of the Java API in your app

@@ -15,6 +15,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "opentelemetry-kotlin"
 include(
+    ":opentelemetry-kotlin",
     ":opentelemetry-kotlin-api",
     ":opentelemetry-kotlin-api-ext",
     ":opentelemetry-kotlin-api-noop",
