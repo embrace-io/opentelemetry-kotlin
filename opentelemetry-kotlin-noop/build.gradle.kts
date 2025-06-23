@@ -11,7 +11,7 @@ buildLogic {
 }
 
 android {
-    namespace = "io.embrace.opentelemetry.kotlin.api.noop"
+    namespace = "io.embrace.opentelemetry.kotlin.noop"
 }
 
 kotlin {
