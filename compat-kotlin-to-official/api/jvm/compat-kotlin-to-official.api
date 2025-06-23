@@ -1,4 +1,4 @@
-public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstanceExtKt {
+public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstanceK2JKt {
 	public static final fun compatWithOtelJava (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lio/opentelemetry/api/OpenTelemetry;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
 }
 

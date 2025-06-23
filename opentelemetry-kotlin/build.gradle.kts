@@ -14,7 +14,7 @@ buildLogic {
 }
 
 android {
-    namespace = "io.embrace.opentelemetry.kotlin.implementation"
+    namespace = "io.embrace.opentelemetry.kotlin"
 }
 
 project.afterEvaluate {
@@ -22,7 +22,10 @@ project.afterEvaluate {
         sourceSets {
             val commonMain by getting {
                 dependencies {
-                    implementation(project(":opentelemetry-kotlin-api"))
+                    api(project(":opentelemetry-kotlin-api"))
+                    api(project(":opentelemetry-kotlin-api-ext"))
+                    api(project(":opentelemetry-kotlin-api-noop"))
+                    api(project(":opentelemetry-kotlin-implementation"))
                 }
             }
         }
