@@ -18,7 +18,7 @@ include(
     ":opentelemetry-kotlin",
     ":opentelemetry-kotlin-api",
     ":opentelemetry-kotlin-api-ext",
-    ":opentelemetry-kotlin-api-noop",
+    ":opentelemetry-kotlin-noop",
     ":opentelemetry-kotlin-implementation",
     ":compat-shared",
     ":compat-official-to-kotlin",
