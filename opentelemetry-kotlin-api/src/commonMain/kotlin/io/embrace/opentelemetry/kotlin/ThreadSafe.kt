@@ -7,6 +7,6 @@ package io.embrace.opentelemetry.kotlin
  *
  * https://opentelemetry.io/docs/specs/otel/trace/api/#concurrency
  */
-@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY, AnnotationTarget.TYPEALIAS)
 @Retention(AnnotationRetention.BINARY)
 public annotation class ThreadSafe
