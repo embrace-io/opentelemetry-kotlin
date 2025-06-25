@@ -20,4 +20,9 @@ public interface OpenTelemetry {
      * The [LoggerProvider] for creating [Logger] instances.
      */
     public val loggerProvider: LoggerProvider
+
+    /**
+     * The [Clock] that will be used for obtaining timestamps by this instance.
+     */
+    public val clock: Clock
 }
