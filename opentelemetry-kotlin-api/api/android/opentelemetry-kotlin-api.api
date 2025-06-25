@@ -5,6 +5,13 @@ public abstract interface class io/embrace/opentelemetry/kotlin/Clock {
 public abstract interface annotation class io/embrace/opentelemetry/kotlin/ExperimentalApi : java/lang/annotation/Annotation {
 }
 
+public final class io/embrace/opentelemetry/kotlin/ExportResult : java/lang/Enum {
+	public static final field FAILURE Lio/embrace/opentelemetry/kotlin/ExportResult;
+	public static final field SUCCESS Lio/embrace/opentelemetry/kotlin/ExportResult;
+	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/ExportResult;
+	public static fun values ()[Lio/embrace/opentelemetry/kotlin/ExportResult;
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/OpenTelemetry {
 	public abstract fun getClock ()Lio/embrace/opentelemetry/kotlin/Clock;
 	public abstract fun getLoggerProvider ()Lio/embrace/opentelemetry/kotlin/logging/LoggerProvider;
@@ -112,6 +119,15 @@ public final class io/embrace/opentelemetry/kotlin/logging/SeverityNumber : java
 	public static fun values ()[Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordData {
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter {
+	public abstract fun export (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/ExportResult;
+	public abstract fun forceFlush ()Lio/embrace/opentelemetry/kotlin/ExportResult;
+	public abstract fun shutdown ()Lio/embrace/opentelemetry/kotlin/ExportResult;
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Link : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
 	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
 }
@@ -213,5 +229,14 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TracingF
 
 public final class io/embrace/opentelemetry/kotlin/tracing/TracingFactory$DefaultImpls {
 	public static synthetic fun createSpanContext$default (Lio/embrace/opentelemetry/kotlin/tracing/TracingFactory;Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/TraceState;Lio/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/export/SpanData {
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/export/SpanExporter {
+	public abstract fun export (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/ExportResult;
+	public abstract fun forceFlush ()Lio/embrace/opentelemetry/kotlin/ExportResult;
+	public abstract fun shutdown ()Lio/embrace/opentelemetry/kotlin/ExportResult;
 }
 
