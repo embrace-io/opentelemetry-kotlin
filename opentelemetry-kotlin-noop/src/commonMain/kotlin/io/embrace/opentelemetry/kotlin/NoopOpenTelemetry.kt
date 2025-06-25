@@ -9,4 +9,5 @@ import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 internal object NoopOpenTelemetry : OpenTelemetry {
     override val tracerProvider: TracerProvider = NoopTracerProvider
     override val loggerProvider: LoggerProvider = NoopLoggerProvider
+    override val clock: Clock = NoopClock
 }

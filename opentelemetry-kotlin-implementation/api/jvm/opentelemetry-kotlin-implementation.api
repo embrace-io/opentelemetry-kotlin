@@ -1,5 +1,6 @@
 public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstanceImplKt {
-	public static final fun default (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
+	public static final fun default (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lio/embrace/opentelemetry/kotlin/Clock;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
+	public static synthetic fun default$default (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lio/embrace/opentelemetry/kotlin/Clock;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
 }
 
 public final class io/embrace/opentelemetry/kotlin/context/ContextImpl : io/embrace/opentelemetry/kotlin/context/Context {

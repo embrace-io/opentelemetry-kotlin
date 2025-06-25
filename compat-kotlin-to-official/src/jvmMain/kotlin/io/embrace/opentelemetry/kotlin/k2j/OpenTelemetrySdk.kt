@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.k2j
 
+import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetry
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
@@ -15,4 +16,5 @@ internal class OpenTelemetrySdk(
 
     override val tracerProvider: TracerProvider by lazy { TracerProviderAdapter(impl.tracerProvider) }
     override val loggerProvider: LoggerProvider by lazy { LoggerProviderAdapter(impl.logsBridge) }
+    override val clock: Clock by lazy { ClockAdapter(io.opentelemetry.sdk.common.Clock.getDefault()) }
 }
