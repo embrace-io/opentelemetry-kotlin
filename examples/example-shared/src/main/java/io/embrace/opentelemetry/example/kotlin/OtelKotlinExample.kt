@@ -8,10 +8,9 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetry
 import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.compatWithOtelJava
-import io.embrace.opentelemetry.kotlin.default
-import io.embrace.opentelemetry.kotlin.logging.SeverityNumber
-import io.embrace.opentelemetry.kotlin.tracing.Span
-import io.embrace.opentelemetry.kotlin.tracing.SpanKind
+import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
+import io.embrace.opentelemetry.kotlin.tracing.model.Span
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.opentelemetry.sdk.logs.SdkLoggerProvider
 import io.opentelemetry.sdk.trace.SdkTracerProvider

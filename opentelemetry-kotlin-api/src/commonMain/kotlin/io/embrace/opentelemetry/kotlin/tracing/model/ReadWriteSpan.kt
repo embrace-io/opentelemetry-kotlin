@@ -1,4 +1,4 @@
-package io.embrace.opentelemetry.kotlin.tracing
+package io.embrace.opentelemetry.kotlin.tracing.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 

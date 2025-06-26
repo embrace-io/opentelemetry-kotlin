@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceState
-import io.embrace.opentelemetry.kotlin.tracing.TraceState
+import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 
 internal class TraceStateAdapter(
     private val traceState: OtelJavaTraceState

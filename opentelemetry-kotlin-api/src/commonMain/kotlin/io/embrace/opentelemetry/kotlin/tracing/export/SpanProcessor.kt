@@ -3,7 +3,8 @@ package io.embrace.opentelemetry.kotlin.tracing.export
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.export.TelemetryCloseable
-import io.embrace.opentelemetry.kotlin.tracing.Span
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 
 /**
  * Processes spans before they are exported as batches.
@@ -17,10 +18,10 @@ public interface SpanProcessor : TelemetryCloseable {
      * @param span A reference to the span that has been created. This reference can be held & used to update the span.
      * @param parentContext The context of the parent span or the current context if there is none.
      */
-    public fun onStart(span: Span, parentContext: Context)
+    public fun onStart(span: ReadWriteSpan, parentContext: Context)
 
     /**
      * Invoked after a span has ended with an immutable representation of the span.
      */
-    public fun onEnd(span: SpanData)
+    public fun onEnd(span: ReadableSpan)
 }

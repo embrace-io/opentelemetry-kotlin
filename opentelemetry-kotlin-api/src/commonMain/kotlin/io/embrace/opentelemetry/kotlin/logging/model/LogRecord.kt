@@ -1,4 +1,4 @@
-package io.embrace.opentelemetry.kotlin.logging
+package io.embrace.opentelemetry.kotlin.logging.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
@@ -6,7 +6,7 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 
 /**
- * Represents a log that can be emitted by a [Logger].
+ * Represents a log that can be emitted by a [io.embrace.opentelemetry.kotlin.logging.Logger].
  *
  * https://opentelemetry.io/docs/specs/otel/logs/api/#emit-a-logrecord
  */

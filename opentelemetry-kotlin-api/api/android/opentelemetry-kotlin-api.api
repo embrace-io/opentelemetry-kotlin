@@ -22,22 +22,6 @@ public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstance {
 	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;
 }
 
-public abstract class io/embrace/opentelemetry/kotlin/StatusCode {
-}
-
-public final class io/embrace/opentelemetry/kotlin/StatusCode$Error : io/embrace/opentelemetry/kotlin/StatusCode {
-	public fun <init> (Ljava/lang/String;)V
-	public final fun getDescription ()Ljava/lang/String;
-}
-
-public final class io/embrace/opentelemetry/kotlin/StatusCode$Ok : io/embrace/opentelemetry/kotlin/StatusCode {
-	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/StatusCode$Ok;
-}
-
-public final class io/embrace/opentelemetry/kotlin/StatusCode$Unset : io/embrace/opentelemetry/kotlin/StatusCode {
-	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/StatusCode$Unset;
-}
-
 public abstract interface annotation class io/embrace/opentelemetry/kotlin/ThreadSafe : java/lang/annotation/Annotation {
 }
 
@@ -79,21 +63,12 @@ public abstract interface class io/embrace/opentelemetry/kotlin/export/Telemetry
 	public abstract fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/logging/LogRecord : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
-	public abstract fun getBody ()Ljava/lang/String;
-	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
-	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
-	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public abstract fun getSeverityText ()Ljava/lang/String;
-	public abstract fun getTimestamp ()Ljava/lang/Long;
-}
-
 public abstract interface class io/embrace/opentelemetry/kotlin/logging/Logger {
-	public abstract fun log (Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public abstract fun log (Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class io/embrace/opentelemetry/kotlin/logging/Logger$DefaultImpls {
-	public static synthetic fun log$default (Lio/embrace/opentelemetry/kotlin/logging/Logger;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static synthetic fun log$default (Lio/embrace/opentelemetry/kotlin/logging/Logger;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/logging/LoggerProvider {
@@ -104,181 +79,103 @@ public final class io/embrace/opentelemetry/kotlin/logging/LoggerProvider$Defaul
 	public static synthetic fun getLogger$default (Lio/embrace/opentelemetry/kotlin/logging/LoggerProvider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/logging/Logger;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/logging/ReadWriteLogRecord : io/embrace/opentelemetry/kotlin/logging/ReadableLogRecord {
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
+	public abstract fun export (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
+	public abstract fun onEmit (Lio/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord;Lio/embrace/opentelemetry/kotlin/context/Context;)V
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/model/LogRecord : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
+	public abstract fun getBody ()Ljava/lang/String;
+	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
+	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
+	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public abstract fun getSeverityText ()Ljava/lang/String;
+	public abstract fun getTimestamp ()Ljava/lang/Long;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord : io/embrace/opentelemetry/kotlin/logging/model/ReadableLogRecord {
 	public abstract fun getAttributes ()Ljava/util/Map;
 	public abstract fun getBody ()Ljava/lang/String;
 	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
-	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
+	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
 	public abstract fun getSeverityText ()Ljava/lang/String;
 	public abstract fun getSpanId ()Ljava/lang/String;
 	public abstract fun getTimestamp ()Ljava/lang/Long;
-	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;
+	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
 	public abstract fun getTraceId ()Ljava/lang/String;
 	public abstract fun setBody (Ljava/lang/String;)V
 	public abstract fun setObservedTimestamp (Ljava/lang/Long;)V
-	public abstract fun setSeverityNumber (Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;)V
+	public abstract fun setSeverityNumber (Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;)V
 	public abstract fun setSeverityText (Ljava/lang/String;)V
 	public abstract fun setSpanId (Ljava/lang/String;)V
 	public abstract fun setTimestamp (Ljava/lang/Long;)V
-	public abstract fun setTraceFlags (Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;)V
+	public abstract fun setTraceFlags (Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;)V
 	public abstract fun setTraceId (Ljava/lang/String;)V
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/logging/ReadableLogRecord {
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/model/ReadableLogRecord {
 	public abstract fun getAttributes ()Ljava/util/Map;
 	public abstract fun getBody ()Ljava/lang/String;
 	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
 	public abstract fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
 	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
 	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;
-	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
+	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
 	public abstract fun getSeverityText ()Ljava/lang/String;
 	public abstract fun getSpanId ()Ljava/lang/String;
 	public abstract fun getTimestamp ()Ljava/lang/Long;
-	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;
+	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
 	public abstract fun getTraceId ()Ljava/lang/String;
 }
 
-public final class io/embrace/opentelemetry/kotlin/logging/SeverityNumber : java/lang/Enum {
-	public static final field DEBUG Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field DEBUG2 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field DEBUG3 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field DEBUG4 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field ERROR Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field ERROR2 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field ERROR3 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field ERROR4 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field FATAL Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field FATAL2 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field FATAL3 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field FATAL4 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field INFO Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field INFO2 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field INFO3 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field INFO4 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field TRACE Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field TRACE2 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field TRACE3 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field TRACE4 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field UNKNOWN Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field WARN Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field WARN2 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field WARN3 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static final field WARN4 Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
+public final class io/embrace/opentelemetry/kotlin/logging/model/SeverityNumber : java/lang/Enum {
+	public static final field DEBUG Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field DEBUG2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field DEBUG3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field DEBUG4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field ERROR Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field ERROR2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field ERROR3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field ERROR4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field FATAL Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field FATAL2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field FATAL3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field FATAL4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field INFO Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field INFO2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field INFO3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field INFO4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field TRACE Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field TRACE2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field TRACE3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field TRACE4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field UNKNOWN Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field WARN Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field WARN2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field WARN3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field WARN4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
 	public final fun getSeverityNumber ()I
-	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
-	public static fun values ()[Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
+	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static fun values ()[Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordData {
+public abstract class io/embrace/opentelemetry/kotlin/tracing/StatusCode {
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
-	public abstract fun export (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+public final class io/embrace/opentelemetry/kotlin/tracing/StatusCode$Error : io/embrace/opentelemetry/kotlin/tracing/StatusCode {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun getDescription ()Ljava/lang/String;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
-	public abstract fun onEmit (Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordData;Lio/embrace/opentelemetry/kotlin/context/Context;)V
+public final class io/embrace/opentelemetry/kotlin/tracing/StatusCode$Ok : io/embrace/opentelemetry/kotlin/tracing/StatusCode {
+	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/tracing/StatusCode$Ok;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Link : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
-	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
-}
-
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/ReadWriteSpan : io/embrace/opentelemetry/kotlin/tracing/ReadableSpan, io/embrace/opentelemetry/kotlin/tracing/Span {
-}
-
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/ReadableLink {
-	public abstract fun getAttributes ()Ljava/util/Map;
-	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
-}
-
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/ReadableSpan {
-	public abstract fun getAttributes ()Ljava/util/Map;
-	public abstract fun getEvents ()Ljava/util/List;
-	public abstract fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
-	public abstract fun getLinks ()Ljava/util/List;
-	public abstract fun getName ()Ljava/lang/String;
-	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
-	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;
-	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
-	public abstract fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
-	public abstract fun getStartTimestamp ()J
-	public abstract fun getStatus ()Lio/embrace/opentelemetry/kotlin/StatusCode;
-	public abstract fun hasEnded ()Z
-}
-
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/ReadableSpanEvent {
-	public abstract fun getAttributes ()Ljava/util/Map;
-	public abstract fun getName ()Ljava/lang/String;
-	public abstract fun getTimestamp ()J
-}
-
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Span : io/embrace/opentelemetry/kotlin/tracing/SpanRelationships {
-	public abstract fun end ()V
-	public abstract fun end (J)V
-	public abstract fun getName ()Ljava/lang/String;
-	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
-	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
-	public abstract fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
-	public abstract fun getStartTimestamp ()J
-	public abstract fun getStatus ()Lio/embrace/opentelemetry/kotlin/StatusCode;
-	public abstract fun isRecording ()Z
-	public abstract fun setName (Ljava/lang/String;)V
-	public abstract fun setStatus (Lio/embrace/opentelemetry/kotlin/StatusCode;)V
-}
-
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanContext {
-	public abstract fun getSpanId ()Ljava/lang/String;
-	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;
-	public abstract fun getTraceId ()Ljava/lang/String;
-	public abstract fun getTraceState ()Lio/embrace/opentelemetry/kotlin/tracing/TraceState;
-	public abstract fun isRemote ()Z
-	public abstract fun isValid ()Z
-}
-
-public final class io/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin : java/lang/Enum {
-	public static final field LOCAL Lio/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin;
-	public static final field REMOTE Lio/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin;
-	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin;
-	public static fun values ()[Lio/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin;
-}
-
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanEvent : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
-	public abstract fun getName ()Ljava/lang/String;
-	public abstract fun getTimestamp ()J
-}
-
-public final class io/embrace/opentelemetry/kotlin/tracing/SpanKind : java/lang/Enum {
-	public static final field CLIENT Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
-	public static final field CONSUMER Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
-	public static final field INTERNAL Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
-	public static final field PRODUCER Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
-	public static final field SERVER Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
-	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
-	public static fun values ()[Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;
-}
-
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/SpanRelationships : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
-	public abstract fun addEvent (Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)V
-	public abstract fun addLink (Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;Lkotlin/jvm/functions/Function1;)V
-	public abstract fun events ()Ljava/util/List;
-	public abstract fun links ()Ljava/util/List;
-}
-
-public final class io/embrace/opentelemetry/kotlin/tracing/SpanRelationships$DefaultImpls {
-	public static synthetic fun addEvent$default (Lio/embrace/opentelemetry/kotlin/tracing/SpanRelationships;Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-}
-
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceFlags {
-	public abstract fun getHex ()Ljava/lang/String;
-	public abstract fun isRandom ()Z
-	public abstract fun isSampled ()Z
-}
-
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceState {
-	public abstract fun asMap ()Ljava/util/Map;
-	public abstract fun get (Ljava/lang/String;)Ljava/lang/String;
+public final class io/embrace/opentelemetry/kotlin/tracing/StatusCode$Unset : io/embrace/opentelemetry/kotlin/tracing/StatusCode {
+	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/tracing/StatusCode$Unset;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceStateMutator {
@@ -287,11 +184,11 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TraceSta
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Tracer {
-	public abstract fun createSpan (Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/tracing/Span;
+	public abstract fun createSpan (Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/tracing/model/Span;
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/Tracer$DefaultImpls {
-	public static synthetic fun createSpan$default (Lio/embrace/opentelemetry/kotlin/tracing/Tracer;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;Lio/embrace/opentelemetry/kotlin/tracing/SpanKind;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/tracing/Span;
+	public static synthetic fun createSpan$default (Lio/embrace/opentelemetry/kotlin/tracing/Tracer;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/tracing/model/Span;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TracerProvider {
@@ -306,14 +203,11 @@ public abstract interface annotation class io/embrace/opentelemetry/kotlin/traci
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/TracingFactory {
-	public abstract fun createSpanContext (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/TraceState;Lio/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin;)Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
+	public abstract fun createSpanContext (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/TracingFactory$DefaultImpls {
-	public static synthetic fun createSpanContext$default (Lio/embrace/opentelemetry/kotlin/tracing/TracingFactory;Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/TraceState;Lio/embrace/opentelemetry/kotlin/tracing/SpanContextOrigin;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
-}
-
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/export/SpanData {
+	public static synthetic fun createSpanContext$default (Lio/embrace/opentelemetry/kotlin/tracing/TracingFactory;Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/export/SpanExporter : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
@@ -321,7 +215,110 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/export/S
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
-	public abstract fun onEnd (Lio/embrace/opentelemetry/kotlin/tracing/export/SpanData;)V
-	public abstract fun onStart (Lio/embrace/opentelemetry/kotlin/tracing/Span;Lio/embrace/opentelemetry/kotlin/context/Context;)V
+	public abstract fun onEnd (Lio/embrace/opentelemetry/kotlin/tracing/model/ReadableSpan;)V
+	public abstract fun onStart (Lio/embrace/opentelemetry/kotlin/tracing/model/ReadWriteSpan;Lio/embrace/opentelemetry/kotlin/context/Context;)V
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Link : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
+	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/ReadWriteSpan : io/embrace/opentelemetry/kotlin/tracing/model/ReadableSpan, io/embrace/opentelemetry/kotlin/tracing/model/Span {
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/ReadableLink {
+	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/ReadableSpan {
+	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getEvents ()Ljava/util/List;
+	public abstract fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
+	public abstract fun getLinks ()Ljava/util/List;
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;
+	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+	public abstract fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
+	public abstract fun getStartTimestamp ()J
+	public abstract fun getStatus ()Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
+	public abstract fun hasEnded ()Z
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/ReadableSpanEvent {
+	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun getTimestamp ()J
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Span : io/embrace/opentelemetry/kotlin/tracing/model/SpanRelationships {
+	public abstract fun end ()V
+	public abstract fun end (J)V
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+	public abstract fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
+	public abstract fun getStartTimestamp ()J
+	public abstract fun getStatus ()Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
+	public abstract fun isRecording ()Z
+	public abstract fun setName (Ljava/lang/String;)V
+	public abstract fun setStatus (Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;)V
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanContext {
+	public abstract fun getSpanId ()Ljava/lang/String;
+	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
+	public abstract fun getTraceId ()Ljava/lang/String;
+	public abstract fun getTraceState ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
+	public abstract fun isRemote ()Z
+	public abstract fun isValid ()Z
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin : java/lang/Enum {
+	public static final field LOCAL Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;
+	public static final field REMOTE Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;
+	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;
+	public static fun values ()[Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanData {
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanEvent : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun getTimestamp ()J
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanKind : java/lang/Enum {
+	public static final field CLIENT Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
+	public static final field CONSUMER Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
+	public static final field INTERNAL Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
+	public static final field PRODUCER Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
+	public static final field SERVER Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
+	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
+	public static fun values ()[Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanRelationships : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
+	public abstract fun addEvent (Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)V
+	public abstract fun addLink (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lkotlin/jvm/functions/Function1;)V
+	public abstract fun events ()Ljava/util/List;
+	public abstract fun links ()Ljava/util/List;
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanRelationships$DefaultImpls {
+	public static synthetic fun addEvent$default (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanRelationships;Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/TraceFlags {
+	public abstract fun getHex ()Ljava/lang/String;
+	public abstract fun isRandom ()Z
+	public abstract fun isSampled ()Z
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/TraceState {
+	public abstract fun asMap ()Ljava/util/Map;
+	public abstract fun get (Ljava/lang/String;)Ljava/lang/String;
 }
 

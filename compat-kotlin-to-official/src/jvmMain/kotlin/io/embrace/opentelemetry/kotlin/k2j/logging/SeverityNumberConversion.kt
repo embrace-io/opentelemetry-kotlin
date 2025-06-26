@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin.k2j.logging
 
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSeverity
-import io.embrace.opentelemetry.kotlin.logging.SeverityNumber
+import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 
 internal fun SeverityNumber.convertToOtelJava(): OtelJavaSeverity = when (this) {
     SeverityNumber.UNKNOWN -> OtelJavaSeverity.UNDEFINED_SEVERITY_NUMBER

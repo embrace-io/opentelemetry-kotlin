@@ -1,8 +1,9 @@
-package io.embrace.opentelemetry.kotlin.tracing
+package io.embrace.opentelemetry.kotlin.tracing.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.ThreadSafe
+import io.embrace.opentelemetry.kotlin.tracing.StatusCode
+import io.embrace.opentelemetry.kotlin.tracing.TracingDsl
 
 /**
  * A span represents a single operation within a trace.

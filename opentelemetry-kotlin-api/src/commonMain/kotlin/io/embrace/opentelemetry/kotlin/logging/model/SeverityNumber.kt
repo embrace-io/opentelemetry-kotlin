@@ -1,4 +1,4 @@
-package io.embrace.opentelemetry.kotlin.logging
+package io.embrace.opentelemetry.kotlin.logging.model
 
 /**
  * Represents all possible severities of a log message.

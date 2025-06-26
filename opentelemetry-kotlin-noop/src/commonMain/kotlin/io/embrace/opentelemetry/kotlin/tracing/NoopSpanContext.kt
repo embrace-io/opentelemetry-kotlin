@@ -1,6 +1,9 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
+import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
+import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 
 @ExperimentalApi
 internal object NoopSpanContext : SpanContext {
