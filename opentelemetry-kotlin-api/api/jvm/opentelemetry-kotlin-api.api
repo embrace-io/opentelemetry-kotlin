@@ -82,10 +82,10 @@ public abstract interface class io/embrace/opentelemetry/kotlin/export/Telemetry
 public abstract interface class io/embrace/opentelemetry/kotlin/logging/LogRecord : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
 	public abstract fun getBody ()Ljava/lang/String;
 	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
-	public abstract fun getObservedTimestampNs ()Ljava/lang/Long;
+	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
 	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
 	public abstract fun getSeverityText ()Ljava/lang/String;
-	public abstract fun getTimestampNs ()Ljava/lang/Long;
+	public abstract fun getTimestamp ()Ljava/lang/Long;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/logging/Logger {
@@ -102,6 +102,41 @@ public abstract interface class io/embrace/opentelemetry/kotlin/logging/LoggerPr
 
 public final class io/embrace/opentelemetry/kotlin/logging/LoggerProvider$DefaultImpls {
 	public static synthetic fun getLogger$default (Lio/embrace/opentelemetry/kotlin/logging/LoggerProvider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/logging/Logger;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/ReadWriteLogRecord : io/embrace/opentelemetry/kotlin/logging/ReadableLogRecord {
+	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getBody ()Ljava/lang/String;
+	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
+	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
+	public abstract fun getSeverityText ()Ljava/lang/String;
+	public abstract fun getSpanId ()Ljava/lang/String;
+	public abstract fun getTimestamp ()Ljava/lang/Long;
+	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;
+	public abstract fun getTraceId ()Ljava/lang/String;
+	public abstract fun setBody (Ljava/lang/String;)V
+	public abstract fun setObservedTimestamp (Ljava/lang/Long;)V
+	public abstract fun setSeverityNumber (Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;)V
+	public abstract fun setSeverityText (Ljava/lang/String;)V
+	public abstract fun setSpanId (Ljava/lang/String;)V
+	public abstract fun setTimestamp (Ljava/lang/Long;)V
+	public abstract fun setTraceFlags (Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;)V
+	public abstract fun setTraceId (Ljava/lang/String;)V
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/ReadableLogRecord {
+	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getBody ()Ljava/lang/String;
+	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
+	public abstract fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
+	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
+	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;
+	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/SeverityNumber;
+	public abstract fun getSeverityText ()Ljava/lang/String;
+	public abstract fun getSpanId ()Ljava/lang/String;
+	public abstract fun getTimestamp ()Ljava/lang/Long;
+	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/TraceFlags;
+	public abstract fun getTraceId ()Ljava/lang/String;
 }
 
 public final class io/embrace/opentelemetry/kotlin/logging/SeverityNumber : java/lang/Enum {
