@@ -5,13 +5,6 @@ public abstract interface class io/embrace/opentelemetry/kotlin/Clock {
 public abstract interface annotation class io/embrace/opentelemetry/kotlin/ExperimentalApi : java/lang/annotation/Annotation {
 }
 
-public final class io/embrace/opentelemetry/kotlin/ExportResult : java/lang/Enum {
-	public static final field FAILURE Lio/embrace/opentelemetry/kotlin/ExportResult;
-	public static final field SUCCESS Lio/embrace/opentelemetry/kotlin/ExportResult;
-	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/ExportResult;
-	public static fun values ()[Lio/embrace/opentelemetry/kotlin/ExportResult;
-}
-
 public abstract interface class io/embrace/opentelemetry/kotlin/OpenTelemetry {
 	public abstract fun getClock ()Lio/embrace/opentelemetry/kotlin/Clock;
 	public abstract fun getLoggerProvider ()Lio/embrace/opentelemetry/kotlin/logging/LoggerProvider;
@@ -61,6 +54,22 @@ public abstract interface class io/embrace/opentelemetry/kotlin/context/Context 
 
 public abstract interface class io/embrace/opentelemetry/kotlin/context/ContextKey {
 	public abstract fun getName ()Ljava/lang/String;
+}
+
+public abstract class io/embrace/opentelemetry/kotlin/export/OperationResultCode {
+}
+
+public final class io/embrace/opentelemetry/kotlin/export/OperationResultCode$Failure : io/embrace/opentelemetry/kotlin/export/OperationResultCode {
+	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/export/OperationResultCode$Failure;
+}
+
+public final class io/embrace/opentelemetry/kotlin/export/OperationResultCode$Success : io/embrace/opentelemetry/kotlin/export/OperationResultCode {
+	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/export/OperationResultCode$Success;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
+	public abstract fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+	public abstract fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/logging/LogRecord : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
@@ -122,10 +131,12 @@ public final class io/embrace/opentelemetry/kotlin/logging/SeverityNumber : java
 public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordData {
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter {
-	public abstract fun export (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/ExportResult;
-	public abstract fun forceFlush ()Lio/embrace/opentelemetry/kotlin/ExportResult;
-	public abstract fun shutdown ()Lio/embrace/opentelemetry/kotlin/ExportResult;
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
+	public abstract fun export (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
+	public abstract fun onEmit (Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordData;Lio/embrace/opentelemetry/kotlin/context/Context;)V
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Link : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
@@ -234,9 +245,12 @@ public final class io/embrace/opentelemetry/kotlin/tracing/TracingFactory$Defaul
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/export/SpanData {
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/export/SpanExporter {
-	public abstract fun export (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/ExportResult;
-	public abstract fun forceFlush ()Lio/embrace/opentelemetry/kotlin/ExportResult;
-	public abstract fun shutdown ()Lio/embrace/opentelemetry/kotlin/ExportResult;
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/export/SpanExporter : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
+	public abstract fun export (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
+	public abstract fun onEnd (Lio/embrace/opentelemetry/kotlin/tracing/export/SpanData;)V
+	public abstract fun onStart (Lio/embrace/opentelemetry/kotlin/tracing/Span;Lio/embrace/opentelemetry/kotlin/context/Context;)V
 }
 
