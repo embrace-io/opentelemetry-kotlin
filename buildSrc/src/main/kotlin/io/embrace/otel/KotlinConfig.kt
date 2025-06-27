@@ -1,5 +1,6 @@
 package io.embrace.otel
 
+import com.android.build.api.dsl.androidLibrary
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.exclude
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -22,8 +23,7 @@ fun Project.configureKotlin(
                 }
             }
             if (platforms.contains(TargetPlatform.ANDROID)) {
-                androidTarget {
-                    publishLibraryVariants("release")
+                androidLibrary {
                     compilerOptions {
                         jvmTarget.set(JvmTarget.JVM_1_8)
                         configureCompiler()

@@ -10,7 +10,7 @@ class BuildPlugin : Plugin<Project> {
         val buildLogic = project.extensions.create("buildLogic", BuildLogicExtension::class.java)
         val kotlin = project.project.extensions.getByType(KotlinMultiplatformExtension::class.java)
         project.configureKotlin(buildLogic, kotlin)
-        project.configureAndroid()
+        project.configureAndroid(kotlin)
         project.configureDetekt()
         project.configureBinaryCompatValidation(buildLogic)
         project.configureExplicitApiMode(buildLogic, kotlin)

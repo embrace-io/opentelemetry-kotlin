@@ -2,7 +2,7 @@ import io.embrace.otel.TargetPlatform
 
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("io.embrace.otel.build-logic")
     id("signing")
     id("com.vanniktech.maven.publish")
@@ -15,11 +15,6 @@ buildLogic {
     containsPublicApi.set(false)
     targetPlatforms.set(listOf(TargetPlatform.JVM, TargetPlatform.ANDROID))
 }
-
-android {
-    namespace = "io.embrace.opentelemetry.kotlin"
-}
-
 
 project.afterEvaluate {
     kotlin {

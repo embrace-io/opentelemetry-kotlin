@@ -2,7 +2,7 @@ import io.embrace.otel.TargetPlatform
 
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("io.embrace.otel.build-logic")
     alias(libs.plugins.kotlin.serialization)
 }
@@ -13,10 +13,6 @@ version = "0.1.0"
 buildLogic {
     containsPublicApi.set(false)
     targetPlatforms.set(listOf(TargetPlatform.JVM, TargetPlatform.ANDROID))
-}
-
-android {
-    namespace = "io.embrace.opentelemetry.kotlin.compat.shared"
 }
 
 project.afterEvaluate {
