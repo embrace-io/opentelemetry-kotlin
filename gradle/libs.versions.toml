@@ -1,6 +1,6 @@
 [versions]
 agp = "8.7.2"
-kotlin = "2.1.21"
+kotlin = "2.2.0"
 android-minSdk = "21"
 android-compileSdk = "35"
 detekt = "1.23.8"
