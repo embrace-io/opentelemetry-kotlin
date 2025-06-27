@@ -3,7 +3,6 @@ package io.embrace.otel
 import com.android.build.api.dsl.androidLibrary
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.exclude
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinCommonCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
@@ -12,14 +11,21 @@ fun Project.configureKotlin(
     kotlin: KotlinMultiplatformExtension
 ) {
     kotlin.apply {
+        jvmToolchain(8)
+        compilerOptions.configureCompiler()
+
         jvm {
             compilerOptions.configureCompiler()
         }
-        androidTarget {
-            publishLibraryVariants("release")
-            compilerOptions {
-                jvmTarget.set(JvmTarget.JVM_1_8)
-                configureCompiler()
+        androidLibrary {
+            namespace = "io.embrace.opentelemetry.kotlin.${project.name.replace("-", ".")}"
+            compileSdk = 35
+            minSdk = 21
+
+            compilations.configureEach {
+                compileTaskProvider.configure {
+                    compilerOptions.configureCompiler()
+                }
             }
         }
         // not officially supported yet, beyond confirming the target compiles.
@@ -30,6 +36,11 @@ fun Project.configureKotlin(
         }
 
         sourceSets.apply {
+            androidMain {
+                dependencies {
+                    // Add Android-specific dependencies here
+                }
+            }
             getByName("commonMain").apply {
                 dependencies {
                     implementation(findLibrary("kotlin-exposed"))
