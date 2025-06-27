@@ -305,6 +305,14 @@ public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanKind : java
 	public static fun values ()[Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanLimits {
+	public abstract fun getAttributeCountLimit ()I
+	public abstract fun getAttributeCountPerEventLimit ()I
+	public abstract fun getAttributeCountPerLinkLimit ()I
+	public abstract fun getEventCountLimit ()I
+	public abstract fun getLinkCountLimit ()I
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanRelationships : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
 	public abstract fun addEvent (Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)V
 	public abstract fun addLink (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lkotlin/jvm/functions/Function1;)V
