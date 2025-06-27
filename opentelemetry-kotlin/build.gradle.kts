@@ -1,3 +1,5 @@
+import io.embrace.otel.TargetPlatform
+
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("com.android.library")
@@ -11,6 +13,7 @@ version = "0.1.0"
 
 buildLogic {
     containsPublicApi.set(true)
+    targetPlatforms.set(listOf(TargetPlatform.JVM, TargetPlatform.ANDROID))
 }
 
 android {
