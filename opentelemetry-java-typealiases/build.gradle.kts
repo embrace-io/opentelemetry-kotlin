@@ -1,5 +1,3 @@
-import io.embrace.otel.TargetPlatform
-
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("com.android.kotlin.multiplatform.library")
@@ -8,20 +6,13 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-buildLogic {
-    containsPublicApi.set(false)
-    targetPlatforms.set(listOf(TargetPlatform.JVM, TargetPlatform.ANDROID))
-}
-
-project.afterEvaluate {
-    kotlin {
-        sourceSets {
-            val jvmMain by getting {
-                dependencies {
-                    implementation(project.dependencies.platform(libs.opentelemetry.bom))
-                    implementation(libs.opentelemetry.api)
-                    implementation(libs.opentelemetry.sdk)
-                }
+kotlin {
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                implementation(project.dependencies.platform(libs.opentelemetry.bom))
+                implementation(libs.opentelemetry.api)
+                implementation(libs.opentelemetry.sdk)
             }
         }
     }

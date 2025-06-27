@@ -6,20 +6,14 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-buildLogic {
-    containsPublicApi.set(true)
-}
-
-project.afterEvaluate {
-    kotlin {
-        sourceSets {
-            val commonMain by getting {
-                dependencies {
-                    api(project(":opentelemetry-kotlin-api"))
-                    api(project(":opentelemetry-kotlin-api-ext"))
-                    api(project(":opentelemetry-kotlin-noop"))
-                    api(project(":opentelemetry-kotlin-implementation"))
-                }
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":opentelemetry-kotlin-api"))
+                api(project(":opentelemetry-kotlin-api-ext"))
+                api(project(":opentelemetry-kotlin-noop"))
+                api(project(":opentelemetry-kotlin-implementation"))
             }
         }
     }

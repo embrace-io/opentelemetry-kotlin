@@ -6,10 +6,6 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-buildLogic {
-    containsPublicApi.set(true)
-}
-
 kotlin {
     sourceSets {
         val commonMain by getting {

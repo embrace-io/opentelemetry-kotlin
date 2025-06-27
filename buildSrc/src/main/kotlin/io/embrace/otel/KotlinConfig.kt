@@ -9,53 +9,43 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 fun Project.configureKotlin(
-    buildLogic: BuildLogicExtension,
     kotlin: KotlinMultiplatformExtension
 ) {
-    kotlin.jvmToolchain(8)
-    afterEvaluate {
-        kotlin.apply {
-            val platforms = buildLogic.targetPlatforms.get()
-
-            if (platforms.contains(TargetPlatform.JVM)) {
-                jvm {
-                    compilerOptions.configureCompiler()
-                }
-            }
-            if (platforms.contains(TargetPlatform.ANDROID)) {
-                androidLibrary {
-                    compilerOptions {
-                        jvmTarget.set(JvmTarget.JVM_1_8)
-                        configureCompiler()
-                    }
-                }
-            }
-            // not officially supported yet, beyond confirming the target compiles.
-            if (platforms.contains(TargetPlatform.IOS)) {
-                iosArm64 {
-                    compilerOptions.configureCompiler()
-                }
-            }
-
-            sourceSets.apply {
-                getByName("commonMain").apply {
-                    dependencies {
-                        implementation(findLibrary("kotlin-exposed"))
-                        // add dependencies here
-                    }
-                }
-                getByName("commonTest").apply {
-                    dependencies {
-                        implementation("org.jetbrains.kotlin:kotlin-test") {
-                            exclude(group = "junit")
-                            exclude(group = "org.junit")
-                        }
-                    }
-                }
-            }
+    kotlin.apply {
+        jvm {
+            compilerOptions.configureCompiler()
+        }
+        androidLibrary {
             compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_1_8)
                 configureCompiler()
             }
+        }
+        // not officially supported yet, beyond confirming the target compiles.
+        if (!project.isJavaSdkCompatModule()) {
+            iosArm64 {
+                compilerOptions.configureCompiler()
+            }
+        }
+
+        sourceSets.apply {
+            getByName("commonMain").apply {
+                dependencies {
+                    implementation(findLibrary("kotlin-exposed"))
+                    // add dependencies here
+                }
+            }
+            getByName("commonTest").apply {
+                dependencies {
+                    implementation("org.jetbrains.kotlin:kotlin-test") {
+                        exclude(group = "junit")
+                        exclude(group = "org.junit")
+                    }
+                }
+            }
+        }
+        compilerOptions {
+            configureCompiler()
         }
     }
 }

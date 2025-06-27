@@ -5,7 +5,3 @@ plugins {
     id("signing")
     id("com.vanniktech.maven.publish")
 }
-
-buildLogic {
-    containsPublicApi.set(true)
-}
