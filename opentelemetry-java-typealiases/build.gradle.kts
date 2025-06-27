@@ -8,12 +8,21 @@ plugins {
 
 kotlin {
     sourceSets {
-        val jvmMain by getting {
+        applyDefaultHierarchyTemplate()
+
+        val jvmAndAndroidMain by creating {
+            dependsOn(commonMain.get())
             dependencies {
                 implementation(project.dependencies.platform(libs.opentelemetry.bom))
                 implementation(libs.opentelemetry.api)
                 implementation(libs.opentelemetry.sdk)
             }
+        }
+        val androidMain by getting {
+            dependsOn(jvmAndAndroidMain)
+        }
+        val jvmMain by getting {
+            dependsOn(jvmAndAndroidMain)
         }
     }
 }
