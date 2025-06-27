@@ -9,7 +9,7 @@ fun Project.configureAndroid(kotlin: KotlinMultiplatformExtension) {
         androidLibrary {
             val projectSuffix = project.name.replace("-", ".")
             namespace = "io.embrace.opentelemetry.kotlin.$projectSuffix"
-            compileSdk = 35
+            compileSdk = 36
             minSdk = 21
         }
         sourceSets.apply {
