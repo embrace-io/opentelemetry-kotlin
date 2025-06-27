@@ -6,10 +6,6 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-buildLogic {
-    containsPublicApi.set(true)
-}
-
 android {
     namespace = "io.embrace.opentelemetry.kotlin.noop"
 }
