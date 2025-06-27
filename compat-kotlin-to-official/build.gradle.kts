@@ -13,9 +13,8 @@ kotlin {
             dependencies {
                 api(project(":opentelemetry-kotlin"))
                 implementation(project(":opentelemetry-java-typealiases"))
-
-                api(project.dependencies.platform(libs.opentelemetry.bom))
-                api(libs.opentelemetry.api)
+                implementation(project.dependencies.platform(libs.opentelemetry.bom))
+                implementation(libs.opentelemetry.api)
                 implementation(libs.opentelemetry.sdk)
             }
         }
