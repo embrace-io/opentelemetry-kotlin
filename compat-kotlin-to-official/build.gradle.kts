@@ -9,9 +9,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-group = "io.embrace.opentelemetry.kotlin"
-version = "0.1.0"
-
 buildLogic {
     containsPublicApi.set(true)
     targetPlatforms.set(listOf(TargetPlatform.JVM, TargetPlatform.ANDROID))

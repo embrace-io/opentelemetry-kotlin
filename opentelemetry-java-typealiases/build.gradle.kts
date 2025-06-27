@@ -8,9 +8,6 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-group = "io.embrace.opentelemetry.kotlin"
-version = "0.1.0"
-
 buildLogic {
     containsPublicApi.set(false)
     targetPlatforms.set(listOf(TargetPlatform.JVM, TargetPlatform.ANDROID))
