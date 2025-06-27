@@ -1,18 +1,18 @@
 package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.ThreadSafe
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.resource.Resource
+import io.embrace.opentelemetry.kotlin.tracing.TraceFlags
 
 /**
- * Represents a log that can be emitted by a [Logger].
+ * A read-only representation of a log record.
  *
- * https://opentelemetry.io/docs/specs/otel/logs/api/#emit-a-logrecord
+ * https://opentelemetry.io/docs/specs/otel/logs/sdk/#readablelogrecord
  */
-@ThreadSafe
 @ExperimentalApi
-public interface LogRecord : AttributeContainer {
+public interface ReadableLogRecord {
 
     /**
      * The timestamp in nanoseconds at which the event occurred.
@@ -44,4 +44,34 @@ public interface LogRecord : AttributeContainer {
      * Contains the body of the log message - i.e. a human-readable string or free-form string data.
      */
     public val body: String?
+
+    /**
+     * A map of attributes associated with the log record.
+     */
+    public val attributes: Map<String, Any>
+
+    /**
+     * The trace ID associated with the log record, if any.
+     */
+    public val traceId: String?
+
+    /**
+     * The span ID associated with the log record, if any.
+     */
+    public val spanId: String?
+
+    /**
+     * The trace flags associated with the log record, if any.
+     */
+    public val traceFlags: TraceFlags?
+
+    /**
+     * The resource associated with the log record, if any.
+     */
+    public val resource: Resource?
+
+    /**
+     * The instrumentation scope information associated with the log record, if any.
+     */
+    public val instrumentationScopeInfo: InstrumentationScopeInfo?
 }
