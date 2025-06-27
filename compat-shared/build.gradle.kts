@@ -1,12 +1,8 @@
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("io.embrace.otel.build-logic")
     alias(libs.plugins.kotlin.serialization)
-}
-
-android {
-    namespace = "io.embrace.opentelemetry.kotlin.compat.shared"
 }
 
 kotlin {
