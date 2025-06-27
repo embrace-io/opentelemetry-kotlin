@@ -1,5 +1,3 @@
-import io.embrace.otel.TargetPlatform
-
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("com.android.library")
@@ -7,29 +5,19 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-group = "io.embrace.opentelemetry.kotlin"
-version = "0.1.0"
-
-buildLogic {
-    containsPublicApi.set(false)
-    targetPlatforms.set(listOf(TargetPlatform.JVM, TargetPlatform.ANDROID))
-}
-
 android {
     namespace = "io.embrace.opentelemetry.kotlin.compat.shared"
 }
 
-project.afterEvaluate {
-    kotlin {
-        sourceSets {
-            val jvmMain by getting {
-                dependencies {
-                    api(project(":opentelemetry-kotlin-api"))
-                    implementation(libs.kotlin.serialization)
-                    implementation("org.jetbrains.kotlin:kotlin-test") {
-                        exclude(group = "junit")
-                        exclude(group = "org.junit")
-                    }
+kotlin {
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                api(project(":opentelemetry-kotlin-api"))
+                implementation(libs.kotlin.serialization)
+                implementation("org.jetbrains.kotlin:kotlin-test") {
+                    exclude(group = "junit")
+                    exclude(group = "org.junit")
                 }
             }
         }

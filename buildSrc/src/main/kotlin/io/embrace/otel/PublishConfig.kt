@@ -1,7 +1,6 @@
 package io.embrace.otel
 
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
-import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.Project
 
 fun Project.configurePublishing() {
@@ -9,7 +8,6 @@ fun Project.configurePublishing() {
         val mavenPublishing = project.extensions.getByType(MavenPublishBaseExtension::class.java)
 
         mavenPublishing.apply {
-            publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
             signAllPublications()
             coordinates("io.embrace.opentelemetry.kotlin", project.name, project.version.toString())
 

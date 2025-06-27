@@ -7,13 +7,12 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 class BuildPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-        val buildLogic = project.extensions.create("buildLogic", BuildLogicExtension::class.java)
         val kotlin = project.project.extensions.getByType(KotlinMultiplatformExtension::class.java)
-        project.configureKotlin(buildLogic, kotlin)
+        project.configureKotlin(kotlin)
         project.configureAndroid()
         project.configureDetekt()
-        project.configureBinaryCompatValidation(buildLogic)
-        project.configureExplicitApiMode(buildLogic, kotlin)
+        project.configureBinaryCompatValidation()
+        project.configureExplicitApiMode(kotlin)
         project.configurePublishing()
     }
 }

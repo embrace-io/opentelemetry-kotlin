@@ -6,24 +6,15 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-group = "io.embrace.opentelemetry.kotlin"
-version = "0.1.0"
-
-buildLogic {
-    containsPublicApi.set(true)
-}
-
 android {
     namespace = "io.embrace.opentelemetry.kotlin.implementation"
 }
 
-project.afterEvaluate {
-    kotlin {
-        sourceSets {
-            val commonMain by getting {
-                dependencies {
-                    implementation(project(":opentelemetry-kotlin-api"))
-                }
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(project(":opentelemetry-kotlin-api"))
             }
         }
     }
