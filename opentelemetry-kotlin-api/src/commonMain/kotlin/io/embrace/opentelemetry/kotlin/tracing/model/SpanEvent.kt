@@ -1,8 +1,9 @@
-package io.embrace.opentelemetry.kotlin.tracing
+package io.embrace.opentelemetry.kotlin.tracing.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.tracing.TracingDsl
 
 /**
  * Represents an event that happened on a span

@@ -1,10 +1,10 @@
-package io.embrace.opentelemetry.kotlin.logging
+package io.embrace.opentelemetry.kotlin.logging.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.resource.Resource
-import io.embrace.opentelemetry.kotlin.tracing.TraceFlags
+import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 
 /**
  * A read-only representation of a log record.

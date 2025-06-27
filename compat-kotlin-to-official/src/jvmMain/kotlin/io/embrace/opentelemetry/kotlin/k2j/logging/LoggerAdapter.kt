@@ -8,7 +8,7 @@ import io.embrace.opentelemetry.kotlin.k2j.context.ContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.context.ContextKeyRepository
 import io.embrace.opentelemetry.kotlin.k2j.tracing.AttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.logging.Logger
-import io.embrace.opentelemetry.kotlin.logging.SeverityNumber
+import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import java.util.concurrent.TimeUnit
 
 @ExperimentalApi

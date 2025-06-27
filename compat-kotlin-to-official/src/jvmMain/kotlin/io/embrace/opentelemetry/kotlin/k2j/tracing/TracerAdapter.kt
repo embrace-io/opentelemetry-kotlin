@@ -5,11 +5,11 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
-import io.embrace.opentelemetry.kotlin.tracing.Span
-import io.embrace.opentelemetry.kotlin.tracing.SpanContext
-import io.embrace.opentelemetry.kotlin.tracing.SpanKind
-import io.embrace.opentelemetry.kotlin.tracing.SpanRelationships
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
+import io.embrace.opentelemetry.kotlin.tracing.model.Span
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)

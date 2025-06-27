@@ -1,7 +1,7 @@
-package io.embrace.opentelemetry.kotlin.logging
+package io.embrace.opentelemetry.kotlin.logging.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.tracing.TraceFlags
+import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 
 /**
  * A read-write representation of a log record.

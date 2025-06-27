@@ -1,4 +1,6 @@
-package io.embrace.opentelemetry.kotlin
+package io.embrace.opentelemetry.kotlin.tracing
+
+import io.embrace.opentelemetry.kotlin.ThreadSafe
 
 /**
  * Represents the status of an operation.

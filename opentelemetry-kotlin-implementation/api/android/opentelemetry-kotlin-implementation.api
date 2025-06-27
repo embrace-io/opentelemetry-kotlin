@@ -17,10 +17,10 @@ public final class io/embrace/opentelemetry/kotlin/context/ContextKeyImpl : io/e
 	public fun getName ()Ljava/lang/String;
 }
 
-public final class io/embrace/opentelemetry/kotlin/tracing/LinkImpl : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer, io/embrace/opentelemetry/kotlin/tracing/Link {
-	public fun <init> (Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;)V
+public final class io/embrace/opentelemetry/kotlin/tracing/LinkImpl : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer, io/embrace/opentelemetry/kotlin/tracing/model/Link {
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;)V
 	public fun attributes ()Ljava/util/Map;
-	public fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;
+	public fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 	public fun setBooleanAttribute (Ljava/lang/String;Z)V
 	public fun setBooleanListAttribute (Ljava/lang/String;Ljava/util/List;)V
 	public fun setDoubleAttribute (Ljava/lang/String;D)V
@@ -31,7 +31,7 @@ public final class io/embrace/opentelemetry/kotlin/tracing/LinkImpl : io/embrace
 	public fun setStringListAttribute (Ljava/lang/String;Ljava/util/List;)V
 }
 
-public final class io/embrace/opentelemetry/kotlin/tracing/SpanEventImpl : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer, io/embrace/opentelemetry/kotlin/tracing/SpanEvent {
+public final class io/embrace/opentelemetry/kotlin/tracing/SpanEventImpl : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer, io/embrace/opentelemetry/kotlin/tracing/model/SpanEvent {
 	public fun <init> (Ljava/lang/String;JLio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;)V
 	public fun attributes ()Ljava/util/Map;
 	public fun getName ()Ljava/lang/String;

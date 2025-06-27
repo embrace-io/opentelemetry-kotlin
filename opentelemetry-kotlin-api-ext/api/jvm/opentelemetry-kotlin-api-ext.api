@@ -3,11 +3,11 @@ public final class io/embrace/opentelemetry/kotlin/attributes/AttributeContainer
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/SpanContextExtKt {
-	public static final fun getSpanIdBytes (Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;)[B
-	public static final fun getTraceIdBytes (Lio/embrace/opentelemetry/kotlin/tracing/SpanContext;)[B
+	public static final fun getSpanIdBytes (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;)[B
+	public static final fun getTraceIdBytes (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;)[B
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/SpanExtKt {
-	public static final fun recordException (Lio/embrace/opentelemetry/kotlin/tracing/Span;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
+	public static final fun recordException (Lio/embrace/opentelemetry/kotlin/tracing/model/Span;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 }
 

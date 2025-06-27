@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.k2j.logging
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
-import io.embrace.opentelemetry.kotlin.logging.SeverityNumber
+import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 

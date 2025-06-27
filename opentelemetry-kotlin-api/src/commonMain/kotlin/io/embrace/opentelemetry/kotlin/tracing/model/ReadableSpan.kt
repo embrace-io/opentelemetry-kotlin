@@ -1,9 +1,9 @@
-package io.embrace.opentelemetry.kotlin.tracing
+package io.embrace.opentelemetry.kotlin.tracing.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
-import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.resource.Resource
+import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 
 /**
  * A read-only representation of a span.

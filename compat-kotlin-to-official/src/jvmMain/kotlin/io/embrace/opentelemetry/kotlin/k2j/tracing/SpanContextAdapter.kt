@@ -1,9 +1,9 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
-import io.embrace.opentelemetry.kotlin.tracing.SpanContext
-import io.embrace.opentelemetry.kotlin.tracing.TraceFlags
-import io.embrace.opentelemetry.kotlin.tracing.TraceState
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
+import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
+import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 
 public class SpanContextAdapter( // temporarily public, will be internal in future
     public val impl: OtelJavaSpanContext

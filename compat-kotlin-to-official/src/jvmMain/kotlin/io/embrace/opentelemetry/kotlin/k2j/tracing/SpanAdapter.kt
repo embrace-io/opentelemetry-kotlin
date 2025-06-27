@@ -2,17 +2,17 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.StatusCode
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.tracing.Link
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
-import io.embrace.opentelemetry.kotlin.tracing.Span
-import io.embrace.opentelemetry.kotlin.tracing.SpanContext
-import io.embrace.opentelemetry.kotlin.tracing.SpanEvent
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
-import io.embrace.opentelemetry.kotlin.tracing.SpanKind
+import io.embrace.opentelemetry.kotlin.tracing.StatusCode
+import io.embrace.opentelemetry.kotlin.tracing.model.Link
+import io.embrace.opentelemetry.kotlin.tracing.model.Span
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanEvent
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import io.opentelemetry.context.Context
 import io.opentelemetry.context.ImplicitContextKeyed
 import io.opentelemetry.context.Scope

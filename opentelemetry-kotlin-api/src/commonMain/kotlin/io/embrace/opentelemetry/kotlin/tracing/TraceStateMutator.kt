@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 /**
- * Mutates [TraceState].
+ * Mutates [io.embrace.opentelemetry.kotlin.tracing.model.TraceState].
  *
  * https://opentelemetry.io/docs/specs/otel/trace/api/#tracestate
  */
