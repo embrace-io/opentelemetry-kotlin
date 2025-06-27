@@ -2,7 +2,6 @@ package io.embrace.opentelemetry.kotlin.resource
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 
 /**
  * Implementations of this interface hold a 'resource' as described in the OTel specification.
@@ -11,4 +10,15 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
  */
 @ExperimentalApi
 @ThreadSafe
-public typealias Resource = AttributeContainer
+public interface Resource {
+
+    /**
+     * The attributes of the resource.
+     */
+    public val attributes: Map<String, Any>
+
+    /**
+     * A schema URL for this resource, if available.
+     */
+    public val schemaUrl: String?
+}

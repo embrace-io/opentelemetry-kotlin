@@ -122,7 +122,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/logging/model/Re
 	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
 	public abstract fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
 	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
-	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;
+	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/resource/Resource;
 	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
 	public abstract fun getSeverityText ()Ljava/lang/String;
 	public abstract fun getSpanId ()Ljava/lang/String;
@@ -160,6 +160,11 @@ public final class io/embrace/opentelemetry/kotlin/logging/model/SeverityNumber 
 	public final fun getSeverityNumber ()I
 	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
 	public static fun values ()[Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/resource/Resource {
+	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getSchemaUrl ()Ljava/lang/String;
 }
 
 public abstract class io/embrace/opentelemetry/kotlin/tracing/StatusCode {
@@ -238,7 +243,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Re
 	public abstract fun getLinks ()Ljava/util/List;
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
-	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;
+	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/resource/Resource;
 	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 	public abstract fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
 	public abstract fun getStartTimestamp ()J
