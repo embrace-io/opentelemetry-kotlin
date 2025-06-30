@@ -8,6 +8,7 @@ fun Project.configurePublishing() {
         val mavenPublishing = project.extensions.getByType(MavenPublishBaseExtension::class.java)
 
         mavenPublishing.apply {
+            publishToMavenCentral()
             signAllPublications()
             coordinates("io.embrace.opentelemetry.kotlin", project.name, project.version.toString())
 
