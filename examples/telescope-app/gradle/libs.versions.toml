@@ -37,7 +37,7 @@ opentelemetry-bom = { group = "io.opentelemetry", name = "opentelemetry-bom", ve
 opentelemetry-kotlin-api = { group = "io.embrace.opentelemetry.kotlin", name = "opentelemetry-kotlin-api", version.ref = "opentelemetry-kotlin-api" }
 opentelemetry-kotlin-testing = { module = "io.embrace.opentelemetry.kotlin:opentelemetry-kotlin-testing", version.ref = "opentelemetry-kotlin-api" }
 opentelemetry-kotlin-api-ext = { module = "io.embrace.opentelemetry.kotlin:opentelemetry-kotlin-api-ext", version.ref = "opentelemetry-kotlin-api" }
-opentelemetry-kotlin-compat = { module = "io.embrace.opentelemetry.kotlin:compat-kotlin-to-official", version.ref = "opentelemetry-kotlin-api" }
+opentelemetry-kotlin-compat = { module = "io.embrace.opentelemetry.kotlin:opentelemetry-kotlin-compat", version.ref = "opentelemetry-kotlin-api" }
 opentelemetry-context = { group = "io.opentelemetry", name = "opentelemetry-context" }
 opentelemetry-exporter-otlp = { group = "io.opentelemetry", name = "opentelemetry-exporter-otlp" }
 opentelemetry-exporter-logging = { group = "io.opentelemetry", name = "opentelemetry-exporter-logging" }

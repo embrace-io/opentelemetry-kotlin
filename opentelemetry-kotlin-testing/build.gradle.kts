@@ -8,7 +8,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 api(project(":opentelemetry-kotlin"))
-                api(project(":compat-kotlin-to-official"))
+                api(project(":opentelemetry-kotlin-compat"))
                 api(project(":opentelemetry-java-typealiases"))
 
                 api(project.dependencies.platform(libs.opentelemetry.bom))
