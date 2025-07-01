@@ -13,7 +13,7 @@ fun Project.containsPublicApi(): Boolean {
 
 /**
  * Whether a module consists of a compatibility layer for the opentelemetry-java SDK. This is determined by
- * the presence of the property `io.embrace.javaSdkCompatModule` in the module. We only need to build JVM/Android
+ * the presence of the property `io.embrace.javaSdkCompatModule` in the module. We only need to build JVM
  * targets for these modules.
  */
 fun Project.isJavaSdkCompatModule(): Boolean {
