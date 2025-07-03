@@ -11,10 +11,25 @@ public final class io/embrace/opentelemetry/kotlin/j2k/logging/export/LogRecordE
 	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
 }
 
+public final class io/embrace/opentelemetry/kotlin/j2k/logging/export/LogRecordProcessorAdapter : io/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor {
+	public fun <init> (Lio/opentelemetry/sdk/logs/LogRecordProcessor;)V
+	public fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+	public fun onEmit (Lio/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord;Lio/embrace/opentelemetry/kotlin/context/Context;)V
+	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+}
+
 public final class io/embrace/opentelemetry/kotlin/j2k/tracing/export/SpanExporterAdapter : io/embrace/opentelemetry/kotlin/tracing/export/SpanExporter {
 	public fun <init> (Lio/opentelemetry/sdk/trace/export/SpanExporter;)V
 	public fun export (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
 	public fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+}
+
+public final class io/embrace/opentelemetry/kotlin/j2k/tracing/export/SpanProcessorAdapter : io/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor {
+	public fun <init> (Lio/opentelemetry/sdk/trace/SpanProcessor;)V
+	public fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+	public fun onEnd (Lio/embrace/opentelemetry/kotlin/tracing/model/ReadableSpan;)V
+	public fun onStart (Lio/embrace/opentelemetry/kotlin/tracing/model/ReadWriteSpan;Lio/embrace/opentelemetry/kotlin/context/Context;)V
 	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
 }
 

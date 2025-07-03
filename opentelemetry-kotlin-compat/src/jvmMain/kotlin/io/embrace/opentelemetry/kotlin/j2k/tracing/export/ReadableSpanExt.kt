@@ -6,6 +6,8 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaEventData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaInstrumentationLibraryInfo
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLinkData
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadableSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
 import io.embrace.opentelemetry.kotlin.j2k.bridge.OtelJavaSpanDataImpl
@@ -47,4 +49,14 @@ internal fun ReadableSpan.toSpanData(): SpanData {
         }.toMutableList(),
         hasEndedImpl = hasEnded()
     )
+}
+
+@OptIn(ExperimentalApi::class)
+internal fun ReadableSpan.toOtelJavaReadableSpan(): OtelJavaReadableSpan {
+    TODO("Not yet implemented")
+}
+
+@OptIn(ExperimentalApi::class)
+internal fun ReadableSpan.toOtelJavaReadWriteSpan(): OtelJavaReadWriteSpan {
+    TODO("Not yet implemented")
 }

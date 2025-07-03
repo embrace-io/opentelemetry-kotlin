@@ -4,6 +4,7 @@ package io.embrace.opentelemetry.kotlin.j2k.logging.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaInstrumentationScopeInfo
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteLogRecord
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaResource
 import io.embrace.opentelemetry.kotlin.j2k.bridge.OtelJavaLogRecordDataImpl
 import io.embrace.opentelemetry.kotlin.j2k.bridge.attrsFromMap
@@ -30,4 +31,9 @@ internal fun ReadableLogRecord.toLogRecordData(): LogRecordData {
         scopeImpl = instrumentationScopeInfo?.convertToOtelJava()
             ?: OtelJavaInstrumentationScopeInfo.empty()
     )
+}
+
+@OptIn(ExperimentalApi::class)
+internal fun ReadableLogRecord.toOtelJavaReadWriteLogRecord(): OtelJavaReadWriteLogRecord {
+    TODO("Not yet implemented")
 }
