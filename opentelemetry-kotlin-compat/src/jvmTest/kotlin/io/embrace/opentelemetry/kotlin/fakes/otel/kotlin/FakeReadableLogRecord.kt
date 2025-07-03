@@ -8,7 +8,6 @@ import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import io.embrace.opentelemetry.kotlin.resource.Resource
-import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 
 internal class FakeReadableLogRecord(
     override val timestamp: Long? = 1000,
@@ -18,9 +17,7 @@ internal class FakeReadableLogRecord(
     override val severityText: String? = "warning",
     override val body: String? = "Hello, World!",
     override val attributes: Map<String, Any> = mapOf("key" to "value"),
-    override val traceId: String? = "my-trace-id",
-    override val spanId: String? = "my-span-id",
-    override val traceFlags: TraceFlags? = FakeTraceFlags(),
+    override val spanContext: FakeSpanContext = FakeSpanContext(),
     override val resource: Resource? = FakeResource(),
     override val instrumentationScopeInfo: InstrumentationScopeInfo? = FakeInstrumentationScopeInfo()
 ) : ReadableLogRecord

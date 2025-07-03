@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin.logging.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
 /**
  * A read-write representation of a log record.
@@ -43,17 +43,7 @@ public interface ReadWriteLogRecord : ReadableLogRecord {
     public override val attributes: MutableMap<String, Any>
 
     /**
-     * The trace ID associated with the log record, if any.
+     * The span context associated with the log record
      */
-    public override var traceId: String?
-
-    /**
-     * The span ID associated with the log record, if any.
-     */
-    public override var spanId: String?
-
-    /**
-     * The trace flags associated with the log record, if any.
-     */
-    public override var traceFlags: TraceFlags?
+    public override var spanContext: SpanContext
 }
