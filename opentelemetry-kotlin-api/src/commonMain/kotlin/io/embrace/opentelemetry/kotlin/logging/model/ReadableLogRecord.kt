@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.resource.Resource
-import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
 /**
  * A read-only representation of a log record.
@@ -51,19 +51,9 @@ public interface ReadableLogRecord {
     public val attributes: Map<String, Any>
 
     /**
-     * The trace ID associated with the log record, if any.
+     * The span context associated with the log record
      */
-    public val traceId: String?
-
-    /**
-     * The span ID associated with the log record, if any.
-     */
-    public val spanId: String?
-
-    /**
-     * The trace flags associated with the log record, if any.
-     */
-    public val traceFlags: TraceFlags?
+    public val spanContext: SpanContext
 
     /**
      * The resource associated with the log record, if any.
