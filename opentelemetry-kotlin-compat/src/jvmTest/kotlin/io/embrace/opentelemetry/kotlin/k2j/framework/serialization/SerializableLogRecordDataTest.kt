@@ -4,8 +4,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaInstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaResource
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
+import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaLogRecordData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
-import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.fakes.FakeLogRecordData
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -14,7 +14,7 @@ internal class SerializableLogRecordDataTest {
 
     @Test
     fun `test conversion`() {
-        val fake = FakeLogRecordData()
+        val fake = FakeOtelJavaLogRecordData()
         val observed = fake.toSerializable(true)
 
         compareResource(fake.resource, observed.resource)

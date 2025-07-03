@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION", "TYPEALIAS_EXPANSION_DEPRECATION")
 
-package io.embrace.opentelemetry.kotlin.k2j.framework.serialization.fakes
+package io.embrace.opentelemetry.kotlin.fakes.otel.java
 
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
@@ -14,7 +14,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
 
-internal class FakeSpanData(
+internal class FakeOtelJavaSpanData(
     val implName: String = "fake_span",
     val implSpanKind: OtelJavaSpanKind = OtelJavaSpanKind.INTERNAL,
     val implSpanContext: OtelJavaSpanContext = OtelJavaSpanContext.getInvalid(),
