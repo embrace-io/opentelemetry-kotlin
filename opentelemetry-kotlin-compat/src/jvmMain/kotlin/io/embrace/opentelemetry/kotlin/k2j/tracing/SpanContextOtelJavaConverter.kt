@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaImmutableSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceFlags
@@ -8,6 +9,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 
+@OptIn(ExperimentalApi::class)
 internal fun SpanContext.convertToOtelJava(): OtelJavaSpanContext {
     return OtelJavaImmutableSpanContext.create(
         traceId,
@@ -26,6 +28,7 @@ internal fun TraceFlags.convertToOtelJava(): OtelJavaTraceFlags {
     return OtelJavaTraceFlags.fromHex(sb.toString(), 0)
 }
 
+@OptIn(ExperimentalApi::class)
 internal fun TraceState.convertToOtelJava(): OtelJavaTraceState {
     return OtelJavaTraceState.builder().apply {
         asMap().entries.forEach {

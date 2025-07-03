@@ -6,8 +6,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLinkData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaResource
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
+import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaSpanData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
-import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.fakes.FakeSpanData
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -17,7 +17,7 @@ internal class SerializableSpanDataTest {
 
     @Test
     fun `test conversion`() {
-        val fake = FakeSpanData()
+        val fake = FakeOtelJavaSpanData()
         val observed = fake.toSerializable(true)
 
         assertEquals(fake.implName, observed.name)

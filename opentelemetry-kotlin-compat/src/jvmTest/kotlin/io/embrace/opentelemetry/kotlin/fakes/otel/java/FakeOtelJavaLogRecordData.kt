@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION", "TYPEALIAS_EXPANSION_DEPRECATION")
 
-package io.embrace.opentelemetry.kotlin.k2j.framework.serialization.fakes
+package io.embrace.opentelemetry.kotlin.fakes.otel.java
 
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaBody
@@ -10,7 +10,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaResource
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSeverity
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 
-internal class FakeLogRecordData(
+internal class FakeOtelJavaLogRecordData(
     private val implResource: OtelJavaResource = OtelJavaResource.empty(),
     private val implScopeInfo: OtelJavaInstrumentationScopeInfo = OtelJavaInstrumentationScopeInfo.empty(),
     private val implTimestamp: Long = 0,

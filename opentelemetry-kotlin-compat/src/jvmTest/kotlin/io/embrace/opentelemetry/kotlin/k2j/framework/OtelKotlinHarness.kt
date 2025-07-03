@@ -6,6 +6,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetrySdk
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkLoggerProvider
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProvider
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
+import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaClock
 import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableLogRecordData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanData
@@ -23,7 +24,7 @@ internal class OtelKotlinHarness {
 
     private val spanExporter = InMemorySpanExporter()
     private val logRecordExporter = InMemoryLogRecordExporter()
-    private val fakeClock = FakeClock()
+    private val fakeClock = FakeOtelJavaClock()
 
     private val tracerProvider: OtelJavaSdkTracerProvider = OtelJavaSdkTracerProvider.builder()
         .addSpanProcessor(InMemorySpanProcessor(spanExporter))

@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.tracing.model
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 
 /**
@@ -10,6 +11,7 @@ import io.embrace.opentelemetry.kotlin.ThreadSafe
  * https://opentelemetry.io/docs/specs/otel/trace/api/#spancontext
  */
 @ThreadSafe
+@ExperimentalApi
 public interface SpanContext {
 
     /**

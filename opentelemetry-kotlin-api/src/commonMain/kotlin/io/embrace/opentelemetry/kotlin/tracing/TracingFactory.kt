@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContextOrigin
@@ -11,6 +12,7 @@ public interface TracingFactory {
     /**
      * Creates a new [io.embrace.opentelemetry.kotlin.tracing.model.SpanContext] from the given parameters.
      */
+    @OptIn(ExperimentalApi::class)
     @ThreadSafe
     public fun createSpanContext(
         traceId: String,
