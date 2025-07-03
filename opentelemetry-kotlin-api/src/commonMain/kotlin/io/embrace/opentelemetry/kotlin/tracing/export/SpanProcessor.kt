@@ -24,4 +24,14 @@ public interface SpanProcessor : TelemetryCloseable {
      * Invoked after a span has ended with an immutable representation of the span.
      */
     public fun onEnd(span: ReadableSpan)
+
+    /**
+     * Determines whether this span processor is required when a span starts.
+     */
+    public fun isStartRequired(): Boolean
+
+    /**
+     * Determines whether this span processor is required when a span ends.
+     */
+    public fun isEndRequired(): Boolean
 }

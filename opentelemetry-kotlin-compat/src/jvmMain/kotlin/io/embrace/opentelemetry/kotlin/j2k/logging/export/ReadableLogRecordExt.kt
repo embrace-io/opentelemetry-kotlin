@@ -4,6 +4,7 @@ package io.embrace.opentelemetry.kotlin.j2k.logging.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaInstrumentationScopeInfo
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteLogRecord
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaResource
 import io.embrace.opentelemetry.kotlin.j2k.bridge.OtelJavaLogRecordDataImpl
 import io.embrace.opentelemetry.kotlin.j2k.bridge.attrsFromMap
@@ -11,6 +12,7 @@ import io.embrace.opentelemetry.kotlin.j2k.bridge.convertToOtelJava
 import io.embrace.opentelemetry.kotlin.j2k.bridge.resourceFromMap
 import io.embrace.opentelemetry.kotlin.k2j.logging.convertToOtelJava
 import io.embrace.opentelemetry.kotlin.k2j.tracing.convertToOtelJava
+import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 import io.opentelemetry.api.logs.Severity
 import io.opentelemetry.sdk.logs.data.Body
@@ -30,4 +32,9 @@ internal fun ReadableLogRecord.toLogRecordData(): LogRecordData {
         scopeImpl = instrumentationScopeInfo?.convertToOtelJava()
             ?: OtelJavaInstrumentationScopeInfo.empty()
     )
+}
+
+@OptIn(ExperimentalApi::class)
+internal fun OtelJavaReadWriteLogRecord.toOtelKotlin(): ReadWriteLogRecord {
+    TODO()
 }

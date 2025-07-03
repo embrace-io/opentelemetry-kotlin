@@ -10,15 +10,15 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalApi::class)
-internal class LogRecordExporterAdapterTest {
+internal class OtelJavaLogRecordExporterAdapterTest {
 
     private lateinit var impl: FakeOtelJavaLogRecordExporter
-    private lateinit var wrapper: LogRecordExporterAdapter
+    private lateinit var wrapper: OtelJavaLogRecordExporterAdapter
 
     @Before
     fun setUp() {
         impl = FakeOtelJavaLogRecordExporter()
-        wrapper = LogRecordExporterAdapter(impl)
+        wrapper = OtelJavaLogRecordExporterAdapter(impl)
     }
 
     @Test
