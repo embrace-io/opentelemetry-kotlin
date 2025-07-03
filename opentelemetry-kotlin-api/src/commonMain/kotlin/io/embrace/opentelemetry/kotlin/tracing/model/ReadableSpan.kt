@@ -42,6 +42,11 @@ public interface ReadableSpan {
     public val startTimestamp: Long
 
     /**
+     * The timestamp at which this span ended, in nanoseconds. If it has not ended null will return.
+     */
+    public val endTimestamp: Long?
+
+    /**
      * The resource associated with the object
      */
     public val resource: Resource

@@ -18,6 +18,7 @@ internal class FakeReadableSpan(
     override val spanContext: SpanContext = FakeSpanContext(),
     override val spanKind: SpanKind = SpanKind.INTERNAL,
     override val startTimestamp: Long = 1000,
+    override val endTimestamp: Long = 2000,
     override val resource: Resource = FakeResource(),
     override val instrumentationScopeInfo: InstrumentationScopeInfo = FakeInstrumentationScopeInfo(),
     override val attributes: Map<String, Any> = mapOf("key" to "value"),
