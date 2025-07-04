@@ -1,21 +1,23 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework
 
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaCompletableResultCode
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanExporter
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.export.OperationResultCode
+import io.embrace.opentelemetry.kotlin.tracing.export.SpanExporter
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 
-internal class InMemorySpanExporter : OtelJavaSpanExporter {
+@OptIn(ExperimentalApi::class)
+internal class InMemorySpanExporter : SpanExporter {
 
-    private val impl = mutableListOf<OtelJavaSpanData>()
+    private val impl = mutableListOf<ReadableSpan>()
 
-    val exportedSpans: List<OtelJavaSpanData>
+    val exportedSpans: List<ReadableSpan>
         get() = impl
 
-    override fun export(spans: MutableCollection<OtelJavaSpanData>): OtelJavaCompletableResultCode {
-        impl.addAll(spans)
-        return OtelJavaCompletableResultCode.ofSuccess()
+    override fun export(telemetry: List<ReadableSpan>): OperationResultCode {
+        impl += telemetry
+        return OperationResultCode.Success
     }
 
-    override fun flush(): OtelJavaCompletableResultCode = OtelJavaCompletableResultCode.ofSuccess()
-    override fun shutdown(): OtelJavaCompletableResultCode = OtelJavaCompletableResultCode.ofSuccess()
+    override fun forceFlush(): OperationResultCode = OperationResultCode.Success
+    override fun shutdown(): OperationResultCode = OperationResultCode.Success
 }
