@@ -6,7 +6,7 @@ import io.embrace.opentelemetry.kotlin.context.ContextKey
 
 @ExperimentalApi
 internal class ContextKeyAdapter<T>(
-    impl: OtelJavaContextKey<T>
+    internal val impl: OtelJavaContextKey<T>
 ) : ContextKey<T> {
     override val name: String = impl.toString()
 }
