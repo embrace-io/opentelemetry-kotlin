@@ -16,7 +16,7 @@ internal class LogExportTest {
     @BeforeTest
     fun setUp() {
         harness = OtelKotlinHarness()
-        loggerProvider = LoggerProviderAdapter(harness.sdk.logsBridge)
+        loggerProvider = harness.kotlinApi.loggerProvider
     }
 
     @Test

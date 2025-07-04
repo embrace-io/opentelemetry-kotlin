@@ -78,8 +78,7 @@ public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TracerAdapter : i
 }
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TracerProviderAdapter : io/embrace/opentelemetry/kotlin/tracing/TracerProvider {
-	public fun <init> (Lio/opentelemetry/api/trace/TracerProvider;Lio/embrace/opentelemetry/kotlin/k2j/ClockAdapter;)V
-	public synthetic fun <init> (Lio/opentelemetry/api/trace/TracerProvider;Lio/embrace/opentelemetry/kotlin/k2j/ClockAdapter;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lio/opentelemetry/api/trace/TracerProvider;Lio/embrace/opentelemetry/kotlin/Clock;)V
 	public fun getTracer (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/tracing/Tracer;
 }
 

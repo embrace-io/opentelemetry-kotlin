@@ -20,14 +20,14 @@
     },
     "startTimestampNs": 0,
     "attributes": {
-      "long_key": "42",
-      "long_list_key": "[42]",
-      "bool_key": "true",
-      "double_list_key": "[3.14]",
-      "string_list_key": "[a]",
-      "bool_list_key": "[true]",
-      "double_key": "3.14",
-      "string_key": "second_value"
+      "bool_key":"true",
+      "bool_list_key":"[true]",
+      "double_key":"3.14",
+      "double_list_key":"[3.14]",
+      "long_key":"42",
+      "long_list_key":"[42]",
+      "string_key":"second_value",
+      "string_list_key":"[a]"
     },
     "events": [],
     "links": [],
@@ -35,7 +35,7 @@
     "ended": true,
     "totalRecordedEvents": 0,
     "totalRecordedLinks": 0,
-    "totalAttributeCount": 9,
+    "totalAttributeCount": 8,
     "resource": {
       "schemaUrl": "null",
       "attributes": {

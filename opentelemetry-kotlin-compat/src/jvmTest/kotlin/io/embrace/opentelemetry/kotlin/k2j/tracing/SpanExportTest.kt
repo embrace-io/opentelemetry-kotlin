@@ -27,7 +27,7 @@ internal class SpanExportTest {
     @BeforeTest
     fun setUp() {
         harness = OtelKotlinHarness()
-        tracerProvider = TracerProviderAdapter(harness.sdk.tracerProvider, harness.clock)
+        tracerProvider = harness.kotlinApi.tracerProvider
         tracer = tracerProvider.getTracer("name", "version")
     }
 

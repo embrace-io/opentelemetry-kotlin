@@ -16,7 +16,7 @@ import io.opentelemetry.sdk.trace.SdkTracerProviderBuilder
 
 @ExperimentalApi
 internal class TracerProviderConfigImpl(
-    clock: Clock
+    private val clock: Clock
 ) : TracerProviderConfigDsl {
 
     private val builder: SdkTracerProviderBuilder = OtelJavaSdkTracerProvider.builder()
@@ -38,5 +38,5 @@ internal class TracerProviderConfigImpl(
         builder.addSpanProcessor(OtelJavaSpanProcessorAdapter(processor))
     }
 
-    fun build(): TracerProvider = TracerProviderAdapter(builder.build())
+    fun build(): TracerProvider = TracerProviderAdapter(builder.build(), clock)
 }

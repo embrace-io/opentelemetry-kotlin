@@ -1,20 +1,23 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordData
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetrySdk
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkLoggerProvider
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProvider
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
-import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaClock
-import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
+import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
+import io.embrace.opentelemetry.kotlin.j2k.logging.export.toLogRecordData
+import io.embrace.opentelemetry.kotlin.j2k.tracing.export.toSpanData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableLogRecordData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
+import io.embrace.opentelemetry.kotlin.kotlinApi
+import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
+@OptIn(ExperimentalApi::class)
 internal class OtelKotlinHarness {
 
     private companion object {
@@ -24,24 +27,16 @@ internal class OtelKotlinHarness {
 
     private val spanExporter = InMemorySpanExporter()
     private val logRecordExporter = InMemoryLogRecordExporter()
-    private val fakeClock = FakeOtelJavaClock()
 
-    private val tracerProvider: OtelJavaSdkTracerProvider = OtelJavaSdkTracerProvider.builder()
-        .addSpanProcessor(InMemorySpanProcessor(spanExporter))
-        .setClock(fakeClock)
-        .build()
-
-    private val loggerProvider: OtelJavaSdkLoggerProvider = OtelJavaSdkLoggerProvider.builder()
-        .addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
-        .setClock(fakeClock)
-        .build()
-
-    val sdk: OtelJavaOpenTelemetry = OtelJavaOpenTelemetrySdk.builder()
-        .setTracerProvider(tracerProvider)
-        .setLoggerProvider(loggerProvider)
-        .build()
-
-    val clock: ClockAdapter = ClockAdapter(fakeClock)
+    val kotlinApi = OpenTelemetryInstance.kotlinApi(
+        clock = FakeClock(),
+        tracerProvider = {
+            addSpanProcessor(InMemorySpanProcessor(spanExporter))
+        },
+        loggerProvider = {
+            addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
+        }
+    )
 
     internal fun assertSpans(
         expectedCount: Int,
@@ -51,7 +46,7 @@ internal class OtelKotlinHarness {
     ) {
         val observedSpans: List<OtelJavaSpanData> = awaitExportedData(
             expectedCount = expectedCount,
-            supplier = { spanExporter.exportedSpans }
+            supplier = { spanExporter.exportedSpans.map(ReadableSpan::toSpanData) }
         )
         val data = observedSpans.map { it.toSerializable(sanitizeSpanContextIds) }
         assertions(data)
@@ -69,7 +64,7 @@ internal class OtelKotlinHarness {
     ) {
         val observedLogRecords: List<OtelJavaLogRecordData> = awaitExportedData(
             expectedCount = expectedCount,
-            supplier = { logRecordExporter.exportedLogRecords }
+            supplier = { logRecordExporter.exportedLogRecords.map(ReadableLogRecord::toLogRecordData) }
         )
         val data = observedLogRecords.map { it.toSerializable(sanitizeSpanContextIds) }
         assertions(data)

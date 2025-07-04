@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.k2j
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
+import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
 import org.junit.Assert.assertNotSame
 import org.junit.Assert.assertSame
 import org.junit.Test
@@ -11,7 +12,7 @@ internal class OpenTelemetrySdkTest {
 
     @Test
     fun `retrieve tracer provider`() {
-        val sdk = OpenTelemetrySdk(OtelJavaOpenTelemetry.noop())
+        val sdk = OpenTelemetrySdk(OtelJavaOpenTelemetry.noop(), FakeClock())
         val provider = sdk.tracerProvider
         val a = provider.getTracer("test")
         val b = provider.getTracer("test")
@@ -26,7 +27,7 @@ internal class OpenTelemetrySdkTest {
 
     @Test
     fun `retrieve logger provider`() {
-        val sdk = OpenTelemetrySdk(OtelJavaOpenTelemetry.noop())
+        val sdk = OpenTelemetrySdk(OtelJavaOpenTelemetry.noop(), FakeClock())
         val provider = sdk.loggerProvider
         val a = provider.getLogger("test")
         val b = provider.getLogger("test")

@@ -5,6 +5,7 @@ import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteLogRecord
 import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.j2k.bridge.ResourceAdapter
 import io.embrace.opentelemetry.kotlin.j2k.bridge.convertToOtelKotlin
 import io.embrace.opentelemetry.kotlin.k2j.logging.convertToOtelKotlin
 import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
@@ -88,8 +89,8 @@ internal class ReadWriteLogRecordAdapter(
     override val context: Context?
         get() = null
 
-    override val resource: Resource?
-        get() = null
+    override val resource: Resource
+        get() = ResourceAdapter(impl.toLogRecordData().resource)
 
     override val instrumentationScopeInfo: InstrumentationScopeInfo
         get() = impl.instrumentationScopeInfo.convertToOtelKotlin()
