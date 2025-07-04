@@ -6,6 +6,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import java.util.concurrent.TimeUnit
 
@@ -25,7 +26,7 @@ internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan {
     }
 
     override fun setStatus(statusCode: OtelJavaStatusCode, description: String): OtelJavaSpan {
-        statusCode.convertToOtelKotlin(description)
+        OtelJavaStatusData.create(statusCode, description).convertToOtelKotlin()
         return this
     }
 

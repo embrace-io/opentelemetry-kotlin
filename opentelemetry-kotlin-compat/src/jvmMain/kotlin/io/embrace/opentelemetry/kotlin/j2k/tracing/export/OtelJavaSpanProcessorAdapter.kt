@@ -14,11 +14,11 @@ internal class OtelJavaSpanProcessorAdapter(
 ) : OtelJavaSpanProcessor {
 
     override fun onStart(parentContext: Context, span: OtelJavaReadWriteSpan) {
-        impl.onStart(span.toOtelKotlin(), parentContext.toOtelKotlin())
+        impl.onStart(ReadWriteSpanAdapter(span), parentContext.toOtelKotlin())
     }
 
     override fun onEnd(span: OtelJavaReadableSpan) {
-        impl.onEnd(span.toOtelKotlin())
+        impl.onEnd(ReadableSpanAdapter(span))
     }
 
     override fun isStartRequired(): Boolean = impl.isStartRequired()
