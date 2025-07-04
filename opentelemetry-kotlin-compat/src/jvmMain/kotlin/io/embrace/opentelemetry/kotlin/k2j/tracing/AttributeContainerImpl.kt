@@ -3,12 +3,13 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributesBuilder
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 
 @OptIn(ExperimentalApi::class)
-internal class AttributeContainerImpl : AttributeContainer {
-
-    private val attrs = OtelJavaAttributes.builder()
+internal class AttributeContainerImpl(
+    private val attrs: OtelJavaAttributesBuilder = OtelJavaAttributes.builder()
+) : AttributeContainer {
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         attrs.put(key, value)
