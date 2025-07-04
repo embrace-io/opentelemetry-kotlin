@@ -5,6 +5,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkLoggerProvider
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigDsl
+import io.embrace.opentelemetry.kotlin.j2k.logging.export.OtelJavaLogRecordProcessorAdapter
 import io.embrace.opentelemetry.kotlin.k2j.logging.LoggerProviderAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.AttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
@@ -29,7 +30,7 @@ internal class LoggerProviderConfigImpl(
     }
 
     override fun addLogRecordProcessor(processor: LogRecordProcessor) {
-        TODO("Not yet implemented")
+        builder.addLogRecordProcessor(OtelJavaLogRecordProcessorAdapter(processor))
     }
 
     fun build(): LoggerProvider = LoggerProviderAdapter(builder.build())

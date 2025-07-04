@@ -6,6 +6,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProvider
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.init.SpanLimitsConfigDsl
 import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigDsl
+import io.embrace.opentelemetry.kotlin.j2k.tracing.export.OtelJavaSpanProcessorAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.AttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.k2j.tracing.TracerProviderAdapter
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
@@ -34,7 +35,7 @@ internal class TracerProviderConfigImpl(
     }
 
     override fun addSpanProcessor(processor: SpanProcessor) {
-        TODO("Not yet implemented")
+        builder.addSpanProcessor(OtelJavaSpanProcessorAdapter(processor))
     }
 
     fun build(): TracerProvider = TracerProviderAdapter(builder.build())

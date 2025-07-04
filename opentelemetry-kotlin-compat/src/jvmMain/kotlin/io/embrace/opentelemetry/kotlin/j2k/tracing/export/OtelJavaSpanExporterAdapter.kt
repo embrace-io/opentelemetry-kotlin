@@ -8,7 +8,7 @@ import io.embrace.opentelemetry.kotlin.tracing.export.SpanExporter
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 
 @OptIn(ExperimentalApi::class)
-public class SpanExporterAdapter(
+public class OtelJavaSpanExporterAdapter(
     private val impl: OtelJavaSpanExporter
 ) : SpanExporter {
 
