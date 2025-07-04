@@ -1,20 +1,19 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework
 
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordData
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetrySdk
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkLoggerProvider
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProvider
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
-import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaClock
-import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
-import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableLogRecordData
-import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanData
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
+import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
+import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableReadableLogRecord
+import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableReadableSpan
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
+import io.embrace.opentelemetry.kotlin.kotlinApi
+import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
+@OptIn(ExperimentalApi::class)
 internal class OtelKotlinHarness {
 
     private companion object {
@@ -24,32 +23,25 @@ internal class OtelKotlinHarness {
 
     private val spanExporter = InMemorySpanExporter()
     private val logRecordExporter = InMemoryLogRecordExporter()
-    private val fakeClock = FakeOtelJavaClock()
+    private val fakeClock = FakeClock()
 
-    private val tracerProvider: OtelJavaSdkTracerProvider = OtelJavaSdkTracerProvider.builder()
-        .addSpanProcessor(InMemorySpanProcessor(spanExporter))
-        .setClock(fakeClock)
-        .build()
-
-    private val loggerProvider: OtelJavaSdkLoggerProvider = OtelJavaSdkLoggerProvider.builder()
-        .addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
-        .setClock(fakeClock)
-        .build()
-
-    val sdk: OtelJavaOpenTelemetry = OtelJavaOpenTelemetrySdk.builder()
-        .setTracerProvider(tracerProvider)
-        .setLoggerProvider(loggerProvider)
-        .build()
-
-    val clock: ClockAdapter = ClockAdapter(fakeClock)
+    val kotlinApi = OpenTelemetryInstance.kotlinApi( // TODO: test resource
+        tracerProvider = {
+            addSpanProcessor(InMemorySpanProcessor(spanExporter))
+        },
+        loggerProvider = {
+            addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
+        },
+        clock = fakeClock
+    )
 
     internal fun assertSpans(
         expectedCount: Int,
         goldenFileName: String? = null,
         sanitizeSpanContextIds: Boolean = true,
-        assertions: (spans: List<SerializableSpanData>) -> Unit = {},
+        assertions: (spans: List<SerializableReadableSpan>) -> Unit = {},
     ) {
-        val observedSpans: List<OtelJavaSpanData> = awaitExportedData(
+        val observedSpans: List<ReadableSpan> = awaitExportedData(
             expectedCount = expectedCount,
             supplier = { spanExporter.exportedSpans }
         )
@@ -65,9 +57,9 @@ internal class OtelKotlinHarness {
         expectedCount: Int,
         goldenFileName: String? = null,
         sanitizeSpanContextIds: Boolean = true,
-        assertions: (logs: List<SerializableLogRecordData>) -> Unit = {},
+        assertions: (logs: List<SerializableReadableLogRecord>) -> Unit = {},
     ) {
-        val observedLogRecords: List<OtelJavaLogRecordData> = awaitExportedData(
+        val observedLogRecords: List<ReadableLogRecord> = awaitExportedData(
             expectedCount = expectedCount,
             supplier = { logRecordExporter.exportedLogRecords }
         )

@@ -1,19 +1,23 @@
 package io.embrace.opentelemetry.kotlin.k2j.framework
 
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadableSpan
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanProcessor
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.export.OperationResultCode
+import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 
-internal class InMemorySpanProcessor(private val exporter: InMemorySpanExporter) : OtelJavaSpanProcessor {
-    override fun onStart(parentContext: OtelJavaContext, span: OtelJavaReadWriteSpan) {
+@OptIn(ExperimentalApi::class)
+internal class InMemorySpanProcessor(private val exporter: InMemorySpanExporter) : SpanProcessor {
+
+    override fun forceFlush(): OperationResultCode = OperationResultCode.Success
+
+    override fun onStart(span: ReadWriteSpan, parentContext: Context) {
     }
 
-    override fun isStartRequired(): Boolean = true
-
-    override fun onEnd(span: OtelJavaReadableSpan) {
-        exporter.export(mutableListOf(span.toSpanData()))
+    override fun onEnd(span: ReadableSpan) {
+        exporter.export(listOf(span))
     }
 
-    override fun isEndRequired(): Boolean = true
+    override fun shutdown(): OperationResultCode = OperationResultCode.Success
 }

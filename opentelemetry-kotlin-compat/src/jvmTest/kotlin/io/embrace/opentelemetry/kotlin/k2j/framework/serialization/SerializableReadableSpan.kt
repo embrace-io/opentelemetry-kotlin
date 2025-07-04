@@ -3,10 +3,10 @@ package io.embrace.opentelemetry.kotlin.k2j.framework.serialization
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class SerializableSpanData(
+internal data class SerializableReadableSpan(
     val name: String,
     val kind: String,
-    val statusData: SerializableSpanStatusData,
+    val statusData: SerializableStatusCode,
     val spanContext: SerializableSpanContext,
     val parentSpanContext: SerializableSpanContext,
     val startTimestampNs: Long,

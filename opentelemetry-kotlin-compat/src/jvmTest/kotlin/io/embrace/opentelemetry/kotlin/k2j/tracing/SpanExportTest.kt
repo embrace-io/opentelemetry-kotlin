@@ -4,7 +4,6 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
-import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
@@ -27,7 +26,7 @@ internal class SpanExportTest {
     @BeforeTest
     fun setUp() {
         harness = OtelKotlinHarness()
-        tracerProvider = TracerProviderAdapter(harness.sdk.tracerProvider, harness.clock)
+        tracerProvider = harness.kotlinApi.tracerProvider
         tracer = tracerProvider.getTracer("name", "version")
     }
 
@@ -130,7 +129,8 @@ internal class SpanExportTest {
             val exportB = spans[1]
             val exportC = spans[2]
 
-            assertEquals(OtelJavaSpanContext.getInvalid().toSerializable(false), exportA.parentSpanContext)
+            assertEquals(OtelJavaSpanContext.getInvalid().spanId, exportA.parentSpanContext.spanId)
+            assertEquals(OtelJavaSpanContext.getInvalid().traceId, exportA.parentSpanContext.traceId)
             assertNotNull(exportA.spanContext)
             assertEquals(exportA.spanContext, exportB.parentSpanContext)
             assertEquals(exportB.spanContext, exportC.parentSpanContext)
