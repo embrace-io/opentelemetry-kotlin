@@ -16,6 +16,6 @@ public class OtelJavaLogRecordProcessorAdapter(
         context: Context,
         logRecord: OtelJavaReadWriteLogRecord
     ) {
-        impl.onEmit(logRecord.toOtelKotlin(), context.toOtelKotlin())
+        impl.onEmit(ReadWriteLogRecordAdapter(logRecord), context.toOtelKotlin())
     }
 }

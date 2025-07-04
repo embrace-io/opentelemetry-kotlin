@@ -1,3 +1,11 @@
+public final class io/embrace/opentelemetry/kotlin/InstrumentationScopeInfoImpl : io/embrace/opentelemetry/kotlin/InstrumentationScopeInfo {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V
+	public fun getAttributes ()Ljava/util/Map;
+	public fun getName ()Ljava/lang/String;
+	public fun getSchemaUrl ()Ljava/lang/String;
+	public fun getVersion ()Ljava/lang/String;
+}
+
 public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstanceImplKt {
 	public static final fun default (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lio/embrace/opentelemetry/kotlin/Clock;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
 	public static synthetic fun default$default (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lio/embrace/opentelemetry/kotlin/Clock;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
@@ -31,8 +39,9 @@ public final class io/embrace/opentelemetry/kotlin/tracing/LinkImpl : io/embrace
 	public fun setStringListAttribute (Ljava/lang/String;Ljava/util/List;)V
 }
 
-public final class io/embrace/opentelemetry/kotlin/tracing/ReadWriteLogRecordImpl : io/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord {
-	public fun <init> (Ljava/lang/Long;Ljava/lang/Long;Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/resource/Resource;Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;)V
+public final class io/embrace/opentelemetry/kotlin/tracing/ReadWriteLogRecordImpl : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer, io/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord {
+	public fun <init> (Ljava/lang/Long;Ljava/lang/Long;Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/resource/Resource;Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;)V
+	public fun attributes ()Ljava/util/Map;
 	public fun getAttributes ()Ljava/util/Map;
 	public fun getBody ()Ljava/lang/String;
 	public fun getContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
@@ -44,10 +53,18 @@ public final class io/embrace/opentelemetry/kotlin/tracing/ReadWriteLogRecordImp
 	public fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 	public fun getTimestamp ()Ljava/lang/Long;
 	public fun setBody (Ljava/lang/String;)V
+	public fun setBooleanAttribute (Ljava/lang/String;Z)V
+	public fun setBooleanListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public fun setDoubleAttribute (Ljava/lang/String;D)V
+	public fun setDoubleListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public fun setLongAttribute (Ljava/lang/String;J)V
+	public fun setLongListAttribute (Ljava/lang/String;Ljava/util/List;)V
 	public fun setObservedTimestamp (Ljava/lang/Long;)V
 	public fun setSeverityNumber (Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;)V
 	public fun setSeverityText (Ljava/lang/String;)V
 	public fun setSpanContext (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;)V
+	public fun setStringAttribute (Ljava/lang/String;Ljava/lang/String;)V
+	public fun setStringListAttribute (Ljava/lang/String;Ljava/util/List;)V
 	public fun setTimestamp (Ljava/lang/Long;)V
 }
 
