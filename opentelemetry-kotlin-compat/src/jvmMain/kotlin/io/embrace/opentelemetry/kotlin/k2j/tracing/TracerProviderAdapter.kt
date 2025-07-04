@@ -23,11 +23,13 @@ public class TracerProviderAdapter(
         attributes: AttributeContainer.() -> Unit
     ): Tracer {
         val key = name.plus(version).plus(schemaUrl)
+
         return map.getOrPut(key) {
-            val tracer = when (version) {
-                null -> tracerProvider.get(name)
-                else -> tracerProvider.get(name, version)
-            }
+            val tracerBuilder = tracerProvider.tracerBuilder(name)
+
+            schemaUrl?.let(tracerBuilder::setSchemaUrl)
+            version?.let(tracerBuilder::setInstrumentationVersion)
+            val tracer = tracerBuilder.build()
             TracerAdapter(tracer, clock)
         }
     }
