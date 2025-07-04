@@ -259,6 +259,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Re
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/ReadableSpan {
 	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getEndTimestamp ()Ljava/lang/Long;
 	public abstract fun getEvents ()Ljava/util/List;
 	public abstract fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
 	public abstract fun getLinks ()Ljava/util/List;

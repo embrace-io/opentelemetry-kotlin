@@ -24,7 +24,7 @@ internal fun ReadableSpan.toSpanData(): SpanData {
         spanContextImpl = spanContext.convertToOtelJava(),
         kindImpl = spanKind.convertToOtelJava(),
         startEpochNanosImpl = startTimestamp,
-        endEpochNanosImpl = -1, // FIXME: need to populate
+        endEpochNanosImpl = endTimestamp ?: 0,
         resourceImpl = resource.let(::resourceFromMap),
         scopeImpl = OtelJavaInstrumentationLibraryInfo.create(
             instrumentationScopeInfo.name,

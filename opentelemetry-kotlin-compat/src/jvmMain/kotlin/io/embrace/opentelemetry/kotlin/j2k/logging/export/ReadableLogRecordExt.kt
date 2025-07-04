@@ -19,8 +19,8 @@ import io.opentelemetry.sdk.logs.data.LogRecordData
 @OptIn(ExperimentalApi::class)
 internal fun ReadableLogRecord.toLogRecordData(): LogRecordData {
     return OtelJavaLogRecordDataImpl(
-        timestampNanos = timestamp ?: -1,
-        observedTimestampNanos = observedTimestamp ?: -1,
+        timestampNanos = timestamp ?: 0,
+        observedTimestampNanos = observedTimestamp ?: 0,
         spanContextImpl = spanContext.convertToOtelJava(),
         severityTextImpl = severityText,
         severityImpl = severityNumber?.convertToOtelJava() ?: Severity.UNDEFINED_SEVERITY_NUMBER,
