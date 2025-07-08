@@ -65,3 +65,22 @@ Example usage of the library can be found [here](examples).
 ## Feedback/bugs
 
 Got feedback or found a bug? Please open a GitHub issue or contact support@embrace.io and we'll get back to you.
+
+## Snapshot versions
+
+Every day, a snapshot version is published to the maven snapshots repository. You can check the current snapshot version in [gradle.properties](gradle.properties).
+To use a snapshot version in your app, you need to add the Central Portal snapshot repository, like this:
+
+```
+repositories {
+    ...
+    maven {
+        name = "Central Portal Snapshots"
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+        content {
+            includeGroup("io.embrace")
+        }
+    }
+    ...
+}
+```
