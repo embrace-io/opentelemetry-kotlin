@@ -16,6 +16,10 @@ public final class io/embrace/opentelemetry/kotlin/j2k/logging/export/OtelJavaLo
 	public fun onEmit (Lio/opentelemetry/context/Context;Lio/opentelemetry/sdk/logs/ReadWriteLogRecord;)V
 }
 
+public final class io/embrace/opentelemetry/kotlin/j2k/tracing/OtelJavaSpanKindConversionKt {
+	public static final fun convertToOtelKotlin (Lio/opentelemetry/api/trace/SpanKind;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
+}
+
 public final class io/embrace/opentelemetry/kotlin/j2k/tracing/export/OtelJavaSpanExporterAdapter : io/embrace/opentelemetry/kotlin/tracing/export/SpanExporter {
 	public fun <init> (Lio/opentelemetry/sdk/trace/export/SpanExporter;)V
 	public fun export (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
@@ -70,6 +74,14 @@ public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanContextAdapte
 	public fun getTraceState ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
 	public fun isRemote ()Z
 	public fun isValid ()Z
+}
+
+public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanContextOtelJavaConverterKt {
+	public static final fun convertToOtelJava (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;)Lio/opentelemetry/api/trace/SpanContext;
+}
+
+public final class io/embrace/opentelemetry/kotlin/k2j/tracing/StatusCodeConversionKt {
+	public static final fun convertToOtelJava (Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;)Lio/opentelemetry/api/trace/StatusCode;
 }
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TracerAdapter : io/embrace/opentelemetry/kotlin/tracing/Tracer {

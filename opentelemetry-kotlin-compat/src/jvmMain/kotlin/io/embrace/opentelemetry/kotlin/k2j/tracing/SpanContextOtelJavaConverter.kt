@@ -10,7 +10,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 
 @OptIn(ExperimentalApi::class)
-internal fun SpanContext.convertToOtelJava(): OtelJavaSpanContext {
+public fun SpanContext.convertToOtelJava(): OtelJavaSpanContext {
     return OtelJavaImmutableSpanContext.create(
         traceId,
         spanId,
