@@ -4,19 +4,17 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContextKey
 import io.embrace.opentelemetry.kotlin.context.ContextKey
 import io.embrace.opentelemetry.kotlin.k2j.context.ContextKeyAdapter
-import java.util.concurrent.ConcurrentHashMap
+import java.util.Collections
+import java.util.WeakHashMap
 
 @OptIn(ExperimentalApi::class)
 internal class OtelJavaContextKeyRepository {
-
-    // TODO: future: cleanup stale references
-    // TODO: future: support nullable values
 
     companion object {
         val INSTANCE = OtelJavaContextKeyRepository()
     }
 
-    private val impl = ConcurrentHashMap<ContextKey<*>, OtelJavaContextKey<*>>()
+    private val impl = Collections.synchronizedMap(WeakHashMap<ContextKey<*>, OtelJavaContextKey<*>>())
 
     @Suppress("UNCHECKED_CAST")
     fun <T> get(key: ContextKey<T>): OtelJavaContextKey<T> {
