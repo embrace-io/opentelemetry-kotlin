@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class SerializableSpanStatusData(
-    val code: Int,
+    val name: String,
     val description: String,
 )

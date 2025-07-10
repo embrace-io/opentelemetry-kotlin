@@ -6,11 +6,14 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
+import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.convertToOtelJava
+import io.embrace.opentelemetry.kotlin.k2j.tracing.convertToOtelKotlin
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.recordException
+import io.opentelemetry.api.common.Attributes
+import io.opentelemetry.api.trace.SpanContext
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
@@ -45,8 +48,20 @@ internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan {
         return this
     }
 
+    override fun addLink(
+        spanContext: SpanContext,
+        attributes: Attributes
+    ): OtelJavaSpan {
+        span.addLink(SpanContextAdapter(spanContext)) {
+            attributes.toMap().forEach {
+                setStringAttribute(it.key, it.value.toString())
+            }
+        }
+        return this
+    }
+
     override fun setStatus(statusCode: OtelJavaStatusCode, description: String): OtelJavaSpan {
-        OtelJavaStatusData.create(statusCode, description).convertToOtelKotlin()
+        span.status = statusCode.convertToOtelKotlin()
         return this
     }
 

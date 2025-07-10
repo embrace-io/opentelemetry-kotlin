@@ -3,7 +3,7 @@
     "name": "span_attrs",
     "kind": "INTERNAL",
     "statusData": {
-      "code": 0,
+      "name": "UNSET",
       "description": ""
     },
     "spanContext": {

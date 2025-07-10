@@ -101,6 +101,7 @@ public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanContextOtelJa
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/StatusCodeConversionKt {
 	public static final fun convertToOtelJava (Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;)Lio/opentelemetry/api/trace/StatusCode;
+	public static final fun convertToOtelKotlin (Lio/opentelemetry/api/trace/StatusCode;)Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
 }
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TracerAdapter : io/embrace/opentelemetry/kotlin/tracing/Tracer {

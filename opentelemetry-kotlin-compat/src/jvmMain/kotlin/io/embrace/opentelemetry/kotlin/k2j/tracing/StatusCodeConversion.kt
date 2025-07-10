@@ -8,3 +8,9 @@ public fun StatusCode.convertToOtelJava(): OtelJavaStatusCode = when (this) {
     StatusCode.Ok -> OtelJavaStatusCode.OK
     is StatusCode.Error -> OtelJavaStatusCode.ERROR
 }
+
+public fun OtelJavaStatusCode.convertToOtelKotlin(): StatusCode = when (this) {
+    OtelJavaStatusCode.UNSET -> StatusCode.Unset
+    OtelJavaStatusCode.OK -> StatusCode.Ok
+    OtelJavaStatusCode.ERROR -> StatusCode.Error(null)
+}

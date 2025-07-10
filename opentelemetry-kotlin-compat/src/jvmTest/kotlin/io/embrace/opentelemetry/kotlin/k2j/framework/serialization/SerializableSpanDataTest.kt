@@ -45,7 +45,7 @@ internal class SerializableSpanDataTest {
     }
 
     private fun compareStatusData(expected: OtelJavaStatusData, observed: SerializableSpanStatusData) {
-        assertEquals(expected.statusCode.ordinal, observed.code)
+        assertEquals(expected.statusCode.name, observed.name)
         assertEquals(expected.description, observed.description)
     }
 

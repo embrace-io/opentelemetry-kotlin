@@ -3,7 +3,7 @@
     "name": "new_name",
     "kind": "CLIENT",
     "statusData": {
-      "code": 1,
+      "name": "OK",
       "description": ""
     },
     "spanContext": {

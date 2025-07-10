@@ -9,9 +9,11 @@ import io.embrace.opentelemetry.kotlin.ThreadSafe
  *
  * https://opentelemetry.io/docs/specs/otel/common/#attribute
  */
-@Suppress("UNUSED_PARAMETER")
 @ExperimentalApi
 @ThreadSafe
 public fun AttributeContainer.setAttributes(attributes: Map<String, Any>) {
-    TODO("Implement me")
+    // TODO: add support for other attribute types
+    attributes.forEach {
+        setStringAttribute(it.key, it.value.toString())
+    }
 }
