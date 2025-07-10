@@ -1,3 +1,7 @@
+public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstanceJ2KKt {
+	public static final fun compatWithOtelKotlin (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lio/embrace/opentelemetry/kotlin/OpenTelemetry;)Lio/opentelemetry/api/OpenTelemetry;
+}
+
 public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstanceK2JKt {
 	public static final fun compatWithOtelJava (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lio/opentelemetry/api/OpenTelemetry;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
 	public static final fun kotlinApi (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
