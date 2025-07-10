@@ -3,7 +3,7 @@
     "name": "span_events",
     "kind": "INTERNAL",
     "statusData": {
-      "code": 0,
+      "name": "UNSET",
       "description": ""
     },
     "spanContext": {

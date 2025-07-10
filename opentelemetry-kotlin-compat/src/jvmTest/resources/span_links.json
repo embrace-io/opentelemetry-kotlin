@@ -3,7 +3,7 @@
     "name": "span_links",
     "kind": "INTERNAL",
     "statusData": {
-      "code": 0,
+      "name": "UNSET",
       "description": ""
     },
     "spanContext": {
@@ -61,7 +61,7 @@
     "name": "linked_span",
     "kind": "INTERNAL",
     "statusData": {
-      "code": 0,
+      "name": "UNSET",
       "description": ""
     },
     "spanContext": {

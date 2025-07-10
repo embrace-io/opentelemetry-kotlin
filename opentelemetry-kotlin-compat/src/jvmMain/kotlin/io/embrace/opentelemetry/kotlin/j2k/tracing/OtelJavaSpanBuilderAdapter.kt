@@ -11,8 +11,10 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.attributes.setAttributes
 import io.embrace.opentelemetry.kotlin.j2k.bridge.attrsFromMap
+import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
+import io.opentelemetry.context.Context
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
@@ -22,7 +24,7 @@ internal class OtelJavaSpanBuilderAdapter(
 ) : OtelJavaSpanBuilder {
 
     private var start: Long? = null
-    private var parent: OtelJavaContext? = null // TODO: pass parent context to createSpan
+    private var parent: OtelJavaContext? = null
     private var kind: OtelJavaSpanKind = OtelJavaSpanKind.INTERNAL
     private val attrs: OtelJavaAttributesBuilder = OtelJavaAttributes.builder()
     private val links: MutableList<LinkBuilder> = mutableListOf()
@@ -92,7 +94,8 @@ internal class OtelJavaSpanBuilderAdapter(
         val span = tracer.createSpan(
             name = spanName,
             spanKind = kind.convertToOtelKotlin(),
-            startTimestamp = start
+            startTimestamp = start,
+            parent = findParentSpanContext()
         ) {
             setAttributes(attrs.build().asMap().mapKeys { it.key.key })
             links.forEach {
@@ -102,8 +105,14 @@ internal class OtelJavaSpanBuilderAdapter(
         return OtelJavaSpanAdapter(span)
     }
 
+    private fun findParentSpanContext(): SpanContextAdapter {
+        val ctx = parent ?: Context.root()
+        val parentSpan = OtelJavaSpan.fromContext(ctx)
+        return SpanContextAdapter(parentSpan.spanContext)
+    }
+
     private class LinkBuilder(
-        internal val spanContext: OtelJavaSpanContext,
-        internal val attributes: OtelJavaAttributes
+        val spanContext: OtelJavaSpanContext,
+        val attributes: OtelJavaAttributes
     )
 }

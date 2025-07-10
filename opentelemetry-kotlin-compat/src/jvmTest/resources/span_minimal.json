@@ -3,7 +3,7 @@
     "name": "my_span",
     "kind": "INTERNAL",
     "statusData": {
-      "code": 0,
+      "name": "UNSET",
       "description": ""
     },
     "spanContext": {

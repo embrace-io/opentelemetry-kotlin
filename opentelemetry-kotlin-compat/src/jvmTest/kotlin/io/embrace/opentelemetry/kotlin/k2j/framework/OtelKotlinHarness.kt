@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
+import io.embrace.opentelemetry.kotlin.compatWithOtelKotlin
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
 import io.embrace.opentelemetry.kotlin.j2k.logging.export.toLogRecordData
 import io.embrace.opentelemetry.kotlin.j2k.tracing.export.toSpanData
@@ -37,6 +38,8 @@ internal class OtelKotlinHarness {
             addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
         }
     )
+
+    val javaApi = OpenTelemetryInstance.compatWithOtelKotlin(kotlinApi)
 
     internal fun assertSpans(
         expectedCount: Int,
