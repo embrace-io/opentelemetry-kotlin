@@ -7,22 +7,42 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
+import io.embrace.opentelemetry.kotlin.k2j.tracing.convertToOtelJava
+import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
+import io.embrace.opentelemetry.kotlin.tracing.recordException
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
 internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan {
 
-    override fun <T : Any?> setAttribute(key: OtelJavaAttributeKey<T?>, value: T?): OtelJavaSpan? {
-        TODO("Not yet implemented")
+    override fun <T : Any?> setAttribute(key: OtelJavaAttributeKey<T?>, value: T?): OtelJavaSpan {
+        span.setStringAttribute(key.key, value.toString())
+        return this
     }
 
     override fun addEvent(name: String, attributes: OtelJavaAttributes): OtelJavaSpan {
-        TODO("Not yet implemented")
+        span.addEvent(name) {
+            attributes.toMap().forEach {
+                setStringAttribute(it.key, it.value.toString())
+            }
+        }
+        return this
     }
 
-    override fun addEvent(name: String, attributes: OtelJavaAttributes, timestamp: Long, unit: TimeUnit): OtelJavaSpan {
-        TODO("Not yet implemented")
+    override fun addEvent(
+        name: String,
+        attributes: OtelJavaAttributes,
+        timestamp: Long,
+        unit: TimeUnit
+    ): OtelJavaSpan {
+        val time = unit.toNanos(timestamp)
+        span.addEvent(name, time) {
+            attributes.toMap().forEach {
+                setStringAttribute(it.key, it.value.toString())
+            }
+        }
+        return this
     }
 
     override fun setStatus(statusCode: OtelJavaStatusCode, description: String): OtelJavaSpan {
@@ -30,8 +50,16 @@ internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan {
         return this
     }
 
-    override fun recordException(exception: Throwable, additionalAttributes: OtelJavaAttributes): OtelJavaSpan {
-        TODO("Not yet implemented")
+    override fun recordException(
+        exception: Throwable,
+        additionalAttributes: OtelJavaAttributes
+    ): OtelJavaSpan {
+        span.recordException(exception) {
+            additionalAttributes.toMap().forEach {
+                setStringAttribute(it.key, it.value.toString())
+            }
+        }
+        return this
     }
 
     override fun updateName(name: String): OtelJavaSpan {
@@ -48,7 +76,7 @@ internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan {
     }
 
     override fun getSpanContext(): OtelJavaSpanContext {
-        TODO("Not yet implemented")
+        return span.spanContext.convertToOtelJava()
     }
 
     override fun isRecording(): Boolean = span.isRecording()

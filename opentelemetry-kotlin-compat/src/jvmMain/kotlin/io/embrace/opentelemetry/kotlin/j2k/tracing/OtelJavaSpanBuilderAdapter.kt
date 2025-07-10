@@ -10,6 +10,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanBuilder
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.attributes.setAttributes
+import io.embrace.opentelemetry.kotlin.j2k.bridge.attrsFromMap
+import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import java.util.concurrent.TimeUnit
 
@@ -23,6 +25,7 @@ internal class OtelJavaSpanBuilderAdapter(
     private var parent: OtelJavaContext? = null // TODO: pass parent context to createSpan
     private var kind: OtelJavaSpanKind = OtelJavaSpanKind.INTERNAL
     private val attrs: OtelJavaAttributesBuilder = OtelJavaAttributes.builder()
+    private val links: MutableList<LinkBuilder> = mutableListOf()
 
     override fun setParent(context: OtelJavaContext): OtelJavaSpanBuilder {
         parent = context
@@ -35,11 +38,16 @@ internal class OtelJavaSpanBuilderAdapter(
     }
 
     override fun addLink(spanContext: OtelJavaSpanContext): OtelJavaSpanBuilder {
-        TODO("Not yet implemented")
+        links.add(LinkBuilder(spanContext, OtelJavaAttributes.empty()))
+        return this
     }
 
-    override fun addLink(spanContext: OtelJavaSpanContext, attributes: OtelJavaAttributes): OtelJavaSpanBuilder {
-        TODO("Not yet implemented")
+    override fun addLink(
+        spanContext: OtelJavaSpanContext,
+        attributes: OtelJavaAttributes
+    ): OtelJavaSpanBuilder {
+        links.add(LinkBuilder(spanContext, attributes))
+        return this
     }
 
     override fun setAttribute(key: String, value: String): OtelJavaSpanBuilder {
@@ -62,7 +70,10 @@ internal class OtelJavaSpanBuilderAdapter(
         return this
     }
 
-    override fun <T : Any?> setAttribute(key: OtelJavaAttributeKey<T>, value: T): OtelJavaSpanBuilder {
+    override fun <T : Any> setAttribute(
+        key: OtelJavaAttributeKey<T>,
+        value: T
+    ): OtelJavaSpanBuilder {
         attrs.put(key, value)
         return this
     }
@@ -84,7 +95,15 @@ internal class OtelJavaSpanBuilderAdapter(
             startTimestamp = start
         ) {
             setAttributes(attrs.build().asMap().mapKeys { it.key.key })
+            links.forEach {
+                addLink(it.spanContext, attrsFromMap(it.attributes.toMap()))
+            }
         }
         return OtelJavaSpanAdapter(span)
     }
+
+    private class LinkBuilder(
+        internal val spanContext: OtelJavaSpanContext,
+        internal val attributes: OtelJavaAttributes
+    )
 }

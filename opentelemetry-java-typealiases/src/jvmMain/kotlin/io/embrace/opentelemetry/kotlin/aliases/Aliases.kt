@@ -9,6 +9,7 @@ import io.opentelemetry.api.common.AttributesBuilder
 import io.opentelemetry.api.internal.ImmutableSpanContext
 import io.opentelemetry.api.logs.LogRecordBuilder
 import io.opentelemetry.api.logs.Logger
+import io.opentelemetry.api.logs.LoggerBuilder
 import io.opentelemetry.api.logs.LoggerProvider
 import io.opentelemetry.api.logs.Severity
 import io.opentelemetry.api.trace.Span
@@ -70,6 +71,7 @@ typealias OtelJavaClock = Clock
 typealias OtelJavaImmutableSpanContext = ImmutableSpanContext
 typealias OtelJavaOpenTelemetry = OpenTelemetry
 typealias OtelJavaLoggerProvider = LoggerProvider
+typealias OtelJavaLoggerBuilder = LoggerBuilder
 typealias OtelJavaLogger = Logger
 typealias OtelJavaSeverity = Severity
 typealias OtelJavaCompletableResultCode = CompletableResultCode
