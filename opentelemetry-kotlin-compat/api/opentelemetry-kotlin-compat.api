@@ -34,6 +34,21 @@ public final class io/embrace/opentelemetry/kotlin/k2j/ClockAdapter : io/embrace
 	public fun now ()J
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/k2j/id/TracingIdGenerator {
+	public abstract fun generateSpanId ()Ljava/lang/String;
+	public abstract fun generateTraceId ()Ljava/lang/String;
+	public abstract fun getInvalidSpanId ()Ljava/lang/String;
+	public abstract fun getInvalidTraceId ()Ljava/lang/String;
+}
+
+public final class io/embrace/opentelemetry/kotlin/k2j/id/TracingIdGeneratorImpl : io/embrace/opentelemetry/kotlin/k2j/id/TracingIdGenerator {
+	public fun <init> (Lio/opentelemetry/sdk/trace/IdGenerator;)V
+	public fun generateSpanId ()Ljava/lang/String;
+	public fun generateTraceId ()Ljava/lang/String;
+	public fun getInvalidSpanId ()Ljava/lang/String;
+	public fun getInvalidTraceId ()Ljava/lang/String;
+}
+
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanAdapter : io/embrace/opentelemetry/kotlin/tracing/model/Span, io/opentelemetry/context/ImplicitContextKeyed {
 	public fun <init> (Lio/opentelemetry/api/trace/Span;Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;J)V
 	public fun addEvent (Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)V
