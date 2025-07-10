@@ -9,6 +9,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetrySdk
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProvider
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
 import io.embrace.opentelemetry.kotlin.compatWithOtelJava
+import io.embrace.opentelemetry.kotlin.getTracer
 import io.embrace.opentelemetry.kotlin.testing.common.InMemorySpanExporter
 import io.embrace.opentelemetry.kotlin.testing.common.InMemorySpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
@@ -57,7 +58,7 @@ public class OpenTelemetryExtension : BeforeEachCallback {
         get() = spanExporter.exportedSpans
 
     public fun getTracer(name: String): Tracer {
-        return openTelemetry.tracerProvider.getTracer(name)
+        return openTelemetry.getTracer(name)
     }
 
     override fun beforeEach(context: ExtensionContext?) {

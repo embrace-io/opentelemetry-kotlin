@@ -1,3 +1,8 @@
+public final class io/embrace/opentelemetry/kotlin/OpenTelemetryExtKt {
+	public static final fun getLogger (Lio/embrace/opentelemetry/kotlin/OpenTelemetry;Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/logging/Logger;
+	public static final fun getTracer (Lio/embrace/opentelemetry/kotlin/OpenTelemetry;Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/Tracer;
+}
+
 public final class io/embrace/opentelemetry/kotlin/attributes/AttributeContainerExtKt {
 	public static final fun setAttributes (Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;Ljava/util/Map;)V
 }
