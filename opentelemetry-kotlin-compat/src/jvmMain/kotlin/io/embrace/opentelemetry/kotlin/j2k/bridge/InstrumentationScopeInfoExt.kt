@@ -1,10 +1,12 @@
 package io.embrace.opentelemetry.kotlin.j2k.bridge
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaInstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 
+@OptIn(ExperimentalApi::class)
 internal fun InstrumentationScopeInfo.convertToOtelJava(): OtelJavaInstrumentationScopeInfo {
     val builder = OtelJavaInstrumentationScopeInfo.builder(name)
     version?.let(builder::setVersion)
@@ -13,6 +15,7 @@ internal fun InstrumentationScopeInfo.convertToOtelJava(): OtelJavaInstrumentati
     return builder.build()
 }
 
+@OptIn(ExperimentalApi::class)
 internal fun OtelJavaInstrumentationScopeInfo.convertToOtelKotlin(): InstrumentationScopeInfo =
     InstrumentationScopeInfoImpl(
         name = name,

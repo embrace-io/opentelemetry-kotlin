@@ -1,8 +1,10 @@
 package io.embrace.opentelemetry.kotlin.k2j.logging
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSeverity
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 
+@OptIn(ExperimentalApi::class)
 internal fun SeverityNumber.convertToOtelJava(): OtelJavaSeverity = when (this) {
     SeverityNumber.UNKNOWN -> OtelJavaSeverity.UNDEFINED_SEVERITY_NUMBER
     SeverityNumber.TRACE -> OtelJavaSeverity.TRACE
@@ -30,6 +32,8 @@ internal fun SeverityNumber.convertToOtelJava(): OtelJavaSeverity = when (this) 
     SeverityNumber.FATAL3 -> OtelJavaSeverity.FATAL3
     SeverityNumber.FATAL4 -> OtelJavaSeverity.FATAL4
 }
+
+@OptIn(ExperimentalApi::class)
 internal fun OtelJavaSeverity.convertToOtelKotlin(): SeverityNumber = when (this) {
     OtelJavaSeverity.UNDEFINED_SEVERITY_NUMBER -> SeverityNumber.UNKNOWN
     OtelJavaSeverity.TRACE -> SeverityNumber.TRACE

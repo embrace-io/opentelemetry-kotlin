@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 
 /**
@@ -8,6 +9,7 @@ import io.embrace.opentelemetry.kotlin.ThreadSafe
  * https://opentelemetry.io/docs/specs/otel/trace/api/#set-status
  */
 @ThreadSafe
+@ExperimentalApi
 public sealed class StatusCode {
 
     /**

@@ -1,8 +1,11 @@
 package io.embrace.opentelemetry.kotlin.export
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+
 /**
  * Whether an operation was successful or not.
  */
+@ExperimentalApi
 public sealed class OperationResultCode {
 
     /**

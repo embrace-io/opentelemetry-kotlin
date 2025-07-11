@@ -3,6 +3,7 @@ package io.embrace.opentelemetry.kotlin
 /**
  * Metadata that uniquely identifies the source of telemetry.
  */
+@ExperimentalApi
 public interface InstrumentationScopeInfo {
 
     public val name: String
