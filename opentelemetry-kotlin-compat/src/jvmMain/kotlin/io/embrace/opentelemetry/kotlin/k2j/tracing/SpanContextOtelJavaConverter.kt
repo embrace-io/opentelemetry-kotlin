@@ -21,6 +21,7 @@ public fun SpanContext.convertToOtelJava(): OtelJavaSpanContext {
     )
 }
 
+@OptIn(ExperimentalApi::class)
 internal fun TraceFlags.convertToOtelJava(): OtelJavaTraceFlags {
     val sb = StringBuilder()
     sb.append(if (isRandom) "1" else "0")
