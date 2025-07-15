@@ -295,12 +295,16 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Sp
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanContext {
+	public static final field Companion Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext$Companion;
 	public abstract fun getSpanId ()Ljava/lang/String;
 	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
 	public abstract fun getTraceId ()Ljava/lang/String;
 	public abstract fun getTraceState ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
 	public abstract fun isRemote ()Z
 	public abstract fun isValid ()Z
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanContext$Companion {
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin : java/lang/Enum {
@@ -340,13 +344,21 @@ public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanRelationshi
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/TraceFlags {
+	public static final field Companion Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags$Companion;
 	public abstract fun getHex ()Ljava/lang/String;
 	public abstract fun isRandom ()Z
 	public abstract fun isSampled ()Z
 }
 
+public final class io/embrace/opentelemetry/kotlin/tracing/model/TraceFlags$Companion {
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/TraceState {
+	public static final field Companion Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState$Companion;
 	public abstract fun asMap ()Ljava/util/Map;
 	public abstract fun get (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/model/TraceState$Companion {
 }
 

@@ -46,7 +46,9 @@ public abstract interface class io/embrace/opentelemetry/kotlin/k2j/id/TracingId
 }
 
 public final class io/embrace/opentelemetry/kotlin/k2j/id/TracingIdGeneratorImpl : io/embrace/opentelemetry/kotlin/k2j/id/TracingIdGenerator {
+	public fun <init> ()V
 	public fun <init> (Lio/opentelemetry/sdk/trace/IdGenerator;)V
+	public synthetic fun <init> (Lio/opentelemetry/sdk/trace/IdGenerator;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun generateSpanId ()Ljava/lang/String;
 	public fun generateTraceId ()Ljava/lang/String;
 	public fun getInvalidSpanId ()Ljava/lang/String;
@@ -104,6 +106,13 @@ public final class io/embrace/opentelemetry/kotlin/k2j/tracing/StatusCodeConvers
 	public static final fun convertToOtelKotlin (Lio/opentelemetry/api/trace/StatusCode;)Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
 }
 
+public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TraceFlagsAdapter : io/embrace/opentelemetry/kotlin/tracing/model/TraceFlags {
+	public fun <init> (Lio/opentelemetry/api/trace/TraceFlags;)V
+	public fun getHex ()Ljava/lang/String;
+	public fun isRandom ()Z
+	public fun isSampled ()Z
+}
+
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TracerAdapter : io/embrace/opentelemetry/kotlin/tracing/Tracer {
 	public fun <init> (Lio/opentelemetry/api/trace/Tracer;Lio/embrace/opentelemetry/kotlin/Clock;)V
 	public fun createSpan (Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/tracing/model/Span;
@@ -112,5 +121,18 @@ public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TracerAdapter : i
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/TracerProviderAdapter : io/embrace/opentelemetry/kotlin/tracing/TracerProvider {
 	public fun <init> (Lio/opentelemetry/api/trace/TracerProvider;Lio/embrace/opentelemetry/kotlin/Clock;)V
 	public fun getTracer (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/tracing/Tracer;
+}
+
+public final class io/embrace/opentelemetry/kotlin/k2j/tracing/model/SpanContextExtKt {
+	public static final fun create (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext$Companion;Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+	public static final fun invalid (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext$Companion;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+}
+
+public final class io/embrace/opentelemetry/kotlin/k2j/tracing/model/TraceFlagsExtKt {
+	public static final fun default (Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags$Companion;)Lio/embrace/opentelemetry/kotlin/k2j/tracing/TraceFlagsAdapter;
+}
+
+public final class io/embrace/opentelemetry/kotlin/k2j/tracing/model/TraceStateExtKt {
+	public static final fun default (Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState$Companion;)Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
 }
 

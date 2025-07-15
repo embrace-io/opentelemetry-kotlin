@@ -5,7 +5,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanId
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceId
 
 public class TracingIdGeneratorImpl(
-    private val generator: OtelJavaIdGenerator
+    private val generator: OtelJavaIdGenerator = OtelJavaIdGenerator.random()
 ) : TracingIdGenerator {
     override fun generateSpanId(): String = generator.generateSpanId()
     override fun generateTraceId(): String = generator.generateTraceId()
