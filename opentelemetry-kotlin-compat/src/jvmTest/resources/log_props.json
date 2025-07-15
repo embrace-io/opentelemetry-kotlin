@@ -6,7 +6,7 @@
         "service.name": "unknown_service:java",
         "telemetry.sdk.language": "java",
         "telemetry.sdk.name": "opentelemetry",
-        "telemetry.sdk.version": "1.51.0"
+        "telemetry.sdk.version": "1.52.0"
       }
     },
     "instrumentationScopeInfo": {
