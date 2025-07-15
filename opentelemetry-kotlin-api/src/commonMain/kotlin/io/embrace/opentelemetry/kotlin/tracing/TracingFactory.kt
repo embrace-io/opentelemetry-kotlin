@@ -7,6 +7,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanContextOrigin
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 
+@ExperimentalApi
 public interface TracingFactory {
 
     /**

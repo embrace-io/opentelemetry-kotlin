@@ -1,10 +1,13 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+
 /**
  * Mutates [io.embrace.opentelemetry.kotlin.tracing.model.TraceState].
  *
  * https://opentelemetry.io/docs/specs/otel/trace/api/#tracestate
  */
+@ExperimentalApi
 public interface TraceStateMutator {
 
     /**
