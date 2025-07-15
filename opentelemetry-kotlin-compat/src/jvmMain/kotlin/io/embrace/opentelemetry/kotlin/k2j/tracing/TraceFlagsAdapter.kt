@@ -5,7 +5,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 
 @OptIn(ExperimentalApi::class)
-internal class TraceFlagsAdapter(
+public class TraceFlagsAdapter(
     traceFlags: OtelJavaTraceFlags
 ) : TraceFlags {
 

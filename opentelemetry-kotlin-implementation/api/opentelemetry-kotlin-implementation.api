@@ -120,6 +120,16 @@ public final class io/embrace/opentelemetry/kotlin/tracing/ReadableSpanImpl : io
 	public fun hasEnded ()Z
 }
 
+public final class io/embrace/opentelemetry/kotlin/tracing/SpanContextImpl : io/embrace/opentelemetry/kotlin/tracing/model/SpanContext {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;ZZLio/embrace/opentelemetry/kotlin/tracing/model/TraceState;)V
+	public fun getSpanId ()Ljava/lang/String;
+	public fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
+	public fun getTraceId ()Ljava/lang/String;
+	public fun getTraceState ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
+	public fun isRemote ()Z
+	public fun isValid ()Z
+}
+
 public final class io/embrace/opentelemetry/kotlin/tracing/SpanEventImpl : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer, io/embrace/opentelemetry/kotlin/tracing/model/SpanEvent {
 	public fun <init> (Ljava/lang/String;JLio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;)V
 	public fun attributes ()Ljava/util/Map;
