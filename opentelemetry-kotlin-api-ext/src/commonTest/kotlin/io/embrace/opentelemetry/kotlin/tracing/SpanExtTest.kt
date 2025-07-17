@@ -30,9 +30,10 @@ internal class SpanExtTest {
         val complex = events.last()
         assertEquals("exception", complex.name)
         val complexAttrs = complex.attributes()
-        assertEquals(3, complexAttrs.size)
+        assertEquals(4, complexAttrs.size)
         assertEquals("java.lang.IllegalStateException", complexAttrs["exception.type"])
         assertEquals("Whoops!", complexAttrs["exception.message"])
+        assertEquals("value", complexAttrs["extra"])
         assertNotNull(complexAttrs["exception.stacktrace"])
     }
 }

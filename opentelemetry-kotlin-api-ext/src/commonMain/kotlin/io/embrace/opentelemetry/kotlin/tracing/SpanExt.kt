@@ -8,7 +8,6 @@ import io.embrace.opentelemetry.kotlin.tracing.model.Span
 /**
  * Record an exception on the span as an event.
  */
-@Suppress("UNUSED_PARAMETER")
 @ExperimentalApi
 @ThreadSafe
 public fun Span.recordException(exception: Throwable, action: AttributeContainer.() -> Unit = {}) {
@@ -20,5 +19,6 @@ public fun Span.recordException(exception: Throwable, action: AttributeContainer
         exception::class.qualifiedName?.let {
             setStringAttribute("exception.type", it)
         }
+        action(this)
     }
 }
