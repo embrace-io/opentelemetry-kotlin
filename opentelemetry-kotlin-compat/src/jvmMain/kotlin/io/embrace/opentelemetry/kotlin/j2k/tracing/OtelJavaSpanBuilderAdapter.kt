@@ -24,7 +24,7 @@ internal class OtelJavaSpanBuilderAdapter(
 ) : OtelJavaSpanBuilder {
 
     private var start: Long? = null
-    private var parent: OtelJavaContext? = null
+    private var parent: OtelJavaContext? = OtelJavaContext.current()
     private var kind: OtelJavaSpanKind = OtelJavaSpanKind.INTERNAL
     private val attrs: OtelJavaAttributesBuilder = OtelJavaAttributes.builder()
     private val links: MutableList<LinkBuilder> = mutableListOf()
