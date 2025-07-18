@@ -35,7 +35,7 @@ internal class OtelJavaSpanBuilderAdapter(
     }
 
     override fun setNoParent(): OtelJavaSpanBuilder {
-        parent = null
+        parent = Context.root()
         return this
     }
 
@@ -106,7 +106,7 @@ internal class OtelJavaSpanBuilderAdapter(
     }
 
     private fun findParentSpanContext(): SpanContextAdapter {
-        val ctx = parent ?: Context.root()
+        val ctx = parent ?: Context.current()
         val parentSpan = OtelJavaSpan.fromContext(ctx)
         return SpanContextAdapter(parentSpan.spanContext)
     }
