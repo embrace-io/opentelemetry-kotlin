@@ -6,5 +6,5 @@ import io.embrace.opentelemetry.kotlin.k2j.tracing.TraceFlagsAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 
 @OptIn(ExperimentalApi::class)
-public fun TraceFlags.Companion.default(): TraceFlagsAdapter =
+public fun TraceFlags.Companion.default(): TraceFlags =
     TraceFlagsAdapter(OtelJavaTraceFlags.getDefault())

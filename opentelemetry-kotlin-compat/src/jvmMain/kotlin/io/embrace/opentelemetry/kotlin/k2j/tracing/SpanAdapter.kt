@@ -21,8 +21,8 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
-public class SpanAdapter( // temporarily public, will be internal in future
-    public val impl: OtelJavaSpan,
+internal class SpanAdapter(
+    val impl: OtelJavaSpan,
     private val clock: Clock,
     override val parent: SpanContext?,
     override val spanKind: SpanKind,
