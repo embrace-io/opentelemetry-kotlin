@@ -9,7 +9,7 @@ import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 import java.util.concurrent.ConcurrentHashMap
 
 @ExperimentalApi
-public class TracerProviderAdapter(
+internal class TracerProviderAdapter(
     private val tracerProvider: OtelJavaTracerProvider,
     private val clock: Clock,
 ) : TracerProvider {
