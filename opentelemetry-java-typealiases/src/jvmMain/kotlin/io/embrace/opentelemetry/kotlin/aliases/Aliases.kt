@@ -35,6 +35,7 @@ import io.opentelemetry.sdk.common.Clock
 import io.opentelemetry.sdk.common.CompletableResultCode
 import io.opentelemetry.sdk.common.InstrumentationLibraryInfo
 import io.opentelemetry.sdk.common.InstrumentationScopeInfo
+import io.opentelemetry.sdk.logs.LogLimits
 import io.opentelemetry.sdk.logs.LogRecordProcessor
 import io.opentelemetry.sdk.logs.ReadWriteLogRecord
 import io.opentelemetry.sdk.logs.SdkLoggerProvider
@@ -107,3 +108,4 @@ typealias OtelJavaTraceStateBuilder = TraceStateBuilder
 typealias OtelJavaLogRecordBuilder = LogRecordBuilder
 typealias OtelJavaResourceBuilder = ResourceBuilder
 typealias OtelJavaSpanLimits = SpanLimits
+typealias OtelJavaLogLimits = LogLimits
