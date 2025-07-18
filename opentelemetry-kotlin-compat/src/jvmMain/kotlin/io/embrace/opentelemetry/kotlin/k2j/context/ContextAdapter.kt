@@ -8,14 +8,14 @@ import io.embrace.opentelemetry.kotlin.context.Context
 @ExperimentalApi
 internal class ContextAdapter(
     private val impl: Context,
-    private val repository: ContextKeyRepository,
+    private val repository: ContextKeyRepository = ContextKeyRepository.INSTANCE,
 ) : OtelJavaContext {
 
     override fun <V : Any?> get(key: OtelJavaContextKey<V>): V? {
         return impl[repository.get(key)]
     }
 
-    override fun <V : Any?> with(key: OtelJavaContextKey<V>, value: V): OtelJavaContext {
+    override fun <V : Any> with(key: OtelJavaContextKey<V>, value: V): OtelJavaContext {
         val ctx = impl.set(repository.get(key), value)
         return ContextAdapter(ctx, repository)
     }

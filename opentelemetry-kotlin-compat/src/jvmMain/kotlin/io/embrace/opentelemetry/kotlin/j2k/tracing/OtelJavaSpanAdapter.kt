@@ -14,10 +14,13 @@ import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.recordException
 import io.opentelemetry.api.common.Attributes
 import io.opentelemetry.api.trace.SpanContext
+import io.opentelemetry.context.Context
+import io.opentelemetry.context.ImplicitContextKeyed
+import io.opentelemetry.context.Scope
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
-internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan {
+internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan, ImplicitContextKeyed {
 
     override fun <T : Any?> setAttribute(key: OtelJavaAttributeKey<T?>, value: T?): OtelJavaSpan {
         span.setStringAttribute(key.key, value.toString())
@@ -95,4 +98,20 @@ internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan {
     }
 
     override fun isRecording(): Boolean = span.isRecording()
+
+    override fun storeInContext(context: Context): Context {
+        return if ((span is ImplicitContextKeyed)) {
+            span.storeInContext(context)
+        } else {
+            super.storeInContext(context)
+        }
+    }
+
+    override fun makeCurrent(): Scope {
+        return if ((span is ImplicitContextKeyed)) {
+            span.makeCurrent()
+        } else {
+            super<ImplicitContextKeyed>.makeCurrent()
+        }
+    }
 }
