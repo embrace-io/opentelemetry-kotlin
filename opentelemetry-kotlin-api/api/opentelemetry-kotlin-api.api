@@ -66,8 +66,16 @@ public abstract interface class io/embrace/opentelemetry/kotlin/export/Telemetry
 public abstract interface annotation class io/embrace/opentelemetry/kotlin/init/ConfigDsl : java/lang/annotation/Annotation {
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/init/LogLimitsConfigDsl {
+	public abstract fun getAttributeCountLimit ()I
+	public abstract fun getAttributeValueLengthLimit ()I
+	public abstract fun setAttributeCountLimit (I)V
+	public abstract fun setAttributeValueLengthLimit (I)V
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/init/LoggerProviderConfigDsl {
 	public abstract fun addLogRecordProcessor (Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor;)V
+	public abstract fun logLimits (Lkotlin/jvm/functions/Function1;)V
 	public abstract fun resource (Lkotlin/jvm/functions/Function1;)V
 }
 

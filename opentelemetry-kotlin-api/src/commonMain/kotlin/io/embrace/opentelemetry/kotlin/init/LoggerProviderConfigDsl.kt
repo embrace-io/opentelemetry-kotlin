@@ -21,4 +21,9 @@ public interface LoggerProviderConfigDsl {
      * Adds a [LogRecordProcessor] to the logger provider.
      */
     public fun addLogRecordProcessor(processor: LogRecordProcessor)
+
+    /**
+     * The log limits configuration for this logger provider.
+     */
+    public fun logLimits(action: LogLimitsConfigDsl.() -> Unit)
 }
