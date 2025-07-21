@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
@@ -52,7 +53,7 @@ public class TracerAdapter(
 
     private fun findContext(spanContext: SpanContext): OtelJavaContext {
         val ctx = OtelJavaContext.current() ?: OtelJavaContext.root()
-        val impl = (spanContext as SpanContextAdapter).impl
+        val impl = (spanContext as? SpanContextAdapter)?.impl ?: OtelJavaSpanContext.getInvalid()
         val span = OtelJavaSpan.wrap(impl)
         return ctx.with(span)
     }

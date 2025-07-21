@@ -5,14 +5,17 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
+import io.embrace.opentelemetry.kotlin.k2j.tracing.model.invalid
 import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -148,10 +151,23 @@ internal class SpanExportTest {
     }
 
     @Test
-    fun `test span trace state`() {
-        val span = tracer.createSpan("my_span")
-        val state = span.spanContext.traceState
-        assertEquals(emptyMap(), state.asMap())
+    fun `test invalid span context`() {
+        val invalidContext = SpanContext.invalid()
+
+        // Test invalid context properties
+        assertFalse(invalidContext.isValid)
+        assertEquals("00000000000000000000000000000000", invalidContext.traceId)
+        assertEquals("0000000000000000", invalidContext.spanId)
+
+        // Test span creation with invalid parent
+        val span = tracer.createSpan("test_span", parent = invalidContext)
+
+        // Child span of an invalid parent is valid
+        assertTrue(span.spanContext.isValid)
+        assertNotEquals(invalidContext.traceId, span.spanContext.traceId)
+        assertNotEquals(invalidContext.spanId, span.spanContext.spanId)
+
+        span.end()
     }
 
     @Test
