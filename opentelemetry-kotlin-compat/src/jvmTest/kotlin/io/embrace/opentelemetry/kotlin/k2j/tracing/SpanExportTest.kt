@@ -192,6 +192,24 @@ internal class SpanExportTest {
         )
     }
 
+    @Test
+    fun `test tracer with schema url and attributes`() {
+        val schemaUrl = "https://opentelemetry.io/schemas/1.21.0"
+        val tracerWithSchemaUrl = tracerProvider.getTracer(
+            name = "test-tracer",
+            version = "2.0.0",
+            schemaUrl = schemaUrl
+        ) {
+            setStringAttribute("tracer_attr", "tracer_value")
+            setLongAttribute("tracer_id", 123)
+        }
+
+        val span = tracerWithSchemaUrl.createSpan("schema_url_span")
+        span.end()
+
+        harness.assertSpans(expectedCount = 1, goldenFileName = "span_schema_url.json")
+    }
+
     private fun AttributeContainer.assertAttributes() {
         assertTrue(attributes().isEmpty())
 

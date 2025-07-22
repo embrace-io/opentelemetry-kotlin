@@ -19,4 +19,5 @@ internal data class SerializableSpanData(
     val totalRecordedLinks: Int,
     val totalAttributeCount: Int,
     val resource: SerializableResource,
+    val instrumentationScopeInfo: SerializableInstrumentationScopeInfo
 )

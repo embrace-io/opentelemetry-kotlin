@@ -20,4 +20,5 @@ internal fun OtelJavaSpanData.toSerializable(sanitizeSpanContextIds: Boolean) = 
     totalRecordedLinks = totalRecordedLinks,
     totalAttributeCount = totalAttributeCount,
     resource = resource.toSerializable(),
+    instrumentationScopeInfo = instrumentationScopeInfo.toSerializable()
 )

@@ -1,6 +1,6 @@
 [
   {
-    "name": "span_events",
+    "name": "schema_url_span",
     "kind": "INTERNAL",
     "statusData": {
       "name": "UNSET",
@@ -20,27 +20,11 @@
     },
     "startTimestampNs": 0,
     "attributes": {},
-    "events": [
-      {
-        "name": "my_event",
-        "attributes": {
-          "bool_key": "true",
-          "bool_list_key": "[true]",
-          "double_key": "3.14",
-          "double_list_key": "[3.14]",
-          "long_key": "42",
-          "long_list_key": "[42]",
-          "string_key": "second_value",
-          "string_list_key": "[a]"
-        },
-        "timestampNs": 150,
-        "totalAttributesCount": 8
-      }
-    ],
+    "events": [],
     "links": [],
     "endTimestampNs": 0,
     "ended": true,
-    "totalRecordedEvents": 1,
+    "totalRecordedEvents": 0,
     "totalRecordedLinks": 0,
     "totalAttributeCount": 0,
     "resource": {
@@ -53,9 +37,9 @@
       }
     },
     "instrumentationScopeInfo": {
-      "name": "name",
-      "version": "version",
-      "schemaUrl": "null",
+      "name": "test-tracer",
+      "version": "2.0.0",
+      "schemaUrl": "https://opentelemetry.io/schemas/1.21.0",
       "attributes": {}
     }
   }
