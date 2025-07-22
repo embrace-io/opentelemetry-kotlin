@@ -1,0 +1,232 @@
+[
+  {
+    "name": "multi_operations_span",
+    "kind": "INTERNAL",
+    "statusData": {
+      "name": "UNSET",
+      "description": ""
+    },
+    "spanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "01",
+      "traceState": {}
+    },
+    "parentSpanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "00",
+      "traceState": {}
+    },
+    "startTimestampNs": 0,
+    "attributes": {},
+    "events": [
+      {
+        "name": "event_1",
+        "timestampNs": 100,
+        "attributes": {},
+        "totalAttributesCount": 0
+      },
+      {
+        "name": "event_2",
+        "timestampNs": 200,
+        "attributes": {
+          "event_attr": "value"
+        },
+        "totalAttributesCount": 1
+      },
+      {
+        "name": "event_3",
+        "timestampNs": 300,
+        "attributes": {},
+        "totalAttributesCount": 0
+      }
+    ],
+    "links": [
+      {
+        "spanContext": {
+          "traceId": "00000000000000000000000000000000",
+          "spanId": "0000000000000000",
+          "traceFlags": "01",
+          "traceState": {}
+        },
+        "attributes": {},
+        "totalAttributeCount": 0
+      },
+      {
+        "spanContext": {
+          "traceId": "00000000000000000000000000000000",
+          "spanId": "0000000000000000",
+          "traceFlags": "01",
+          "traceState": {}
+        },
+        "attributes": {
+          "link_attr": "link_value"
+        },
+        "totalAttributeCount": 1
+      },
+      {
+        "spanContext": {
+          "traceId": "00000000000000000000000000000000",
+          "spanId": "0000000000000000",
+          "traceFlags": "01",
+          "traceState": {}
+        },
+        "attributes": {},
+        "totalAttributeCount": 0
+      }
+    ],
+    "endTimestampNs": 0,
+    "ended": true,
+    "totalRecordedEvents": 3,
+    "totalRecordedLinks": 3,
+    "totalAttributeCount": 0,
+    "resource": {
+      "schemaUrl": "null",
+      "attributes": {
+        "service.name": "unknown_service:java",
+        "telemetry.sdk.language": "java",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.52.0"
+      }
+    },
+    "instrumentationScopeInfo": {
+      "name": "name",
+      "version": "version",
+      "schemaUrl": "null",
+      "attributes": {}
+    }
+  },
+  {
+    "name": "linked_span_1",
+    "kind": "INTERNAL",
+    "statusData": {
+      "name": "UNSET",
+      "description": ""
+    },
+    "spanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "01",
+      "traceState": {}
+    },
+    "parentSpanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "00",
+      "traceState": {}
+    },
+    "startTimestampNs": 0,
+    "attributes": {},
+    "events": [],
+    "links": [],
+    "endTimestampNs": 0,
+    "ended": true,
+    "totalRecordedEvents": 0,
+    "totalRecordedLinks": 0,
+    "totalAttributeCount": 0,
+    "resource": {
+      "schemaUrl": "null",
+      "attributes": {
+        "service.name": "unknown_service:java",
+        "telemetry.sdk.language": "java",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.52.0"
+      }
+    },
+    "instrumentationScopeInfo": {
+      "name": "name",
+      "version": "version",
+      "schemaUrl": "null",
+      "attributes": {}
+    }
+  },
+  {
+    "name": "linked_span_2",
+    "kind": "INTERNAL",
+    "statusData": {
+      "name": "UNSET",
+      "description": ""
+    },
+    "spanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "01",
+      "traceState": {}
+    },
+    "parentSpanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "00",
+      "traceState": {}
+    },
+    "startTimestampNs": 0,
+    "attributes": {},
+    "events": [],
+    "links": [],
+    "endTimestampNs": 0,
+    "ended": true,
+    "totalRecordedEvents": 0,
+    "totalRecordedLinks": 0,
+    "totalAttributeCount": 0,
+    "resource": {
+      "schemaUrl": "null",
+      "attributes": {
+        "service.name": "unknown_service:java",
+        "telemetry.sdk.language": "java",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.52.0"
+      }
+    },
+    "instrumentationScopeInfo": {
+      "name": "name",
+      "version": "version",
+      "schemaUrl": "null",
+      "attributes": {}
+    }
+  },
+  {
+    "name": "linked_span_3",
+    "kind": "INTERNAL",
+    "statusData": {
+      "name": "UNSET",
+      "description": ""
+    },
+    "spanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "01",
+      "traceState": {}
+    },
+    "parentSpanContext": {
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "00",
+      "traceState": {}
+    },
+    "startTimestampNs": 0,
+    "attributes": {},
+    "events": [],
+    "links": [],
+    "endTimestampNs": 0,
+    "ended": true,
+    "totalRecordedEvents": 0,
+    "totalRecordedLinks": 0,
+    "totalAttributeCount": 0,
+    "resource": {
+      "schemaUrl": "null",
+      "attributes": {
+        "service.name": "unknown_service:java",
+        "telemetry.sdk.language": "java",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.52.0"
+      }
+    },
+    "instrumentationScopeInfo": {
+      "name": "name",
+      "version": "version",
+      "schemaUrl": "null",
+      "attributes": {}
+    }
+  }
+]
