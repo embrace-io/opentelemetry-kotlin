@@ -44,6 +44,12 @@
         "telemetry.sdk.name": "opentelemetry",
         "telemetry.sdk.version": "1.52.0"
       }
+    },
+    "instrumentationScopeInfo": {
+      "name": "name",
+      "version": "version",
+      "schemaUrl": "null",
+      "attributes": {}
     }
   }
 ]
