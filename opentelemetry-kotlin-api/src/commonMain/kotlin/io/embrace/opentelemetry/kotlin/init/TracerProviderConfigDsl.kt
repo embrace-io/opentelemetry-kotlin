@@ -15,7 +15,7 @@ public interface TracerProviderConfigDsl {
     /**
      * The [Resource] associated with this tracer provider.
      */
-    public fun resource(action: AttributeContainer.() -> Unit)
+    public fun resource(attributes: AttributeContainer.() -> Unit)
 
     /**
      * The span limits configuration for this tracer provider.

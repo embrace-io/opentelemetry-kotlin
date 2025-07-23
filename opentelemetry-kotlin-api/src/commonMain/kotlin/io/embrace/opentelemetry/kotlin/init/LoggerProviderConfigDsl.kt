@@ -15,7 +15,7 @@ public interface LoggerProviderConfigDsl {
     /**
      * The [Resource] associated with this logger provider.
      */
-    public fun resource(action: AttributeContainer.() -> Unit)
+    public fun resource(attributes: AttributeContainer.() -> Unit)
 
     /**
      * Adds a [LogRecordProcessor] to the logger provider.

@@ -45,16 +45,16 @@ internal class ReadWriteSpanAdapter(
 
     override fun isRecording(): Boolean = impl.isRecording
 
-    override fun addLink(spanContext: SpanContext, action: AttributeContainer.() -> Unit) {
+    override fun addLink(spanContext: SpanContext, attributes: AttributeContainer.() -> Unit) {
         val container = AttributeContainerImpl()
-        action(container)
+        attributes(container)
         val ctx = (spanContext as SpanContextAdapter).impl
         impl.addLink(ctx, container.otelJavaAttributes())
     }
 
-    override fun addEvent(name: String, timestamp: Long?, action: AttributeContainer.() -> Unit) {
+    override fun addEvent(name: String, timestamp: Long?, attributes: AttributeContainer.() -> Unit) {
         val container = AttributeContainerImpl()
-        action(container)
+        attributes(container)
         impl.addEvent(name, container.otelJavaAttributes(), timestamp ?: 0, TimeUnit.NANOSECONDS)
     }
 
