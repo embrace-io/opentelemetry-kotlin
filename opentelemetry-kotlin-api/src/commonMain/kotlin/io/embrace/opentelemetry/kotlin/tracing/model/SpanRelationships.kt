@@ -16,7 +16,7 @@ public interface SpanRelationships : AttributeContainer {
      * Adds a link to the span that associates it with another [SpanContext].
      */
     @ThreadSafe
-    public fun addLink(spanContext: SpanContext, action: AttributeContainer.() -> Unit)
+    public fun addLink(spanContext: SpanContext, attributes: AttributeContainer.() -> Unit = {})
 
     /**
      * Adds an event to the span.
@@ -25,7 +25,7 @@ public interface SpanRelationships : AttributeContainer {
     public fun addEvent(
         name: String,
         timestamp: Long? = null,
-        action: AttributeContainer.() -> Unit = {},
+        attributes: AttributeContainer.() -> Unit = {},
     )
 
     /**

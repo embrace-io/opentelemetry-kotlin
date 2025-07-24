@@ -45,12 +45,12 @@ internal class FakeSpan : Span {
         TODO("Not yet implemented")
     }
 
-    override fun addLink(spanContext: SpanContext, action: AttributeContainer.() -> Unit) {
+    override fun addLink(spanContext: SpanContext, attributes: AttributeContainer.() -> Unit) {
         TODO("Not yet implemented")
     }
 
-    override fun addEvent(name: String, timestamp: Long?, action: AttributeContainer.() -> Unit) {
-        events.add(FakeSpanEvent(name, timestamp ?: 0).apply(action))
+    override fun addEvent(name: String, timestamp: Long?, attributes: AttributeContainer.() -> Unit) {
+        events.add(FakeSpanEvent(name, timestamp ?: 0).apply(attributes))
     }
 
     override fun events(): List<SpanEvent> = events.toList()
