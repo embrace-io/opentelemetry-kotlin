@@ -2,8 +2,10 @@ package io.embrace.opentelemetry.kotlin.telescope.telemetry
 
 import android.content.res.Resources
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
+import io.embrace.opentelemetry.kotlin.compatWithOtelJava
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
-import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter
+import io.opentelemetry.exporter.logging.LoggingSpanExporter
 import io.opentelemetry.sdk.OpenTelemetrySdk
 import io.opentelemetry.sdk.resources.Resource
 import io.opentelemetry.sdk.trace.SdkTracerProvider
@@ -13,15 +15,12 @@ import io.opentelemetry.semconv.ServiceAttributes
 @OptIn(ExperimentalApi::class)
 class AppTracerProvider(
     private val resources: Resources,
-    private val endpoint: String = "http://10.0.2.2:4317", // Default to emulator localhost
     private val serviceName: String = "My telescopes"
 ) {
     val tracer: Tracer by lazy { createTracer() }
 
     private fun createTracer(): Tracer {
-        val exporter = OtlpGrpcSpanExporter.builder()
-            .setEndpoint(endpoint)
-            .build()
+        val loggingExporter = LoggingSpanExporter.create()
 
         val resource = Resource.getDefault().toBuilder()
             .put(ServiceAttributes.SERVICE_NAME, serviceName)
@@ -29,7 +28,7 @@ class AppTracerProvider(
             .build()
 
         val sdkTracerProvider = SdkTracerProvider.builder()
-            .addSpanProcessor(BatchSpanProcessor.builder(exporter).build())
+            .addSpanProcessor(BatchSpanProcessor.builder(loggingExporter).build())
             .setResource(resource)
             .build()
 
@@ -37,9 +36,9 @@ class AppTracerProvider(
             .setTracerProvider(sdkTracerProvider)
             .build()
 
-        val kotlinSdk = io.embrace.opentelemetry.kotlin.k2j.OpenTelemetrySdk(javaSdk)
+        val kotlinApi = OpenTelemetryInstance.compatWithOtelJava(javaSdk)
 
-        return kotlinSdk.tracerProvider.getTracer("AppTracer")
+        return kotlinApi.tracerProvider.getTracer("AppTracer")
     }
 
     private fun getScreenResolution() = "${resources.displayMetrics.widthPixels}x${resources.displayMetrics.heightPixels}"
