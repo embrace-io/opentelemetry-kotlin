@@ -25,11 +25,11 @@ internal class SerializableSpanDataTest {
         compareSpanContexts(fake.spanContext, observed.spanContext)
         compareSpanContexts(fake.parentSpanContext, observed.parentSpanContext)
         compareStatusData(fake.status, observed.statusData)
-        assertEquals(fake.startEpochNanos, observed.startTimestampNs)
+        assertEquals(fake.startEpochNanos, observed.startTimestamp)
         compareAttributes(fake.attributes, observed.attributes)
         compareEvents(fake.events, observed.events)
         compareLinks(fake.links, observed.links)
-        assertEquals(fake.endEpochNanos, observed.endTimestampNs)
+        assertEquals(fake.endEpochNanos, observed.endTimestamp)
         assertTrue(fake.hasEnded())
         assertEquals(fake.totalRecordedEvents, observed.totalRecordedEvents)
         assertEquals(fake.totalRecordedLinks, observed.totalRecordedLinks)
@@ -59,7 +59,7 @@ internal class SerializableSpanDataTest {
         expected.forEachIndexed { index, data ->
             val observedData = observed[index]
             assertEquals(data.name, observedData.name)
-            assertEquals(data.epochNanos, observedData.timestampNs)
+            assertEquals(data.epochNanos, observedData.timestamp)
             compareAttributes(data.attributes, observedData.attributes)
         }
     }

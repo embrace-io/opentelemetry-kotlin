@@ -18,7 +18,7 @@
       "traceFlags": "00",
       "traceState": {}
     },
-    "startTimestampNs": 0,
+    "startTimestamp": 0,
     "attributes": {},
     "events": [
       {
@@ -33,12 +33,12 @@
           "string_key": "second_value",
           "string_list_key": "[a]"
         },
-        "timestampNs": 150,
+        "timestamp": 150,
         "totalAttributesCount": 8
       }
     ],
     "links": [],
-    "endTimestampNs": 0,
+    "endTimestamp": 0,
     "ended": true,
     "totalRecordedEvents": 1,
     "totalRecordedLinks": 0,

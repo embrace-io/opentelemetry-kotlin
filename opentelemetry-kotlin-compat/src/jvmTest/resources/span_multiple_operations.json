@@ -18,18 +18,18 @@
       "traceFlags": "00",
       "traceState": {}
     },
-    "startTimestampNs": 0,
+    "startTimestamp": 0,
     "attributes": {},
     "events": [
       {
         "name": "event_1",
-        "timestampNs": 100,
+        "timestamp": 100,
         "attributes": {},
         "totalAttributesCount": 0
       },
       {
         "name": "event_2",
-        "timestampNs": 200,
+        "timestamp": 200,
         "attributes": {
           "event_attr": "value"
         },
@@ -37,7 +37,7 @@
       },
       {
         "name": "event_3",
-        "timestampNs": 300,
+        "timestamp": 300,
         "attributes": {},
         "totalAttributesCount": 0
       }
@@ -76,7 +76,7 @@
         "totalAttributeCount": 0
       }
     ],
-    "endTimestampNs": 0,
+    "endTimestamp": 0,
     "ended": true,
     "totalRecordedEvents": 3,
     "totalRecordedLinks": 3,
@@ -116,11 +116,11 @@
       "traceFlags": "00",
       "traceState": {}
     },
-    "startTimestampNs": 0,
+    "startTimestamp": 0,
     "attributes": {},
     "events": [],
     "links": [],
-    "endTimestampNs": 0,
+    "endTimestamp": 0,
     "ended": true,
     "totalRecordedEvents": 0,
     "totalRecordedLinks": 0,
@@ -160,11 +160,11 @@
       "traceFlags": "00",
       "traceState": {}
     },
-    "startTimestampNs": 0,
+    "startTimestamp": 0,
     "attributes": {},
     "events": [],
     "links": [],
-    "endTimestampNs": 0,
+    "endTimestamp": 0,
     "ended": true,
     "totalRecordedEvents": 0,
     "totalRecordedLinks": 0,
@@ -204,11 +204,11 @@
       "traceFlags": "00",
       "traceState": {}
     },
-    "startTimestampNs": 0,
+    "startTimestamp": 0,
     "attributes": {},
     "events": [],
     "links": [],
-    "endTimestampNs": 0,
+    "endTimestamp": 0,
     "ended": true,
     "totalRecordedEvents": 0,
     "totalRecordedLinks": 0,

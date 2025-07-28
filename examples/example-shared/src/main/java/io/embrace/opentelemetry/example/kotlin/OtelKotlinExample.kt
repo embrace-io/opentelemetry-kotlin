@@ -126,8 +126,8 @@ private fun runLoggingExamples(api: OpenTelemetry) {
     // create a complex log record
     logger.log(
         body = "Complex Log Record",
-        timestampNs = 15000000003L,
-        observedTimestampNs = 15000000000L,
+        timestamp = 15000000003L,
+        observedTimestamp = 15000000000L,
         context = null,
         severityNumber = SeverityNumber.WARN,
         severityText = "Warning",

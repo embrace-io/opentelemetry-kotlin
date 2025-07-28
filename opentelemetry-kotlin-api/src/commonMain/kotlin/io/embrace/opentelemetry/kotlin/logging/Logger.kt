@@ -19,8 +19,8 @@ public interface Logger {
      * Emits a [io.embrace.opentelemetry.kotlin.logging.model.LogRecord] with the given optional parameters:
      *
      * - [body] - the body of the log message
-     * - [timestampNs] - the timestamp at which the event occurred
-     * - [observedTimestampNs] - the timestamp at which the event was entered into the OpenTelemetry API
+     * - [timestamp] - the timestamp at which the event occurred
+     * - [observedTimestamp] - the timestamp at which the event was entered into the OpenTelemetry API
      * - [context] - the context in which the log was emitted
      * - [severityNumber] - the severity of the log
      * - [severityText] - a string representation of the severity at the point it was captured
@@ -28,8 +28,8 @@ public interface Logger {
      */
     public fun log(
         body: String? = null,
-        timestampNs: Long? = null,
-        observedTimestampNs: Long? = null,
+        timestamp: Long? = null,
+        observedTimestamp: Long? = null,
         context: Context? = null,
         severityNumber: SeverityNumber? = null,
         severityText: String? = null,
