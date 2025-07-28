@@ -42,7 +42,7 @@ internal class OtelJavaSpanExporterAdapterTest {
         val observed = impl.exports.single()
         assertEquals(original.name, observed.name)
         assertEquals(original.status.convertToOtelJava(), observed.status.statusCode)
-        assertEquals(original.parent?.spanId, observed.parentSpanContext.spanId)
+        assertEquals(original.parent.spanId, observed.parentSpanContext.spanId)
         assertEquals(original.spanContext.spanId, observed.spanContext.spanId)
         assertEquals(original.spanKind.convertToOtelJava(), observed.kind)
         assertEquals(original.startTimestamp, observed.startEpochNanos)

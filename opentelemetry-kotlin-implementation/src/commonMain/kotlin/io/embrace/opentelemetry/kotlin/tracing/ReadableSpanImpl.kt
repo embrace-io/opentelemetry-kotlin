@@ -13,7 +13,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 public class ReadableSpanImpl(
     override val name: String,
     override val status: StatusCode,
-    override val parent: SpanContext?,
+    override val parent: SpanContext,
     override val spanContext: SpanContext,
     override val spanKind: SpanKind,
     override val startTimestamp: Long,

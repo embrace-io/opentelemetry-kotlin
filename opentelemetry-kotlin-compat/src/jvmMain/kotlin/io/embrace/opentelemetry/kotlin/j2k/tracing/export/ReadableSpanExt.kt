@@ -6,7 +6,6 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaEventData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaInstrumentationLibraryInfo
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLinkData
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
 import io.embrace.opentelemetry.kotlin.j2k.bridge.OtelJavaSpanDataImpl
 import io.embrace.opentelemetry.kotlin.j2k.bridge.attrsFromMap
@@ -20,7 +19,7 @@ internal fun ReadableSpan.toSpanData(): SpanData {
     return OtelJavaSpanDataImpl(
         nameImpl = name,
         statusImpl = OtelJavaStatusData.create(status.convertToOtelJava(), null),
-        parentSpanContextImpl = parent?.convertToOtelJava() ?: OtelJavaSpanContext.getInvalid(),
+        parentSpanContextImpl = parent.convertToOtelJava(),
         spanContextImpl = spanContext.convertToOtelJava(),
         kindImpl = spanKind.convertToOtelJava(),
         startEpochNanosImpl = startTimestamp,

@@ -38,9 +38,13 @@ public abstract interface class io/embrace/opentelemetry/kotlin/attributes/Attri
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/context/Context {
+	public static final field Companion Lio/embrace/opentelemetry/kotlin/context/Context$Companion;
 	public abstract fun createKey (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/context/ContextKey;
 	public abstract fun get (Lio/embrace/opentelemetry/kotlin/context/ContextKey;)Ljava/lang/Object;
 	public abstract fun set (Lio/embrace/opentelemetry/kotlin/context/ContextKey;Ljava/lang/Object;)Lio/embrace/opentelemetry/kotlin/context/Context;
+}
+
+public final class io/embrace/opentelemetry/kotlin/context/Context$Companion {
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/context/ContextKey {

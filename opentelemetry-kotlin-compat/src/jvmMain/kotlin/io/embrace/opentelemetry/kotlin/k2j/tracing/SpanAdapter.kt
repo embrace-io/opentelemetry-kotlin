@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 internal class SpanAdapter(
     val impl: OtelJavaSpan,
     private val clock: Clock,
-    override val parent: SpanContext?,
+    override val parent: SpanContext,
     override val spanKind: SpanKind,
     override val startTimestamp: Long,
 ) : Span, ImplicitContextKeyed {

@@ -6,6 +6,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
+import io.embrace.opentelemetry.kotlin.k2j.tracing.model.invalid
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
@@ -42,7 +43,7 @@ public class TracerAdapter(
         return SpanAdapter(
             impl = span,
             clock = clock,
-            parent = parent,
+            parent = parent ?: SpanContext.invalid(),
             spanKind = spanKind,
             startTimestamp = start
         ).apply {

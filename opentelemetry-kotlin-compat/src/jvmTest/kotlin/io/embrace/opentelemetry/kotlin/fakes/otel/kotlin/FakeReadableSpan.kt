@@ -14,7 +14,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 internal class FakeReadableSpan(
     override val name: String = "span",
     override val status: StatusCode = StatusCode.Ok,
-    override val parent: SpanContext? = FakeSpanContext(),
+    override val parent: SpanContext = FakeSpanContext(),
     override val spanContext: SpanContext = FakeSpanContext(),
     override val spanKind: SpanKind = SpanKind.INTERNAL,
     override val startTimestamp: Long = 1000,
