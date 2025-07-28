@@ -68,4 +68,6 @@ public interface Span : SpanRelationships {
      */
     @ThreadSafe
     public fun isRecording(): Boolean
+
+    public companion object
 }
