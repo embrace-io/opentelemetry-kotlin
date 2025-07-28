@@ -5,6 +5,6 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.context.Context
 
 @OptIn(ExperimentalApi::class)
-internal fun OtelJavaContext.toOtelKotlin(): Context {
+public fun OtelJavaContext.toOtelKotlin(): Context {
     return OtelJavaContextAdapter(this)
 }

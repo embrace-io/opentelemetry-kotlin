@@ -3,13 +3,12 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
-import io.embrace.opentelemetry.kotlin.k2j.tracing.model.invalid
+import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.k2j.context.ContextAdapter
+import io.embrace.opentelemetry.kotlin.k2j.context.toOtelJava
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 import java.util.concurrent.TimeUnit
@@ -22,7 +21,7 @@ public class TracerAdapter(
 
     override fun createSpan(
         name: String,
-        parent: SpanContext?,
+        parentContext: Context?,
         spanKind: SpanKind,
         startTimestamp: Long?,
         action: SpanRelationships.() -> Unit
@@ -32,9 +31,8 @@ public class TracerAdapter(
             .setSpanKind(spanKind.convertToOtelJava())
             .setStartTimestamp(start, TimeUnit.NANOSECONDS)
 
-        if (parent != null) {
-            val ctx = findContext(parent)
-            builder.setParent(ctx)
+        if (parentContext != null) {
+            builder.setParent(parentContext.toOtelJava())
         } else {
             builder.setNoParent()
         }
@@ -43,19 +41,12 @@ public class TracerAdapter(
         return SpanAdapter(
             impl = span,
             clock = clock,
-            parent = parent ?: SpanContext.invalid(),
+            parentCtx = parentContext?.let(::ContextAdapter) ?: OtelJavaContext.current() ?: OtelJavaContext.root(),
             spanKind = spanKind,
             startTimestamp = start
         ).apply {
             this.name = name
             action(this)
         }
-    }
-
-    private fun findContext(spanContext: SpanContext): OtelJavaContext {
-        val ctx = OtelJavaContext.current() ?: OtelJavaContext.root()
-        val impl = (spanContext as? SpanContextAdapter)?.impl ?: OtelJavaSpanContext.getInvalid()
-        val span = OtelJavaSpan.wrap(impl)
-        return ctx.with(span)
     }
 }
