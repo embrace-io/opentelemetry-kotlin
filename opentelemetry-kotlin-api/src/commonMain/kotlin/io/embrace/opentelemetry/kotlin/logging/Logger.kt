@@ -7,7 +7,7 @@ import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 
 /**
- * Class that emits [io.embrace.opentelemetry.kotlin.logging.model.LogRecord] objects.
+ * Class that emits log record objects.
  *
  * https://opentelemetry.io/docs/specs/otel/logs/api/#logger
  */
@@ -16,7 +16,7 @@ import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 public interface Logger {
 
     /**
-     * Emits a [io.embrace.opentelemetry.kotlin.logging.model.LogRecord] with the given optional parameters:
+     * Emits a log record with the given optional parameters:
      *
      * - [body] - the body of the log message
      * - [timestamp] - the timestamp at which the event occurred

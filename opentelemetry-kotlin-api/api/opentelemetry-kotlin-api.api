@@ -122,15 +122,6 @@ public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/L
 	public abstract fun onEmit (Lio/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord;Lio/embrace/opentelemetry/kotlin/context/Context;)V
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/logging/model/LogRecord : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
-	public abstract fun getBody ()Ljava/lang/String;
-	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
-	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
-	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
-	public abstract fun getSeverityText ()Ljava/lang/String;
-	public abstract fun getTimestamp ()Ljava/lang/Long;
-}
-
 public abstract interface class io/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer, io/embrace/opentelemetry/kotlin/logging/model/ReadableLogRecord {
 	public abstract fun getBody ()Ljava/lang/String;
 	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
