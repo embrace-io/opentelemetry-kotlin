@@ -271,6 +271,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Re
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Span : io/embrace/opentelemetry/kotlin/tracing/model/SpanRelationships {
+	public static final field Companion Lio/embrace/opentelemetry/kotlin/tracing/model/Span$Companion;
 	public abstract fun end ()V
 	public abstract fun end (J)V
 	public abstract fun getName ()Ljava/lang/String;
@@ -282,6 +283,9 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Sp
 	public abstract fun isRecording ()Z
 	public abstract fun setName (Ljava/lang/String;)V
 	public abstract fun setStatus (Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/model/Span$Companion {
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanContext {

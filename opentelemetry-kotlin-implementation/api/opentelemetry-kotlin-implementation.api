@@ -39,6 +39,34 @@ public final class io/embrace/opentelemetry/kotlin/tracing/LinkImpl : io/embrace
 	public fun setStringListAttribute (Ljava/lang/String;Ljava/util/List;)V
 }
 
+public final class io/embrace/opentelemetry/kotlin/tracing/NonRecordingSpan : io/embrace/opentelemetry/kotlin/tracing/model/Span {
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;)V
+	public fun addEvent (Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)V
+	public fun addLink (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lkotlin/jvm/functions/Function1;)V
+	public fun attributes ()Ljava/util/Map;
+	public fun end ()V
+	public fun end (J)V
+	public fun events ()Ljava/util/List;
+	public fun getName ()Ljava/lang/String;
+	public fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+	public fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+	public fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
+	public fun getStartTimestamp ()J
+	public fun getStatus ()Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
+	public fun isRecording ()Z
+	public fun links ()Ljava/util/List;
+	public fun setBooleanAttribute (Ljava/lang/String;Z)V
+	public fun setBooleanListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public fun setDoubleAttribute (Ljava/lang/String;D)V
+	public fun setDoubleListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public fun setLongAttribute (Ljava/lang/String;J)V
+	public fun setLongListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public fun setName (Ljava/lang/String;)V
+	public fun setStatus (Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;)V
+	public fun setStringAttribute (Ljava/lang/String;Ljava/lang/String;)V
+	public fun setStringListAttribute (Ljava/lang/String;Ljava/util/List;)V
+}
+
 public final class io/embrace/opentelemetry/kotlin/tracing/ReadWriteLogRecordImpl : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer, io/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord {
 	public fun <init> (Ljava/lang/Long;Ljava/lang/Long;Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/resource/Resource;Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;)V
 	public fun attributes ()Ljava/util/Map;
