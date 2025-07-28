@@ -24,7 +24,7 @@ internal class FakeSpan : Span {
     override var status: StatusCode
         get() = TODO("Not yet implemented")
         set(value) {}
-    override val parent: SpanContext?
+    override val parent: SpanContext
         get() = TODO("Not yet implemented")
     override val spanContext: SpanContext
         get() = TODO("Not yet implemented")

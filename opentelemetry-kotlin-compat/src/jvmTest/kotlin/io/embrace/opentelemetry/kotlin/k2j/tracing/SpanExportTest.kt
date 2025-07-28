@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
+import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeTraceState
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
@@ -123,10 +124,10 @@ internal class SpanExportTest {
         val b = tracer.createSpan("b", parent = a.spanContext)
         val c = tracer.createSpan("c", parent = b.spanContext)
 
-        assertNull(a.parent)
+        assertFalse(a.parent.isValid)
         assertNotNull(a.spanContext)
-        assertEquals(a.spanContext, b.parent)
-        assertEquals(b.spanContext, c.parent)
+        assertSpanContextsMatch(a.spanContext, b.parent)
+        assertSpanContextsMatch(b.spanContext, c.parent)
         assertNotNull(c.spanContext)
 
         a.end()

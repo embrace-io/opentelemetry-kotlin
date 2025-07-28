@@ -31,6 +31,11 @@ public final class io/embrace/opentelemetry/kotlin/j2k/tracing/export/OtelJavaSp
 	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
 }
 
+public final class io/embrace/opentelemetry/kotlin/k2j/context/ContextExtKt {
+	public static final fun current (Lio/embrace/opentelemetry/kotlin/context/Context$Companion;)Lio/embrace/opentelemetry/kotlin/context/Context;
+	public static final fun root (Lio/embrace/opentelemetry/kotlin/context/Context$Companion;)Lio/embrace/opentelemetry/kotlin/context/Context;
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/k2j/id/TracingIdGenerator {
 	public abstract fun generateSpanId ()Ljava/lang/String;
 	public abstract fun generateTraceId ()Ljava/lang/String;

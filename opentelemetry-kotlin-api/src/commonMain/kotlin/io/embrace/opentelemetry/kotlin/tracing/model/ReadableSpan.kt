@@ -22,9 +22,9 @@ public interface ReadableSpan {
     public val status: StatusCode
 
     /**
-     * The parent span context. This defaults to null.
+     * The parent span context.
      */
-    public val parent: SpanContext?
+    public val parent: SpanContext
 
     /**
      * The span context that uniquely identifies this span.

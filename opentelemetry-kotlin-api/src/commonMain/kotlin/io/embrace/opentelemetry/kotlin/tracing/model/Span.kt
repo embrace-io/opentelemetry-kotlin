@@ -28,10 +28,10 @@ public interface Span : SpanRelationships {
     public var status: StatusCode
 
     /**
-     * Gets the parent span context. This defaults to null.
+     * Gets the parent span context.
      */
     @ThreadSafe
-    public val parent: SpanContext?
+    public val parent: SpanContext
 
     /**
      * Gets the span context that uniquely identifies this span.

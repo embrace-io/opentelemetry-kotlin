@@ -13,7 +13,7 @@ internal object NoopSpan : Span {
 
     override var name: String = ""
     override var status: StatusCode = StatusCode.Unset
-    override val parent: SpanContext? = null
+    override val parent: SpanContext = NoopSpanContext
     override val spanContext: SpanContext = NoopSpanContext
     override val spanKind: SpanKind = SpanKind.INTERNAL
     override val startTimestamp: Long = -1L

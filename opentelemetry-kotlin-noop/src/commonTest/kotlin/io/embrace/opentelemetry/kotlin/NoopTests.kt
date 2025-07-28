@@ -6,7 +6,6 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
@@ -115,6 +114,6 @@ internal class NoopTests {
         assertTrue(span.links().isEmpty())
         assertTrue(span.attributes().isEmpty())
         assertFalse(span.isRecording())
-        assertNull(span.parent)
+        assertFalse(span.parent.isValid)
     }
 }

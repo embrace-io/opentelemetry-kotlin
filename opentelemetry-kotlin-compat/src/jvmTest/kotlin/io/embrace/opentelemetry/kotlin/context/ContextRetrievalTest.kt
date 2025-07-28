@@ -14,6 +14,8 @@ import io.embrace.opentelemetry.kotlin.j2k.bridge.context.OtelJavaContextAdapter
 import io.embrace.opentelemetry.kotlin.j2k.tracing.OtelJavaSpanAdapter
 import io.embrace.opentelemetry.kotlin.k2j.context.ContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanAdapter
+import io.embrace.opentelemetry.kotlin.k2j.tracing.model.invalid
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import org.junit.Before
 import org.junit.Test
@@ -62,7 +64,7 @@ internal class ContextRetrievalTest {
     @Test
     fun `store and retrieve implicit span from context`() {
         val impl = FakeSpanImpl()
-        val kotlinSpan = SpanAdapter(impl, FakeClock(), null, SpanKind.INTERNAL, 0)
+        val kotlinSpan = SpanAdapter(impl, FakeClock(), SpanContext.invalid(), SpanKind.INTERNAL, 0)
         val javaSpan = OtelJavaSpanAdapter(kotlinSpan)
 
         val ctx = javaDecorator.with(javaSpan)
