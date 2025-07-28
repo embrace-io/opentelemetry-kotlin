@@ -9,7 +9,7 @@ import io.embrace.opentelemetry.kotlin.k2j.context.ContextKeyAdapter
 
 @OptIn(ExperimentalApi::class)
 internal class OtelJavaContextAdapter(
-    private val impl: OtelJavaContext,
+    val impl: OtelJavaContext,
     private val repository: OtelJavaContextKeyRepository = OtelJavaContextKeyRepository.INSTANCE
 ) : Context {
 
