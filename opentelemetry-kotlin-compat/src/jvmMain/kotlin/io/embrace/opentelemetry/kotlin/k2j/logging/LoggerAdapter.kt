@@ -19,8 +19,8 @@ internal class LoggerAdapter(
 
     override fun log(
         body: String?,
-        timestampNs: Long?,
-        observedTimestampNs: Long?,
+        timestamp: Long?,
+        observedTimestamp: Long?,
         context: Context?,
         severityNumber: SeverityNumber?,
         severityText: String?,
@@ -31,11 +31,11 @@ internal class LoggerAdapter(
         if (body != null) {
             builder.setBody(body)
         }
-        if (timestampNs != null) {
-            builder.setTimestamp(timestampNs, TimeUnit.NANOSECONDS)
+        if (timestamp != null) {
+            builder.setTimestamp(timestamp, TimeUnit.NANOSECONDS)
         }
-        if (observedTimestampNs != null) {
-            builder.setObservedTimestamp(observedTimestampNs, TimeUnit.NANOSECONDS)
+        if (observedTimestamp != null) {
+            builder.setObservedTimestamp(observedTimestamp, TimeUnit.NANOSECONDS)
         }
         if (context != null) {
             builder.setContext(ContextAdapter(context, contextKeyRepository))

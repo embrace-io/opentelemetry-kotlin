@@ -9,8 +9,8 @@ import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 internal object NoopLogger : Logger {
     override fun log(
         body: String?,
-        timestampNs: Long?,
-        observedTimestampNs: Long?,
+        timestamp: Long?,
+        observedTimestamp: Long?,
         context: Context?,
         severityNumber: SeverityNumber?,
         severityText: String?,

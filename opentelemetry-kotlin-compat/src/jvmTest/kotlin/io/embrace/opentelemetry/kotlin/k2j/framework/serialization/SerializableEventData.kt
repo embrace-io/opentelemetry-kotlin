@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 internal data class SerializableEventData(
     val name: String,
     val attributes: Map<String, String>,
-    val timestampNs: Long,
+    val timestamp: Long,
     val totalAttributesCount: Int,
 )

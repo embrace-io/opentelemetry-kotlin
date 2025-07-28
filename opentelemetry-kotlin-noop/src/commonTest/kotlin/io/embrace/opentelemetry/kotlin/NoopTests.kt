@@ -58,8 +58,8 @@ internal class NoopTests {
         // Logging does nothing
         logger.log(
             body = "Complex message",
-            timestampNs = 1000000L,
-            observedTimestampNs = 2000000L,
+            timestamp = 1000000L,
+            observedTimestamp = 2000000L,
             context = null,
             severityNumber = SeverityNumber.ERROR,
             severityText = "ERROR"

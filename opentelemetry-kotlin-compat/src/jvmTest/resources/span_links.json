@@ -18,7 +18,7 @@
       "traceFlags": "00",
       "traceState": {}
     },
-    "startTimestampNs": 0,
+    "startTimestamp": 0,
     "attributes": {},
     "events": [],
     "links": [
@@ -42,7 +42,7 @@
         "totalAttributeCount": 8
       }
     ],
-    "endTimestampNs": 0,
+    "endTimestamp": 0,
     "ended": true,
     "totalRecordedEvents": 0,
     "totalRecordedLinks": 1,
@@ -82,11 +82,11 @@
       "traceFlags": "00",
       "traceState": {}
     },
-    "startTimestampNs": 0,
+    "startTimestamp": 0,
     "attributes": {},
     "events": [],
     "links": [],
-    "endTimestampNs": 0,
+    "endTimestamp": 0,
     "ended": true,
     "totalRecordedEvents": 0,
     "totalRecordedLinks": 0,

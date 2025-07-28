@@ -44,8 +44,8 @@ internal class LogExportTest {
         }
         logger.log(
             body = "Hello, world!",
-            timestampNs = 100L,
-            observedTimestampNs = 50L,
+            timestamp = 100L,
+            observedTimestamp = 50L,
             severityNumber = SeverityNumber.ERROR2,
             severityText = "Error",
         ) {

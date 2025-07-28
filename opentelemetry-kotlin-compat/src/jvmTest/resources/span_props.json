@@ -18,11 +18,11 @@
       "traceFlags": "00",
       "traceState": {}
     },
-    "startTimestampNs": 500,
+    "startTimestamp": 500,
     "attributes": {},
     "events": [],
     "links": [],
-    "endTimestampNs": 1000,
+    "endTimestamp": 1000,
     "ended": true,
     "totalRecordedEvents": 0,
     "totalRecordedLinks": 0,
