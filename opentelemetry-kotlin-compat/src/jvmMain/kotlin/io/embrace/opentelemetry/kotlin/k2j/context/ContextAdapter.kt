@@ -12,7 +12,7 @@ internal class ContextAdapter(
 ) : OtelJavaContext {
 
     override fun <V : Any?> get(key: OtelJavaContextKey<V>): V? {
-        return impl[repository.get(key)]
+        return impl.get(repository.get(key))
     }
 
     override fun <V : Any> with(key: OtelJavaContextKey<V>, value: V): OtelJavaContext {

@@ -43,8 +43,8 @@ internal class ContextRetrievalTest {
         val kotlinKey = kotlinDecorator.createKey<String>("kotlin")
         val kotlinValue = "kotlin_value"
         val kotlinCtx = kotlinDecorator.set(kotlinKey, kotlinValue)
-        assertEquals(kotlinValue, kotlinCtx[kotlinKey])
-        assertNull(kotlinDecorator[kotlinKey])
+        assertEquals(kotlinValue, kotlinCtx.get(kotlinKey))
+        assertNull(kotlinDecorator.get(kotlinKey))
 
         // assert that values are stored via 2 layers
         val javaKey = OtelJavaContextKey.named<Any>("java-key")
