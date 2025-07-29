@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.context
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 
 @OptIn(ExperimentalApi::class)
-public class ContextImpl(
+internal class ContextImpl(
     private val impl: Map<ContextKey<*>, Any> = mapOf()
 ) : Context {
 

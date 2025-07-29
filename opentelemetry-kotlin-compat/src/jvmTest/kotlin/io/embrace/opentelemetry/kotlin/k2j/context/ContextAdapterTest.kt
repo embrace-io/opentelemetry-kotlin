@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.k2j.context
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContextKey
-import io.embrace.opentelemetry.kotlin.context.ContextImpl
+import io.embrace.opentelemetry.kotlin.context.Context
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotSame
@@ -14,7 +14,7 @@ internal class ContextAdapterTest {
     @Test
     fun `test context`() {
         val repository = ContextKeyRepository()
-        val ctx = ContextAdapter(ContextImpl(), repository)
+        val ctx = ContextAdapter(Context.root(), repository)
         val key1 = OtelJavaContextKey.named<String>("foo")
         val key2 = OtelJavaContextKey.named<String>("foo")
         val key3 = OtelJavaContextKey.named<String>("bar")
