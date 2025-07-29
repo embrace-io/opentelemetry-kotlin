@@ -304,8 +304,12 @@ public abstract class io/embrace/opentelemetry/kotlin/tracing/data/StatusData {
 	public final fun getStatusCode ()Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
 }
 
+public final class io/embrace/opentelemetry/kotlin/tracing/data/StatusData$Custom : io/embrace/opentelemetry/kotlin/tracing/data/StatusData {
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;Ljava/lang/String;)V
+}
+
 public final class io/embrace/opentelemetry/kotlin/tracing/data/StatusData$Error : io/embrace/opentelemetry/kotlin/tracing/data/StatusData {
-	public fun <init> (Ljava/lang/String;)V
+	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/tracing/data/StatusData$Error;
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/data/StatusData$Ok : io/embrace/opentelemetry/kotlin/tracing/data/StatusData {

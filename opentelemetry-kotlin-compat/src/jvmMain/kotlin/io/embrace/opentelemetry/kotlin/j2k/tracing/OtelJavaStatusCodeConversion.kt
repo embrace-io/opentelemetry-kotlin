@@ -16,5 +16,9 @@ public fun OtelJavaStatusCode.toOtelKotlin(): StatusCode = when (this) {
 public fun OtelJavaStatusCode.toOtelKotlinStatusData(description: String?): StatusData = when (this) {
     OtelJavaStatusCode.UNSET -> StatusData.Unset
     OtelJavaStatusCode.OK -> StatusData.Ok
-    OtelJavaStatusCode.ERROR -> StatusData.Error(description)
+    OtelJavaStatusCode.ERROR -> if (description.isNullOrEmpty()) {
+        StatusData.Error
+    } else {
+        StatusData.Custom(StatusCode.Error, description)
+    }
 }

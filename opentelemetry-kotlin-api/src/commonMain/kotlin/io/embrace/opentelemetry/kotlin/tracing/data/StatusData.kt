@@ -10,23 +10,29 @@ import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 @ExperimentalApi
 public sealed class StatusData(
     public val statusCode: StatusCode,
-    public val description: String?
+    public val description: String
 ) {
     /**
      * Default status.
      */
     @ThreadSafe
-    public object Unset : StatusData(StatusCode.Unset, null)
+    public object Unset : StatusData(StatusCode.Unset, "")
 
     /**
      * The operation completed successfully.
      */
     @ThreadSafe
-    public object Ok : StatusData(StatusCode.Ok, null)
+    public object Ok : StatusData(StatusCode.Ok, "")
 
     /**
-     * The operation completed with an error. An optional description of the error may be provided.
+     * The operation completed with an error.
      */
     @ThreadSafe
-    public class Error(description: String?) : StatusData(StatusCode.Error, description)
+    public object Error : StatusData(StatusCode.Error, "")
+
+    /**
+     * Create a custom status with a status code and description.
+     */
+    @ThreadSafe
+    public class Custom(statusCode: StatusCode, description: String) : StatusData(statusCode, description)
 }

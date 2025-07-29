@@ -54,8 +54,14 @@ internal class SpanAdapter(
         get() = implStatus
         set(value) {
             implStatus = value
-            value.toOtelJava().let {
-                impl.setStatus(it.statusCode, it.description)
+            with(value) {
+                if (description.isEmpty()) {
+                    impl.setStatus(statusCode.toOtelJava())
+                } else {
+                    toOtelJava().let {
+                        impl.setStatus(it.statusCode, it.description)
+                    }
+                }
             }
         }
 

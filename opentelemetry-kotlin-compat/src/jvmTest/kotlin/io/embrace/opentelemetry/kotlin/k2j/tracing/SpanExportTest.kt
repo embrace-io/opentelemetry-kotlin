@@ -12,6 +12,7 @@ import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.k2j.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanContext
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
+import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
@@ -70,8 +71,9 @@ internal class SpanExportTest {
         assertEquals(name, span.name)
 
         assertEquals(StatusData.Unset, span.status)
-        span.status = StatusData.Ok
-        assertEquals(StatusData.Ok, span.status)
+        span.status = StatusData.Custom(StatusCode.Ok, "aight")
+        assertEquals(StatusCode.Ok, span.status.statusCode)
+        assertEquals("aight", span.status.description)
 
         assertTrue(span.isRecording())
         span.end(1000)
