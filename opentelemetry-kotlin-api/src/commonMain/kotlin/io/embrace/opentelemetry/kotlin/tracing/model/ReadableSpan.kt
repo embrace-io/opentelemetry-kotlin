@@ -75,12 +75,12 @@ public interface ReadableSpan : SpanData {
     public override val links: List<LinkData>
 
     /**
+     * Returns true if this span has ended.
+     */
+    public override val hasEnded: Boolean
+
+    /**
      * Return an immutable instance of the span at the time of invocation.
      */
     public fun toSpanData(): SpanData
-
-    /**
-     * Returns true if this span has ended.
-     */
-    public fun hasEnded(): Boolean
 }

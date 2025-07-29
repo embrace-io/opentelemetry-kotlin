@@ -36,7 +36,7 @@ internal class ReadableSpanAdapter(
     override val attributes: Map<String, Any> = impl.attributes.toMap()
     override val events: List<EventData> = impl.toSpanData().events.map(::EventDataAdapter)
     override val links: List<LinkData> = impl.toSpanData().links.map(::LinkDataAdapter)
+    override val hasEnded: Boolean = impl.hasEnded()
 
     override fun toSpanData(): SpanData = SpanDataAdapter(impl.toSpanData())
-    override fun hasEnded(): Boolean = impl.hasEnded()
 }

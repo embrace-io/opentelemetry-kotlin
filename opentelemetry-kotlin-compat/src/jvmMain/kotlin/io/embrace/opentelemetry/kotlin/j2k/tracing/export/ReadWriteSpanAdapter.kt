@@ -34,6 +34,8 @@ internal class ReadWriteSpanAdapter(
         get() = readableSpan.status
         set(value) {}
 
+    override val hasEnded: Boolean = impl.hasEnded()
+
     override fun end() {
         impl.end()
     }

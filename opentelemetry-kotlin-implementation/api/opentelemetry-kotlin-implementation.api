@@ -98,6 +98,7 @@ public final class io/embrace/opentelemetry/kotlin/tracing/ReadWriteSpanImpl : i
 	public fun getAttributes ()Ljava/util/Map;
 	public fun getEndTimestamp ()Ljava/lang/Long;
 	public fun getEvents ()Ljava/util/List;
+	public fun getHasEnded ()Z
 	public fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
 	public fun getLinks ()Ljava/util/List;
 	public fun getName ()Ljava/lang/String;
@@ -107,7 +108,6 @@ public final class io/embrace/opentelemetry/kotlin/tracing/ReadWriteSpanImpl : i
 	public fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
 	public fun getStartTimestamp ()J
 	public fun getStatus ()Lio/embrace/opentelemetry/kotlin/tracing/data/StatusData;
-	public fun hasEnded ()Z
 	public fun isRecording ()Z
 	public fun links ()Ljava/util/List;
 	public fun setBooleanAttribute (Ljava/lang/String;Z)V
@@ -128,6 +128,7 @@ public final class io/embrace/opentelemetry/kotlin/tracing/ReadableSpanImpl : io
 	public fun getAttributes ()Ljava/util/Map;
 	public fun getEndTimestamp ()Ljava/lang/Long;
 	public fun getEvents ()Ljava/util/List;
+	public fun getHasEnded ()Z
 	public fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
 	public fun getLinks ()Ljava/util/List;
 	public fun getName ()Ljava/lang/String;
@@ -137,7 +138,6 @@ public final class io/embrace/opentelemetry/kotlin/tracing/ReadableSpanImpl : io
 	public fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
 	public fun getStartTimestamp ()J
 	public fun getStatus ()Lio/embrace/opentelemetry/kotlin/tracing/data/StatusData;
-	public fun hasEnded ()Z
 	public fun toSpanData ()Lio/embrace/opentelemetry/kotlin/tracing/data/SpanData;
 }
 

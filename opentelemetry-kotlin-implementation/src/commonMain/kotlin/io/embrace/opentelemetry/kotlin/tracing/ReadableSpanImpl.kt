@@ -25,8 +25,11 @@ public class ReadableSpanImpl(
     override val attributes: Map<String, Any>,
     override val events: List<EventData>,
     override val links: List<LinkData>,
-    private val ended: () -> Boolean,
+    ended: () -> Boolean,
 ) : ReadableSpan {
+
+    override val hasEnded: Boolean = ended()
+
     override fun toSpanData(): SpanData = SpanDataImpl(
         name = name,
         status = status,
@@ -39,8 +42,7 @@ public class ReadableSpanImpl(
         events = events,
         links = links,
         resource = resource,
-        instrumentationScopeInfo = instrumentationScopeInfo
+        instrumentationScopeInfo = instrumentationScopeInfo,
+        hasEnded = hasEnded
     )
-
-    override fun hasEnded(): Boolean = ended()
 }
