@@ -10,9 +10,9 @@ import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanContext
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.k2j.tracing.model.invalid
-import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
+import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.BeforeTest
@@ -62,9 +62,9 @@ internal class SpanExportTest {
         span.name = name
         assertEquals(name, span.name)
 
-        assertEquals(StatusCode.Unset, span.status)
-        span.status = StatusCode.Ok
-        assertEquals(StatusCode.Ok, span.status)
+        assertEquals(StatusData.Unset, span.status)
+        span.status = StatusData.Ok
+        assertEquals(StatusData.Ok, span.status)
 
         assertTrue(span.isRecording())
         span.end(1000)

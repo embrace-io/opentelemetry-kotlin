@@ -9,7 +9,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
-import io.embrace.opentelemetry.kotlin.tracing.StatusCode
+import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.Link
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
@@ -36,7 +36,7 @@ internal class SpanAdapter(
     private val links: ConcurrentLinkedQueue<Link> = ConcurrentLinkedQueue()
 
     private var implName: String = ""
-    private var implStatus: StatusCode = StatusCode.Unset
+    private var implStatus: StatusData = StatusData.Unset
 
     override val parent: SpanContext = SpanContextAdapter(
         parentCtx?.let { OtelJavaSpan.fromContext(it) }?.spanContext
@@ -50,11 +50,13 @@ internal class SpanAdapter(
             impl.updateName(value)
         }
 
-    override var status: StatusCode
+    override var status: StatusData
         get() = implStatus
         set(value) {
             implStatus = value
-            impl.setStatus(value.convertToOtelJava())
+            value.convertToOtelJava().let {
+                impl.setStatus(it.statusCode, it.description)
+            }
         }
 
     override val spanContext: SpanContext = SpanContextAdapter(impl.spanContext)

@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 import io.embrace.opentelemetry.kotlin.tracing.TracingDsl
+import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 
 /**
  * A span represents a single operation within a trace.
@@ -25,7 +26,7 @@ public interface Span : SpanRelationships {
      * Sets the status of the span. This defaults to [StatusCode.Unset].
      */
     @ThreadSafe
-    public var status: StatusCode
+    public var status: StatusData
 
     /**
      * Gets the parent span context.

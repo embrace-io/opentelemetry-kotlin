@@ -21,7 +21,7 @@ internal class SpanDataAdapter(
     val impl: OtelJavaSpanData,
 ) : SpanData {
     override val name: String = impl.name
-    override val status: StatusData = StatusDataAdapter(impl.status)
+    override val status: StatusData = impl.status.convertToOtelKotlin()
     override val parent: SpanContext = SpanContextAdapter(impl.parentSpanContext)
     override val spanContext: SpanContext = SpanContextAdapter(impl.spanContext)
     override val spanKind: SpanKind = impl.kind.convertToOtelKotlin()

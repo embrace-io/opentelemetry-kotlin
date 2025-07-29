@@ -3,9 +3,9 @@ package io.embrace.opentelemetry.kotlin.j2k.tracing.export
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaSpanExporter
+import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeSpanData
 import io.embrace.opentelemetry.kotlin.k2j.tracing.convertToOtelJava
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
-import io.embrace.opentelemetry.kotlin.tracing.FakeSpanData
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
