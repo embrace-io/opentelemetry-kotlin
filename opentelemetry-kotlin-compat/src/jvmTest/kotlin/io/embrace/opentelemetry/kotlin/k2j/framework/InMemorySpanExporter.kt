@@ -2,18 +2,18 @@ package io.embrace.opentelemetry.kotlin.k2j.framework
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
+import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanExporter
-import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 
 @OptIn(ExperimentalApi::class)
 internal class InMemorySpanExporter : SpanExporter {
 
-    private val impl = mutableListOf<ReadableSpan>()
+    private val impl = mutableListOf<SpanData>()
 
-    val exportedSpans: List<ReadableSpan>
+    val exportedSpans: List<SpanData>
         get() = impl
 
-    override fun export(telemetry: List<ReadableSpan>): OperationResultCode {
+    override fun export(telemetry: List<SpanData>): OperationResultCode {
         impl += telemetry
         return OperationResultCode.Success
     }

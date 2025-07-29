@@ -3,9 +3,9 @@ package io.embrace.opentelemetry.kotlin.j2k.tracing.export
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaSpanExporter
-import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeReadableSpan
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJava
+import io.embrace.opentelemetry.kotlin.tracing.FakeSpanData
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -36,12 +36,12 @@ internal class OtelJavaSpanExporterAdapterTest {
 
     @Test
     fun `test export`() {
-        val original = FakeReadableSpan()
+        val original = FakeSpanData()
         assertEquals(OperationResultCode.Success, wrapper.export(listOf(original)))
 
         val observed = impl.exports.single()
         assertEquals(original.name, observed.name)
-        assertEquals(original.status.toOtelJava(), observed.status.statusCode)
+        assertEquals(original.status.statusCode.toOtelJava(), observed.status.statusCode)
         assertEquals(original.parent.spanId, observed.parentSpanContext.spanId)
         assertEquals(original.spanContext.spanId, observed.spanContext.spanId)
         assertEquals(original.spanKind.toOtelJava(), observed.kind)
