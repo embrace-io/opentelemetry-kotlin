@@ -1,11 +1,20 @@
 package io.embrace.opentelemetry.kotlin.k2j.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
+import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.export.OperationResultCode
+import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
+import io.embrace.opentelemetry.kotlin.k2j.context.current
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
+import io.embrace.opentelemetry.kotlin.kotlinApi
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
+import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
+import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertSame
 
 @OptIn(ExperimentalApi::class)
 internal class LogExportTest {
@@ -57,5 +66,48 @@ internal class LogExportTest {
             goldenFileName = "log_props.json",
             sanitizeSpanContextIds = true,
         )
+    }
+
+    @Test
+    fun `test context is passed to processor`() {
+        // Create a LogRecordProcessor that captures any passed Context.
+        val contextCapturingProcessor = ContextCapturingProcessor()
+
+        // Use it on OpenTelemetryInstance creation.
+        val kotlinApi = OpenTelemetryInstance.kotlinApi(
+            clock = FakeClock(),
+            loggerProvider = {
+                addLogRecordProcessor(contextCapturingProcessor)
+            }
+        )
+
+        // Create a context key and add a test value
+        val rootContext = Context.Companion.current()
+        val contextKey = rootContext.createKey<String>("best_team")
+        val testContextValue = "independiente"
+        val testContext = rootContext.set(contextKey, testContextValue)
+
+        // Log a message with the created context
+        val logger = kotlinApi.loggerProvider.getLogger("test_logger")
+        logger.log(body = "Test log with context", context = testContext)
+
+        // Verify context was captured and contains expected value
+        val actualValue = contextCapturingProcessor.capturedContext?.get(contextKey)
+        assertSame(testContextValue, actualValue)
+    }
+
+    /**
+     * Custom processor that captures the context passed to onEmit
+     */
+    private class ContextCapturingProcessor : LogRecordProcessor {
+        var capturedContext: Context? = null
+            private set
+
+        override fun onEmit(log: ReadWriteLogRecord, context: Context) {
+            capturedContext = context
+        }
+
+        override fun shutdown(): OperationResultCode = OperationResultCode.Success
+        override fun forceFlush(): OperationResultCode = OperationResultCode.Success
     }
 }
