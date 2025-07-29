@@ -10,6 +10,7 @@ import io.embrace.opentelemetry.kotlin.k2j.init.LoggerProviderConfigImpl
 import io.embrace.opentelemetry.kotlin.k2j.init.TracerProviderConfigImpl
 import io.embrace.opentelemetry.kotlin.k2j.logging.LoggerProviderAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.TracerProviderAdapter
+import io.embrace.opentelemetry.kotlin.k2j.tracing.model.createCompatFactoryProvider
 
 /**
  * Constructs an [OpenTelemetry] instance that decorates the OpenTelemetry Java SDK. This will not use the Kotlin
@@ -17,12 +18,16 @@ import io.embrace.opentelemetry.kotlin.k2j.tracing.TracerProviderAdapter
  * OpenTelemetry Java SDK code that you don't want to rewrite, but still wish to use the Kotlin API.
  */
 @ExperimentalApi
-public fun OpenTelemetryInstance.compatWithOtelJava(impl: OtelJavaOpenTelemetry): OpenTelemetry {
+public fun OpenTelemetryInstance.compatWithOtelJava(
+    impl: OtelJavaOpenTelemetry,
+    factoryProvider: FactoryProvider = createCompatFactoryProvider(),
+): OpenTelemetry {
     val clock = ClockAdapter(OtelJavaClock.getDefault())
     return OpenTelemetrySdk(
         tracerProvider = TracerProviderAdapter(impl.tracerProvider, clock),
         loggerProvider = LoggerProviderAdapter(impl.logsBridge),
-        clock = clock
+        clock = clock,
+        factoryProvider = factoryProvider
     )
 }
 
@@ -35,6 +40,7 @@ public fun OpenTelemetryInstance.kotlinApi(
     tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
     loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
     clock: Clock = ClockAdapter(io.opentelemetry.sdk.common.Clock.getDefault()),
+    factoryProvider: FactoryProvider = createCompatFactoryProvider(),
 ): OpenTelemetry {
     val tracerCfg = TracerProviderConfigImpl(clock).apply(tracerProvider)
     val loggerCfg = LoggerProviderConfigImpl(clock).apply(loggerProvider)
@@ -42,6 +48,7 @@ public fun OpenTelemetryInstance.kotlinApi(
     return OpenTelemetrySdk(
         tracerProvider = tracerCfg.build(),
         loggerProvider = loggerCfg.build(),
-        clock = clock
+        clock = clock,
+        factoryProvider = factoryProvider,
     )
 }

@@ -301,6 +301,11 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Sp
 public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanContext$Companion {
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanContextFactory {
+	public abstract fun create (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+	public abstract fun invalid ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+}
+
 public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin : java/lang/Enum {
 	public static final field LOCAL Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;
 	public static final field REMOTE Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;
