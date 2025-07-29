@@ -71,6 +71,8 @@ public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanContextAdapte
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanContextOtelJavaConverterKt {
 	public static final fun convertToOtelJava (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;)Lio/opentelemetry/api/trace/SpanContext;
+	public static final fun toOtelJava (Lio/embrace/opentelemetry/kotlin/context/ContextKey;)Lio/opentelemetry/context/ContextKey;
+	public static final fun toOtelKotlin (Lio/opentelemetry/api/trace/SpanContext;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 }
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanExtKt {
