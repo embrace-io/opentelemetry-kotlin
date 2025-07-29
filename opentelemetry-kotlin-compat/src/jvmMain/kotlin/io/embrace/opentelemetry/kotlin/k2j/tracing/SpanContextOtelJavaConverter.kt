@@ -1,10 +1,13 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContextKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaImmutableSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceFlags
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceState
+import io.embrace.opentelemetry.kotlin.context.ContextKey
+import io.embrace.opentelemetry.kotlin.k2j.context.ContextKeyAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
@@ -20,6 +23,12 @@ public fun SpanContext.convertToOtelJava(): OtelJavaSpanContext {
         false
     )
 }
+
+@OptIn(ExperimentalApi::class)
+public fun OtelJavaSpanContext.toOtelKotlin(): SpanContext = SpanContextAdapter(this)
+
+@OptIn(ExperimentalApi::class)
+public fun <T> ContextKey<T>.toOtelJava(): OtelJavaContextKey<T> = (this as ContextKeyAdapter).impl
 
 @OptIn(ExperimentalApi::class)
 internal fun TraceFlags.convertToOtelJava(): OtelJavaTraceFlags {
