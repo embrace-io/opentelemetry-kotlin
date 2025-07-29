@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.k2j.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaIdGenerator
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
@@ -9,7 +10,6 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
-import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeSpanContext
 import io.embrace.opentelemetry.kotlin.k2j.context.root
 import io.embrace.opentelemetry.kotlin.k2j.tracing.model.create
 import io.embrace.opentelemetry.kotlin.k2j.tracing.model.default
@@ -71,7 +71,7 @@ internal class SpanExtTest {
         val span = SpanAdapter(
             OtelJavaSpan.wrap(spanContext),
             FakeClock(),
-            FakeSpanContext(),
+            OtelJavaContext.root(),
             SpanKind.INTERNAL,
             0
         )

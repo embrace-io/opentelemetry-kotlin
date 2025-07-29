@@ -3,7 +3,9 @@ package io.embrace.opentelemetry.kotlin.k2j.tracing
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
@@ -24,7 +26,7 @@ import java.util.concurrent.TimeUnit
 internal class SpanAdapter(
     val impl: OtelJavaSpan,
     private val clock: Clock,
-    override val parent: SpanContext,
+    parentCtx: OtelJavaContext?,
     override val spanKind: SpanKind,
     override val startTimestamp: Long,
 ) : Span, ImplicitContextKeyed {
@@ -35,6 +37,11 @@ internal class SpanAdapter(
 
     private var implName: String = ""
     private var implStatus: StatusCode = StatusCode.Unset
+
+    override val parent: SpanContext = SpanContextAdapter(
+        parentCtx?.let { OtelJavaSpan.fromContext(it) }?.spanContext
+            ?: OtelJavaSpanContext.getInvalid()
+    )
 
     override var name: String
         get() = implName
@@ -69,7 +76,11 @@ internal class SpanAdapter(
         impl.addLink(spanContext.convertToOtelJava(), container.otelJavaAttributes())
     }
 
-    override fun addEvent(name: String, timestamp: Long?, attributes: AttributeContainer.() -> Unit) {
+    override fun addEvent(
+        name: String,
+        timestamp: Long?,
+        attributes: AttributeContainer.() -> Unit
+    ) {
         val container = AttributeContainerImpl()
         attributes(container)
         val time = timestamp ?: clock.now()

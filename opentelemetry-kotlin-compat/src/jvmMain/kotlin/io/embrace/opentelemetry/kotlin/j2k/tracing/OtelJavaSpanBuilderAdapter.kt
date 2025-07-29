@@ -11,7 +11,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.attributes.setAttributes
 import io.embrace.opentelemetry.kotlin.j2k.bridge.attrsFromMap
-import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
+import io.embrace.opentelemetry.kotlin.j2k.bridge.context.OtelJavaContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.opentelemetry.context.Context
@@ -95,7 +95,7 @@ internal class OtelJavaSpanBuilderAdapter(
             name = spanName,
             spanKind = kind.convertToOtelKotlin(),
             startTimestamp = start,
-            parent = findParentSpanContext()
+            parentContext = OtelJavaContextAdapter(parent ?: OtelJavaContext.current())
         ) {
             setAttributes(attrs.build().asMap().mapKeys { it.key.key })
             links.forEach {
@@ -103,12 +103,6 @@ internal class OtelJavaSpanBuilderAdapter(
             }
         }
         return OtelJavaSpanAdapter(span)
-    }
-
-    private fun findParentSpanContext(): SpanContextAdapter {
-        val ctx = parent ?: Context.current()
-        val parentSpan = OtelJavaSpan.fromContext(ctx)
-        return SpanContextAdapter(parentSpan.spanContext)
     }
 
     private class LinkBuilder(

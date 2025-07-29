@@ -2,8 +2,8 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
+import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 
@@ -22,7 +22,7 @@ public interface Tracer {
     @ThreadSafe
     public fun createSpan(
         name: String,
-        parent: SpanContext? = null,
+        parentContext: Context? = null,
         spanKind: SpanKind = SpanKind.INTERNAL,
         startTimestamp: Long? = null,
         action: SpanRelationships.() -> Unit = {}

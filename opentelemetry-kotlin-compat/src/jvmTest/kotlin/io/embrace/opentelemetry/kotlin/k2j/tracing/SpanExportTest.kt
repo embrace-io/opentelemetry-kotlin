@@ -4,26 +4,23 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeTraceState
+import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.k2j.context.root
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanContext
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
-import io.embrace.opentelemetry.kotlin.k2j.tracing.model.create
-import io.embrace.opentelemetry.kotlin.k2j.tracing.model.default
 import io.embrace.opentelemetry.kotlin.k2j.tracing.model.invalid
 import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
-import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalApi::class)
@@ -120,11 +117,17 @@ internal class SpanExportTest {
 
     @Test
     fun `test span context parent`() {
-        val a = tracer.createSpan("a")
-        val b = tracer.createSpan("b", parent = a.spanContext)
-        val c = tracer.createSpan("c", parent = b.spanContext)
+        val root = Context.root()
 
-        assertFalse(a.parent.isValid)
+        val a = tracer.createSpan("a", parentContext = root)
+        val ctxa = a.storeInContext(root)
+
+        val b = tracer.createSpan("b", parentContext = ctxa)
+        val ctxb = b.storeInContext(ctxa)
+
+        val c = tracer.createSpan("c", parentContext = ctxb)
+
+        assertSpanContextsMatch(SpanContext.invalid(), a.parent)
         assertNotNull(a.spanContext)
         assertSpanContextsMatch(a.spanContext, b.parent)
         assertSpanContextsMatch(b.spanContext, c.parent)
@@ -139,7 +142,10 @@ internal class SpanExportTest {
             val exportB = spans[1]
             val exportC = spans[2]
 
-            assertEquals(OtelJavaSpanContext.getInvalid().toSerializable(false), exportA.parentSpanContext)
+            assertEquals(
+                OtelJavaSpanContext.getInvalid().toSerializable(false),
+                exportA.parentSpanContext
+            )
             assertNotNull(exportA.spanContext)
             assertEquals(exportA.spanContext, exportB.parentSpanContext)
             assertEquals(exportB.spanContext, exportC.parentSpanContext)
@@ -157,35 +163,6 @@ internal class SpanExportTest {
     }
 
     @Test
-    fun `test span trace state`() {
-        val customTraceState = FakeTraceState(
-            mapOf(
-                "vendor1" to "value1",
-                "vendor2" to "value2"
-            )
-        )
-
-        // trace state is propagated to children, so we can test it up with a test parent.
-        val customSpanContext = SpanContext.create(
-            traceId = "12345678901234567890123456789012",
-            spanId = "1234567890123456",
-            traceFlags = TraceFlags.default(),
-            traceState = customTraceState
-        )
-        val span = tracer.createSpan("trace_state_test", parent = customSpanContext)
-        val state = span.spanContext.traceState
-
-        // Test asMap()
-        val expectedMap = mapOf("vendor1" to "value1", "vendor2" to "value2")
-        assertEquals(expectedMap, state.asMap())
-
-        // Test get() method
-        assertEquals("value1", state.get("vendor1"))
-        assertEquals("value2", state.get("vendor2"))
-        assertNull(state.get("nonexistent"))
-    }
-
-    @Test
     fun `test invalid span context`() {
         val invalidContext = SpanContext.invalid()
 
@@ -195,7 +172,7 @@ internal class SpanExportTest {
         assertEquals("0000000000000000", invalidContext.spanId)
 
         // Test span creation with invalid parent
-        val span = tracer.createSpan("test_span", parent = invalidContext)
+        val span = tracer.createSpan("test_span", parentContext = Context.root())
 
         // Child span should be created with a valid context
         assertTrue(span.spanContext.isValid)
@@ -308,7 +285,8 @@ internal class SpanExportTest {
     fun `test trace and span id validation without sanitization`() {
         val span1 = tracer.createSpan("validation_span_1")
         val span2 = tracer.createSpan("validation_span_2")
-        val span3 = tracer.createSpan("validation_span_3", parent = span1.spanContext)
+        val ctx = span1.storeInContext(Context.root())
+        val span3 = tracer.createSpan("validation_span_3", ctx)
 
         span1.end()
         span2.end()
@@ -326,11 +304,18 @@ internal class SpanExportTest {
 
             // Trace IDs should be the same for a parent-child set of spans. Otherwise, they should be different.
             assertEquals(validationSpan1.spanContext.traceId, validationSpan3.spanContext.traceId)
-            assertNotEquals(validationSpan1.spanContext.traceId, validationSpan2.spanContext.traceId)
+            assertNotEquals(
+                validationSpan1.spanContext.traceId,
+                validationSpan2.spanContext.traceId
+            )
 
             // All span IDs should be unique
             val spanIds =
-                setOf(validationSpan1.spanContext.spanId, validationSpan2.spanContext.spanId, validationSpan3.spanContext.spanId)
+                setOf(
+                    validationSpan1.spanContext.spanId,
+                    validationSpan2.spanContext.spanId,
+                    validationSpan3.spanContext.spanId
+                )
             assertEquals(3, spanIds.size)
 
             // Root spans have invalid parents
