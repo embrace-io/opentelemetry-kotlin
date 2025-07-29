@@ -24,5 +24,6 @@ internal class SpanDataImpl(
     override val events: List<EventData>,
     override val links: List<LinkData>,
     override val resource: Resource,
-    override val instrumentationScopeInfo: InstrumentationScopeInfo
+    override val instrumentationScopeInfo: InstrumentationScopeInfo,
+    override val hasEnded: Boolean,
 ) : SpanData

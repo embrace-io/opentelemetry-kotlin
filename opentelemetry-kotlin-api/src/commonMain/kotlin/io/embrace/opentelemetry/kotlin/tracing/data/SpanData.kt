@@ -70,4 +70,9 @@ public interface SpanData {
      * The instrumentation scope information associated with the object
      */
     public val instrumentationScopeInfo: InstrumentationScopeInfo
+
+    /**
+     * Returns true if this span has ended.
+     */
+    public val hasEnded: Boolean
 }

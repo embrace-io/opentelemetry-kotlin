@@ -33,4 +33,5 @@ internal class SpanDataAdapter(
     override val links: List<LinkData> = impl.links.map { LinkDataAdapter(it) }
     override val resource: Resource = ResourceAdapter(impl.resource)
     override val instrumentationScopeInfo: InstrumentationScopeInfo = impl.instrumentationScopeInfo.toOtelKotlin()
+    override val hasEnded: Boolean = impl.hasEnded()
 }

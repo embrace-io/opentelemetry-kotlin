@@ -24,4 +24,5 @@ internal class FakeSpanData(
     override val attributes: Map<String, Any> = mapOf("key" to "value"),
     override val events: List<EventData> = listOf(FakeEventData()),
     override val links: List<LinkData> = listOf(FakeLinkData()),
+    override val hasEnded: Boolean = true,
 ) : SpanData
