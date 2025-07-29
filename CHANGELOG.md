@@ -1,5 +1,10 @@
 # opentelemetry-kotlin changelog
 
+# 0.2.5
+*July 29, 2025*
+
+- Improve API and implementation of `Context`
+
 # 0.2.4
 *July 29, 2025*
 
