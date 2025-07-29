@@ -289,19 +289,6 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Re
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/ReadableSpan : io/embrace/opentelemetry/kotlin/tracing/data/SpanData {
-	public abstract fun getAttributes ()Ljava/util/Map;
-	public abstract fun getEndTimestamp ()Ljava/lang/Long;
-	public abstract fun getEvents ()Ljava/util/List;
-	public abstract fun getHasEnded ()Z
-	public abstract fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
-	public abstract fun getLinks ()Ljava/util/List;
-	public abstract fun getName ()Ljava/lang/String;
-	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
-	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/resource/Resource;
-	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
-	public abstract fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
-	public abstract fun getStartTimestamp ()J
-	public abstract fun getStatus ()Lio/embrace/opentelemetry/kotlin/tracing/data/StatusData;
 	public abstract fun toSpanData ()Lio/embrace/opentelemetry/kotlin/tracing/data/SpanData;
 }
 
