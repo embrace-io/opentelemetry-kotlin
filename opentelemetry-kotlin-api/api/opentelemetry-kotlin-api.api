@@ -236,16 +236,19 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/data/Lin
 	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/data/SpanData {
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/data/SpanData : io/embrace/opentelemetry/kotlin/tracing/data/SpanSchema {
 	public abstract fun getAttributes ()Ljava/util/Map;
 	public abstract fun getEndTimestamp ()Ljava/lang/Long;
 	public abstract fun getEvents ()Ljava/util/List;
 	public abstract fun getHasEnded ()Z
 	public abstract fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
 	public abstract fun getLinks ()Ljava/util/List;
+	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/resource/Resource;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/data/SpanSchema {
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
-	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/resource/Resource;
 	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 	public abstract fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
 	public abstract fun getStartTimestamp ()J
@@ -292,15 +295,11 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Re
 	public abstract fun toSpanData ()Lio/embrace/opentelemetry/kotlin/tracing/data/SpanData;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Span : io/embrace/opentelemetry/kotlin/tracing/model/SpanRelationships {
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Span : io/embrace/opentelemetry/kotlin/tracing/data/SpanSchema, io/embrace/opentelemetry/kotlin/tracing/model/SpanRelationships {
 	public static final field Companion Lio/embrace/opentelemetry/kotlin/tracing/model/Span$Companion;
 	public abstract fun end ()V
 	public abstract fun end (J)V
 	public abstract fun getName ()Ljava/lang/String;
-	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
-	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
-	public abstract fun getSpanKind ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
-	public abstract fun getStartTimestamp ()J
 	public abstract fun getStatus ()Lio/embrace/opentelemetry/kotlin/tracing/data/StatusData;
 	public abstract fun isRecording ()Z
 	public abstract fun setName (Ljava/lang/String;)V
