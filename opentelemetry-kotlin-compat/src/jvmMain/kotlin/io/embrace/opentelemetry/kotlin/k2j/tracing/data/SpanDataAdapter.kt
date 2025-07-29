@@ -8,6 +8,7 @@ import io.embrace.opentelemetry.kotlin.j2k.bridge.toOtelKotlin
 import io.embrace.opentelemetry.kotlin.j2k.tracing.toOtelKotlin
 import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
+import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelKotlin
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
@@ -21,7 +22,7 @@ internal class SpanDataAdapter(
     val impl: OtelJavaSpanData,
 ) : SpanData {
     override val name: String = impl.name
-    override val status: StatusData = StatusDataAdapter(impl.status)
+    override val status: StatusData = impl.status.toOtelKotlin()
     override val parent: SpanContext = SpanContextAdapter(impl.parentSpanContext)
     override val spanContext: SpanContext = SpanContextAdapter(impl.spanContext)
     override val spanKind: SpanKind = impl.kind.toOtelKotlin()

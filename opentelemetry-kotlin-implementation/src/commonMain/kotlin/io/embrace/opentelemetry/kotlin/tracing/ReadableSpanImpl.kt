@@ -6,6 +6,7 @@ import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
+import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
@@ -13,8 +14,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 @OptIn(ExperimentalApi::class)
 public class ReadableSpanImpl(
     override val name: String,
-    override val status: StatusCode,
-    override val description: String?,
+    override val status: StatusData,
     override val parent: SpanContext,
     override val spanContext: SpanContext,
     override val spanKind: SpanKind,
@@ -29,7 +29,7 @@ public class ReadableSpanImpl(
 ) : ReadableSpan {
     override fun toSpanData(): SpanData = SpanDataImpl(
         name = name,
-        status = StatusDataImpl(status, description),
+        status = status,
         parent = parent,
         spanContext = spanContext,
         spanKind = spanKind,

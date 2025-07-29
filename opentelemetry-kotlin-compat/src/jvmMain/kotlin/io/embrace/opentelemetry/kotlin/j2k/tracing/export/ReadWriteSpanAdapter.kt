@@ -9,8 +9,8 @@ import io.embrace.opentelemetry.kotlin.k2j.tracing.data.SpanDataAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
-import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
+import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.Link
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
@@ -30,7 +30,7 @@ internal class ReadWriteSpanAdapter(
         get() = impl.name
         set(value) {}
 
-    override var status: StatusCode
+    override var status: StatusData
         get() = readableSpan.status
         set(value) {}
 
