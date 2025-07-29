@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.j2k.tracing
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
@@ -18,6 +19,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
+@OptIn(ExperimentalApi::class)
 internal class OtelJavaSpanExportTest {
 
     private lateinit var harness: OtelKotlinHarness

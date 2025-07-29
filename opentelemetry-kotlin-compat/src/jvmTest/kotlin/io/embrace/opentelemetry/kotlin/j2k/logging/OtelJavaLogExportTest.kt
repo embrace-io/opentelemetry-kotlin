@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.j2k.logging
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLoggerProvider
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.opentelemetry.api.logs.Severity
@@ -7,6 +8,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
+@OptIn(ExperimentalApi::class)
 internal class OtelJavaLogExportTest {
 
     private lateinit var harness: OtelKotlinHarness

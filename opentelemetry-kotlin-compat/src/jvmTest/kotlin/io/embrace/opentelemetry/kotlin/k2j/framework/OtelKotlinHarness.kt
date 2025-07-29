@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
+import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.compatWithOtelKotlin
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
 import io.embrace.opentelemetry.kotlin.j2k.logging.export.toLogRecordData
@@ -19,7 +20,9 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 @OptIn(ExperimentalApi::class)
-internal class OtelKotlinHarness {
+internal class OtelKotlinHarness(
+    private val resources: (AttributeContainer.() -> Unit)? = null,
+) {
 
     private companion object {
         private const val EXPORT_POLL_ATTEMPTS = 1000
@@ -32,9 +35,11 @@ internal class OtelKotlinHarness {
     val kotlinApi = OpenTelemetryInstance.kotlinApi(
         clock = FakeClock(),
         tracerProvider = {
+            resources?.let { resource(it) }
             addSpanProcessor(InMemorySpanProcessor(spanExporter))
         },
         loggerProvider = {
+            resources?.let { resource(it) }
             addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
         }
     )
