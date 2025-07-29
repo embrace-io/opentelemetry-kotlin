@@ -364,4 +364,22 @@ internal class SpanExportTest {
             assertEquals(entry.value, observed[entry.key])
         }
     }
+
+    @Test
+    fun `test tracer provider resource export`() {
+        val harness = OtelKotlinHarness {
+            setStringAttribute("service.name", "test-service")
+            setStringAttribute("service.version", "1.0.0")
+            setStringAttribute("environment", "test")
+        }
+
+        val tracer = harness.kotlinApi.tracerProvider.getTracer("test_tracer")
+        tracer.createSpan("test_span").end()
+
+        harness.assertSpans(
+            expectedCount = 1,
+            goldenFileName = "span_resource.json",
+            sanitizeSpanContextIds = true,
+        )
+    }
 }
