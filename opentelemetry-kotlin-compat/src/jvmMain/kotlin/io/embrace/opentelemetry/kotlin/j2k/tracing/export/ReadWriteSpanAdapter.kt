@@ -3,13 +3,14 @@ package io.embrace.opentelemetry.kotlin.j2k.tracing.export
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.j2k.tracing.convertToOtelKotlin
 import io.embrace.opentelemetry.kotlin.k2j.tracing.AttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
+import io.embrace.opentelemetry.kotlin.k2j.tracing.data.SpanDataAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
 import io.embrace.opentelemetry.kotlin.tracing.StatusCode
+import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 import io.embrace.opentelemetry.kotlin.tracing.model.Link
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
@@ -25,14 +26,12 @@ internal class ReadWriteSpanAdapter(
     private val readableSpan: ReadableSpanAdapter = ReadableSpanAdapter(impl)
 ) : ReadWriteSpan, ReadableSpan by readableSpan {
 
-    private val data = impl.toSpanData()
-
     override var name: String
         get() = impl.name
         set(value) {}
 
     override var status: StatusCode
-        get() = data.status.convertToOtelKotlin()
+        get() = readableSpan.status
         set(value) {}
 
     override fun end() {
@@ -58,19 +57,26 @@ internal class ReadWriteSpanAdapter(
         impl.addEvent(name, container.otelJavaAttributes(), timestamp ?: 0, TimeUnit.NANOSECONDS)
     }
 
-    override fun events(): List<SpanEvent> {
-        return data.events.map {
-            val container = AttributeContainerImpl(it.attributes.toBuilder())
-            SpanEventImpl(it.name, it.epochNanos, container)
-        }
+    override fun events(): List<SpanEvent> = readableSpan.events.map {
+        SpanEventImpl(
+            name = it.name,
+            timestamp = it.timestamp,
+            attributes = AttributeContainerImpl().apply {
+                it.attributes
+            }
+        )
     }
 
-    override fun links(): List<Link> {
-        return data.links.map {
-            val container = AttributeContainerImpl(it.attributes.toBuilder())
-            LinkImpl(SpanContextAdapter(it.spanContext), container)
-        }
+    override fun links(): List<Link> = readableSpan.links.map {
+        LinkImpl(
+            spanContext = it.spanContext,
+            attributes = AttributeContainerImpl().apply {
+                it.attributes
+            }
+        )
     }
+
+    override fun toSpanData(): SpanData = SpanDataAdapter(impl.toSpanData())
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         impl.setAttribute(key, value)

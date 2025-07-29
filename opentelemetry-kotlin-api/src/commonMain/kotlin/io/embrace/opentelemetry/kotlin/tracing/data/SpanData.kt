@@ -1,19 +1,16 @@
-package io.embrace.opentelemetry.kotlin.tracing.model
+package io.embrace.opentelemetry.kotlin.tracing.data
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.resource.Resource
-import io.embrace.opentelemetry.kotlin.tracing.StatusCode
-import io.embrace.opentelemetry.kotlin.tracing.data.EventData
-import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
-import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 
 /**
- * A read-only representation of a span.
+ * Immutable representation of a Span used for exporting
  */
 @ExperimentalApi
-public interface ReadableSpan {
-
+public interface SpanData {
     /**
      * The span name
      */
@@ -22,9 +19,7 @@ public interface ReadableSpan {
     /**
      * The span status
      */
-    public val status: StatusCode
-
-    public val description: String?
+    public val status: StatusData
 
     /**
      * The parent span context.
@@ -52,16 +47,6 @@ public interface ReadableSpan {
     public val endTimestamp: Long?
 
     /**
-     * The resource associated with the object
-     */
-    public val resource: Resource
-
-    /**
-     * The instrumentation scope information associated with the object
-     */
-    public val instrumentationScopeInfo: InstrumentationScopeInfo
-
-    /**
      * A map of attributes associated with the span.
      */
     public val attributes: Map<String, Any>
@@ -76,10 +61,13 @@ public interface ReadableSpan {
      */
     public val links: List<LinkData>
 
-    public fun toSpanData(): SpanData
+    /**
+     * The resource associated with the object
+     */
+    public val resource: Resource
 
     /**
-     * Returns true if this span has ended.
+     * The instrumentation scope information associated with the object
      */
-    public fun hasEnded(): Boolean
+    public val instrumentationScopeInfo: InstrumentationScopeInfo
 }

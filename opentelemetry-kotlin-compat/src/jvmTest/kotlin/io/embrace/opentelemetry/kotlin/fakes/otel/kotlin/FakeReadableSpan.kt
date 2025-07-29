@@ -3,10 +3,14 @@ package io.embrace.opentelemetry.kotlin.fakes.otel.kotlin
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.resource.Resource
+import io.embrace.opentelemetry.kotlin.tracing.FakeEventData
+import io.embrace.opentelemetry.kotlin.tracing.FakeLinkData
+import io.embrace.opentelemetry.kotlin.tracing.FakeSpanData
 import io.embrace.opentelemetry.kotlin.tracing.StatusCode
-import io.embrace.opentelemetry.kotlin.tracing.model.ReadableLink
+import io.embrace.opentelemetry.kotlin.tracing.data.EventData
+import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
+import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
-import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpanEvent
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 
@@ -14,6 +18,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 internal class FakeReadableSpan(
     override val name: String = "span",
     override val status: StatusCode = StatusCode.Ok,
+    override val description: String? = null,
     override val parent: SpanContext = FakeSpanContext(),
     override val spanContext: SpanContext = FakeSpanContext(),
     override val spanKind: SpanKind = SpanKind.INTERNAL,
@@ -22,9 +27,10 @@ internal class FakeReadableSpan(
     override val resource: Resource = FakeResource(),
     override val instrumentationScopeInfo: InstrumentationScopeInfo = FakeInstrumentationScopeInfo(),
     override val attributes: Map<String, Any> = mapOf("key" to "value"),
-    override val events: List<ReadableSpanEvent> = listOf(FakeReadableSpanEvent()),
-    override val links: List<ReadableLink> = listOf(FakeReadableLink())
+    override val events: List<EventData> = listOf(FakeEventData()),
+    override val links: List<LinkData> = listOf(FakeLinkData()),
 ) : ReadableSpan {
+    override fun toSpanData(): SpanData = FakeSpanData()
 
     override fun hasEnded(): Boolean = false
 }
