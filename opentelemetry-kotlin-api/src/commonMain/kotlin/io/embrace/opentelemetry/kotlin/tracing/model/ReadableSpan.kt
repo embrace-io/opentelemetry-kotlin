@@ -9,7 +9,7 @@ import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 @ExperimentalApi
 public interface ReadableSpan : SpanData {
     /**
-     * Return an immutable instance of the span at the time of invocation.
+     * Return an instance of the span at the time of invocation. The implementation provided should be immutable.
      */
     public fun toSpanData(): SpanData
 }
