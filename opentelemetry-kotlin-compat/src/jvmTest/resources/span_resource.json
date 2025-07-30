@@ -28,7 +28,7 @@
     "totalRecordedLinks": 0,
     "totalAttributeCount": 0,
     "resource": {
-      "schemaUrl": "null",
+      "schemaUrl": "https://example.com/some_schema.json",
       "attributes": {
         "environment": "test",
         "service.name": "test-service",
