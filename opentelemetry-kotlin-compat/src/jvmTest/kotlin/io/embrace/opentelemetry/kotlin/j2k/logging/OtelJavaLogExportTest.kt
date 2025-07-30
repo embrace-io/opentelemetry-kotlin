@@ -3,6 +3,7 @@ package io.embrace.opentelemetry.kotlin.j2k.logging
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLoggerProvider
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
+import io.embrace.opentelemetry.kotlin.k2j.framework.TestResourceConfig
 import io.opentelemetry.api.logs.Severity
 import java.util.concurrent.TimeUnit
 import kotlin.test.BeforeTest
@@ -52,6 +53,26 @@ internal class OtelJavaLogExportTest {
         harness.assertLogRecords(
             expectedCount = 1,
             goldenFileName = "log_props.json",
+            sanitizeSpanContextIds = true,
+        )
+    }
+
+    @Test
+    fun `test java logger provider resource export`() {
+        val resourceHarness = OtelKotlinHarness(
+            resourceConfig = TestResourceConfig("https://example.com/some_schema.json") {
+                setStringAttribute("service.name", "test-service")
+                setStringAttribute("service.version", "1.0.0")
+                setStringAttribute("environment", "test")
+            }
+        )
+
+        val javaLogger = resourceHarness.javaApi.logsBridge.get("test_logger")
+        javaLogger.logRecordBuilder().setBody("Test log with custom resource").emit()
+
+        resourceHarness.assertLogRecords(
+            expectedCount = 1,
+            goldenFileName = "log_resource.json",
             sanitizeSpanContextIds = true,
         )
     }
