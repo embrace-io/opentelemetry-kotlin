@@ -96,6 +96,24 @@ internal class LogExportTest {
         assertSame(testContextValue, actualValue)
     }
 
+    @Test
+    fun `test logger provider resource export`() {
+        val harness = OtelKotlinHarness {
+            setStringAttribute("service.name", "test-service")
+            setStringAttribute("service.version", "1.0.0")
+            setStringAttribute("environment", "test")
+        }
+
+        val logger = harness.kotlinApi.loggerProvider.getLogger("test_logger")
+        logger.log(body = "Test log with custom resource")
+
+        harness.assertLogRecords(
+            expectedCount = 1,
+            goldenFileName = "log_resource.json",
+            sanitizeSpanContextIds = true,
+        )
+    }
+
     /**
      * Custom processor that captures the context passed to onEmit
      */
