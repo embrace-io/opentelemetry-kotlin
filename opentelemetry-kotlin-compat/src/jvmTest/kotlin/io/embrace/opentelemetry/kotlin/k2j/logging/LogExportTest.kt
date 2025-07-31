@@ -102,10 +102,10 @@ internal class LogExportTest {
         )
 
         // Create a context key and add a test value
-        val rootContext = Context.Companion.current()
-        val contextKey = rootContext.createKey<String>("best_team")
+        val currentContext = Context.Companion.current()
+        val contextKey = currentContext.createKey<String>("best_team")
         val testContextValue = "independiente"
-        val testContext = rootContext.set(contextKey, testContextValue)
+        val testContext = currentContext.set(contextKey, testContextValue)
 
         // Log a message with the created context
         val logger = contextCapturingHarness.kotlinApi.loggerProvider.getLogger("test_logger")

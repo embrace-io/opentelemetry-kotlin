@@ -3,21 +3,29 @@ package io.embrace.opentelemetry.kotlin.j2k.tracing
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContextKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracerProvider
+import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.export.OperationResultCode
+import io.embrace.opentelemetry.kotlin.j2k.bridge.context.OtelJavaContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.k2j.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
-import io.opentelemetry.context.Context
+import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 import java.util.concurrent.TimeUnit
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalApi::class)
@@ -98,7 +106,7 @@ internal class OtelJavaSpanExportTest {
     @Test
     fun `test span context parent`() {
         val a = tracer.spanBuilder("a").startSpan()
-        val current = Context.current()
+        val current = OtelJavaContext.current()
         val parentA = current.with(a)
 
         val b = tracer.spanBuilder("b").setParent(parentA).startSpan()
@@ -243,7 +251,7 @@ internal class OtelJavaSpanExportTest {
     fun `test java trace and span id validation without sanitization`() {
         val span1 = tracer.spanBuilder("validation_span_1").startSpan()
         val span2 = tracer.spanBuilder("validation_span_2").startSpan()
-        val ctx = Context.current().with(span1)
+        val ctx = OtelJavaContext.current().with(span1)
         val span3 = tracer.spanBuilder("validation_span_3").setParent(ctx).startSpan()
 
         span1.end()
@@ -292,6 +300,53 @@ internal class OtelJavaSpanExportTest {
             goldenFileName = "span_resource.json",
             sanitizeSpanContextIds = true,
         )
+    }
+
+    @Test
+    fun `test context is passed to processor`() {
+        // Create a processor that can capture the original Java context
+        val javaContextCapturingProcessor = JavaContextCapturingProcessor()
+
+        // Use it on OpenTelemetryInstance creation.
+        val contextCapturingHarness = OtelKotlinHarness(
+            TestHarnessConfig(
+                spanProcessors = listOf(javaContextCapturingProcessor)
+            )
+        )
+
+        // Create a context key and add a test value using Java API
+        val javaContextKey = OtelJavaContextKey.named<String>("best_team")
+        val testContextValue = "independiente"
+        val javaContext = OtelJavaContext.current().with(javaContextKey, testContextValue)
+
+        // Create a span with the created context using Java API
+        val javaTracer = contextCapturingHarness.javaApi.tracerProvider.get("test_tracer")
+
+        // Make the context current and create span
+        javaContext.makeCurrent().use {
+            javaTracer.spanBuilder("Test span with context").startSpan().end()
+        }
+
+        // Verify context was captured and contains expected value
+        val actualValue = javaContextCapturingProcessor.capturedJavaContext?.get(javaContextKey)
+        assertSame(testContextValue, actualValue)
+    }
+
+    /**
+     * Custom processor that captures the original Java context from converted contexts
+     */
+    private class JavaContextCapturingProcessor : SpanProcessor {
+        var capturedJavaContext: OtelJavaContext? = null
+
+        override fun onStart(span: ReadWriteSpan, parentContext: Context) {
+            capturedJavaContext = (parentContext as OtelJavaContextAdapter).impl
+        }
+
+        override fun onEnd(span: ReadableSpan) = Unit
+        override fun isStartRequired(): Boolean = true
+        override fun isEndRequired(): Boolean = false
+        override fun shutdown(): OperationResultCode = OperationResultCode.Success
+        override fun forceFlush(): OperationResultCode = OperationResultCode.Success
     }
 
     private val attrs = OtelJavaAttributes.builder()
