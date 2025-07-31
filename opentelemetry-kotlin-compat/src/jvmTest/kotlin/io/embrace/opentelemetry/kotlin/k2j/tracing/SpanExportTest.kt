@@ -8,7 +8,6 @@ import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.k2j.context.current
-import io.embrace.opentelemetry.kotlin.k2j.context.root
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.k2j.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanContext
@@ -125,7 +124,7 @@ internal class SpanExportTest {
 
     @Test
     fun `test span context parent`() {
-        val root = Context.root()
+        val root = objectCreator.context.root()
 
         val a = tracer.createSpan("a", parentContext = root)
         val ctxa = a.storeInContext(root)
@@ -180,7 +179,7 @@ internal class SpanExportTest {
         assertEquals("0000000000000000", invalidContext.spanId)
 
         // Test span creation with invalid parent
-        val span = tracer.createSpan("test_span", parentContext = Context.root())
+        val span = tracer.createSpan("test_span", parentContext = objectCreator.context.root())
 
         // Child span should be created with a valid context
         assertTrue(span.spanContext.isValid)
@@ -293,7 +292,7 @@ internal class SpanExportTest {
     fun `test trace and span id validation without sanitization`() {
         val span1 = tracer.createSpan("validation_span_1")
         val span2 = tracer.createSpan("validation_span_2")
-        val ctx = span1.storeInContext(Context.root())
+        val ctx = span1.storeInContext(objectCreator.context.root())
         val span3 = tracer.createSpan("validation_span_3", ctx)
 
         span1.end()
