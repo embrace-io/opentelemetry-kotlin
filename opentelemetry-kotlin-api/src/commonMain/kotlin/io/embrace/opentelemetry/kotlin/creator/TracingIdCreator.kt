@@ -1,6 +1,9 @@
-package io.embrace.opentelemetry.kotlin.k2j.id
+package io.embrace.opentelemetry.kotlin.creator
 
-public interface TracingIdGenerator {
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+
+@ExperimentalApi
+public interface TracingIdCreator {
 
     /**
      * Generates a new ID for a span.

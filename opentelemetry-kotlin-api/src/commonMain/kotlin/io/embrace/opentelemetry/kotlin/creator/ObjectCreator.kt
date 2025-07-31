@@ -32,4 +32,9 @@ public interface ObjectCreator {
      * Factory that constructs Span objects.
      */
     public val span: SpanCreator
+
+    /**
+     * Factory that constructs tracing IDs.
+     */
+    public val idCreator: TracingIdCreator
 }

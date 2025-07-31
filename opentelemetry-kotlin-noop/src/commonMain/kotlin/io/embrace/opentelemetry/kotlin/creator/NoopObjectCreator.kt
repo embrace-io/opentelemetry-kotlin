@@ -9,4 +9,5 @@ internal object NoopObjectCreator : ObjectCreator {
     override val traceState: TraceStateCreator = NoopTraceStateCreator
     override val context: ContextCreator = NoopContextCreator
     override val span: SpanCreator = NoopSpanCreator
+    override val idCreator: TracingIdCreator = NoopTracingIdCreator
 }
