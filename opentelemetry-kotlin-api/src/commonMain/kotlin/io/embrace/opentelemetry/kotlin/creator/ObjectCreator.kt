@@ -9,7 +9,17 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 public interface ObjectCreator {
 
     /**
-     * Factory that constructs [SpanContext] objects.
+     * Factory that constructs SpanContext objects.
      */
     public val spanContext: SpanContextCreator
+
+    /**
+     * Factory that constructs TraceFlags objects.
+     */
+    public val traceFlags: TraceFlagsCreator
+
+    /**
+     * Factory that constructs TraceState objects.
+     */
+    public val traceState: TraceStateCreator
 }
