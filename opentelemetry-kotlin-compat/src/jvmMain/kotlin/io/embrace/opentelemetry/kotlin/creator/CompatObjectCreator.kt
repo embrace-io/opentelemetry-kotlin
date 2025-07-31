@@ -8,4 +8,5 @@ internal class CompatObjectCreator : ObjectCreator {
     override val traceFlags: TraceFlagsCreator by lazy { TraceFlagsCreatorImpl() }
     override val traceState: TraceStateCreator by lazy { TraceStateCreatorImpl() }
     override val context: ContextCreator by lazy { ContextCreatorImpl() }
+    override val span: SpanCreator by lazy { SpanCreatorImpl() }
 }

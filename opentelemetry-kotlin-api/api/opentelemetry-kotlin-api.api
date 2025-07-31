@@ -58,6 +58,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/creator/ContextC
 
 public abstract interface class io/embrace/opentelemetry/kotlin/creator/ObjectCreator {
 	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/creator/ContextCreator;
+	public abstract fun getSpan ()Lio/embrace/opentelemetry/kotlin/creator/SpanCreator;
 	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/creator/SpanContextCreator;
 	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/creator/TraceFlagsCreator;
 	public abstract fun getTraceState ()Lio/embrace/opentelemetry/kotlin/creator/TraceStateCreator;
@@ -66,6 +67,12 @@ public abstract interface class io/embrace/opentelemetry/kotlin/creator/ObjectCr
 public abstract interface class io/embrace/opentelemetry/kotlin/creator/SpanContextCreator {
 	public abstract fun create (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 	public abstract fun getInvalid ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/creator/SpanCreator {
+	public abstract fun fromContext (Lio/embrace/opentelemetry/kotlin/context/Context;)Lio/embrace/opentelemetry/kotlin/tracing/model/Span;
+	public abstract fun fromSpanContext (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;)Lio/embrace/opentelemetry/kotlin/tracing/model/Span;
+	public abstract fun getInvalid ()Lio/embrace/opentelemetry/kotlin/tracing/model/Span;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/creator/TraceFlagsCreator {

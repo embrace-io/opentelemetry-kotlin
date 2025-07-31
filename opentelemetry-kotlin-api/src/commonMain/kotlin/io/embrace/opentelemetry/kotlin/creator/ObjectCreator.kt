@@ -27,4 +27,9 @@ public interface ObjectCreator {
      * Factory that constructs Context objects.
      */
     public val context: ContextCreator
+
+    /**
+     * Factory that constructs Span objects.
+     */
+    public val span: SpanCreator
 }
