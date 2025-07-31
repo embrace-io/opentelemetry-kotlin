@@ -6,8 +6,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteLogRecord
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.j2k.bridge.ResourceAdapter
-import io.embrace.opentelemetry.kotlin.j2k.bridge.convertToOtelKotlin
-import io.embrace.opentelemetry.kotlin.k2j.logging.convertToOtelKotlin
+import io.embrace.opentelemetry.kotlin.j2k.bridge.toOtelKotlin
+import io.embrace.opentelemetry.kotlin.k2j.logging.toOtelKotlin
 import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
@@ -32,7 +32,7 @@ internal class ReadWriteLogRecordAdapter(
         }
 
     override var severityNumber: SeverityNumber?
-        get() = impl.severity.convertToOtelKotlin()
+        get() = impl.severity.toOtelKotlin()
         set(value) {}
 
     override var severityText: String?
@@ -93,5 +93,5 @@ internal class ReadWriteLogRecordAdapter(
         get() = ResourceAdapter(impl.toLogRecordData().resource)
 
     override val instrumentationScopeInfo: InstrumentationScopeInfo
-        get() = impl.instrumentationScopeInfo.convertToOtelKotlin()
+        get() = impl.instrumentationScopeInfo.toOtelKotlin()
 }

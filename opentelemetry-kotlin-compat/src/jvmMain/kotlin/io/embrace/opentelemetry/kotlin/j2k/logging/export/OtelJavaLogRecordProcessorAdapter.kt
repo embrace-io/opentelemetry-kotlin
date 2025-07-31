@@ -8,7 +8,7 @@ import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.opentelemetry.context.Context
 
 @OptIn(ExperimentalApi::class)
-public class OtelJavaLogRecordProcessorAdapter(
+internal class OtelJavaLogRecordProcessorAdapter(
     private val impl: LogRecordProcessor
 ) : OtelJavaLogRecordProcessor {
 

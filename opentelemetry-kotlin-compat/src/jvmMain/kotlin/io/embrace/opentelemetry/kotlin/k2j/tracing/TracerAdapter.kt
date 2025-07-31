@@ -14,7 +14,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
-public class TracerAdapter(
+internal class TracerAdapter(
     private val tracer: OtelJavaTracer,
     private val clock: Clock
 ) : Tracer {
@@ -28,7 +28,7 @@ public class TracerAdapter(
     ): Span {
         val start = startTimestamp ?: clock.now()
         val builder = tracer.spanBuilder(name)
-            .setSpanKind(spanKind.convertToOtelJava())
+            .setSpanKind(spanKind.toOtelJava())
             .setStartTimestamp(start, TimeUnit.NANOSECONDS)
 
         if (parentContext != null) {

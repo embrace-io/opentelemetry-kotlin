@@ -10,7 +10,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
 import io.embrace.opentelemetry.kotlin.j2k.bridge.OtelJavaSpanDataImpl
 import io.embrace.opentelemetry.kotlin.j2k.bridge.attrsFromMap
 import io.embrace.opentelemetry.kotlin.j2k.bridge.resourceFromMap
-import io.embrace.opentelemetry.kotlin.k2j.tracing.convertToOtelJava
+import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJava
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 import io.opentelemetry.sdk.trace.data.SpanData
 
@@ -18,10 +18,10 @@ import io.opentelemetry.sdk.trace.data.SpanData
 internal fun ReadableSpan.toSpanData(): SpanData {
     return OtelJavaSpanDataImpl(
         nameImpl = name,
-        statusImpl = OtelJavaStatusData.create(status.convertToOtelJava(), null),
-        parentSpanContextImpl = parent.convertToOtelJava(),
-        spanContextImpl = spanContext.convertToOtelJava(),
-        kindImpl = spanKind.convertToOtelJava(),
+        statusImpl = OtelJavaStatusData.create(status.toOtelJava(), null),
+        parentSpanContextImpl = parent.toOtelJava(),
+        spanContextImpl = spanContext.toOtelJava(),
+        kindImpl = spanKind.toOtelJava(),
         startEpochNanosImpl = startTimestamp,
         endEpochNanosImpl = endTimestamp ?: 0,
         resourceImpl = resource.let(::resourceFromMap),
@@ -40,7 +40,7 @@ internal fun ReadableSpan.toSpanData(): SpanData {
         }.toMutableList(),
         linksImpl = links.map {
             OtelJavaLinkData.create(
-                it.spanContext.convertToOtelJava(),
+                it.spanContext.toOtelJava(),
                 attrsFromMap(it.attributes)
             )
         }.toMutableList(),
