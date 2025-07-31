@@ -52,7 +52,12 @@ public abstract interface class io/embrace/opentelemetry/kotlin/context/ContextK
 	public abstract fun getName ()Ljava/lang/String;
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/creator/ContextCreator {
+	public abstract fun root ()Lio/embrace/opentelemetry/kotlin/context/Context;
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/creator/ObjectCreator {
+	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/creator/ContextCreator;
 	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/creator/SpanContextCreator;
 	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/creator/TraceFlagsCreator;
 	public abstract fun getTraceState ()Lio/embrace/opentelemetry/kotlin/creator/TraceStateCreator;

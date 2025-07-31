@@ -8,10 +8,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceFlags
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
-import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
-import io.embrace.opentelemetry.kotlin.k2j.context.root
 import io.embrace.opentelemetry.kotlin.k2j.tracing.model.create
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
@@ -54,7 +52,7 @@ internal class SpanExtTest {
 
     @Test
     fun `test from context invalid`() {
-        val span = Span.fromContext(Context.root())
+        val span = Span.fromContext(objectCreator.context.root())
         assertSpanContextsMatch(objectCreator.spanContext.invalid, span.spanContext)
     }
 
@@ -73,7 +71,7 @@ internal class SpanExtTest {
             SpanKind.INTERNAL,
             0
         )
-        val root = Context.root()
+        val root = objectCreator.context.root()
         val ctx = span.storeInContext(root)
         val observed = Span.fromContext(root).spanContext
         assertSpanContextsMatch(objectCreator.spanContext.invalid, observed)

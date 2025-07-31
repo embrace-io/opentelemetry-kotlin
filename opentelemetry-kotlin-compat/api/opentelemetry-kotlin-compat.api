@@ -13,6 +13,10 @@ public final class io/embrace/opentelemetry/kotlin/creator/CompatObjectCreatorEx
 	public static final fun createCompatObjectCreator ()Lio/embrace/opentelemetry/kotlin/creator/ObjectCreator;
 }
 
+public final class io/embrace/opentelemetry/kotlin/creator/ContextCreatorExtKt {
+	public static final fun current (Lio/embrace/opentelemetry/kotlin/creator/ContextCreator;)Lio/embrace/opentelemetry/kotlin/context/Context;
+}
+
 public final class io/embrace/opentelemetry/kotlin/j2k/bridge/context/OtelJavaContextExtKt {
 	public static final fun toOtelKotlin (Lio/opentelemetry/context/Context;)Lio/embrace/opentelemetry/kotlin/context/Context;
 }

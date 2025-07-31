@@ -22,4 +22,9 @@ public interface ObjectCreator {
      * Factory that constructs TraceState objects.
      */
     public val traceState: TraceStateCreator
+
+    /**
+     * Factory that constructs Context objects.
+     */
+    public val context: ContextCreator
 }
