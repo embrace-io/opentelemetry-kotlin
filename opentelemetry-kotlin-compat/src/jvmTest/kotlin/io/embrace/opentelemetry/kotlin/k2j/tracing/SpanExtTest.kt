@@ -13,12 +13,9 @@ import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
 import io.embrace.opentelemetry.kotlin.k2j.context.root
 import io.embrace.opentelemetry.kotlin.k2j.tracing.model.create
-import io.embrace.opentelemetry.kotlin.k2j.tracing.model.default
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
-import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
-import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -31,8 +28,8 @@ internal class SpanExtTest {
     private val validSpanContext = SpanContext.create(
         traceId = generator.generateTraceId(),
         spanId = generator.generateSpanId(),
-        traceState = TraceState.default(),
-        traceFlags = TraceFlags.default()
+        traceState = objectCreator.traceState.default,
+        traceFlags = objectCreator.traceFlags.default,
     )
 
     @Test

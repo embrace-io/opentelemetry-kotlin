@@ -4,11 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 
 @OptIn(ExperimentalApi::class)
 internal class CompatObjectCreator : ObjectCreator {
-    override val spanContext: SpanContextCreator = SpanContextCreatorImpl()
+    override val spanContext: SpanContextCreator by lazy { SpanContextCreatorImpl() }
+    override val traceFlags: TraceFlagsCreator by lazy { TraceFlagsCreatorImpl() }
+    override val traceState: TraceStateCreator by lazy { TraceStateCreatorImpl() }
 }
-
-/**
- * Creates a factory that constructs objects that work when the SDK is backed by the OTel Java SDK.
- */
-@ExperimentalApi
-public fun createCompatObjectCreator(): ObjectCreator = CompatObjectCreator()
