@@ -9,7 +9,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracerProvider
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
-import io.embrace.opentelemetry.kotlin.k2j.framework.TestResourceConfig
+import io.embrace.opentelemetry.kotlin.k2j.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
 import io.opentelemetry.context.Context
 import java.util.concurrent.TimeUnit
@@ -274,11 +274,14 @@ internal class OtelJavaSpanExportTest {
     @Test
     fun `test java tracer provider resource export`() {
         val resourceHarness = OtelKotlinHarness(
-            resourceConfig = TestResourceConfig("https://example.com/some_schema.json") {
-                setStringAttribute("service.name", "test-service")
-                setStringAttribute("service.version", "1.0.0")
-                setStringAttribute("environment", "test")
-            }
+            TestHarnessConfig(
+                schemaUrl = "https://example.com/some_schema.json",
+                attributes = {
+                    setStringAttribute("service.name", "test-service")
+                    setStringAttribute("service.version", "1.0.0")
+                    setStringAttribute("environment", "test")
+                }
+            )
         )
 
         val javaTracer = resourceHarness.javaApi.tracerProvider.get("test_tracer")

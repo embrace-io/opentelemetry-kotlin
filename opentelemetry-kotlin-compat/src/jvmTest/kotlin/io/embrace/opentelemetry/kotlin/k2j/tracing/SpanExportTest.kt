@@ -7,7 +7,7 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.k2j.context.root
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
-import io.embrace.opentelemetry.kotlin.k2j.framework.TestResourceConfig
+import io.embrace.opentelemetry.kotlin.k2j.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanContext
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.k2j.tracing.model.invalid
@@ -239,11 +239,11 @@ internal class SpanExportTest {
             addEvent("event_3", 300L)
 
             // Add multiple links
-            addLink(linkedSpan1.spanContext) {}
+            addLink(linkedSpan1.spanContext)
             addLink(linkedSpan2.spanContext) {
                 setStringAttribute("link_attr", "link_value")
             }
-            addLink(linkedSpan3.spanContext) {}
+            addLink(linkedSpan3.spanContext)
 
             // Verify counts
             assertEquals(3, events().size)
@@ -369,11 +369,14 @@ internal class SpanExportTest {
     @Test
     fun `test tracer provider resource export`() {
         val harness = OtelKotlinHarness(
-            resourceConfig = TestResourceConfig("https://example.com/some_schema.json") {
-                setStringAttribute("service.name", "test-service")
-                setStringAttribute("service.version", "1.0.0")
-                setStringAttribute("environment", "test")
-            }
+            testHarnessConfig = TestHarnessConfig(
+                schemaUrl = "https://example.com/some_schema.json",
+                attributes = {
+                    setStringAttribute("service.name", "test-service")
+                    setStringAttribute("service.version", "1.0.0")
+                    setStringAttribute("environment", "test")
+                }
+            )
         )
 
         val tracer = harness.kotlinApi.tracerProvider.getTracer("test_tracer")

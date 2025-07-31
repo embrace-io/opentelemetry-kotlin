@@ -20,7 +20,7 @@ import java.util.concurrent.TimeoutException
 
 @OptIn(ExperimentalApi::class)
 internal class OtelKotlinHarness(
-    private val resourceConfig: TestResourceConfig = TestResourceConfig(),
+    private val testHarnessConfig: TestHarnessConfig = TestHarnessConfig(),
 ) {
 
     private companion object {
@@ -34,12 +34,14 @@ internal class OtelKotlinHarness(
     val kotlinApi = OpenTelemetryInstance.kotlinApi(
         clock = FakeClock(),
         tracerProvider = {
-            resourceConfig.attributes?.let { resource(it, resourceConfig.schemaUrl) }
+            testHarnessConfig.attributes?.let { resource(it, testHarnessConfig.schemaUrl) }
             addSpanProcessor(InMemorySpanProcessor(spanExporter))
+            testHarnessConfig.spanProcessors.forEach { addSpanProcessor(it) }
         },
         loggerProvider = {
-            resourceConfig.attributes?.let { resource(it, resourceConfig.schemaUrl) }
+            testHarnessConfig.attributes?.let { resource(it, testHarnessConfig.schemaUrl) }
             addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
+            testHarnessConfig.logRecordProcessors.forEach { addLogRecordProcessor(it) }
         }
     )
 
