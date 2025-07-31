@@ -1,8 +1,6 @@
 package io.embrace.opentelemetry.kotlin.init
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 
 /**
@@ -10,12 +8,7 @@ import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
  */
 @ExperimentalApi
 @ConfigDsl
-public interface TracerProviderConfigDsl {
-
-    /**
-     * The [Resource] associated with this tracer provider.
-     */
-    public fun resource(attributes: AttributeContainer.() -> Unit, schemaUrl: String? = null)
+public interface TracerProviderConfigDsl : ResourceConfigDsl {
 
     /**
      * The span limits configuration for this tracer provider.
