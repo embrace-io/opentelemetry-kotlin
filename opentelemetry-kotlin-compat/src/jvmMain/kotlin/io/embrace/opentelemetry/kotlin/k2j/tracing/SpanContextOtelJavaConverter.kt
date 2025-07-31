@@ -13,12 +13,12 @@ import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 
 @OptIn(ExperimentalApi::class)
-public fun SpanContext.convertToOtelJava(): OtelJavaSpanContext {
+public fun SpanContext.toOtelJava(): OtelJavaSpanContext {
     return OtelJavaImmutableSpanContext.create(
         traceId,
         spanId,
-        traceFlags.convertToOtelJava(),
-        traceState.convertToOtelJava(),
+        traceFlags.toOtelJava(),
+        traceState.toOtelJava(),
         isRemote,
         false
     )
@@ -31,7 +31,7 @@ public fun OtelJavaSpanContext.toOtelKotlin(): SpanContext = SpanContextAdapter(
 public fun <T> ContextKey<T>.toOtelJava(): OtelJavaContextKey<T> = (this as ContextKeyAdapter).impl
 
 @OptIn(ExperimentalApi::class)
-internal fun TraceFlags.convertToOtelJava(): OtelJavaTraceFlags {
+internal fun TraceFlags.toOtelJava(): OtelJavaTraceFlags {
     val sb = StringBuilder()
     sb.append(if (isRandom) "1" else "0")
     sb.append(if (isSampled) "1" else "0")
@@ -39,7 +39,7 @@ internal fun TraceFlags.convertToOtelJava(): OtelJavaTraceFlags {
 }
 
 @OptIn(ExperimentalApi::class)
-internal fun TraceState.convertToOtelJava(): OtelJavaTraceState {
+internal fun TraceState.toOtelJava(): OtelJavaTraceState {
     return OtelJavaTraceState.builder().apply {
         asMap().entries.forEach {
             put(it.key, it.value)

@@ -164,7 +164,7 @@ internal class SpanExportTest {
     fun `test span trace flags`() {
         val span = tracer.createSpan("my_span")
         val flags = span.spanContext.traceFlags
-        assertEquals("01", flags.convertToOtelJava().asHex())
+        assertEquals("01", flags.toOtelJava().asHex())
         assertTrue(flags.isSampled)
         assertFalse(flags.isRandom)
     }

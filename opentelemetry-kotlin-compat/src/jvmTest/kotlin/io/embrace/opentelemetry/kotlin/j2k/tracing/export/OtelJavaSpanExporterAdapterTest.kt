@@ -4,8 +4,8 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaSpanExporter
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeReadableSpan
-import io.embrace.opentelemetry.kotlin.k2j.tracing.convertToOtelJava
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
+import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJava
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -41,10 +41,10 @@ internal class OtelJavaSpanExporterAdapterTest {
 
         val observed = impl.exports.single()
         assertEquals(original.name, observed.name)
-        assertEquals(original.status.convertToOtelJava(), observed.status.statusCode)
+        assertEquals(original.status.toOtelJava(), observed.status.statusCode)
         assertEquals(original.parent.spanId, observed.parentSpanContext.spanId)
         assertEquals(original.spanContext.spanId, observed.spanContext.spanId)
-        assertEquals(original.spanKind.convertToOtelJava(), observed.kind)
+        assertEquals(original.spanKind.toOtelJava(), observed.kind)
         assertEquals(original.startTimestamp, observed.startEpochNanos)
         assertEquals(original.attributes, observed.attributes.toMap())
         assertEquals(original.resource.attributes, observed.resource.attributes.toMap())

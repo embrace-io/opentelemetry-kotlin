@@ -41,7 +41,7 @@ internal class LoggerAdapter(
             builder.setContext(ContextAdapter(context, contextKeyRepository))
         }
         if (severityNumber != null) {
-            builder.setSeverity(severityNumber.convertToOtelJava())
+            builder.setSeverity(severityNumber.toOtelJava())
         }
         if (severityText != null) {
             builder.setSeverityText(severityText)

@@ -6,7 +6,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
 import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 
 @OptIn(ExperimentalApi::class)
-internal fun OtelJavaStatusData.convertToOtelKotlin(): StatusCode = when (statusCode) {
+internal fun OtelJavaStatusData.toOtelKotlin(): StatusCode = when (statusCode) {
     OtelJavaStatusCode.UNSET -> StatusCode.Unset
     OtelJavaStatusCode.OK -> StatusCode.Ok
     OtelJavaStatusCode.ERROR -> StatusCode.Error(description)

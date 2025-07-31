@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.j2k.tracing.export
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.j2k.tracing.convertToOtelKotlin
+import io.embrace.opentelemetry.kotlin.j2k.tracing.toOtelKotlin
 import io.embrace.opentelemetry.kotlin.k2j.tracing.AttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
@@ -32,7 +32,7 @@ internal class ReadWriteSpanAdapter(
         set(value) {}
 
     override var status: StatusCode
-        get() = data.status.convertToOtelKotlin()
+        get() = data.status.toOtelKotlin()
         set(value) {}
 
     override fun end() {

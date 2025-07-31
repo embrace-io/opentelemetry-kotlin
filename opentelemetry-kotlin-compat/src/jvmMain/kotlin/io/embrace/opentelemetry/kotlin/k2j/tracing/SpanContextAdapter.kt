@@ -7,8 +7,8 @@ import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 
 @OptIn(ExperimentalApi::class)
-public class SpanContextAdapter( // temporarily public, will be internal in future
-    public val impl: OtelJavaSpanContext
+internal class SpanContextAdapter(
+    val impl: OtelJavaSpanContext
 ) : SpanContext {
     override val traceId: String = impl.traceId
     override val spanId: String = impl.spanId

@@ -11,11 +11,6 @@ public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstanceImplKt {
 	public static synthetic fun default$default (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lio/embrace/opentelemetry/kotlin/Clock;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
 }
 
-public final class io/embrace/opentelemetry/kotlin/context/ContextKeyImpl : io/embrace/opentelemetry/kotlin/context/ContextKey {
-	public fun <init> (Ljava/lang/String;)V
-	public fun getName ()Ljava/lang/String;
-}
-
 public final class io/embrace/opentelemetry/kotlin/tracing/LinkImpl : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer, io/embrace/opentelemetry/kotlin/tracing/model/Link {
 	public fun <init> (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lio/embrace/opentelemetry/kotlin/attributes/AttributeContainer;)V
 	public fun attributes ()Ljava/util/Map;

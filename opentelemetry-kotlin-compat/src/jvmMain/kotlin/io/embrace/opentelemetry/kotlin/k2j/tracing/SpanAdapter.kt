@@ -54,7 +54,7 @@ internal class SpanAdapter(
         get() = implStatus
         set(value) {
             implStatus = value
-            impl.setStatus(value.convertToOtelJava())
+            impl.setStatus(value.toOtelJava())
         }
 
     override val spanContext: SpanContext = SpanContextAdapter(impl.spanContext)
@@ -73,7 +73,7 @@ internal class SpanAdapter(
         val container = AttributeContainerImpl()
         attributes(container)
         links.add(LinkImpl(spanContext, container))
-        impl.addLink(spanContext.convertToOtelJava(), container.otelJavaAttributes())
+        impl.addLink(spanContext.toOtelJava(), container.otelJavaAttributes())
     }
 
     override fun addEvent(
