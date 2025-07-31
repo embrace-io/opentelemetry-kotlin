@@ -6,8 +6,8 @@ import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
+import io.embrace.opentelemetry.kotlin.creator.current
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
-import io.embrace.opentelemetry.kotlin.k2j.context.current
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.k2j.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanContext
@@ -408,7 +408,7 @@ internal class SpanExportTest {
         )
 
         // Create a context key and add a test value
-        val currentContext = Context.Companion.current()
+        val currentContext = objectCreator.context.current()
         val contextKey = currentContext.createKey<String>("best_team")
         val testContextValue = "independiente"
         val testContext = currentContext.set(contextKey, testContextValue)

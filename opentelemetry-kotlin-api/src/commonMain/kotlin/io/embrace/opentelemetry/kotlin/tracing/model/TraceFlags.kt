@@ -29,6 +29,4 @@ public interface TraceFlags {
      */
     @ThreadSafe
     public val hex: String
-
-    public companion object
 }
