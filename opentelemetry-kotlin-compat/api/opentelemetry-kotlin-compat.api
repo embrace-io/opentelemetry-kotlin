@@ -37,23 +37,6 @@ public final class io/embrace/opentelemetry/kotlin/k2j/context/ContextExtKt {
 	public static final fun toOtelJava (Lio/embrace/opentelemetry/kotlin/context/Context;)Lio/opentelemetry/context/Context;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/k2j/id/TracingIdGenerator {
-	public abstract fun generateSpanId ()Ljava/lang/String;
-	public abstract fun generateTraceId ()Ljava/lang/String;
-	public abstract fun getInvalidSpanId ()Ljava/lang/String;
-	public abstract fun getInvalidTraceId ()Ljava/lang/String;
-}
-
-public final class io/embrace/opentelemetry/kotlin/k2j/id/TracingIdGeneratorImpl : io/embrace/opentelemetry/kotlin/k2j/id/TracingIdGenerator {
-	public fun <init> ()V
-	public fun <init> (Lio/opentelemetry/sdk/trace/IdGenerator;)V
-	public synthetic fun <init> (Lio/opentelemetry/sdk/trace/IdGenerator;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun generateSpanId ()Ljava/lang/String;
-	public fun generateTraceId ()Ljava/lang/String;
-	public fun getInvalidSpanId ()Ljava/lang/String;
-	public fun getInvalidTraceId ()Ljava/lang/String;
-}
-
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/ContextKeyConversionKt {
 	public static final fun toOtelJava (Lio/embrace/opentelemetry/kotlin/context/ContextKey;)Lio/opentelemetry/context/ContextKey;
 }

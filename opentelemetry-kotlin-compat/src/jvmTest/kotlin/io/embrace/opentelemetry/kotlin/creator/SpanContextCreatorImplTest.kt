@@ -1,7 +1,6 @@
 package io.embrace.opentelemetry.kotlin.creator
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.k2j.id.TracingIdGeneratorImpl
 import org.junit.Test
 import kotlin.test.assertSame
 
@@ -17,7 +16,7 @@ internal class SpanContextCreatorImplTest {
 
     @Test
     fun `test valid`() {
-        val generator = TracingIdGeneratorImpl()
+        val generator = TracingIdCreatorImpl()
         val traceId = generator.generateTraceId()
         val spanId = generator.generateSpanId()
         val traceFlags = creator.traceFlags.default
