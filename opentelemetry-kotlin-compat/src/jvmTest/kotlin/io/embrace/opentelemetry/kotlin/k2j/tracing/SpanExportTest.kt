@@ -7,6 +7,7 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.k2j.context.root
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
+import io.embrace.opentelemetry.kotlin.k2j.framework.TestResourceConfig
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanContext
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.k2j.tracing.model.invalid
@@ -367,11 +368,13 @@ internal class SpanExportTest {
 
     @Test
     fun `test tracer provider resource export`() {
-        val harness = OtelKotlinHarness {
-            setStringAttribute("service.name", "test-service")
-            setStringAttribute("service.version", "1.0.0")
-            setStringAttribute("environment", "test")
-        }
+        val harness = OtelKotlinHarness(
+            resourceConfig = TestResourceConfig("https://example.com/some_schema.json") {
+                setStringAttribute("service.name", "test-service")
+                setStringAttribute("service.version", "1.0.0")
+                setStringAttribute("environment", "test")
+            }
+        )
 
         val tracer = harness.kotlinApi.tracerProvider.getTracer("test_tracer")
         tracer.createSpan("test_span").end()

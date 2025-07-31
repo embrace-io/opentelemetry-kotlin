@@ -7,6 +7,7 @@ import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
 import io.embrace.opentelemetry.kotlin.k2j.context.current
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
+import io.embrace.opentelemetry.kotlin.k2j.framework.TestResourceConfig
 import io.embrace.opentelemetry.kotlin.kotlinApi
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
@@ -98,11 +99,13 @@ internal class LogExportTest {
 
     @Test
     fun `test logger provider resource export`() {
-        val harness = OtelKotlinHarness {
-            setStringAttribute("service.name", "test-service")
-            setStringAttribute("service.version", "1.0.0")
-            setStringAttribute("environment", "test")
-        }
+        val harness = OtelKotlinHarness(
+            resourceConfig = TestResourceConfig("https://example.com/some_schema.json") {
+                setStringAttribute("service.name", "test-service")
+                setStringAttribute("service.version", "1.0.0")
+                setStringAttribute("environment", "test")
+            }
+        )
 
         val logger = harness.kotlinApi.loggerProvider.getLogger("test_logger")
         logger.log(body = "Test log with custom resource")
