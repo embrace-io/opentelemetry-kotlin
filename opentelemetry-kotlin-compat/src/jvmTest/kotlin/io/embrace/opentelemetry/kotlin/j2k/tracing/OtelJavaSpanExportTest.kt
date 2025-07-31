@@ -9,6 +9,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracerProvider
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
+import io.embrace.opentelemetry.kotlin.k2j.framework.TestResourceConfig
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
 import io.opentelemetry.context.Context
 import java.util.concurrent.TimeUnit
@@ -177,6 +178,117 @@ internal class OtelJavaSpanExportTest {
         span.end()
 
         harness.assertSpans(expectedCount = 1, goldenFileName = "span_schema_url.json")
+    }
+
+    @Test
+    fun `test java multiple operations`() {
+        val linkedSpan1 = tracer.spanBuilder("linked_span_1").startSpan()
+        val linkedSpan2 = tracer.spanBuilder("linked_span_2").startSpan()
+        val linkedSpan3 = tracer.spanBuilder("linked_span_3").startSpan()
+
+        val eventAttrs = OtelJavaAttributes.builder().put("event_attr", "value").build()
+        val linkAttrs = OtelJavaAttributes.builder().put("link_attr", "link_value").build()
+
+        val span = tracer.spanBuilder("multi_operations_span").startSpan().apply {
+            // Add multiple events
+            addEvent("event_1", 100L, TimeUnit.NANOSECONDS)
+            addEvent("event_2", eventAttrs, 200L, TimeUnit.NANOSECONDS)
+            addEvent("event_3", 300L, TimeUnit.NANOSECONDS)
+
+            // Add multiple links
+            addLink(linkedSpan1.spanContext)
+            addLink(linkedSpan2.spanContext, linkAttrs)
+            addLink(linkedSpan3.spanContext)
+        }
+
+        span.end()
+        linkedSpan1.end()
+        linkedSpan2.end()
+        linkedSpan3.end()
+
+        harness.assertSpans(
+            expectedCount = 4,
+            goldenFileName = "span_multiple_operations.json",
+        )
+    }
+
+    @Test
+    fun `test java attributes edge cases`() {
+        val span = tracer.spanBuilder("edge_case_attributes").startSpan().apply {
+            // Test empty string
+            setAttribute("empty_string", "")
+
+            // Test empty lists
+            setAttribute(OtelJavaAttributeKey.stringArrayKey("empty_string_list"), emptyList())
+            setAttribute(OtelJavaAttributeKey.booleanArrayKey("empty_bool_list"), emptyList())
+            setAttribute(OtelJavaAttributeKey.longArrayKey("empty_long_list"), emptyList())
+            setAttribute(OtelJavaAttributeKey.doubleArrayKey("empty_double_list"), emptyList())
+
+            // Test whitespace
+            setAttribute("whitespace_only", " ")
+
+            // Test lists with empty elements
+            setAttribute(OtelJavaAttributeKey.stringArrayKey("list_with_empty"), listOf("", "non-empty", "", "another-value"))
+        }
+
+        span.end()
+
+        harness.assertSpans(
+            expectedCount = 1,
+            goldenFileName = "span_edge_case_attributes.json",
+        )
+    }
+
+    @Test
+    fun `test java trace and span id validation without sanitization`() {
+        val span1 = tracer.spanBuilder("validation_span_1").startSpan()
+        val span2 = tracer.spanBuilder("validation_span_2").startSpan()
+        val ctx = Context.current().with(span1)
+        val span3 = tracer.spanBuilder("validation_span_3").setParent(ctx).startSpan()
+
+        span1.end()
+        span2.end()
+        span3.end()
+
+        harness.assertSpans(3, null, false) { spans ->
+            val validationSpan1 = spans.first { it.name == "validation_span_1" }
+            val validationSpan2 = spans.first { it.name == "validation_span_2" }
+            val validationSpan3 = spans.first { it.name == "validation_span_3" }
+
+            // Validate trace IDs are 32 hex characters
+            assertTrue(validationSpan1.spanContext.traceId.matches(Regex("^[0-9a-f]{32}$")))
+            assertTrue(validationSpan2.spanContext.traceId.matches(Regex("^[0-9a-f]{32}$")))
+            assertTrue(validationSpan3.spanContext.traceId.matches(Regex("^[0-9a-f]{32}$")))
+
+            // Validate span IDs are 16 hex characters
+            assertTrue(validationSpan1.spanContext.spanId.matches(Regex("^[0-9a-f]{16}$")))
+            assertTrue(validationSpan2.spanContext.spanId.matches(Regex("^[0-9a-f]{16}$")))
+            assertTrue(validationSpan3.spanContext.spanId.matches(Regex("^[0-9a-f]{16}$")))
+
+            // Validate parent-child relationship
+            assertEquals(validationSpan1.spanContext.traceId, validationSpan3.spanContext.traceId)
+            assertEquals(validationSpan1.spanContext.spanId, validationSpan3.parentSpanContext.spanId)
+        }
+    }
+
+    @Test
+    fun `test java tracer provider resource export`() {
+        val resourceHarness = OtelKotlinHarness(
+            resourceConfig = TestResourceConfig("https://example.com/some_schema.json") {
+                setStringAttribute("service.name", "test-service")
+                setStringAttribute("service.version", "1.0.0")
+                setStringAttribute("environment", "test")
+            }
+        )
+
+        val javaTracer = resourceHarness.javaApi.tracerProvider.get("test_tracer")
+        javaTracer.spanBuilder("test_span").startSpan().end()
+
+        resourceHarness.assertSpans(
+            expectedCount = 1,
+            goldenFileName = "span_resource.json",
+            sanitizeSpanContextIds = true,
+        )
     }
 
     private val attrs = OtelJavaAttributes.builder()
