@@ -10,23 +10,20 @@ import io.embrace.opentelemetry.kotlin.ThreadSafe
  */
 @ThreadSafe
 @ExperimentalApi
-public sealed class StatusCode {
+public enum class StatusCode {
 
     /**
      * Default status.
      */
-    @ThreadSafe
-    public object Unset : StatusCode()
+    Unset,
 
     /**
      * The operation completed successfully.
      */
-    @ThreadSafe
-    public object Ok : StatusCode()
+    Ok,
 
     /**
-     * The operation completed with an error. An optional description of the error may be provided.
+     * The operation completed with an error.
      */
-    @ThreadSafe
-    public class Error(public val description: String?) : StatusCode()
+    Error
 }

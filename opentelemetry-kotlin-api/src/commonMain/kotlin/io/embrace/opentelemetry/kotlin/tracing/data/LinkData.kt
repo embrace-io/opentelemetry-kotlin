@@ -1,13 +1,13 @@
-package io.embrace.opentelemetry.kotlin.tracing.model
+package io.embrace.opentelemetry.kotlin.tracing.data
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
 /**
- * A read-only representation of a span link.
+ * A read-only representation of a Link
  */
 @ExperimentalApi
-public interface ReadableLink {
-
+public interface LinkData {
     /**
      * The span context of the link.
      */

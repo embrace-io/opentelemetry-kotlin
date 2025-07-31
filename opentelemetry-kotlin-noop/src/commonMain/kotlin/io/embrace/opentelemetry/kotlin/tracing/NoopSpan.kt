@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.Link
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
@@ -12,7 +13,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 internal object NoopSpan : Span {
 
     override var name: String = ""
-    override var status: StatusCode = StatusCode.Unset
+    override var status: StatusData = StatusData.Unset
     override val parent: SpanContext = NoopSpanContext
     override val spanContext: SpanContext = NoopSpanContext
     override val spanKind: SpanKind = SpanKind.INTERNAL

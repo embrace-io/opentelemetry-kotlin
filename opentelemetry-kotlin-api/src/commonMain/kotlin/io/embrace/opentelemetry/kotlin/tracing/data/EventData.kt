@@ -1,13 +1,12 @@
-package io.embrace.opentelemetry.kotlin.tracing.model
+package io.embrace.opentelemetry.kotlin.tracing.data
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 
 /**
- * A read-only representation of a span event.
+ * A read-only representation of a span event
  */
 @ExperimentalApi
-public interface ReadableSpanEvent {
-
+public interface EventData {
     /**
      * The name of the event
      */

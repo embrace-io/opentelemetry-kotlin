@@ -14,7 +14,7 @@ internal class InMemorySpanProcessor(private val exporter: InMemorySpanExporter)
     }
 
     override fun onEnd(span: ReadableSpan) {
-        exporter.export(listOf(span))
+        exporter.export(listOf(span.toSpanData()))
     }
 
     override fun forceFlush(): OperationResultCode = OperationResultCode.Success

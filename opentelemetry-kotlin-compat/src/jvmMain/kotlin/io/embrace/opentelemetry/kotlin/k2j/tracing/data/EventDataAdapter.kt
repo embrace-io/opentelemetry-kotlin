@@ -1,14 +1,14 @@
-package io.embrace.opentelemetry.kotlin.j2k.tracing.export
+package io.embrace.opentelemetry.kotlin.k2j.tracing.data
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaEventData
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
-import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpanEvent
+import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 
 @OptIn(ExperimentalApi::class)
-internal class ReadableSpanEventAdapter(
-    impl: OtelJavaEventData
-) : ReadableSpanEvent {
+internal class EventDataAdapter(
+    impl: OtelJavaEventData,
+) : EventData {
     override val name: String = impl.name
     override val timestamp: Long = impl.epochNanos
     override val attributes: Map<String, Any> = impl.attributes.toMap()

@@ -7,13 +7,13 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
 import io.embrace.opentelemetry.kotlin.compatWithOtelKotlin
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
 import io.embrace.opentelemetry.kotlin.j2k.logging.export.toLogRecordData
-import io.embrace.opentelemetry.kotlin.j2k.tracing.export.toSpanData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableLogRecordData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.kotlinApi
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
-import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
+import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
+import toOtelJavaSpanData
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
@@ -55,7 +55,7 @@ internal class OtelKotlinHarness(
     ) {
         val observedSpans: List<OtelJavaSpanData> = awaitExportedData(
             expectedCount = expectedCount,
-            supplier = { spanExporter.exportedSpans.map(ReadableSpan::toSpanData) }
+            supplier = { spanExporter.exportedSpans.map(SpanData::toOtelJavaSpanData) }
         )
         val data = observedSpans.map { it.toSerializable(sanitizeSpanContextIds) }
         assertions(data)
