@@ -1,13 +1,11 @@
 package io.embrace.opentelemetry.kotlin.k2j.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
-import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
 import io.embrace.opentelemetry.kotlin.k2j.context.current
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
-import io.embrace.opentelemetry.kotlin.kotlinApi
+import io.embrace.opentelemetry.kotlin.k2j.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
@@ -69,40 +67,17 @@ internal class LogExportTest {
     }
 
     @Test
-    fun `test context is passed to processor`() {
-        // Create a LogRecordProcessor that captures any passed Context.
-        val contextCapturingProcessor = ContextCapturingProcessor()
-
-        // Use it on OpenTelemetryInstance creation.
-        val kotlinApi = OpenTelemetryInstance.kotlinApi(
-            clock = FakeClock(),
-            loggerProvider = {
-                addLogRecordProcessor(contextCapturingProcessor)
-            }
-        )
-
-        // Create a context key and add a test value
-        val rootContext = Context.Companion.current()
-        val contextKey = rootContext.createKey<String>("best_team")
-        val testContextValue = "independiente"
-        val testContext = rootContext.set(contextKey, testContextValue)
-
-        // Log a message with the created context
-        val logger = kotlinApi.loggerProvider.getLogger("test_logger")
-        logger.log(body = "Test log with context", context = testContext)
-
-        // Verify context was captured and contains expected value
-        val actualValue = contextCapturingProcessor.capturedContext?.get(contextKey)
-        assertSame(testContextValue, actualValue)
-    }
-
-    @Test
     fun `test logger provider resource export`() {
-        val harness = OtelKotlinHarness {
-            setStringAttribute("service.name", "test-service")
-            setStringAttribute("service.version", "1.0.0")
-            setStringAttribute("environment", "test")
-        }
+        val harness = OtelKotlinHarness(
+            testHarnessConfig = TestHarnessConfig(
+                schemaUrl = "https://example.com/some_schema.json",
+                attributes = {
+                    setStringAttribute("service.name", "test-service")
+                    setStringAttribute("service.version", "1.0.0")
+                    setStringAttribute("environment", "test")
+                }
+            )
+        )
 
         val logger = harness.kotlinApi.loggerProvider.getLogger("test_logger")
         logger.log(body = "Test log with custom resource")
@@ -112,6 +87,33 @@ internal class LogExportTest {
             goldenFileName = "log_resource.json",
             sanitizeSpanContextIds = true,
         )
+    }
+
+    @Test
+    fun `test context is passed to processor`() {
+        // Create a LogRecordProcessor that captures any passed Context.
+        val contextCapturingProcessor = ContextCapturingProcessor()
+
+        // Use it on OpenTelemetryInstance creation.
+        val contextCapturingHarness = OtelKotlinHarness(
+            TestHarnessConfig(
+                logRecordProcessors = listOf(contextCapturingProcessor)
+            )
+        )
+
+        // Create a context key and add a test value
+        val currentContext = Context.Companion.current()
+        val contextKey = currentContext.createKey<String>("best_team")
+        val testContextValue = "independiente"
+        val testContext = currentContext.set(contextKey, testContextValue)
+
+        // Log a message with the created context
+        val logger = contextCapturingHarness.kotlinApi.loggerProvider.getLogger("test_logger")
+        logger.log(body = "Test log with context", context = testContext)
+
+        // Verify context was captured and contains expected value
+        val actualValue = contextCapturingProcessor.capturedContext?.get(contextKey)
+        assertSame(testContextValue, actualValue)
     }
 
     /**

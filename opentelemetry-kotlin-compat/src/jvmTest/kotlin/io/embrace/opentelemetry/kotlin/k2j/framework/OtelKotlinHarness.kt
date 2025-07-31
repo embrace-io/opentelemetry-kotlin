@@ -4,7 +4,6 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.compatWithOtelKotlin
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
 import io.embrace.opentelemetry.kotlin.j2k.logging.export.toLogRecordData
@@ -21,7 +20,7 @@ import java.util.concurrent.TimeoutException
 
 @OptIn(ExperimentalApi::class)
 internal class OtelKotlinHarness(
-    private val resources: (AttributeContainer.() -> Unit)? = null,
+    private val testHarnessConfig: TestHarnessConfig = TestHarnessConfig(),
 ) {
 
     private companion object {
@@ -35,12 +34,14 @@ internal class OtelKotlinHarness(
     val kotlinApi = OpenTelemetryInstance.kotlinApi(
         clock = FakeClock(),
         tracerProvider = {
-            resources?.let { resource(it) }
+            testHarnessConfig.attributes?.let { resource(it, testHarnessConfig.schemaUrl) }
             addSpanProcessor(InMemorySpanProcessor(spanExporter))
+            testHarnessConfig.spanProcessors.forEach { addSpanProcessor(it) }
         },
         loggerProvider = {
-            resources?.let { resource(it) }
+            testHarnessConfig.attributes?.let { resource(it, testHarnessConfig.schemaUrl) }
             addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
+            testHarnessConfig.logRecordProcessors.forEach { addLogRecordProcessor(it) }
         }
     )
 

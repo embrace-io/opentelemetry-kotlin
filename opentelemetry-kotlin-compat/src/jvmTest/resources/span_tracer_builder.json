@@ -1,6 +1,6 @@
 [
   {
-    "name": "test_span",
+    "name": "tracer_builder_span",
     "kind": "INTERNAL",
     "statusData": {
       "name": "UNSET",
@@ -28,15 +28,16 @@
     "totalRecordedLinks": 0,
     "totalAttributeCount": 0,
     "resource": {
-      "schemaUrl": "https://example.com/some_schema.json",
+      "schemaUrl": "null",
       "attributes": {
-        "environment": "test",
-        "service.name": "test-service",
-        "service.version": "1.0.0"
+        "service.name": "unknown_service:java",
+        "telemetry.sdk.language": "java",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.52.0"
       }
     },
     "instrumentationScopeInfo": {
-      "name": "test_tracer",
+      "name": "test-tracer",
       "version": "null",
       "schemaUrl": "null",
       "attributes": {}

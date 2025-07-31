@@ -25,9 +25,9 @@ internal class TracerProviderConfigImpl(
         builder.setClock(OtelJavaClockWrapper(clock))
     }
 
-    override fun resource(attributes: AttributeContainer.() -> Unit) {
+    override fun resource(attributes: AttributeContainer.() -> Unit, schemaUrl: String?) {
         val attrs = AttributeContainerImpl().apply(attributes).otelJavaAttributes()
-        builder.setResource(Resource.create(attrs))
+        builder.setResource(Resource.create(attrs, schemaUrl))
     }
 
     override fun spanLimits(action: SpanLimitsConfigDsl.() -> Unit) {

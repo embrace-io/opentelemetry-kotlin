@@ -6,13 +6,19 @@ import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
+import io.embrace.opentelemetry.kotlin.export.OperationResultCode
+import io.embrace.opentelemetry.kotlin.k2j.context.current
 import io.embrace.opentelemetry.kotlin.k2j.context.root
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
+import io.embrace.opentelemetry.kotlin.k2j.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanContext
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
+import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -20,6 +26,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalApi::class)
@@ -239,11 +246,11 @@ internal class SpanExportTest {
             addEvent("event_3", 300L)
 
             // Add multiple links
-            addLink(linkedSpan1.spanContext) {}
+            addLink(linkedSpan1.spanContext)
             addLink(linkedSpan2.spanContext) {
                 setStringAttribute("link_attr", "link_value")
             }
-            addLink(linkedSpan3.spanContext) {}
+            addLink(linkedSpan3.spanContext)
 
             // Verify counts
             assertEquals(3, events().size)
@@ -368,11 +375,16 @@ internal class SpanExportTest {
 
     @Test
     fun `test tracer provider resource export`() {
-        val harness = OtelKotlinHarness {
-            setStringAttribute("service.name", "test-service")
-            setStringAttribute("service.version", "1.0.0")
-            setStringAttribute("environment", "test")
-        }
+        val harness = OtelKotlinHarness(
+            testHarnessConfig = TestHarnessConfig(
+                schemaUrl = "https://example.com/some_schema.json",
+                attributes = {
+                    setStringAttribute("service.name", "test-service")
+                    setStringAttribute("service.version", "1.0.0")
+                    setStringAttribute("environment", "test")
+                }
+            )
+        )
 
         val tracer = harness.kotlinApi.tracerProvider.getTracer("test_tracer")
         tracer.createSpan("test_span").end()
@@ -382,5 +394,49 @@ internal class SpanExportTest {
             goldenFileName = "span_resource.json",
             sanitizeSpanContextIds = true,
         )
+    }
+
+    @Test
+    fun `test context is passed to processor`() {
+        // Create a SpanProcessor that captures any passed Context.
+        val contextCapturingProcessor = ContextCapturingProcessor()
+
+        // Use it on OpenTelemetryInstance creation.
+        val contextCapturingHarness = OtelKotlinHarness(
+            TestHarnessConfig(
+                spanProcessors = listOf(contextCapturingProcessor)
+            )
+        )
+
+        // Create a context key and add a test value
+        val currentContext = Context.Companion.current()
+        val contextKey = currentContext.createKey<String>("best_team")
+        val testContextValue = "independiente"
+        val testContext = currentContext.set(contextKey, testContextValue)
+
+        // Create a span with the created context
+        val tracer = contextCapturingHarness.kotlinApi.tracerProvider.getTracer("test_tracer")
+        tracer.createSpan("Test span with context", parentContext = testContext).end()
+
+        // Verify context was captured and contains expected value
+        val actualValue = contextCapturingProcessor.capturedContext?.get(contextKey)
+        assertSame(testContextValue, actualValue)
+    }
+
+    /**
+     * Custom processor that captures the context passed to onStart
+     */
+    private class ContextCapturingProcessor : SpanProcessor {
+        var capturedContext: Context? = null
+
+        override fun onStart(span: ReadWriteSpan, parentContext: Context) {
+            capturedContext = parentContext
+        }
+
+        override fun onEnd(span: ReadableSpan) = Unit
+        override fun isStartRequired(): Boolean = true
+        override fun isEndRequired(): Boolean = false
+        override fun shutdown(): OperationResultCode = OperationResultCode.Success
+        override fun forceFlush(): OperationResultCode = OperationResultCode.Success
     }
 }

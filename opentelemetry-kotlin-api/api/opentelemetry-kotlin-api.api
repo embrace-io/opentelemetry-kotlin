@@ -100,7 +100,11 @@ public abstract interface class io/embrace/opentelemetry/kotlin/init/LogLimitsCo
 public abstract interface class io/embrace/opentelemetry/kotlin/init/LoggerProviderConfigDsl {
 	public abstract fun addLogRecordProcessor (Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor;)V
 	public abstract fun logLimits (Lkotlin/jvm/functions/Function1;)V
-	public abstract fun resource (Lkotlin/jvm/functions/Function1;)V
+	public abstract fun resource (Lkotlin/jvm/functions/Function1;Ljava/lang/String;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/init/LoggerProviderConfigDsl$DefaultImpls {
+	public static synthetic fun resource$default (Lio/embrace/opentelemetry/kotlin/init/LoggerProviderConfigDsl;Lkotlin/jvm/functions/Function1;Ljava/lang/String;ILjava/lang/Object;)V
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/init/SpanLimitsConfigDsl {
@@ -118,8 +122,12 @@ public abstract interface class io/embrace/opentelemetry/kotlin/init/SpanLimitsC
 
 public abstract interface class io/embrace/opentelemetry/kotlin/init/TracerProviderConfigDsl {
 	public abstract fun addSpanProcessor (Lio/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor;)V
-	public abstract fun resource (Lkotlin/jvm/functions/Function1;)V
+	public abstract fun resource (Lkotlin/jvm/functions/Function1;Ljava/lang/String;)V
 	public abstract fun spanLimits (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/init/TracerProviderConfigDsl$DefaultImpls {
+	public static synthetic fun resource$default (Lio/embrace/opentelemetry/kotlin/init/TracerProviderConfigDsl;Lkotlin/jvm/functions/Function1;Ljava/lang/String;ILjava/lang/Object;)V
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/logging/Logger {
