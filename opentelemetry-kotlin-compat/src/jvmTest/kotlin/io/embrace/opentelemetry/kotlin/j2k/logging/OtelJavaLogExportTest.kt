@@ -1,13 +1,21 @@
 package io.embrace.opentelemetry.kotlin.j2k.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContextKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLoggerProvider
+import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.export.OperationResultCode
+import io.embrace.opentelemetry.kotlin.j2k.bridge.context.OtelJavaContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
-import io.embrace.opentelemetry.kotlin.k2j.framework.TestResourceConfig
+import io.embrace.opentelemetry.kotlin.k2j.framework.TestHarnessConfig
+import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
+import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
 import io.opentelemetry.api.logs.Severity
 import java.util.concurrent.TimeUnit
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertSame
 
 @OptIn(ExperimentalApi::class)
 internal class OtelJavaLogExportTest {
@@ -60,11 +68,14 @@ internal class OtelJavaLogExportTest {
     @Test
     fun `test java logger provider resource export`() {
         val resourceHarness = OtelKotlinHarness(
-            resourceConfig = TestResourceConfig("https://example.com/some_schema.json") {
-                setStringAttribute("service.name", "test-service")
-                setStringAttribute("service.version", "1.0.0")
-                setStringAttribute("environment", "test")
-            }
+            TestHarnessConfig(
+                schemaUrl = "https://example.com/some_schema.json",
+                attributes = {
+                    setStringAttribute("service.name", "test-service")
+                    setStringAttribute("service.version", "1.0.0")
+                    setStringAttribute("environment", "test")
+                }
+            )
         )
 
         val javaLogger = resourceHarness.javaApi.logsBridge.get("test_logger")
@@ -75,5 +86,49 @@ internal class OtelJavaLogExportTest {
             goldenFileName = "log_resource.json",
             sanitizeSpanContextIds = true,
         )
+    }
+
+    @Test
+    fun `test context is passed to processor`() {
+        // Create a processor that can capture the original Java context
+        val javaContextCapturingProcessor = JavaContextCapturingProcessor()
+
+        // Use it on OpenTelemetryInstance creation.
+        val contextCapturingHarness = OtelKotlinHarness(
+            TestHarnessConfig(
+                logRecordProcessors = listOf(javaContextCapturingProcessor)
+            )
+        )
+
+        // Create a context key and add a test value using Java API
+        val javaContextKey = OtelJavaContextKey.named<String>("best_team")
+        val testContextValue = "independiente"
+        val javaContext = OtelJavaContext.current().with(javaContextKey, testContextValue)
+
+        // Log a message with the created context using Java API
+        val javaLogger = contextCapturingHarness.javaApi.logsBridge.get("test_logger")
+
+        // Make the context current and emit log
+        javaContext.makeCurrent().use {
+            javaLogger.logRecordBuilder().setBody("Test log with context").emit()
+        }
+
+        // Verify context was captured and contains expected value
+        val actualValue = javaContextCapturingProcessor.capturedJavaContext?.get(javaContextKey)
+        assertSame(testContextValue, actualValue)
+    }
+
+    /**
+     * Custom processor that captures the original Java context from converted contexts
+     */
+    private class JavaContextCapturingProcessor : LogRecordProcessor {
+        var capturedJavaContext: OtelJavaContext? = null
+
+        override fun onEmit(log: ReadWriteLogRecord, context: Context) {
+            capturedJavaContext = (context as OtelJavaContextAdapter).impl
+        }
+
+        override fun shutdown(): OperationResultCode = OperationResultCode.Success
+        override fun forceFlush(): OperationResultCode = OperationResultCode.Success
     }
 }
