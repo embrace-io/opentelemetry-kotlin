@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin
 
+import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.logging.Logger
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
@@ -25,4 +26,9 @@ public interface OpenTelemetry {
      * The [Clock] that will be used for obtaining timestamps by this instance.
      */
     public val clock: Clock
+
+    /**
+     * Used for creating new objects that can be passed to the SDK.
+     */
+    public val objectCreator: ObjectCreator
 }

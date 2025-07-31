@@ -5,15 +5,14 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.k2j.context.root
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanContext
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
-import io.embrace.opentelemetry.kotlin.k2j.tracing.model.invalid
 import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -29,11 +28,13 @@ internal class SpanExportTest {
     private lateinit var harness: OtelKotlinHarness
     private lateinit var tracerProvider: TracerProvider
     private lateinit var tracer: Tracer
+    private lateinit var objectCreator: ObjectCreator
 
     @BeforeTest
     fun setUp() {
         harness = OtelKotlinHarness()
         tracerProvider = harness.kotlinApi.tracerProvider
+        objectCreator = harness.kotlinApi.objectCreator
         tracer = tracerProvider.getTracer("name", "version")
     }
 
@@ -127,7 +128,7 @@ internal class SpanExportTest {
 
         val c = tracer.createSpan("c", parentContext = ctxb)
 
-        assertSpanContextsMatch(SpanContext.invalid(), a.parent)
+        assertSpanContextsMatch(objectCreator.spanContext.invalid, a.parent)
         assertNotNull(a.spanContext)
         assertSpanContextsMatch(a.spanContext, b.parent)
         assertSpanContextsMatch(b.spanContext, c.parent)
@@ -164,7 +165,7 @@ internal class SpanExportTest {
 
     @Test
     fun `test invalid span context`() {
-        val invalidContext = SpanContext.invalid()
+        val invalidContext = objectCreator.spanContext.invalid
 
         // Test invalid context properties
         assertFalse(invalidContext.isValid)
