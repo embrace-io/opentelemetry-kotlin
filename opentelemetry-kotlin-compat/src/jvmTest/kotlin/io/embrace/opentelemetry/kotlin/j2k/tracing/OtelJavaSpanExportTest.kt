@@ -154,6 +154,31 @@ internal class OtelJavaSpanExportTest {
         )
     }
 
+    @Test
+    fun `test java tracer builder`() {
+        val javaTracer = tracerProvider.tracerBuilder("test-tracer")
+            .build()
+
+        val span = javaTracer.spanBuilder("tracer_builder_span").startSpan()
+        span.end()
+
+        harness.assertSpans(expectedCount = 1, goldenFileName = "span_tracer_builder.json")
+    }
+
+    @Test
+    fun `test java tracer with schema url and attributes`() {
+        val schemaUrl = "https://opentelemetry.io/schemas/1.21.0"
+        val javaTracerWithSchemaUrl = tracerProvider.tracerBuilder("test-tracer")
+            .setInstrumentationVersion("2.0.0")
+            .setSchemaUrl(schemaUrl)
+            .build()
+
+        val span = javaTracerWithSchemaUrl.spanBuilder("schema_url_span").startSpan()
+        span.end()
+
+        harness.assertSpans(expectedCount = 1, goldenFileName = "span_schema_url.json")
+    }
+
     private val attrs = OtelJavaAttributes.builder()
         .put("string_key", "value")
         .put("string_key", "second_value")
