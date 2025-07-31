@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
 /**
- * Immutable representation of a Link
+ * A read-only representation of a Link
  */
 @ExperimentalApi
 public interface LinkData {

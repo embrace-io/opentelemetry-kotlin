@@ -28,5 +28,5 @@ public sealed class StatusCode {
      * The operation completed with an error. An optional description of the error may be provided.
      */
     @ThreadSafe
-    public class Error(public val description: String?) : StatusCode()
+    public object Error : StatusCode()
 }

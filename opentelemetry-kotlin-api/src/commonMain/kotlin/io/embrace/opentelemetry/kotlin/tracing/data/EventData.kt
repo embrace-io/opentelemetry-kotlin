@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.tracing.data
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 
 /**
- * Immutable representation of a span event
+ * A read-only representation of a span event
  */
 @ExperimentalApi
 public interface EventData {

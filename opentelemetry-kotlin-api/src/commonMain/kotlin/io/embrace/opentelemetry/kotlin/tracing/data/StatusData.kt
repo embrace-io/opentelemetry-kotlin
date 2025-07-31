@@ -28,5 +28,5 @@ public sealed class StatusData(
      * The operation completed with an error. An optional description of the error may be provided.
      */
     @ThreadSafe
-    public class Error(description: String?) : StatusData(StatusCode.Error(description), description)
+    public class Error(description: String?) : StatusData(StatusCode.Error, description)
 }
