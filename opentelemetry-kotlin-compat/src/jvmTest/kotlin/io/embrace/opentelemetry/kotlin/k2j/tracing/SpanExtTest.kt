@@ -10,8 +10,6 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
-import io.embrace.opentelemetry.kotlin.k2j.tracing.model.create
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -22,7 +20,7 @@ internal class SpanExtTest {
     private val objectCreator = createCompatObjectCreator()
     private val generator = OtelJavaIdGenerator.random()
 
-    private val validSpanContext = SpanContext.create(
+    private val validSpanContext = objectCreator.spanContext.create(
         traceId = generator.generateTraceId(),
         spanId = generator.generateSpanId(),
         traceState = objectCreator.traceState.default,

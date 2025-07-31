@@ -49,6 +49,4 @@ public interface SpanContext {
      */
     @ThreadSafe
     public val traceState: TraceState
-
-    public companion object
 }

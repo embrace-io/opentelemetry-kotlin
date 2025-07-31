@@ -23,6 +23,4 @@ public interface TraceState {
      */
     @ThreadSafe
     public fun asMap(): Map<String, String>
-
-    public companion object
 }
