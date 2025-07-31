@@ -11,11 +11,3 @@ public fun StatusData.toOtelJava(): OtelJavaStatusData = when (this) {
     StatusData.Ok -> OtelJavaStatusData.ok()
     is StatusData.Error -> OtelJavaStatusData.create(OtelJavaStatusCode.ERROR, description)
 }
-
-@OptIn(ExperimentalApi::class)
-public fun OtelJavaStatusData.toOtelKotlin(): StatusData = when (statusCode) {
-    OtelJavaStatusCode.UNSET -> StatusData.Unset
-    OtelJavaStatusCode.OK -> StatusData.Ok
-    OtelJavaStatusCode.ERROR -> StatusData.Error(description)
-    null -> StatusData.Unset
-}

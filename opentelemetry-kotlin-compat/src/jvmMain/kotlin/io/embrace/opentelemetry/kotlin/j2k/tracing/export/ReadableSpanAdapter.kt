@@ -11,7 +11,6 @@ import io.embrace.opentelemetry.kotlin.k2j.tracing.data.EventDataAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.data.LinkDataAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.data.SpanDataAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
-import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelKotlin
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData

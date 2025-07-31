@@ -64,6 +64,5 @@ public final class io/embrace/opentelemetry/kotlin/k2j/tracing/StatusCodeConvers
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/StatusDataConversionKt {
 	public static final fun toOtelJava (Lio/embrace/opentelemetry/kotlin/tracing/data/StatusData;)Lio/opentelemetry/sdk/trace/data/StatusData;
-	public static final fun toOtelKotlin (Lio/opentelemetry/sdk/trace/data/StatusData;)Lio/embrace/opentelemetry/kotlin/tracing/data/StatusData;
 }
 
