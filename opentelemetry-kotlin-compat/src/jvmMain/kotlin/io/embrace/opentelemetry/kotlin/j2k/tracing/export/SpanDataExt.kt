@@ -42,6 +42,6 @@ internal fun SpanData.toOtelJavaSpanData(): OtelJavaSpanData {
                 attrsFromMap(it.attributes)
             )
         }.toMutableList(),
-        hasEndedImpl = endTimestamp != null
+        hasEndedImpl = hasEnded
     )
 }

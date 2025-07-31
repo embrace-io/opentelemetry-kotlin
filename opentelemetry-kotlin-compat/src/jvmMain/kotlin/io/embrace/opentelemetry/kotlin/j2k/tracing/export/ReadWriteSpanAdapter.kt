@@ -3,13 +3,12 @@ package io.embrace.opentelemetry.kotlin.j2k.tracing.export
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.setAttributes
 import io.embrace.opentelemetry.kotlin.k2j.tracing.AttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
-import io.embrace.opentelemetry.kotlin.k2j.tracing.data.SpanDataAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
-import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.Link
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
@@ -64,7 +63,7 @@ internal class ReadWriteSpanAdapter(
             name = it.name,
             timestamp = it.timestamp,
             attributes = AttributeContainerImpl().apply {
-                it.attributes
+                setAttributes(it.attributes)
             }
         )
     }
@@ -73,12 +72,10 @@ internal class ReadWriteSpanAdapter(
         LinkImpl(
             spanContext = it.spanContext,
             attributes = AttributeContainerImpl().apply {
-                it.attributes
+                setAttributes(it.attributes)
             }
         )
     }
-
-    override fun toSpanData(): SpanData = SpanDataAdapter(impl.toSpanData())
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         impl.setAttribute(key, value)

@@ -234,19 +234,12 @@ public abstract interface class io/embrace/opentelemetry/kotlin/resource/Resourc
 	public abstract fun getSchemaUrl ()Ljava/lang/String;
 }
 
-public abstract class io/embrace/opentelemetry/kotlin/tracing/StatusCode {
-}
-
-public final class io/embrace/opentelemetry/kotlin/tracing/StatusCode$Error : io/embrace/opentelemetry/kotlin/tracing/StatusCode {
-	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/tracing/StatusCode$Error;
-}
-
-public final class io/embrace/opentelemetry/kotlin/tracing/StatusCode$Ok : io/embrace/opentelemetry/kotlin/tracing/StatusCode {
-	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/tracing/StatusCode$Ok;
-}
-
-public final class io/embrace/opentelemetry/kotlin/tracing/StatusCode$Unset : io/embrace/opentelemetry/kotlin/tracing/StatusCode {
-	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/tracing/StatusCode$Unset;
+public final class io/embrace/opentelemetry/kotlin/tracing/StatusCode : java/lang/Enum {
+	public static final field Error Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
+	public static final field Ok Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
+	public static final field Unset Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
+	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
+	public static fun values ()[Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/Tracer {

@@ -8,5 +8,5 @@ import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 public fun StatusCode.toOtelJava(): OtelJavaStatusCode = when (this) {
     StatusCode.Unset -> OtelJavaStatusCode.UNSET
     StatusCode.Ok -> OtelJavaStatusCode.OK
-    is StatusCode.Error -> OtelJavaStatusCode.ERROR
+    StatusCode.Error -> OtelJavaStatusCode.ERROR
 }
