@@ -102,7 +102,7 @@ internal class SpanExportTest {
     fun `test span events export`() {
         val spanName = "span_events"
         val span = tracer.createSpan(spanName).apply {
-            assertTrue(events().isEmpty())
+            assertTrue(events.isEmpty())
 
             val eventName = "my_event"
             val eventTimestamp = 150L
@@ -110,7 +110,7 @@ internal class SpanExportTest {
                 assertAttributes()
             }
 
-            val event = events().single()
+            val event = events.single()
             assertEquals(eventName, event.name)
             assertEquals(eventTimestamp, event.timestamp)
         }
@@ -193,13 +193,13 @@ internal class SpanExportTest {
     fun `test span links export`() {
         val linkedSpan = tracer.createSpan("linked_span")
         val span = tracer.createSpan("span_links").apply {
-            assertTrue(events().isEmpty())
+            assertTrue(events.isEmpty())
 
             addLink(linkedSpan.spanContext) {
                 assertAttributes()
             }
 
-            val link = links().single()
+            val link = links.single()
             assertEquals(linkedSpan.spanContext, link.spanContext)
         }
         span.end()
@@ -252,8 +252,8 @@ internal class SpanExportTest {
             addLink(linkedSpan3.spanContext)
 
             // Verify counts
-            assertEquals(3, events().size)
-            assertEquals(3, links().size)
+            assertEquals(3, events.size)
+            assertEquals(3, links.size)
         }
 
         span.end()

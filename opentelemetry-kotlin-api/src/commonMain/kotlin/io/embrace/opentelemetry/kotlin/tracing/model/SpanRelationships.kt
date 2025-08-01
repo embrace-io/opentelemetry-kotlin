@@ -27,16 +27,4 @@ public interface SpanRelationships : AttributeContainer {
         timestamp: Long? = null,
         attributes: AttributeContainer.() -> Unit = {},
     )
-
-    /**
-     * Returns a snapshot of the events on this span.
-     */
-    @ThreadSafe
-    public fun events(): List<SpanEvent>
-
-    /**
-     * Returns a snapshot of the links on this span.
-     */
-    @ThreadSafe
-    public fun links(): List<Link>
 }

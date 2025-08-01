@@ -46,4 +46,16 @@ public interface SpanSchema {
      */
     @ThreadSafe
     public val startTimestamp: Long
+
+    /**
+     * A list of events associated with the span.
+     */
+    @ThreadSafe
+    public val events: List<EventData>
+
+    /**
+     * A list of links associated with the span.
+     */
+    @ThreadSafe
+    public val links: List<LinkData>
 }

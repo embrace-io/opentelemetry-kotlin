@@ -3,6 +3,7 @@ package io.embrace.opentelemetry.kotlin.tracing.model
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 
 /**
  * Represents a link to a [SpanContext] and optional attributes further describing the link.
@@ -11,11 +12,7 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
  */
 @ExperimentalApi
 @ThreadSafe
-public interface Link : AttributeContainer {
-
-    /**
-     * The [SpanContext] of the linked span.
-     */
-    @ThreadSafe
-    public val spanContext: SpanContext
+public interface Link : LinkData, AttributeContainer {
+    override val attributes: Map<String, Any>
+        get() = attributes()
 }
