@@ -6,6 +6,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadableSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanProcessor
 import io.embrace.opentelemetry.kotlin.context.toOtelKotlinContext
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpanAdapter
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpanAdapter
 import io.opentelemetry.context.Context
 
 @OptIn(ExperimentalApi::class)
