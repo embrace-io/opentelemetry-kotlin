@@ -1,4 +1,4 @@
-package io.embrace.opentelemetry.kotlin.tracing.conversion
+package io.embrace.opentelemetry.kotlin.tracing.ext
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceFlags

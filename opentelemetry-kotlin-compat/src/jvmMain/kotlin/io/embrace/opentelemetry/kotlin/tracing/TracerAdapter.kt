@@ -7,7 +7,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.context.OtelJavaContextAdapter
 import io.embrace.opentelemetry.kotlin.context.toOtelJavaContext
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelJavaSpanKind
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind

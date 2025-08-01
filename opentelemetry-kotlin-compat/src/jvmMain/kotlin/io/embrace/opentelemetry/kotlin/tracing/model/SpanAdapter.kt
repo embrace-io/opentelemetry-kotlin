@@ -10,9 +10,9 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelJavaSpanContext
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelJavaStatusData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanContext
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaStatusData
 import io.opentelemetry.context.Context
 import io.opentelemetry.context.ImplicitContextKeyed
 import io.opentelemetry.context.Scope
