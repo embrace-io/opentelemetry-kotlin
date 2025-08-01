@@ -11,14 +11,7 @@ version = project.version
 kover {
     merge {
         subprojects { project ->
-            val testCoverageProjects = listOf(
-                "opentelemetry-kotlin-api",
-                "opentelemetry-kotlin-api-ext",
-                "opentelemetry-kotlin-compat",
-                "opentelemetry-kotlin-implementation",
-                "opentelemetry-kotlin-noop",
-            )
-            return@subprojects testCoverageProjects.contains(project.name)
+            project.findProperty("io.embrace.enableCodeCoverage")?.toString()?.toBoolean() ?: true
         }
     }
     reports {
