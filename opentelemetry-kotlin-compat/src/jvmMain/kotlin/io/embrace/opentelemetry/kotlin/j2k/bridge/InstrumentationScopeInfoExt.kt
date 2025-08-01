@@ -7,7 +7,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaInstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
 
 @OptIn(ExperimentalApi::class)
-internal fun InstrumentationScopeInfo.toOtelJava(): OtelJavaInstrumentationScopeInfo {
+internal fun InstrumentationScopeInfo.toOtelJavaInstrumentationScopeInfo(): OtelJavaInstrumentationScopeInfo {
     val builder = OtelJavaInstrumentationScopeInfo.builder(name)
     version?.let(builder::setVersion)
     schemaUrl?.let(builder::setSchemaUrl)
@@ -16,7 +16,7 @@ internal fun InstrumentationScopeInfo.toOtelJava(): OtelJavaInstrumentationScope
 }
 
 @OptIn(ExperimentalApi::class)
-internal fun OtelJavaInstrumentationScopeInfo.toOtelKotlin(): InstrumentationScopeInfo =
+internal fun OtelJavaInstrumentationScopeInfo.toOtelKotlinInstrumentationScopeInfo(): InstrumentationScopeInfo =
     InstrumentationScopeInfoImpl(
         name = name,
         version = version,

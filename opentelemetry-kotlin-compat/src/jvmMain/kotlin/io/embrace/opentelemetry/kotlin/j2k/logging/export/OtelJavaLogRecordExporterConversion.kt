@@ -5,5 +5,5 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordExporter
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordExporter
 
 @OptIn(ExperimentalApi::class)
-public fun OtelJavaLogRecordExporter.toOtelKotlin(): LogRecordExporter =
+public fun OtelJavaLogRecordExporter.toOtelKotlinLogRecordExporter(): LogRecordExporter =
     OtelJavaLogRecordExporterAdapter(this)

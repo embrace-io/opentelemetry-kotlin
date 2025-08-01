@@ -6,7 +6,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.k2j.context.ContextAdapter
-import io.embrace.opentelemetry.kotlin.k2j.context.toOtelJava
+import io.embrace.opentelemetry.kotlin.k2j.context.toOtelJavaContext
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
@@ -28,11 +28,11 @@ internal class TracerAdapter(
     ): Span {
         val start = startTimestamp ?: clock.now()
         val builder = tracer.spanBuilder(name)
-            .setSpanKind(spanKind.toOtelJava())
+            .setSpanKind(spanKind.toOtelJavaSpanKind())
             .setStartTimestamp(start, TimeUnit.NANOSECONDS)
 
         if (parentContext != null) {
-            builder.setParent(parentContext.toOtelJava())
+            builder.setParent(parentContext.toOtelJavaContext())
         } else {
             builder.setNoParent()
         }

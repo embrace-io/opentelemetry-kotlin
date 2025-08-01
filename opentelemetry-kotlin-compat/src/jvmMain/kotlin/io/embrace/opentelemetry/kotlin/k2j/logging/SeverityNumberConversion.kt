@@ -5,7 +5,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSeverity
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 
 @OptIn(ExperimentalApi::class)
-internal fun SeverityNumber.toOtelJava(): OtelJavaSeverity = when (this) {
+internal fun SeverityNumber.toOtelJavaSeverityNumber(): OtelJavaSeverity = when (this) {
     SeverityNumber.UNKNOWN -> OtelJavaSeverity.UNDEFINED_SEVERITY_NUMBER
     SeverityNumber.TRACE -> OtelJavaSeverity.TRACE
     SeverityNumber.TRACE2 -> OtelJavaSeverity.TRACE2
@@ -34,7 +34,7 @@ internal fun SeverityNumber.toOtelJava(): OtelJavaSeverity = when (this) {
 }
 
 @OptIn(ExperimentalApi::class)
-internal fun OtelJavaSeverity.toOtelKotlin(): SeverityNumber = when (this) {
+internal fun OtelJavaSeverity.toOtelKotlinSeverityNumber(): SeverityNumber = when (this) {
     OtelJavaSeverity.UNDEFINED_SEVERITY_NUMBER -> SeverityNumber.UNKNOWN
     OtelJavaSeverity.TRACE -> SeverityNumber.TRACE
     OtelJavaSeverity.TRACE2 -> SeverityNumber.TRACE2

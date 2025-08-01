@@ -8,9 +8,9 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaResource
 import io.embrace.opentelemetry.kotlin.j2k.bridge.OtelJavaLogRecordDataImpl
 import io.embrace.opentelemetry.kotlin.j2k.bridge.attrsFromMap
 import io.embrace.opentelemetry.kotlin.j2k.bridge.resourceFromMap
-import io.embrace.opentelemetry.kotlin.j2k.bridge.toOtelJava
-import io.embrace.opentelemetry.kotlin.k2j.logging.toOtelJava
-import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJava
+import io.embrace.opentelemetry.kotlin.j2k.bridge.toOtelJavaInstrumentationScopeInfo
+import io.embrace.opentelemetry.kotlin.k2j.logging.toOtelJavaSeverityNumber
+import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 import io.opentelemetry.api.logs.Severity
 import io.opentelemetry.sdk.logs.data.Body
@@ -21,13 +21,13 @@ internal fun ReadableLogRecord.toLogRecordData(): LogRecordData {
     return OtelJavaLogRecordDataImpl(
         timestampNanos = timestamp ?: 0,
         observedTimestampNanos = observedTimestamp ?: 0,
-        spanContextImpl = spanContext.toOtelJava(),
+        spanContextImpl = spanContext.toOtelJavaSpanContext(),
         severityTextImpl = severityText,
-        severityImpl = severityNumber?.toOtelJava() ?: Severity.UNDEFINED_SEVERITY_NUMBER,
+        severityImpl = severityNumber?.toOtelJavaSeverityNumber() ?: Severity.UNDEFINED_SEVERITY_NUMBER,
         bodyImpl = body?.let(Body::string) ?: Body.empty(),
         attributesImpl = attrsFromMap(attributes),
         resourceImpl = resource?.let(::resourceFromMap) ?: OtelJavaResource.empty(),
-        scopeImpl = instrumentationScopeInfo?.toOtelJava()
+        scopeImpl = instrumentationScopeInfo?.toOtelJavaInstrumentationScopeInfo()
             ?: OtelJavaInstrumentationScopeInfo.empty()
     )
 }
