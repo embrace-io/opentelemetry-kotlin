@@ -14,6 +14,7 @@ import io.embrace.opentelemetry.kotlin.framework.serialization.SerializableSpanC
 import io.embrace.opentelemetry.kotlin.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
+import io.embrace.opentelemetry.kotlin.tracing.ext.storeInContext
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaTraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan

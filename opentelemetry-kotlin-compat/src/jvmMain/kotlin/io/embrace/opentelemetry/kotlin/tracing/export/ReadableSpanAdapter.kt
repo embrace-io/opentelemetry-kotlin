@@ -8,7 +8,9 @@ import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.resource.ResourceAdapter
 import io.embrace.opentelemetry.kotlin.scope.toOtelKotlinInstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
+import io.embrace.opentelemetry.kotlin.tracing.data.EventDataAdapter
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
+import io.embrace.opentelemetry.kotlin.tracing.data.LinkDataAdapter
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanDataAdapter
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData

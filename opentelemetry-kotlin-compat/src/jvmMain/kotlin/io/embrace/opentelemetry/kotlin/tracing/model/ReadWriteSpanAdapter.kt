@@ -1,4 +1,4 @@
-package io.embrace.opentelemetry.kotlin.tracing.export
+package io.embrace.opentelemetry.kotlin.tracing.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
@@ -9,12 +9,7 @@ import io.embrace.opentelemetry.kotlin.attributes.toMap
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
-import io.embrace.opentelemetry.kotlin.tracing.model.Link
-import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
-import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanContextAdapter
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanEvent
+import io.embrace.opentelemetry.kotlin.tracing.export.ReadableSpanAdapter
 import io.opentelemetry.api.common.AttributeKey
 import java.util.concurrent.TimeUnit
 
