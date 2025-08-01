@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanEvent
 
 @OptIn(ExperimentalApi::class)
-internal class FakeSpanEvent(
+class FakeSpanEvent(
     override val name: String,
     override val timestamp: Long
 ) : SpanEvent {

@@ -1,11 +1,9 @@
-package io.embrace.opentelemetry.kotlin.fakes.otel.kotlin
+package io.embrace.opentelemetry.kotlin.context
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.context.Context
-import io.embrace.opentelemetry.kotlin.context.ContextKey
 
 @OptIn(ExperimentalApi::class)
-internal class FakeContext(
+class FakeContext(
     val attrs: Map<ContextKey<*>, Any?> = emptyMap(),
 ) : Context {
 

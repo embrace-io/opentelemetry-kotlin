@@ -1,8 +1,8 @@
 package io.embrace.opentelemetry.kotlin
 
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
+import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
-import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
 import org.junit.Assert
 import org.junit.Test
 
