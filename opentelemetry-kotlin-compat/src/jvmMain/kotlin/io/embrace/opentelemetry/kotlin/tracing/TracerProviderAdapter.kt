@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracerProvider
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import java.util.concurrent.ConcurrentHashMap
 
 @ExperimentalApi
@@ -18,7 +18,7 @@ internal class TracerProviderAdapter(
         name: String,
         version: String?,
         schemaUrl: String?,
-        attributes: AttributeContainer.() -> Unit
+        attributes: MutableAttributeContainer.() -> Unit
     ): Tracer {
         val key = name.plus(version).plus(schemaUrl)
 

@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 
 /**
  * TracerProvider is a factory for retrieving instances of [Tracer].
@@ -24,6 +24,6 @@ public interface TracerProvider {
         name: String,
         version: String? = null,
         schemaUrl: String? = null,
-        attributes: AttributeContainer.() -> Unit = {},
+        attributes: MutableAttributeContainer.() -> Unit = {},
     ): Tracer
 }

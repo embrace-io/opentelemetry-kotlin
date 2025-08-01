@@ -3,8 +3,8 @@ package io.embrace.opentelemetry.kotlin.init
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProvider
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainerImpl
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 import io.embrace.opentelemetry.kotlin.tracing.TracerProviderAdapter
 import io.embrace.opentelemetry.kotlin.tracing.export.OtelJavaSpanProcessorAdapter
@@ -23,8 +23,8 @@ internal class TracerProviderConfigImpl(
         builder.setClock(OtelJavaClockWrapper(clock))
     }
 
-    override fun resource(attributes: AttributeContainer.() -> Unit, schemaUrl: String?) {
-        val attrs = AttributeContainerImpl().apply(attributes).otelJavaAttributes()
+    override fun resource(attributes: MutableAttributeContainer.() -> Unit, schemaUrl: String?) {
+        val attrs = MutableAttributeContainerImpl().apply(attributes).otelJavaAttributes()
         builder.setResource(Resource.create(attrs, schemaUrl))
     }
 

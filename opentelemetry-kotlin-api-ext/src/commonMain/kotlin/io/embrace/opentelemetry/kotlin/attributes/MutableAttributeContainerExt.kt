@@ -4,14 +4,14 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 
 /**
- * Sets attributes on an [AttributeContainer] from a [Map]. Only values in the map of a type supported by the
+ * Sets attributes on an [MutableAttributeContainer] from a [Map]. Only values in the map of a type supported by the
  * OpenTelemetry API will be set. Other values will be ignored.
  *
  * https://opentelemetry.io/docs/specs/otel/common/#attribute
  */
 @ExperimentalApi
 @ThreadSafe
-public fun AttributeContainer.setAttributes(attributes: Map<String, Any>) {
+public fun MutableAttributeContainer.setAttributes(attributes: Map<String, Any>) {
     attributes.forEach {
         when (val input = it.value) {
             is String -> setStringAttribute(it.key, input)
@@ -27,7 +27,7 @@ public fun AttributeContainer.setAttributes(attributes: Map<String, Any>) {
 
 @Suppress("UNCHECKED_CAST")
 @OptIn(ExperimentalApi::class)
-private fun AttributeContainer.handleCollection(key: String, input: List<*>) {
+private fun MutableAttributeContainer.handleCollection(key: String, input: List<*>) {
     when {
         input.all { it is String } -> setStringListAttribute(key, input as List<String>)
         input.all { it is Boolean } -> setBooleanListAttribute(key, input as List<Boolean>)

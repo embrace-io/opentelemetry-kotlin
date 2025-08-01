@@ -2,12 +2,13 @@ package io.embrace.opentelemetry.kotlin.tracing.data
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
+import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 
 /**
  * A read-only representation of a span event
  */
 @ExperimentalApi
-public interface EventData {
+public interface EventData : AttributeContainer {
     /**
      * The name of the event
      */
@@ -19,10 +20,4 @@ public interface EventData {
      */
     @ThreadSafe
     public val timestamp: Long
-
-    /**
-     * The attributes associated with the event.
-     */
-    @ThreadSafe
-    public val attributes: Map<String, Any>
 }

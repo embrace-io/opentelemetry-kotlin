@@ -6,8 +6,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainerImpl
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
@@ -61,6 +61,9 @@ internal class SpanAdapter(
 
     override val spanContext: SpanContext = SpanContextAdapter(impl.spanContext)
 
+    override val attributes: Map<String, Any>
+        get() = attrs.toMap()
+
     override val events: List<EventData>
         get() = eventsImpl.toList()
 
@@ -77,8 +80,8 @@ internal class SpanAdapter(
 
     override fun isRecording(): Boolean = impl.isRecording
 
-    override fun addLink(spanContext: SpanContext, attributes: AttributeContainer.() -> Unit) {
-        val container = AttributeContainerImpl()
+    override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
+        val container = MutableAttributeContainerImpl()
         attributes(container)
         linksImpl.add(LinkImpl(spanContext, container))
         impl.addLink(spanContext.toOtelJavaSpanContext(), container.otelJavaAttributes())
@@ -87,9 +90,9 @@ internal class SpanAdapter(
     override fun addEvent(
         name: String,
         timestamp: Long?,
-        attributes: AttributeContainer.() -> Unit
+        attributes: MutableAttributeContainer.() -> Unit
     ) {
-        val container = AttributeContainerImpl()
+        val container = MutableAttributeContainerImpl()
         attributes(container)
         val time = timestamp ?: clock.now()
         eventsImpl.add(SpanEventImpl(name, time, container))
@@ -135,8 +138,6 @@ internal class SpanAdapter(
         impl.setAttribute(OtelJavaAttributeKey.doubleArrayKey(key), value)
         attrs[key] = value
     }
-
-    override fun attributes(): Map<String, Any> = attrs.toMap()
 
     override fun storeInContext(context: Context): Context? {
         return impl.storeInContext(context)

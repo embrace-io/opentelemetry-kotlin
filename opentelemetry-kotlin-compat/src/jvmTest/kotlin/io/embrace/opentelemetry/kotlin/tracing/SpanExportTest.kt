@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.creator.current
@@ -341,8 +341,8 @@ internal class SpanExportTest {
         assertTrue(spanId.matches(hexPattern))
     }
 
-    private fun AttributeContainer.assertAttributes() {
-        assertTrue(attributes().isEmpty())
+    private fun MutableAttributeContainer.assertAttributes() {
+        assertTrue(attributes.isEmpty())
 
         // set attributes
         setStringAttribute("string_key", "value")
@@ -355,7 +355,7 @@ internal class SpanExportTest {
         setLongListAttribute("long_list_key", listOf(42))
         setDoubleListAttribute("double_list_key", listOf(3.14))
 
-        val observed = attributes()
+        val observed = attributes
         val expected = mapOf(
             "string_key" to "second_value",
             "bool_key" to true,

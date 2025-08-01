@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
@@ -18,6 +18,7 @@ internal object NoopSpan : Span {
     override val spanContext: SpanContext = NoopSpanContext
     override val spanKind: SpanKind = SpanKind.INTERNAL
     override val startTimestamp: Long = -1L
+    override val attributes: Map<String, Any> = emptyMap()
     override val events: List<EventData> = emptyList()
     override val links: List<LinkData> = emptyList()
 
@@ -27,10 +28,10 @@ internal object NoopSpan : Span {
     override fun end(timestamp: Long) {
     }
 
-    override fun addLink(spanContext: SpanContext, attributes: AttributeContainer.() -> Unit) {
+    override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
     }
 
-    override fun addEvent(name: String, timestamp: Long?, attributes: AttributeContainer.() -> Unit) {
+    override fun addEvent(name: String, timestamp: Long?, attributes: MutableAttributeContainer.() -> Unit) {
     }
 
     override fun isRecording(): Boolean = false
@@ -58,6 +59,4 @@ internal object NoopSpan : Span {
 
     override fun setDoubleListAttribute(key: String, value: List<Double>) {
     }
-
-    override fun attributes(): Map<String, Any> = emptyMap()
 }
