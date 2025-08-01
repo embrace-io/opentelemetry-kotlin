@@ -16,6 +16,9 @@ public class ReadWriteSpanImpl(
     private val recording: () -> Boolean
 ) : ReadWriteSpan, ReadableSpan by readableSpan, SpanRelationships by spanRelationships {
 
+    override val attributes: Map<String, Any>
+        get() = readableSpan.attributes
+
     override fun end() {
         onEnd(null)
     }

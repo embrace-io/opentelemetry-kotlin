@@ -17,24 +17,6 @@ public interface SpanData : SpanSchema {
     public val endTimestamp: Long?
 
     /**
-     * A map of attributes associated with the span.
-     */
-    @ThreadSafe
-    public val attributes: Map<String, Any>
-
-    /**
-     * A list of events associated with the span.
-     */
-    @ThreadSafe
-    public val events: List<EventData>
-
-    /**
-     * A list of links associated with the span.
-     */
-    @ThreadSafe
-    public val links: List<LinkData>
-
-    /**
      * The resource associated with the object
      */
     @ThreadSafe

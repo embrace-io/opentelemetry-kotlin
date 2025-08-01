@@ -6,9 +6,9 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributesBuilder
 
 @OptIn(ExperimentalApi::class)
-internal class AttributeContainerImpl(
+internal class MutableAttributeContainerImpl(
     private val attrs: OtelJavaAttributesBuilder = OtelJavaAttributes.builder()
-) : AttributeContainer {
+) : MutableAttributeContainer {
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         attrs.put(key, value)
@@ -42,7 +42,8 @@ internal class AttributeContainerImpl(
         attrs.put(OtelJavaAttributeKey.doubleArrayKey(key), value)
     }
 
-    override fun attributes(): Map<String, Any> = attrs.build().toMap()
+    override val attributes: Map<String, Any>
+        get() = attrs.build().toMap()
 
     fun otelJavaAttributes(): OtelJavaAttributes = attrs.build()
 }

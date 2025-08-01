@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.tracing.data
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
+import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 
@@ -10,7 +11,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
  * Mutability of the properties will the determined by the underlying implementation.
  */
 @ExperimentalApi
-public interface SpanSchema {
+public interface SpanSchema : AttributeContainer {
     /**
      * The span name
      */
@@ -46,4 +47,16 @@ public interface SpanSchema {
      */
     @ThreadSafe
     public val startTimestamp: Long
+
+    /**
+     * A list of events associated with the span.
+     */
+    @ThreadSafe
+    public val events: List<EventData>
+
+    /**
+     * A list of links associated with the span.
+     */
+    @ThreadSafe
+    public val links: List<LinkData>
 }
