@@ -9,12 +9,12 @@ dependencies {
 
 android {
     namespace = "io.embrace.opentelemetry.example.kotlin"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "io.embrace.opentelemetry.example.kotlin"
         minSdk = 21
-        targetSdk = 35
+        targetSdk = 36
     }
 
     compileOptions {

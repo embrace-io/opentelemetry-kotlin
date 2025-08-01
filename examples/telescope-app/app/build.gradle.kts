@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "io.embrace.opentelemetry.kotlin.telescope"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "io.embrace.opentelemetry.kotlin.telescope"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
