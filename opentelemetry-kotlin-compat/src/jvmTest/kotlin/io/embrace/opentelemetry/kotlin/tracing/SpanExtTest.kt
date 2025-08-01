@@ -8,8 +8,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceFlags
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
+import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
-import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContextAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind

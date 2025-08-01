@@ -9,7 +9,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaImplicitContextKeyed
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
-import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
+import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.tracing.model.OtelJavaSpanAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind

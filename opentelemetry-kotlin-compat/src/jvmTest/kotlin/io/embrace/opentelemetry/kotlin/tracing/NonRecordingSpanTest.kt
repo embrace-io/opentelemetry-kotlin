@@ -1,7 +1,6 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeSpanContext
 import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
