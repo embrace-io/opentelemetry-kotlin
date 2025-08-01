@@ -31,4 +31,12 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Gradle Build
-        run: ./gradlew assembleRelease check --stacktrace
+        run: ./gradlew assembleRelease check koverXmlReport --stacktrace
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: embrace-io/opentelemetry-kotlin
+          fail_ci_if_error: false
+          files: build/reports/kover/reportRelease.xml
