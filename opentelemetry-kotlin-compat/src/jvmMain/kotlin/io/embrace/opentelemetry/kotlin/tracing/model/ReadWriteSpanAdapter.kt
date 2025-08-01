@@ -9,7 +9,6 @@ import io.embrace.opentelemetry.kotlin.attributes.toMap
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
-import io.embrace.opentelemetry.kotlin.tracing.export.ReadableSpanAdapter
 import io.opentelemetry.api.common.AttributeKey
 import java.util.concurrent.TimeUnit
 
