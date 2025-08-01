@@ -4,13 +4,13 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
-import io.embrace.opentelemetry.kotlin.compatWithOtelKotlin
+import io.embrace.opentelemetry.kotlin.createOpenTelemetryKotlin
+import io.embrace.opentelemetry.kotlin.decorateKotlinApi
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
 import io.embrace.opentelemetry.kotlin.j2k.logging.export.toLogRecordData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableLogRecordData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanData
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
-import io.embrace.opentelemetry.kotlin.kotlinApi
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 import toOtelJavaSpanData
@@ -31,7 +31,7 @@ internal class OtelKotlinHarness(
     private val spanExporter = InMemorySpanExporter()
     private val logRecordExporter = InMemoryLogRecordExporter()
 
-    val kotlinApi = OpenTelemetryInstance.kotlinApi(
+    val kotlinApi = OpenTelemetryInstance.createOpenTelemetryKotlin(
         clock = FakeClock(),
         tracerProvider = {
             testHarnessConfig.attributes?.let { resource(it, testHarnessConfig.schemaUrl) }
@@ -45,7 +45,7 @@ internal class OtelKotlinHarness(
         }
     )
 
-    val javaApi = OpenTelemetryInstance.compatWithOtelKotlin(kotlinApi)
+    val javaApi = OpenTelemetryInstance.decorateKotlinApi(kotlinApi)
 
     internal fun assertSpans(
         expectedCount: Int,

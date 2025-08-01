@@ -8,7 +8,7 @@ import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetrySdk
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProvider
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
-import io.embrace.opentelemetry.kotlin.compatWithOtelJava
+import io.embrace.opentelemetry.kotlin.decorateJavaApi
 import io.embrace.opentelemetry.kotlin.getTracer
 import io.embrace.opentelemetry.kotlin.testing.common.InMemorySpanExporter
 import io.embrace.opentelemetry.kotlin.testing.common.InMemorySpanProcessor
@@ -52,7 +52,7 @@ public class OpenTelemetryRule : ExternalResource() {
         .setTracerProvider(tracerProvider)
         .build()
 
-    public val openTelemetry: OpenTelemetry = OpenTelemetryInstance.compatWithOtelJava(sdk)
+    public val openTelemetry: OpenTelemetry = OpenTelemetryInstance.decorateJavaApi(sdk)
 
     public val spans: List<OtelJavaSpanData>
         get() = spanExporter.exportedSpans

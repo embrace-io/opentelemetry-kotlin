@@ -7,7 +7,7 @@ import io.embrace.opentelemetry.example.ExampleSpanProcessor
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetry
 import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
-import io.embrace.opentelemetry.kotlin.compatWithOtelJava
+import io.embrace.opentelemetry.kotlin.decorateJavaApi
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
@@ -24,7 +24,7 @@ private fun instantiateOtelApi(): OpenTelemetry {
         .setTracerProvider(SdkTracerProvider.builder().addSpanProcessor(ExampleSpanProcessor()).build())
         .setLoggerProvider(SdkLoggerProvider.builder().addLogRecordProcessor(ExampleLogRecordProcessor()).build())
         .build()
-    return OpenTelemetryInstance.compatWithOtelJava(otelJava)
+    return OpenTelemetryInstance.decorateJavaApi(otelJava)
 }
 
 /**
