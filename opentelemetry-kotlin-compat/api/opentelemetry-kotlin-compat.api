@@ -22,15 +22,6 @@ public final class io/embrace/opentelemetry/kotlin/j2k/logging/export/OtelJavaLo
 	public static final fun toOtelKotlinLogRecordExporter (Lio/opentelemetry/sdk/logs/export/LogRecordExporter;)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;
 }
 
-public final class io/embrace/opentelemetry/kotlin/j2k/tracing/OtelJavaSpanKindConversionKt {
-	public static final fun toOtelKotlinSpanKind (Lio/opentelemetry/api/trace/SpanKind;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;
-}
-
-public final class io/embrace/opentelemetry/kotlin/j2k/tracing/OtelJavaStatusCodeConversionKt {
-	public static final fun toOtelKotlinStatusCode (Lio/opentelemetry/api/trace/StatusCode;)Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;
-	public static final fun toOtelKotlinStatusData (Lio/opentelemetry/api/trace/StatusCode;Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/data/StatusData;
-}
-
 public final class io/embrace/opentelemetry/kotlin/j2k/tracing/export/OtelJavaSpanExporterConversionKt {
 	public static final fun toOtelKotlinSpanExporter (Lio/opentelemetry/sdk/trace/export/SpanExporter;)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;
 }
@@ -53,13 +44,5 @@ public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanContextConver
 
 public final class io/embrace/opentelemetry/kotlin/k2j/tracing/SpanExtKt {
 	public static final fun storeInContext (Lio/embrace/opentelemetry/kotlin/tracing/model/Span;Lio/embrace/opentelemetry/kotlin/context/Context;)Lio/embrace/opentelemetry/kotlin/context/Context;
-}
-
-public final class io/embrace/opentelemetry/kotlin/k2j/tracing/StatusCodeConversionKt {
-	public static final fun toOtelJavaStatusCode (Lio/embrace/opentelemetry/kotlin/tracing/StatusCode;)Lio/opentelemetry/api/trace/StatusCode;
-}
-
-public final class io/embrace/opentelemetry/kotlin/k2j/tracing/StatusDataConversionKt {
-	public static final fun toOtelJavaStatusData (Lio/embrace/opentelemetry/kotlin/tracing/data/StatusData;)Lio/opentelemetry/sdk/trace/data/StatusData;
 }
 

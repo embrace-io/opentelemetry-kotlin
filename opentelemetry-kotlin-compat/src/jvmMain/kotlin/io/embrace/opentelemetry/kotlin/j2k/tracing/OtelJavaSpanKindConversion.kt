@@ -5,7 +5,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 
 @OptIn(ExperimentalApi::class)
-public fun OtelJavaSpanKind.toOtelKotlinSpanKind(): SpanKind = when (this) {
+internal fun OtelJavaSpanKind.toOtelKotlinSpanKind(): SpanKind = when (this) {
     OtelJavaSpanKind.INTERNAL -> SpanKind.INTERNAL
     OtelJavaSpanKind.CLIENT -> SpanKind.CLIENT
     OtelJavaSpanKind.SERVER -> SpanKind.SERVER
