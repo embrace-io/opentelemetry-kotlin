@@ -4,6 +4,7 @@ plugins {
     id("signing")
     id("com.vanniktech.maven.publish")
     alias(libs.plugins.kotlin.serialization)
+    id("org.jetbrains.kotlinx.kover")
 }
 
 kotlin {
