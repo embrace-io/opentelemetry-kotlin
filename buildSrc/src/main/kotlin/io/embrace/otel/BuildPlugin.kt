@@ -10,6 +10,7 @@ class BuildPlugin : Plugin<Project> {
         val kotlin = project.project.extensions.getByType(KotlinMultiplatformExtension::class.java)
         project.configureKotlin(kotlin)
         project.configureDetekt()
+        project.configureKover()
         project.configureBinaryCompatValidation()
         project.configureExplicitApiMode(kotlin)
         project.configurePublishing()

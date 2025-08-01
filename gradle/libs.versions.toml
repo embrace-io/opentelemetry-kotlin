@@ -12,6 +12,7 @@ nexus = "2.0.0"
 junit4 = "4.13.2"
 junit5 = "5.13.4"
 kotlinExposed = "1.8.22"
+koverGradlePlugin = "0.9.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -36,3 +37,4 @@ vanniktech-mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexus" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "koverGradlePlugin" }
