@@ -9,7 +9,6 @@ import io.embrace.opentelemetry.kotlin.OpenTelemetry
 import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.compatWithOtelJava
 import io.embrace.opentelemetry.kotlin.context.Context
-import io.embrace.opentelemetry.kotlin.k2j.context.root
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
@@ -51,7 +50,7 @@ private fun runTracingExamples(api: OpenTelemetry) {
     val simpleSpan = tracer.createSpan("simple_span")
 
     // create a more complex span
-    val complexSpan = createComplexSpan(tracer, simpleSpan)
+    val complexSpan = createComplexSpan(tracer, simpleSpan, api.objectCreator.context.root())
 
     // alter the span after its creation
 
@@ -82,11 +81,12 @@ private fun runTracingExamples(api: OpenTelemetry) {
 
 private fun createComplexSpan(
     tracer: Tracer,
-    simpleSpan: Span
+    simpleSpan: Span,
+    root: Context
 ): Span = tracer.createSpan(
     name = "complex_span",
     spanKind = SpanKind.CLIENT,
-    parentContext = Context.root(),
+    parentContext = root,
     startTimestamp = 15000000000L,
 ) {
     // alter the span during its initialization

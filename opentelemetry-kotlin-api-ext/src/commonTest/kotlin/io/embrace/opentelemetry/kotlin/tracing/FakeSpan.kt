@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.Link
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
@@ -21,7 +22,7 @@ internal class FakeSpan : Span {
     override var name: String
         get() = TODO("Not yet implemented")
         set(value) {}
-    override var status: StatusCode
+    override var status: StatusData
         get() = TODO("Not yet implemented")
         set(value) {}
     override val parent: SpanContext

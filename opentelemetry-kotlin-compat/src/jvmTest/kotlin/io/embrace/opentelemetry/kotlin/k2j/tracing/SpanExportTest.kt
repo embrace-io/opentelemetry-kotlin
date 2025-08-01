@@ -5,21 +5,19 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
+import io.embrace.opentelemetry.kotlin.creator.current
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
-import io.embrace.opentelemetry.kotlin.k2j.context.current
-import io.embrace.opentelemetry.kotlin.k2j.context.root
 import io.embrace.opentelemetry.kotlin.k2j.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.k2j.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.SerializableSpanContext
 import io.embrace.opentelemetry.kotlin.k2j.framework.serialization.conversion.toSerializable
-import io.embrace.opentelemetry.kotlin.k2j.tracing.model.invalid
-import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
+import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -36,11 +34,13 @@ internal class SpanExportTest {
     private lateinit var harness: OtelKotlinHarness
     private lateinit var tracerProvider: TracerProvider
     private lateinit var tracer: Tracer
+    private lateinit var objectCreator: ObjectCreator
 
     @BeforeTest
     fun setUp() {
         harness = OtelKotlinHarness()
         tracerProvider = harness.kotlinApi.tracerProvider
+        objectCreator = harness.kotlinApi.objectCreator
         tracer = tracerProvider.getTracer("name", "version")
     }
 
@@ -69,9 +69,9 @@ internal class SpanExportTest {
         span.name = name
         assertEquals(name, span.name)
 
-        assertEquals(StatusCode.Unset, span.status)
-        span.status = StatusCode.Ok
-        assertEquals(StatusCode.Ok, span.status)
+        assertEquals(StatusData.Unset, span.status)
+        span.status = StatusData.Ok
+        assertEquals(StatusData.Ok, span.status)
 
         assertTrue(span.isRecording())
         span.end(1000)
@@ -124,7 +124,7 @@ internal class SpanExportTest {
 
     @Test
     fun `test span context parent`() {
-        val root = Context.root()
+        val root = objectCreator.context.root()
 
         val a = tracer.createSpan("a", parentContext = root)
         val ctxa = a.storeInContext(root)
@@ -134,7 +134,7 @@ internal class SpanExportTest {
 
         val c = tracer.createSpan("c", parentContext = ctxb)
 
-        assertSpanContextsMatch(SpanContext.invalid(), a.parent)
+        assertSpanContextsMatch(objectCreator.spanContext.invalid, a.parent)
         assertNotNull(a.spanContext)
         assertSpanContextsMatch(a.spanContext, b.parent)
         assertSpanContextsMatch(b.spanContext, c.parent)
@@ -164,14 +164,14 @@ internal class SpanExportTest {
     fun `test span trace flags`() {
         val span = tracer.createSpan("my_span")
         val flags = span.spanContext.traceFlags
-        assertEquals("01", flags.convertToOtelJava().asHex())
+        assertEquals("01", flags.toOtelJava().asHex())
         assertTrue(flags.isSampled)
         assertFalse(flags.isRandom)
     }
 
     @Test
     fun `test invalid span context`() {
-        val invalidContext = SpanContext.invalid()
+        val invalidContext = objectCreator.spanContext.invalid
 
         // Test invalid context properties
         assertFalse(invalidContext.isValid)
@@ -179,7 +179,7 @@ internal class SpanExportTest {
         assertEquals("0000000000000000", invalidContext.spanId)
 
         // Test span creation with invalid parent
-        val span = tracer.createSpan("test_span", parentContext = Context.root())
+        val span = tracer.createSpan("test_span", parentContext = objectCreator.context.root())
 
         // Child span should be created with a valid context
         assertTrue(span.spanContext.isValid)
@@ -292,7 +292,7 @@ internal class SpanExportTest {
     fun `test trace and span id validation without sanitization`() {
         val span1 = tracer.createSpan("validation_span_1")
         val span2 = tracer.createSpan("validation_span_2")
-        val ctx = span1.storeInContext(Context.root())
+        val ctx = span1.storeInContext(objectCreator.context.root())
         val span3 = tracer.createSpan("validation_span_3", ctx)
 
         span1.end()
@@ -408,7 +408,7 @@ internal class SpanExportTest {
         )
 
         // Create a context key and add a test value
-        val currentContext = Context.Companion.current()
+        val currentContext = objectCreator.context.current()
         val contextKey = currentContext.createKey<String>("best_team")
         val testContextValue = "independiente"
         val testContext = currentContext.set(contextKey, testContextValue)

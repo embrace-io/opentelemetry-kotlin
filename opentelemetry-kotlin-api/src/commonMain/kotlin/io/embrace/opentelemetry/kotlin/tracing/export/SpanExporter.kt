@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.tracing.export
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.export.TelemetryCloseable
-import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
+import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 
 /**
  * An interface for exporting spans to an arbitrary destination.
@@ -15,5 +15,5 @@ public interface SpanExporter : TelemetryCloseable {
      * Exports a batch of spans. This operation is considered successful if the implementation
      * returns [OperationResultCode.Success]. If the export operation fails the batch must be dropped.
      */
-    public fun export(telemetry: List<ReadableSpan>): OperationResultCode
+    public fun export(telemetry: List<SpanData>): OperationResultCode
 }

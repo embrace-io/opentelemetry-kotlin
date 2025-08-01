@@ -3,16 +3,18 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.resource.Resource
-import io.embrace.opentelemetry.kotlin.tracing.model.ReadableLink
+import io.embrace.opentelemetry.kotlin.tracing.data.EventData
+import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
+import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
+import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
-import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpanEvent
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 
 @OptIn(ExperimentalApi::class)
 public class ReadableSpanImpl(
     override val name: String,
-    override val status: StatusCode,
+    override val status: StatusData,
     override val parent: SpanContext,
     override val spanContext: SpanContext,
     override val spanKind: SpanKind,
@@ -21,10 +23,26 @@ public class ReadableSpanImpl(
     override val resource: Resource,
     override val instrumentationScopeInfo: InstrumentationScopeInfo,
     override val attributes: Map<String, Any>,
-    override val events: List<ReadableSpanEvent>,
-    override val links: List<ReadableLink>,
-    private val ended: () -> Boolean
+    override val events: List<EventData>,
+    override val links: List<LinkData>,
+    ended: () -> Boolean,
 ) : ReadableSpan {
 
-    override fun hasEnded(): Boolean = ended()
+    override val hasEnded: Boolean = ended()
+
+    override fun toSpanData(): SpanData = SpanDataImpl(
+        name = name,
+        status = status,
+        parent = parent,
+        spanContext = spanContext,
+        spanKind = spanKind,
+        startTimestamp = startTimestamp,
+        endTimestamp = endTimestamp,
+        attributes = attributes,
+        events = events,
+        links = links,
+        resource = resource,
+        instrumentationScopeInfo = instrumentationScopeInfo,
+        hasEnded = hasEnded
+    )
 }

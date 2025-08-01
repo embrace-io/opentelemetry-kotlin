@@ -38,6 +38,4 @@ public interface Context {
      */
     @ThreadSafe
     public fun <T> get(key: ContextKey<T>): T?
-
-    public companion object
 }
