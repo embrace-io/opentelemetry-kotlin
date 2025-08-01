@@ -13,7 +13,7 @@ import io.embrace.opentelemetry.kotlin.framework.serialization.conversion.toSeri
 import io.embrace.opentelemetry.kotlin.logging.export.toLogRecordData
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
-import io.embrace.opentelemetry.kotlin.tracing.export.toOtelJavaSpanData
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanData
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException

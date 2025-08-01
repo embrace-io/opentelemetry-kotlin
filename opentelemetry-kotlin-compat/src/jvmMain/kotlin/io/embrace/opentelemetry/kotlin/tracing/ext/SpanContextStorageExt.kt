@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalApi::class)
 
-package io.embrace.opentelemetry.kotlin.tracing
+package io.embrace.opentelemetry.kotlin.tracing.ext
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext

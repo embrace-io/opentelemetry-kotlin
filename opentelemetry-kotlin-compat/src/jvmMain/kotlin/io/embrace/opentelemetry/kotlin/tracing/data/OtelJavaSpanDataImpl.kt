@@ -1,6 +1,6 @@
 @file:Suppress("TYPEALIAS_EXPANSION_DEPRECATION", "DEPRECATION")
 
-package io.embrace.opentelemetry.kotlin.tracing.model
+package io.embrace.opentelemetry.kotlin.tracing.data
 
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaEventData
@@ -21,7 +21,7 @@ import io.opentelemetry.sdk.trace.data.LinkData
 import io.opentelemetry.sdk.trace.data.StatusData
 
 /**
- * Implementation of [OtelJavaSpanData] that we can construct new instances of. Required for
+ * Implementation of [io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData] that we can construct new instances of. Required for
  * backwards compatibility with opentelemetry-java exporters.
  */
 @Suppress("DEPRECATION")
@@ -33,8 +33,8 @@ internal class OtelJavaSpanDataImpl(
     private val statusImpl: OtelJavaStatusData,
     private val startEpochNanosImpl: Long,
     private val attributesImpl: OtelJavaAttributes,
-    private val eventsImpl: MutableList<OtelJavaEventData>,
-    private val linksImpl: MutableList<OtelJavaLinkData>,
+    private val eventsImpl: List<OtelJavaEventData>,
+    private val linksImpl: List<OtelJavaLinkData>,
     private val endEpochNanosImpl: Long,
     private val hasEndedImpl: Boolean,
     private val scopeImpl: OtelJavaInstrumentationLibraryInfo,
@@ -48,8 +48,8 @@ internal class OtelJavaSpanDataImpl(
     override fun getStatus(): StatusData = statusImpl
     override fun getStartEpochNanos(): Long = startEpochNanosImpl
     override fun getAttributes(): Attributes = attributesImpl
-    override fun getEvents(): MutableList<EventData> = eventsImpl
-    override fun getLinks(): MutableList<LinkData> = linksImpl
+    override fun getEvents(): List<EventData> = eventsImpl
+    override fun getLinks(): List<LinkData> = linksImpl
     override fun getEndEpochNanos(): Long = endEpochNanosImpl
     override fun hasEnded(): Boolean = hasEndedImpl
     override fun getTotalRecordedEvents(): Int = eventsImpl.size
