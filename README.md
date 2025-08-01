@@ -5,6 +5,8 @@ Multiplatform Library, developed by [embrace.io](https://embrace.io/).
 
 Currently this API is a facade for the [OpenTelemetry Java SDK](https://github.com/open-telemetry/opentelemetry-java). In the near future this library will provide its own KMP implementation of the OpenTelemetry specification.
 
+[![codecov](https://codecov.io/github/embrace-io/opentelemetry-kotlin/branch/main/graph/badge.svg?token=GQJYEOUSAU)](https://codecov.io/github/embrace-io/opentelemetry-kotlin)
+
 ## Supported targets
 
 The following targets are supported:
