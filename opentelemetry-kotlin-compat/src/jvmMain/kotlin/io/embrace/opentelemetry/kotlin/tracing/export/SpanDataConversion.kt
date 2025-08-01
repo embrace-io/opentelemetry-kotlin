@@ -8,10 +8,10 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
 import io.embrace.opentelemetry.kotlin.attributes.attrsFromMap
 import io.embrace.opentelemetry.kotlin.attributes.resourceFromMap
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelJavaSpanContext
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelJavaSpanKind
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelJavaStatusCode
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanContext
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanKind
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaStatusCode
 import io.embrace.opentelemetry.kotlin.tracing.model.OtelJavaSpanDataImpl
 
 @OptIn(ExperimentalApi::class)

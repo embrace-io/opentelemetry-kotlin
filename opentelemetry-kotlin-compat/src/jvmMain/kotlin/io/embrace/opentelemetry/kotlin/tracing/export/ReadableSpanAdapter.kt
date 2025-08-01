@@ -7,13 +7,13 @@ import io.embrace.opentelemetry.kotlin.attributes.toMap
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.resource.ResourceAdapter
 import io.embrace.opentelemetry.kotlin.scope.toOtelKotlinInstrumentationScopeInfo
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelKotlinSpanKind
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelKotlinStatusData
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanDataAdapter
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelKotlinSpanKind
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelKotlinStatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContextAdapter

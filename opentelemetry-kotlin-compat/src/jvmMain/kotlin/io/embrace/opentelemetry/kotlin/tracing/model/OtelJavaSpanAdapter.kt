@@ -7,8 +7,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
 import io.embrace.opentelemetry.kotlin.attributes.toMap
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelJavaSpanContext
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelKotlinStatusData
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanContext
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelKotlinStatusData
 import io.embrace.opentelemetry.kotlin.tracing.recordException
 import io.opentelemetry.api.common.Attributes
 import io.opentelemetry.api.trace.SpanContext

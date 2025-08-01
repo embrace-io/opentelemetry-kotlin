@@ -12,13 +12,12 @@ import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.framework.serialization.SerializableSpanContext
 import io.embrace.opentelemetry.kotlin.framework.serialization.conversion.toSerializable
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelJavaTraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaTraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
-import kotlin.collections.get
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

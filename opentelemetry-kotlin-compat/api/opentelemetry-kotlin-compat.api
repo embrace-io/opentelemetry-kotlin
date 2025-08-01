@@ -6,11 +6,11 @@ public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstanceCompatKt
 	public static final fun decorateKotlinApi (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lio/embrace/opentelemetry/kotlin/OpenTelemetry;)Lio/opentelemetry/api/OpenTelemetry;
 }
 
-public final class io/embrace/opentelemetry/kotlin/context/ContextConversionKt {
+public final class io/embrace/opentelemetry/kotlin/context/ContextExtKt {
 	public static final fun toOtelJavaContext (Lio/embrace/opentelemetry/kotlin/context/Context;)Lio/opentelemetry/context/Context;
 }
 
-public final class io/embrace/opentelemetry/kotlin/context/OtelJavaContextConversionKt {
+public final class io/embrace/opentelemetry/kotlin/context/OtelJavaContextExtKt {
 	public static final fun toOtelKotlinContext (Lio/opentelemetry/context/Context;)Lio/embrace/opentelemetry/kotlin/context/Context;
 }
 
@@ -22,27 +22,27 @@ public final class io/embrace/opentelemetry/kotlin/creator/ContextCreatorExtKt {
 	public static final fun current (Lio/embrace/opentelemetry/kotlin/creator/ContextCreator;)Lio/embrace/opentelemetry/kotlin/context/Context;
 }
 
-public final class io/embrace/opentelemetry/kotlin/logging/export/OtelJavaLogRecordExporterConversionKt {
+public final class io/embrace/opentelemetry/kotlin/logging/export/OtelJavaLogRecordExporterExtKt {
 	public static final fun toOtelKotlinLogRecordExporter (Lio/opentelemetry/sdk/logs/export/LogRecordExporter;)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;
 }
 
-public final class io/embrace/opentelemetry/kotlin/tracing/ContextExtKt {
+public final class io/embrace/opentelemetry/kotlin/tracing/SpanContextStorageExtKt {
 	public static final fun storeInContext (Lio/embrace/opentelemetry/kotlin/tracing/model/Span;Lio/embrace/opentelemetry/kotlin/context/Context;)Lio/embrace/opentelemetry/kotlin/context/Context;
 }
 
-public final class io/embrace/opentelemetry/kotlin/tracing/conversion/ContextKeyConversionKt {
+public final class io/embrace/opentelemetry/kotlin/tracing/export/OtelJavaSpanExporterExtKt {
+	public static final fun toOtelKotlinSpanExporter (Lio/opentelemetry/sdk/trace/export/SpanExporter;)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/ext/ContextKeyExtKt {
 	public static final fun toOtelJavaContextKey (Lio/embrace/opentelemetry/kotlin/context/ContextKey;)Lio/opentelemetry/context/ContextKey;
 }
 
-public final class io/embrace/opentelemetry/kotlin/tracing/conversion/OtelJavaSpanContextConversionKt {
+public final class io/embrace/opentelemetry/kotlin/tracing/ext/OtelJavaSpanContextExtKt {
 	public static final fun toOtelKotlinSpanContext (Lio/opentelemetry/api/trace/SpanContext;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 }
 
-public final class io/embrace/opentelemetry/kotlin/tracing/conversion/SpanContextConversionKt {
+public final class io/embrace/opentelemetry/kotlin/tracing/ext/SpanContextExtKt {
 	public static final fun toOtelJavaSpanContext (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;)Lio/opentelemetry/api/trace/SpanContext;
-}
-
-public final class io/embrace/opentelemetry/kotlin/tracing/export/OtelJavaSpanExporterConversionKt {
-	public static final fun toOtelKotlinSpanExporter (Lio/opentelemetry/sdk/trace/export/SpanExporter;)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;
 }
 

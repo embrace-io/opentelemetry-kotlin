@@ -11,7 +11,7 @@ import io.embrace.opentelemetry.kotlin.logging.OtelJavaLogRecordDataImpl
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 import io.embrace.opentelemetry.kotlin.logging.toOtelJavaSeverityNumber
 import io.embrace.opentelemetry.kotlin.scope.toOtelJavaInstrumentationScopeInfo
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelJavaSpanContext
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanContext
 import io.opentelemetry.api.logs.Severity
 import io.opentelemetry.sdk.logs.data.Body
 import io.opentelemetry.sdk.logs.data.LogRecordData

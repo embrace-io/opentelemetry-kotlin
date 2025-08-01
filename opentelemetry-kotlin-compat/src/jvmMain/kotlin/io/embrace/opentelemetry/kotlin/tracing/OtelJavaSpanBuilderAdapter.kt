@@ -13,7 +13,7 @@ import io.embrace.opentelemetry.kotlin.attributes.attrsFromMap
 import io.embrace.opentelemetry.kotlin.attributes.setAttributes
 import io.embrace.opentelemetry.kotlin.attributes.toMap
 import io.embrace.opentelemetry.kotlin.context.ContextAdapter
-import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelKotlinSpanKind
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelKotlinSpanKind
 import io.embrace.opentelemetry.kotlin.tracing.model.OtelJavaSpanAdapter
 import io.opentelemetry.context.Context
 import java.util.concurrent.TimeUnit
