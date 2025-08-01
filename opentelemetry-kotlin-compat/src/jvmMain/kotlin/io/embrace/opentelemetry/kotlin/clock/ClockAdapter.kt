@@ -1,0 +1,12 @@
+package io.embrace.opentelemetry.kotlin.clock
+
+import io.embrace.opentelemetry.kotlin.Clock
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaClock
+
+@OptIn(ExperimentalApi::class)
+internal class ClockAdapter(
+    private val clock: OtelJavaClock = OtelJavaClock.getDefault()
+) : Clock {
+    override fun now(): Long = clock.now()
+}

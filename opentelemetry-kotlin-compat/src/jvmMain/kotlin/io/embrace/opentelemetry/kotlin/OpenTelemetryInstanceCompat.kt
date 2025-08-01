@@ -2,19 +2,17 @@ package io.embrace.opentelemetry.kotlin
 
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaClock
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
+import io.embrace.opentelemetry.kotlin.clock.ClockAdapter
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
 import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigDsl
+import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigImpl
 import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigDsl
-import io.embrace.opentelemetry.kotlin.j2k.OtelJavaOpenTelemetrySdk
-import io.embrace.opentelemetry.kotlin.j2k.logging.OtelJavaLoggerProviderAdapter
-import io.embrace.opentelemetry.kotlin.j2k.tracing.OtelJavaTracerProviderAdapter
-import io.embrace.opentelemetry.kotlin.k2j.ClockAdapter
-import io.embrace.opentelemetry.kotlin.k2j.OpenTelemetrySdk
-import io.embrace.opentelemetry.kotlin.k2j.init.LoggerProviderConfigImpl
-import io.embrace.opentelemetry.kotlin.k2j.init.TracerProviderConfigImpl
-import io.embrace.opentelemetry.kotlin.k2j.logging.LoggerProviderAdapter
-import io.embrace.opentelemetry.kotlin.k2j.tracing.TracerProviderAdapter
+import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigImpl
+import io.embrace.opentelemetry.kotlin.logging.LoggerProviderAdapter
+import io.embrace.opentelemetry.kotlin.logging.OtelJavaLoggerProviderAdapter
+import io.embrace.opentelemetry.kotlin.tracing.OtelJavaTracerProviderAdapter
+import io.embrace.opentelemetry.kotlin.tracing.TracerProviderAdapter
 
 /**
  * Constructs an [OpenTelemetry] instance that exposes OpenTelemetry as a Kotlin API.

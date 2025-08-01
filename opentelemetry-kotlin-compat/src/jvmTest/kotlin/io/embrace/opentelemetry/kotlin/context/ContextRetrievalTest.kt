@@ -10,10 +10,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
 import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeClock
-import io.embrace.opentelemetry.kotlin.j2k.bridge.context.OtelJavaContextAdapter
-import io.embrace.opentelemetry.kotlin.j2k.tracing.OtelJavaSpanAdapter
-import io.embrace.opentelemetry.kotlin.k2j.context.ContextAdapter
-import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanAdapter
+import io.embrace.opentelemetry.kotlin.tracing.model.OtelJavaSpanAdapter
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import org.junit.Before
 import org.junit.Test
@@ -31,8 +29,8 @@ internal class ContextRetrievalTest {
     @Before
     fun setUp() {
         impl = OtelJavaContext.current()
-        kotlinDecorator = OtelJavaContextAdapter(impl)
-        javaDecorator = ContextAdapter(kotlinDecorator)
+        kotlinDecorator = ContextAdapter(impl)
+        javaDecorator = OtelJavaContextAdapter(kotlinDecorator)
     }
 
     @Test
