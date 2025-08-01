@@ -2,15 +2,15 @@ package io.embrace.opentelemetry.kotlin.creator
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
-import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
-import io.embrace.opentelemetry.kotlin.k2j.tracing.TraceFlagsAdapter
-import io.embrace.opentelemetry.kotlin.k2j.tracing.TraceStateAdapter
-import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJavaTraceFlags
-import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.tracing.SpanContextImpl
+import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelJavaTraceFlags
+import io.embrace.opentelemetry.kotlin.tracing.conversion.toOtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContextAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
+import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlagsAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
+import io.embrace.opentelemetry.kotlin.tracing.model.TraceStateAdapter
 
 @OptIn(ExperimentalApi::class)
 internal class SpanContextCreatorImpl : SpanContextCreator {
