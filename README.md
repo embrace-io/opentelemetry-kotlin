@@ -34,7 +34,7 @@ dependencies {
 
 ```
 val otelJava = io.opentelemetry.sdk.OpenTelemetrySdk.builder().build()
-val otelKotlin = OpenTelemetryInstance.compatWithOtelJava(otelJava)
+val otelKotlin = OpenTelemetryInstance.decorateJavaApi(otelJava)
 ```
 
 3. Use the Kotlin API instead of the Java API in your app
