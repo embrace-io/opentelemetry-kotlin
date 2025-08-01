@@ -20,9 +20,8 @@ internal class FakeOtelJavaSpanData(
     val implSpanContext: OtelJavaSpanContext = OtelJavaSpanContext.getInvalid(),
     val implParentSpanContext: OtelJavaSpanContext = OtelJavaSpanContext.getInvalid(),
     val implAttributes: OtelJavaAttributes = OtelJavaAttributes.of(OtelJavaAttributeKey.stringKey("key"), "value"),
-    val implEventData: MutableList<OtelJavaEventData> =
-        mutableListOf(OtelJavaEventData.create(150, "event", implAttributes)),
-    val implLinkData: MutableList<OtelJavaLinkData> = mutableListOf(
+    val implEventData: List<OtelJavaEventData> = listOf(OtelJavaEventData.create(150, "event", implAttributes)),
+    val implLinkData: List<OtelJavaLinkData> = listOf(
         OtelJavaLinkData.create(OtelJavaSpanContext.getInvalid(), implAttributes)
     ),
     val implStartNs: Long = 100,
@@ -39,8 +38,8 @@ internal class FakeOtelJavaSpanData(
     override fun getStatus(): OtelJavaStatusData = implStatusData
     override fun getStartEpochNanos(): Long = implStartNs
     override fun getAttributes(): OtelJavaAttributes = implAttributes
-    override fun getEvents(): MutableList<OtelJavaEventData> = implEventData
-    override fun getLinks(): MutableList<OtelJavaLinkData> = implLinkData
+    override fun getEvents(): List<OtelJavaEventData> = implEventData
+    override fun getLinks(): List<OtelJavaLinkData> = implLinkData
     override fun getEndEpochNanos(): Long = implEndNs
     override fun hasEnded(): Boolean = implEnded
     override fun getTotalRecordedEvents(): Int = events.size
