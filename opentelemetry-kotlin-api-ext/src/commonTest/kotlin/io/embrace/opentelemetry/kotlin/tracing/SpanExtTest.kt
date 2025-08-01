@@ -44,10 +44,10 @@ internal class SpanExtTest {
         val exc = object : IllegalArgumentException() {}
         span.recordException(exc)
 
-        val event = span.events().single()
+        val event = span.events.single()
         assertEquals("exception", event.name)
 
-        val simpleAttrs = event.attributes()
+        val simpleAttrs = event.attributes
         assertEquals(1, simpleAttrs.size)
         assertNull(simpleAttrs["exception.type"])
         assertNotNull(simpleAttrs["exception.stacktrace"])

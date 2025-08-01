@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
@@ -21,5 +21,5 @@ public class ReadWriteLogRecordImpl(
     override val context: Context?,
     override val resource: Resource?,
     override val instrumentationScopeInfo: InstrumentationScopeInfo?,
-    private val attributeContainer: AttributeContainer,
-) : ReadWriteLogRecord, AttributeContainer by attributeContainer
+    private val mutableAttributeContainer: MutableAttributeContainer,
+) : ReadWriteLogRecord, MutableAttributeContainer by mutableAttributeContainer

@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
@@ -47,11 +47,11 @@ class FakeSpan : Span {
         TODO("Not yet implemented")
     }
 
-    override fun addLink(spanContext: SpanContext, attributes: AttributeContainer.() -> Unit) {
+    override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
         TODO("Not yet implemented")
     }
 
-    override fun addEvent(name: String, timestamp: Long?, attributes: AttributeContainer.() -> Unit) {
+    override fun addEvent(name: String, timestamp: Long?, attributes: MutableAttributeContainer.() -> Unit) {
         events.add(FakeSpanEvent(name, timestamp ?: 0).apply(attributes))
     }
 
@@ -83,7 +83,6 @@ class FakeSpan : Span {
         TODO("Not yet implemented")
     }
 
-    override fun attributes(): Map<String, Any> {
-        TODO("Not yet implemented")
-    }
+    override val attributes: Map<String, Any>
+        get() = TODO("Not yet implemented")
 }

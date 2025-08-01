@@ -9,7 +9,7 @@ internal class AttributeContainerExtTest {
 
     @Test
     fun `set attributes`() {
-        val attrs = FakeAttributeContainer()
+        val attrs = FakeMutableAttributeContainer()
         val input = mapOf(
             "string" to "value",
             "long" to 5L,
@@ -33,7 +33,7 @@ internal class AttributeContainerExtTest {
             "complex" to "ComplexObject"
         )
         attrs.setAttributes(input)
-        val observed = attrs.attributes()
+        val observed = attrs.attributes
         assertEquals(expected, observed)
     }
 
@@ -41,9 +41,9 @@ internal class AttributeContainerExtTest {
         override fun toString(): String = "ComplexObject"
     }
 
-    private class FakeAttributeContainer(
-        private val attributes: MutableMap<String, Any> = mutableMapOf()
-    ) : AttributeContainer {
+    private class FakeMutableAttributeContainer(
+        override val attributes: MutableMap<String, Any> = mutableMapOf()
+    ) : MutableAttributeContainer {
         override fun setBooleanAttribute(key: String, value: Boolean) {
             attributes[key] = value
         }
@@ -75,7 +75,5 @@ internal class AttributeContainerExtTest {
         override fun setDoubleListAttribute(key: String, value: List<Double>) {
             attributes[key] = value
         }
-
-        override fun attributes(): Map<String, Any> = attributes
     }
 }

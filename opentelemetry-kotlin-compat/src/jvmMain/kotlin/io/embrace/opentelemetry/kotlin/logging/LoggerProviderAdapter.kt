@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLoggerProvider
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import java.util.concurrent.ConcurrentHashMap
 
 @ExperimentalApi
@@ -14,7 +14,7 @@ internal class LoggerProviderAdapter(private val impl: OtelJavaLoggerProvider) :
         name: String,
         version: String?,
         schemaUrl: String?,
-        attributes: AttributeContainer.() -> Unit
+        attributes: MutableAttributeContainer.() -> Unit
     ): Logger {
         val key = name.plus(version).plus(schemaUrl)
         return map.getOrPut(key) {
