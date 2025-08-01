@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.toMap
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaSpanExporter
-import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeSpanData
+import io.embrace.opentelemetry.kotlin.tracing.data.FakeSpanData
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaStatusCode
 import org.junit.Before

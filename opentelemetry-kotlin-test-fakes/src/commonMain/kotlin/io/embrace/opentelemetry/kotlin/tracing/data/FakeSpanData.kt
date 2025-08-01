@@ -1,17 +1,16 @@
-package io.embrace.opentelemetry.kotlin.fakes.otel.kotlin
+package io.embrace.opentelemetry.kotlin.tracing.data
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.FakeInstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
+import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.resource.Resource
-import io.embrace.opentelemetry.kotlin.tracing.data.EventData
-import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
-import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
-import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
+import io.embrace.opentelemetry.kotlin.tracing.FakeSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 
 @OptIn(ExperimentalApi::class)
-internal class FakeSpanData(
+class FakeSpanData(
     override val name: String = "span",
     override val status: StatusData = StatusData.Ok,
     override val parent: SpanContext = FakeSpanContext(),

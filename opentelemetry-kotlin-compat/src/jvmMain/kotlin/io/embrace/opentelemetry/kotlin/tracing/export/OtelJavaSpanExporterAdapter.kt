@@ -5,7 +5,6 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanExporter
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.toOperationResultCode
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
-import toOtelJavaSpanData
 
 @OptIn(ExperimentalApi::class)
 internal class OtelJavaSpanExporterAdapter(

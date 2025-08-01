@@ -19,5 +19,10 @@ kotlin {
                 implementation(libs.kotlin.serialization)
             }
         }
+        val jvmTest by getting {
+            dependencies {
+                implementation(project(":opentelemetry-kotlin-test-fakes"))
+            }
+        }
     }
 }
