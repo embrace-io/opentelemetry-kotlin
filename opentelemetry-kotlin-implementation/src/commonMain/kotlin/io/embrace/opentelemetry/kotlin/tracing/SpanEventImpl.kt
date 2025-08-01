@@ -8,5 +8,8 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanEvent
 public class SpanEventImpl(
     override val name: String,
     override val timestamp: Long,
-    private val attributes: AttributeContainer
-) : SpanEvent, AttributeContainer by attributes
+    private val attributesContainer: AttributeContainer
+) : SpanEvent, AttributeContainer by attributesContainer {
+    override val attributes: Map<String, Any>
+        get() = attributesContainer.attributes()
+}

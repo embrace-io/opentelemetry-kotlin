@@ -161,8 +161,8 @@ internal class NoopTests {
         }
 
         // Verify no data is recorded
-        assertTrue(span.events().isEmpty())
-        assertTrue(span.links().isEmpty())
+        assertTrue(span.events.isEmpty())
+        assertTrue(span.links.isEmpty())
         assertTrue(span.attributes().isEmpty())
         assertFalse(span.isRecording())
         assertFalse(span.parent.isValid)

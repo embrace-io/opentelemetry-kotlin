@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.tracing.TracingDsl
+import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 
 /**
  * Represents an event that happened on a span
@@ -13,17 +14,7 @@ import io.embrace.opentelemetry.kotlin.tracing.TracingDsl
 @TracingDsl
 @ExperimentalApi
 @ThreadSafe
-public interface SpanEvent : AttributeContainer {
-
-    /**
-     * The name of the event
-     */
-    @ThreadSafe
-    public val name: String
-
-    /**
-     * The timestamp of the event in nanoseconds
-     */
-    @ThreadSafe
-    public val timestamp: Long
+public interface SpanEvent : EventData, AttributeContainer {
+    override val attributes: Map<String, Any>
+        get() = attributes()
 }

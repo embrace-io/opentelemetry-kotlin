@@ -14,9 +14,9 @@ internal class NonRecordingSpanTest {
             FakeSpanContext(),
             FakeSpanContext(),
         )
-        assertTrue(span.links().isEmpty())
+        assertTrue(span.links.isEmpty())
         assertTrue(span.attributes().isEmpty())
-        assertTrue(span.events().isEmpty())
+        assertTrue(span.events.isEmpty())
         assertFalse(span.isRecording())
     }
 }

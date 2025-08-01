@@ -2,11 +2,11 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.tracing.data.EventData
+import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
-import io.embrace.opentelemetry.kotlin.tracing.model.Link
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanEvent
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 
 /**
@@ -24,6 +24,8 @@ public class NonRecordingSpan(
     override var status: StatusData = StatusData.Unset
     override val spanKind: SpanKind = SpanKind.INTERNAL
     override val startTimestamp: Long = 0
+    override val events: List<EventData> = emptyList()
+    override val links: List<LinkData> = emptyList()
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
     }
@@ -45,10 +47,6 @@ public class NonRecordingSpan(
         attributes: AttributeContainer.() -> Unit
     ) {
     }
-
-    override fun events(): List<SpanEvent> = emptyList()
-
-    override fun links(): List<Link> = emptyList()
 
     override fun setStringAttribute(key: String, value: String) {
     }

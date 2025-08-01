@@ -273,14 +273,14 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/data/Lin
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/data/SpanData : io/embrace/opentelemetry/kotlin/tracing/data/SpanSchema {
 	public abstract fun getAttributes ()Ljava/util/Map;
 	public abstract fun getEndTimestamp ()Ljava/lang/Long;
-	public abstract fun getEvents ()Ljava/util/List;
 	public abstract fun getHasEnded ()Z
 	public abstract fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
-	public abstract fun getLinks ()Ljava/util/List;
 	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/resource/Resource;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/data/SpanSchema {
+	public abstract fun getEvents ()Ljava/util/List;
+	public abstract fun getLinks ()Ljava/util/List;
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getParent ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
@@ -318,8 +318,12 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/export/S
 	public abstract fun onStart (Lio/embrace/opentelemetry/kotlin/tracing/model/ReadWriteSpan;Lio/embrace/opentelemetry/kotlin/context/Context;)V
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Link : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
-	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Link : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer, io/embrace/opentelemetry/kotlin/tracing/data/LinkData {
+	public abstract fun getAttributes ()Ljava/util/Map;
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/model/Link$DefaultImpls {
+	public static fun getAttributes (Lio/embrace/opentelemetry/kotlin/tracing/model/Link;)Ljava/util/Map;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/ReadWriteSpan : io/embrace/opentelemetry/kotlin/tracing/model/ReadableSpan, io/embrace/opentelemetry/kotlin/tracing/model/Span {
@@ -348,9 +352,12 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Sp
 	public abstract fun isValid ()Z
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanEvent : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
-	public abstract fun getName ()Ljava/lang/String;
-	public abstract fun getTimestamp ()J
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanEvent : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer, io/embrace/opentelemetry/kotlin/tracing/data/EventData {
+	public abstract fun getAttributes ()Ljava/util/Map;
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanEvent$DefaultImpls {
+	public static fun getAttributes (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanEvent;)Ljava/util/Map;
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanKind : java/lang/Enum {
@@ -366,8 +373,6 @@ public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanKind : java
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanRelationships : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
 	public abstract fun addEvent (Ljava/lang/String;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)V
 	public abstract fun addLink (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;Lkotlin/jvm/functions/Function1;)V
-	public abstract fun events ()Ljava/util/List;
-	public abstract fun links ()Ljava/util/List;
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanRelationships$DefaultImpls {
