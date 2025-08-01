@@ -1,5 +1,10 @@
 # opentelemetry-kotlin changelog
 
+# 0.3.0
+*Aug 15, 2025*
+
+- Various alterations across API surface
+
 # 0.2.5
 *July 29, 2025*
 
