@@ -8,6 +8,6 @@ import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.j2k.bridge.context.OtelJavaContextAdapter
 
 @OptIn(ExperimentalApi::class)
-public fun Context.toOtelJava(): OtelJavaContext {
+public fun Context.toOtelJavaContext(): OtelJavaContext {
     return (this as? OtelJavaContextAdapter)?.impl ?: ContextAdapter(this)
 }

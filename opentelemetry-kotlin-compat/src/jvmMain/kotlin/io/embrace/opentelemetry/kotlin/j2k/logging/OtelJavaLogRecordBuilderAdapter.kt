@@ -2,8 +2,8 @@ package io.embrace.opentelemetry.kotlin.j2k.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordBuilder
-import io.embrace.opentelemetry.kotlin.j2k.bridge.context.toOtelKotlin
-import io.embrace.opentelemetry.kotlin.k2j.logging.toOtelKotlin
+import io.embrace.opentelemetry.kotlin.j2k.bridge.context.toOtelKotlinContext
+import io.embrace.opentelemetry.kotlin.k2j.logging.toOtelKotlinSeverityNumber
 import io.embrace.opentelemetry.kotlin.logging.Logger
 import io.opentelemetry.api.common.AttributeKey
 import io.opentelemetry.api.logs.Severity
@@ -75,8 +75,8 @@ internal class OtelJavaLogRecordBuilderAdapter(private val impl: Logger) :
             body = body,
             timestamp = timestamp,
             observedTimestamp = observedTimestamp,
-            context = context?.toOtelKotlin(),
-            severityNumber = severity?.toOtelKotlin(),
+            context = context?.toOtelKotlinContext(),
+            severityNumber = severity?.toOtelKotlinSeverityNumber(),
             severityText = severityText,
         ) {
             attrs.forEach { setStringAttribute(it.key, it.value) }

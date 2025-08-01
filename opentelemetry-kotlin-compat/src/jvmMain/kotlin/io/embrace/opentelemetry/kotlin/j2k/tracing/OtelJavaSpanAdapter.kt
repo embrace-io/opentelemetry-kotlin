@@ -8,7 +8,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
 import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.toMap
-import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJava
+import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.recordException
 import io.opentelemetry.api.common.Attributes
@@ -93,7 +93,7 @@ internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan, Impli
     }
 
     override fun getSpanContext(): OtelJavaSpanContext {
-        return span.spanContext.toOtelJava()
+        return span.spanContext.toOtelJavaSpanContext()
     }
 
     override fun isRecording(): Boolean = span.isRecording()

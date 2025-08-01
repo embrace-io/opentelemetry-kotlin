@@ -5,4 +5,4 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
 @OptIn(ExperimentalApi::class)
-public fun OtelJavaSpanContext.toOtelKotlin(): SpanContext = SpanContextAdapter(this)
+public fun OtelJavaSpanContext.toOtelKotlinSpanContext(): SpanContext = SpanContextAdapter(this)

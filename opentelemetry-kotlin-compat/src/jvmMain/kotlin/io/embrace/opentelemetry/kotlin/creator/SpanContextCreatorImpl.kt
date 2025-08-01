@@ -5,7 +5,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.k2j.tracing.SpanContextAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.TraceFlagsAdapter
 import io.embrace.opentelemetry.kotlin.k2j.tracing.TraceStateAdapter
-import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJava
+import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJavaTraceFlags
+import io.embrace.opentelemetry.kotlin.k2j.tracing.toOtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.tracing.SpanContextImpl
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
@@ -36,8 +37,8 @@ internal class SpanContextCreatorImpl : SpanContextCreator {
         OtelJavaSpanContext.create(
             traceId,
             spanId,
-            traceFlags.toOtelJava(),
-            traceState.toOtelJava()
+            traceFlags.toOtelJavaTraceFlags(),
+            traceState.toOtelJavaTraceState()
         )
     )
 }

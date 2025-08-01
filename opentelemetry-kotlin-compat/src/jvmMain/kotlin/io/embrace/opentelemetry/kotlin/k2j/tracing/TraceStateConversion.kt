@@ -5,7 +5,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 
 @OptIn(ExperimentalApi::class)
-internal fun TraceState.toOtelJava(): OtelJavaTraceState {
+internal fun TraceState.toOtelJavaTraceState(): OtelJavaTraceState {
     return OtelJavaTraceState.builder().apply {
         asMap().entries.forEach {
             put(it.key, it.value)

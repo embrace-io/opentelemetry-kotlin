@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.j2k.logging.export
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordProcessor
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteLogRecord
-import io.embrace.opentelemetry.kotlin.j2k.bridge.context.toOtelKotlin
+import io.embrace.opentelemetry.kotlin.j2k.bridge.context.toOtelKotlinContext
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.opentelemetry.context.Context
 
@@ -16,6 +16,6 @@ internal class OtelJavaLogRecordProcessorAdapter(
         context: Context,
         logRecord: OtelJavaReadWriteLogRecord
     ) {
-        impl.onEmit(ReadWriteLogRecordAdapter(logRecord), context.toOtelKotlin())
+        impl.onEmit(ReadWriteLogRecordAdapter(logRecord), context.toOtelKotlinContext())
     }
 }

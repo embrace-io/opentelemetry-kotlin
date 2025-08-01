@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadableSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanProcessor
-import io.embrace.opentelemetry.kotlin.j2k.bridge.context.toOtelKotlin
+import io.embrace.opentelemetry.kotlin.j2k.bridge.context.toOtelKotlinContext
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 import io.opentelemetry.context.Context
 
@@ -14,7 +14,7 @@ internal class OtelJavaSpanProcessorAdapter(
 ) : OtelJavaSpanProcessor {
 
     override fun onStart(parentContext: Context, span: OtelJavaReadWriteSpan) {
-        impl.onStart(ReadWriteSpanAdapter(span), parentContext.toOtelKotlin())
+        impl.onStart(ReadWriteSpanAdapter(span), parentContext.toOtelKotlinContext())
     }
 
     override fun onEnd(span: OtelJavaReadableSpan) {

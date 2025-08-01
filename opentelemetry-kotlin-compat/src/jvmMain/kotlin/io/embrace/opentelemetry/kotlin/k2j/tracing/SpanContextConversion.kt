@@ -6,12 +6,12 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
 @OptIn(ExperimentalApi::class)
-public fun SpanContext.toOtelJava(): OtelJavaSpanContext {
+public fun SpanContext.toOtelJavaSpanContext(): OtelJavaSpanContext {
     return OtelJavaImmutableSpanContext.create(
         traceId,
         spanId,
-        traceFlags.toOtelJava(),
-        traceState.toOtelJava(),
+        traceFlags.toOtelJavaTraceFlags(),
+        traceState.toOtelJavaTraceState(),
         isRemote,
         false
     )
