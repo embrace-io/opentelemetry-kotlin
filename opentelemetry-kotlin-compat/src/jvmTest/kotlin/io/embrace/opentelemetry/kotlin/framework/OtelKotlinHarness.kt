@@ -1,17 +1,22 @@
 package io.embrace.opentelemetry.kotlin.framework
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.OpenTelemetry
 import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.createOpenTelemetryKotlin
+import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.decorateKotlinApi
 import io.embrace.opentelemetry.kotlin.framework.serialization.SerializableLogRecordData
 import io.embrace.opentelemetry.kotlin.framework.serialization.SerializableSpanData
 import io.embrace.opentelemetry.kotlin.framework.serialization.conversion.toSerializable
+import io.embrace.opentelemetry.kotlin.logging.Logger
 import io.embrace.opentelemetry.kotlin.logging.export.toLogRecordData
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
+import io.embrace.opentelemetry.kotlin.tracing.Tracer
+import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanData
 import java.util.concurrent.CountDownLatch
@@ -19,9 +24,9 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 @OptIn(ExperimentalApi::class)
-internal class OtelKotlinHarness(
-    private val testHarnessConfig: TestHarnessConfig = TestHarnessConfig(),
-) {
+internal class OtelKotlinHarness {
+
+    val config: TestHarnessConfig = TestHarnessConfig()
 
     private companion object {
         private const val EXPORT_POLL_ATTEMPTS = 1000
@@ -31,21 +36,39 @@ internal class OtelKotlinHarness(
     private val spanExporter = InMemorySpanExporter()
     private val logRecordExporter = InMemoryLogRecordExporter()
 
-    val kotlinApi = OpenTelemetryInstance.createOpenTelemetryKotlin(
-        clock = FakeClock(),
-        tracerProvider = {
-            testHarnessConfig.attributes?.let { resource(it, testHarnessConfig.schemaUrl) }
-            addSpanProcessor(InMemorySpanProcessor(spanExporter))
-            testHarnessConfig.spanProcessors.forEach { addSpanProcessor(it) }
-        },
-        loggerProvider = {
-            testHarnessConfig.attributes?.let { resource(it, testHarnessConfig.schemaUrl) }
-            addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
-            testHarnessConfig.logRecordProcessors.forEach { addLogRecordProcessor(it) }
-        }
-    )
+    val kotlinApi: OpenTelemetry by lazy {
+        OpenTelemetryInstance.createOpenTelemetryKotlin(
+            clock = FakeClock(),
+            tracerProvider = {
+                config.attributes?.let { resource(it, config.schemaUrl) }
+                addSpanProcessor(InMemorySpanProcessor(spanExporter))
+                config.spanProcessors.forEach { addSpanProcessor(it) }
+                spanLimits(config.spanLimits)
+            },
+            loggerProvider = {
+                config.attributes?.let { resource(it, config.schemaUrl) }
+                addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
+                config.logRecordProcessors.forEach { addLogRecordProcessor(it) }
+                logLimits(config.logLimits)
+            }
+        )
+    }
 
-    val javaApi = OpenTelemetryInstance.decorateKotlinApi(kotlinApi)
+    val javaApi by lazy {
+        OpenTelemetryInstance.decorateKotlinApi(kotlinApi)
+    }
+
+    val tracerProvider: TracerProvider
+        get() = kotlinApi.tracerProvider
+
+    val tracer: Tracer
+        get() = tracerProvider.getTracer("test_tracer", "0.1.0")
+
+    val logger: Logger
+        get() = kotlinApi.loggerProvider.getLogger("test_logger")
+
+    val objectCreator: ObjectCreator
+        get() = kotlinApi.objectCreator
 
     internal fun assertSpans(
         expectedCount: Int,

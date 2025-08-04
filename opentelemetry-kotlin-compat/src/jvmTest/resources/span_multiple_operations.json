@@ -91,8 +91,8 @@
       }
     },
     "instrumentationScopeInfo": {
-      "name": "name",
-      "version": "version",
+      "name": "test_tracer",
+      "version": "0.1.0",
       "schemaUrl": "null",
       "attributes": {}
     }
@@ -135,8 +135,8 @@
       }
     },
     "instrumentationScopeInfo": {
-      "name": "name",
-      "version": "version",
+      "name": "test_tracer",
+      "version": "0.1.0",
       "schemaUrl": "null",
       "attributes": {}
     }
@@ -179,8 +179,8 @@
       }
     },
     "instrumentationScopeInfo": {
-      "name": "name",
-      "version": "version",
+      "name": "test_tracer",
+      "version": "0.1.0",
       "schemaUrl": "null",
       "attributes": {}
     }
@@ -223,8 +223,8 @@
       }
     },
     "instrumentationScopeInfo": {
-      "name": "name",
-      "version": "version",
+      "name": "test_tracer",
+      "version": "0.1.0",
       "schemaUrl": "null",
       "attributes": {}
     }
