@@ -25,8 +25,11 @@
     },
     "severity": "UNDEFINED_SEVERITY_NUMBER",
     "severityText": null,
-    "body": null,
-    "attributes": {},
-    "totalAttributeCount": 0
+    "body": "Test log limits",
+    "attributes": {
+      "key1": "max",
+      "key2": "ove"
+    },
+    "totalAttributeCount": 2
   }
 ]

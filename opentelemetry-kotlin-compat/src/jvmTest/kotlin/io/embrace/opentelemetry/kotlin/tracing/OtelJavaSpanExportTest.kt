@@ -14,7 +14,6 @@ import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.context.ContextAdapter
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
-import io.embrace.opentelemetry.kotlin.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
@@ -32,14 +31,16 @@ import kotlin.test.assertTrue
 internal class OtelJavaSpanExportTest {
 
     private lateinit var harness: OtelKotlinHarness
-    private lateinit var tracerProvider: OtelJavaTracerProvider
-    private lateinit var tracer: OtelJavaTracer
+
+    private val tracerProvider: OtelJavaTracerProvider
+        get() = harness.javaApi.tracerProvider
+
+    private val tracer: OtelJavaTracer
+        get() = tracerProvider.get("test_tracer", "0.1.0")
 
     @BeforeTest
     fun setUp() {
         harness = OtelKotlinHarness()
-        tracerProvider = harness.javaApi.tracerProvider
-        tracer = tracerProvider.get("name", "version")
     }
 
     @Test
@@ -236,7 +237,10 @@ internal class OtelJavaSpanExportTest {
             setAttribute("whitespace_only", " ")
 
             // Test lists with empty elements
-            setAttribute(OtelJavaAttributeKey.stringArrayKey("list_with_empty"), listOf("", "non-empty", "", "another-value"))
+            setAttribute(
+                OtelJavaAttributeKey.stringArrayKey("list_with_empty"),
+                listOf("", "non-empty", "", "another-value")
+            )
         }
 
         span.end()
@@ -275,27 +279,28 @@ internal class OtelJavaSpanExportTest {
 
             // Validate parent-child relationship
             assertEquals(validationSpan1.spanContext.traceId, validationSpan3.spanContext.traceId)
-            assertEquals(validationSpan1.spanContext.spanId, validationSpan3.parentSpanContext.spanId)
+            assertEquals(
+                validationSpan1.spanContext.spanId,
+                validationSpan3.parentSpanContext.spanId
+            )
         }
     }
 
     @Test
     fun `test java tracer provider resource export`() {
-        val resourceHarness = OtelKotlinHarness(
-            TestHarnessConfig(
-                schemaUrl = "https://example.com/some_schema.json",
-                attributes = {
-                    setStringAttribute("service.name", "test-service")
-                    setStringAttribute("service.version", "1.0.0")
-                    setStringAttribute("environment", "test")
-                }
-            )
-        )
+        harness.config.apply {
+            schemaUrl = "https://example.com/some_schema.json"
+            attributes = {
+                setStringAttribute("service.name", "test-service")
+                setStringAttribute("service.version", "1.0.0")
+                setStringAttribute("environment", "test")
+            }
+        }
 
-        val javaTracer = resourceHarness.javaApi.tracerProvider.get("test_tracer")
+        val javaTracer = harness.javaApi.tracerProvider.get("test_tracer")
         javaTracer.spanBuilder("test_span").startSpan().end()
 
-        resourceHarness.assertSpans(
+        harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_resource.json",
             sanitizeSpanContextIds = true,
@@ -306,13 +311,7 @@ internal class OtelJavaSpanExportTest {
     fun `test context is passed to processor`() {
         // Create a processor that can capture the original Java context
         val javaContextCapturingProcessor = JavaContextCapturingProcessor()
-
-        // Use it on OpenTelemetryInstance creation.
-        val contextCapturingHarness = OtelKotlinHarness(
-            TestHarnessConfig(
-                spanProcessors = listOf(javaContextCapturingProcessor)
-            )
-        )
+        harness.config.spanProcessors.add(javaContextCapturingProcessor)
 
         // Create a context key and add a test value using Java API
         val javaContextKey = OtelJavaContextKey.named<String>("best_team")
@@ -320,7 +319,7 @@ internal class OtelJavaSpanExportTest {
         val javaContext = OtelJavaContext.current().with(javaContextKey, testContextValue)
 
         // Create a span with the created context using Java API
-        val javaTracer = contextCapturingHarness.javaApi.tracerProvider.get("test_tracer")
+        val javaTracer = harness.javaApi.tracerProvider.get("test_tracer")
 
         // Make the context current and create span
         javaContext.makeCurrent().use {

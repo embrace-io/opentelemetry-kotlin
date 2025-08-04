@@ -5,11 +5,9 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.creator.current
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
-import io.embrace.opentelemetry.kotlin.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.framework.serialization.SerializableSpanContext
 import io.embrace.opentelemetry.kotlin.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
@@ -19,6 +17,7 @@ import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaTraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -32,22 +31,16 @@ import kotlin.test.assertTrue
 internal class SpanExportTest {
 
     private lateinit var harness: OtelKotlinHarness
-    private lateinit var tracerProvider: TracerProvider
-    private lateinit var tracer: Tracer
-    private lateinit var objectCreator: ObjectCreator
 
     @BeforeTest
     fun setUp() {
         harness = OtelKotlinHarness()
-        tracerProvider = harness.kotlinApi.tracerProvider
-        objectCreator = harness.kotlinApi.objectCreator
-        tracer = tracerProvider.getTracer("name", "version")
     }
 
     @Test
     fun `test minimal span export`() {
         val spanName = "my_span"
-        tracer.createSpan(spanName).end()
+        harness.tracer.createSpan(spanName).end()
 
         harness.assertSpans(
             expectedCount = 1,
@@ -58,7 +51,7 @@ internal class SpanExportTest {
     @Test
     fun `test span properties export`() {
         val spanName = "my_span"
-        val span = tracer.createSpan(
+        val span = harness.tracer.createSpan(
             name = spanName,
             spanKind = SpanKind.CLIENT,
             startTimestamp = 500
@@ -88,7 +81,7 @@ internal class SpanExportTest {
     @Test
     fun `test span attributes export`() {
         val spanName = "span_attrs"
-        val span = tracer.createSpan(spanName)
+        val span = harness.tracer.createSpan(spanName)
         span.assertAttributes()
         span.end()
 
@@ -101,7 +94,7 @@ internal class SpanExportTest {
     @Test
     fun `test span events export`() {
         val spanName = "span_events"
-        val span = tracer.createSpan(spanName).apply {
+        val span = harness.tracer.createSpan(spanName).apply {
             assertTrue(events.isEmpty())
 
             val eventName = "my_event"
@@ -124,17 +117,17 @@ internal class SpanExportTest {
 
     @Test
     fun `test span context parent`() {
-        val root = objectCreator.context.root()
+        val root = harness.objectCreator.context.root()
 
-        val a = tracer.createSpan("a", parentContext = root)
+        val a = harness.tracer.createSpan("a", parentContext = root)
         val ctxa = a.storeInContext(root)
 
-        val b = tracer.createSpan("b", parentContext = ctxa)
+        val b = harness.tracer.createSpan("b", parentContext = ctxa)
         val ctxb = b.storeInContext(ctxa)
 
-        val c = tracer.createSpan("c", parentContext = ctxb)
+        val c = harness.tracer.createSpan("c", parentContext = ctxb)
 
-        assertSpanContextsMatch(objectCreator.spanContext.invalid, a.parent)
+        assertSpanContextsMatch(harness.objectCreator.spanContext.invalid, a.parent)
         assertNotNull(a.spanContext)
         assertSpanContextsMatch(a.spanContext, b.parent)
         assertSpanContextsMatch(b.spanContext, c.parent)
@@ -162,7 +155,7 @@ internal class SpanExportTest {
 
     @Test
     fun `test span trace flags`() {
-        val span = tracer.createSpan("my_span")
+        val span = harness.tracer.createSpan("my_span")
         val flags = span.spanContext.traceFlags
         assertEquals("01", flags.toOtelJavaTraceFlags().asHex())
         assertTrue(flags.isSampled)
@@ -171,7 +164,7 @@ internal class SpanExportTest {
 
     @Test
     fun `test invalid span context`() {
-        val invalidContext = objectCreator.spanContext.invalid
+        val invalidContext = harness.objectCreator.spanContext.invalid
 
         // Test invalid context properties
         assertFalse(invalidContext.isValid)
@@ -179,7 +172,7 @@ internal class SpanExportTest {
         assertEquals("0000000000000000", invalidContext.spanId)
 
         // Test span creation with invalid parent
-        val span = tracer.createSpan("test_span", parentContext = objectCreator.context.root())
+        val span = harness.tracer.createSpan("test_span", parentContext = harness.objectCreator.context.root())
 
         // Child span should be created with a valid context
         assertTrue(span.spanContext.isValid)
@@ -191,8 +184,8 @@ internal class SpanExportTest {
 
     @Test
     fun `test span links export`() {
-        val linkedSpan = tracer.createSpan("linked_span")
-        val span = tracer.createSpan("span_links").apply {
+        val linkedSpan = harness.tracer.createSpan("linked_span")
+        val span = harness.tracer.createSpan("span_links").apply {
             assertTrue(events.isEmpty())
 
             addLink(linkedSpan.spanContext) {
@@ -214,7 +207,7 @@ internal class SpanExportTest {
     @Test
     fun `test tracer with schema url and attributes`() {
         val schemaUrl = "https://opentelemetry.io/schemas/1.21.0"
-        val tracerWithSchemaUrl = tracerProvider.getTracer(
+        val tracerWithSchemaUrl = harness.tracerProvider.getTracer(
             name = "test-tracer",
             version = "2.0.0",
             schemaUrl = schemaUrl
@@ -232,11 +225,11 @@ internal class SpanExportTest {
     @Test
     fun `test multiple operations`() {
         // create multiple spans, with multiple links and events
-        val linkedSpan1 = tracer.createSpan("linked_span_1")
-        val linkedSpan2 = tracer.createSpan("linked_span_2")
-        val linkedSpan3 = tracer.createSpan("linked_span_3")
+        val linkedSpan1 = harness.tracer.createSpan("linked_span_1")
+        val linkedSpan2 = harness.tracer.createSpan("linked_span_2")
+        val linkedSpan3 = harness.tracer.createSpan("linked_span_3")
 
-        val span = tracer.createSpan("multi_operations_span").apply {
+        val span = harness.tracer.createSpan("multi_operations_span").apply {
             // Add multiple events
             addEvent("event_1", 100L)
             addEvent("event_2", 200L) {
@@ -266,7 +259,7 @@ internal class SpanExportTest {
 
     @Test
     fun `test attributes edge cases`() {
-        val span = tracer.createSpan("edge_case_attributes").apply {
+        val span = harness.tracer.createSpan("edge_case_attributes").apply {
             // Test empty string
             setStringAttribute("empty_string", "")
 
@@ -290,10 +283,10 @@ internal class SpanExportTest {
 
     @Test
     fun `test trace and span id validation without sanitization`() {
-        val span1 = tracer.createSpan("validation_span_1")
-        val span2 = tracer.createSpan("validation_span_2")
-        val ctx = span1.storeInContext(objectCreator.context.root())
-        val span3 = tracer.createSpan("validation_span_3", ctx)
+        val span1 = harness.tracer.createSpan("validation_span_1")
+        val span2 = harness.tracer.createSpan("validation_span_2")
+        val ctx = span1.storeInContext(harness.objectCreator.context.root())
+        val span3 = harness.tracer.createSpan("validation_span_3", ctx)
 
         span1.end()
         span2.end()
@@ -374,16 +367,14 @@ internal class SpanExportTest {
 
     @Test
     fun `test tracer provider resource export`() {
-        val harness = OtelKotlinHarness(
-            testHarnessConfig = TestHarnessConfig(
-                schemaUrl = "https://example.com/some_schema.json",
-                attributes = {
-                    setStringAttribute("service.name", "test-service")
-                    setStringAttribute("service.version", "1.0.0")
-                    setStringAttribute("environment", "test")
-                }
-            )
-        )
+        harness.config.apply {
+            schemaUrl = "https://example.com/some_schema.json"
+            attributes = {
+                setStringAttribute("service.name", "test-service")
+                setStringAttribute("service.version", "1.0.0")
+                setStringAttribute("environment", "test")
+            }
+        }
 
         val tracer = harness.kotlinApi.tracerProvider.getTracer("test_tracer")
         tracer.createSpan("test_span").end()
@@ -399,27 +390,59 @@ internal class SpanExportTest {
     fun `test context is passed to processor`() {
         // Create a SpanProcessor that captures any passed Context.
         val contextCapturingProcessor = ContextCapturingProcessor()
-
-        // Use it on OpenTelemetryInstance creation.
-        val contextCapturingHarness = OtelKotlinHarness(
-            TestHarnessConfig(
-                spanProcessors = listOf(contextCapturingProcessor)
-            )
-        )
+        harness.config.spanProcessors.add(contextCapturingProcessor)
 
         // Create a context key and add a test value
-        val currentContext = objectCreator.context.current()
+        val currentContext = harness.objectCreator.context.current()
         val contextKey = currentContext.createKey<String>("best_team")
         val testContextValue = "independiente"
         val testContext = currentContext.set(contextKey, testContextValue)
 
         // Create a span with the created context
-        val tracer = contextCapturingHarness.kotlinApi.tracerProvider.getTracer("test_tracer")
+        val tracer = harness.kotlinApi.tracerProvider.getTracer("test_tracer")
         tracer.createSpan("Test span with context", parentContext = testContext).end()
 
         // Verify context was captured and contains expected value
         val actualValue = contextCapturingProcessor.capturedContext?.get(contextKey)
         assertSame(testContextValue, actualValue)
+    }
+
+    @Test
+    fun `test span limit export`() {
+        harness.config.spanLimits = {
+            attributeCountLimit = 1
+            linkCountLimit = 1
+            eventCountLimit = 1
+            attributeCountPerLinkLimit = 1
+            attributeCountPerEventLimit
+        }
+        val a = harness.tracer.createSpan("a")
+        val b = harness.tracer.createSpan("b")
+        val c = harness.tracer.createSpan("span") {
+            addMultipleAttrs()
+
+            addLink(a.spanContext) {
+                addMultipleAttrs()
+            }
+            addLink(b.spanContext) {
+                addMultipleAttrs()
+            }
+            addEvent("first") {
+                addMultipleAttrs()
+            }
+            addEvent("second") {
+                addMultipleAttrs()
+            }
+        }
+        a.end()
+        b.end()
+        c.end()
+        harness.assertSpans(3, "span_limits.json")
+    }
+
+    private fun SpanRelationships.addMultipleAttrs() {
+        setStringAttribute("key1", "value")
+        setStringAttribute("key2", "value")
     }
 
     /**

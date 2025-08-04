@@ -3,12 +3,11 @@ package io.embrace.opentelemetry.kotlin.logging
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContextKey
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLoggerProvider
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogger
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.context.ContextAdapter
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
-import io.embrace.opentelemetry.kotlin.framework.TestHarnessConfig
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
 import io.opentelemetry.api.logs.Severity
@@ -21,18 +20,16 @@ import kotlin.test.assertSame
 internal class OtelJavaLogExportTest {
 
     private lateinit var harness: OtelKotlinHarness
-    private lateinit var loggerProvider: OtelJavaLoggerProvider
+    private val logger: OtelJavaLogger
+        get() = harness.javaApi.logsBridge.get("test_logger")
 
     @BeforeTest
     fun setUp() {
         harness = OtelKotlinHarness()
-        loggerProvider = harness.javaApi.logsBridge
     }
 
     @Test
     fun `test minimal log export`() {
-        val logger = loggerProvider.get("my_logger")
-
         // logging without a body is allowed by the OTel spec, so we assert the MVP log here
         logger.logRecordBuilder().emit()
 
@@ -44,7 +41,7 @@ internal class OtelJavaLogExportTest {
 
     @Test
     fun `test log properties export`() {
-        val logger = loggerProvider.loggerBuilder("my_logger")
+        val logger = harness.javaApi.logsBridge.loggerBuilder("my_logger")
             .setInstrumentationVersion("0.1.0")
             .setSchemaUrl("https://example.com/schema")
             .build()
@@ -67,21 +64,19 @@ internal class OtelJavaLogExportTest {
 
     @Test
     fun `test java logger provider resource export`() {
-        val resourceHarness = OtelKotlinHarness(
-            TestHarnessConfig(
-                schemaUrl = "https://example.com/some_schema.json",
-                attributes = {
-                    setStringAttribute("service.name", "test-service")
-                    setStringAttribute("service.version", "1.0.0")
-                    setStringAttribute("environment", "test")
-                }
-            )
-        )
+        harness.config.apply {
+            schemaUrl = "https://example.com/some_schema.json"
+            attributes = {
+                setStringAttribute("service.name", "test-service")
+                setStringAttribute("service.version", "1.0.0")
+                setStringAttribute("environment", "test")
+            }
+        }
 
-        val javaLogger = resourceHarness.javaApi.logsBridge.get("test_logger")
+        val javaLogger = harness.javaApi.logsBridge.get("test_logger")
         javaLogger.logRecordBuilder().setBody("Test log with custom resource").emit()
 
-        resourceHarness.assertLogRecords(
+        harness.assertLogRecords(
             expectedCount = 1,
             goldenFileName = "log_resource.json",
             sanitizeSpanContextIds = true,
@@ -92,25 +87,16 @@ internal class OtelJavaLogExportTest {
     fun `test context is passed to processor`() {
         // Create a processor that can capture the original Java context
         val javaContextCapturingProcessor = JavaContextCapturingProcessor()
-
-        // Use it on OpenTelemetryInstance creation.
-        val contextCapturingHarness = OtelKotlinHarness(
-            TestHarnessConfig(
-                logRecordProcessors = listOf(javaContextCapturingProcessor)
-            )
-        )
+        harness.config.logRecordProcessors.add(javaContextCapturingProcessor)
 
         // Create a context key and add a test value using Java API
         val javaContextKey = OtelJavaContextKey.named<String>("best_team")
         val testContextValue = "independiente"
         val javaContext = OtelJavaContext.current().with(javaContextKey, testContextValue)
 
-        // Log a message with the created context using Java API
-        val javaLogger = contextCapturingHarness.javaApi.logsBridge.get("test_logger")
-
         // Make the context current and emit log
         javaContext.makeCurrent().use {
-            javaLogger.logRecordBuilder().setBody("Test log with context").emit()
+            logger.logRecordBuilder().setBody("Test log with context").emit()
         }
 
         // Verify context was captured and contains expected value
