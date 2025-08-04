@@ -8,6 +8,7 @@ import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
+import io.embrace.opentelemetry.kotlin.tracing.FakeSpanContext
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertSame
@@ -115,6 +116,17 @@ internal class LogExportTest {
         harness.assertLogRecords(1, "log_limits.json")
     }
 
+    @Test
+    fun `test log export with custom processor`() {
+        harness.config.logRecordProcessors.add(CustomLogRecordProcessor())
+        harness.logger.log("Test")
+
+        harness.assertLogRecords(
+            expectedCount = 1,
+            goldenFileName = "log_custom_processor.json",
+        )
+    }
+
     /**
      * Custom processor that captures the context passed to onEmit
      */
@@ -124,6 +136,37 @@ internal class LogExportTest {
 
         override fun onEmit(log: ReadWriteLogRecord, context: Context) {
             capturedContext = context
+        }
+
+        override fun shutdown(): OperationResultCode = OperationResultCode.Success
+        override fun forceFlush(): OperationResultCode = OperationResultCode.Success
+    }
+
+    /**
+     * Custom processor that alters log records
+     */
+    private class CustomLogRecordProcessor : LogRecordProcessor {
+
+        override fun onEmit(log: ReadWriteLogRecord, context: Context) {
+            with(log) {
+                timestamp = 5
+                observedTimestamp = 10
+                spanContext = FakeSpanContext("1".repeat(32), "2".repeat(16))
+
+                setStringAttribute("string", "value")
+                setBooleanAttribute("bool", false)
+                setDoubleAttribute("double", 5.4)
+                setLongAttribute("long", 5L)
+                setStringListAttribute("stringList", listOf("value"))
+                setBooleanListAttribute("boolList", listOf(false))
+                setDoubleListAttribute("doubleList", listOf(5.4))
+                setLongListAttribute("longList", listOf(5L))
+
+                // these cannot be set in OTel Java.
+                severityNumber = SeverityNumber.ERROR2
+                severityText = "bad_error"
+                body = "altered"
+            }
         }
 
         override fun shutdown(): OperationResultCode = OperationResultCode.Success
