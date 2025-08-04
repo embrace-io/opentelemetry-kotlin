@@ -6,10 +6,12 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainerImpl
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
+import io.embrace.opentelemetry.kotlin.tracing.data.EventData
+import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaStatusData
@@ -30,8 +32,8 @@ internal class SpanAdapter(
 ) : Span, ImplicitContextKeyed {
 
     private val attrs: MutableMap<String, Any> = ConcurrentHashMap()
-    private val events: ConcurrentLinkedQueue<SpanEvent> = ConcurrentLinkedQueue()
-    private val links: ConcurrentLinkedQueue<Link> = ConcurrentLinkedQueue()
+    private val eventsImpl: ConcurrentLinkedQueue<EventData> = ConcurrentLinkedQueue()
+    private val linksImpl: ConcurrentLinkedQueue<Link> = ConcurrentLinkedQueue()
 
     private var implName: String = ""
     private var implStatus: StatusData = StatusData.Unset
@@ -59,6 +61,15 @@ internal class SpanAdapter(
 
     override val spanContext: SpanContext = SpanContextAdapter(impl.spanContext)
 
+    override val attributes: Map<String, Any>
+        get() = attrs.toMap()
+
+    override val events: List<EventData>
+        get() = eventsImpl.toList()
+
+    override val links: List<LinkData>
+        get() = linksImpl.toList()
+
     override fun end() {
         impl.end()
     }
@@ -69,28 +80,24 @@ internal class SpanAdapter(
 
     override fun isRecording(): Boolean = impl.isRecording
 
-    override fun addLink(spanContext: SpanContext, attributes: AttributeContainer.() -> Unit) {
-        val container = AttributeContainerImpl()
+    override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
+        val container = MutableAttributeContainerImpl()
         attributes(container)
-        links.add(LinkImpl(spanContext, container))
+        linksImpl.add(LinkImpl(spanContext, container))
         impl.addLink(spanContext.toOtelJavaSpanContext(), container.otelJavaAttributes())
     }
 
     override fun addEvent(
         name: String,
         timestamp: Long?,
-        attributes: AttributeContainer.() -> Unit
+        attributes: MutableAttributeContainer.() -> Unit
     ) {
-        val container = AttributeContainerImpl()
+        val container = MutableAttributeContainerImpl()
         attributes(container)
         val time = timestamp ?: clock.now()
-        events.add(SpanEventImpl(name, time, container))
+        eventsImpl.add(SpanEventImpl(name, time, container))
         impl.addEvent(name, container.otelJavaAttributes(), time, TimeUnit.NANOSECONDS)
     }
-
-    override fun events(): List<SpanEvent> = events.toList()
-
-    override fun links(): List<Link> = links.toList()
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         impl.setAttribute(key, value)
@@ -131,8 +138,6 @@ internal class SpanAdapter(
         impl.setAttribute(OtelJavaAttributeKey.doubleArrayKey(key), value)
         attrs[key] = value
     }
-
-    override fun attributes(): Map<String, Any> = attrs.toMap()
 
     override fun storeInContext(context: Context): Context? {
         return impl.storeInContext(context)

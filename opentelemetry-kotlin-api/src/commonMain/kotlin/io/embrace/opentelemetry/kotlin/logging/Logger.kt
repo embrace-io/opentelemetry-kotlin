@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 
@@ -33,6 +33,6 @@ public interface Logger {
         context: Context? = null,
         severityNumber: SeverityNumber? = null,
         severityText: String? = null,
-        attributes: AttributeContainer.() -> Unit = {},
+        attributes: MutableAttributeContainer.() -> Unit = {},
     )
 }

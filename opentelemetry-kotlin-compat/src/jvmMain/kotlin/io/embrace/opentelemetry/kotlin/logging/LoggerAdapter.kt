@@ -2,8 +2,8 @@ package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogger
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainerImpl
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.context.OtelJavaContextAdapter
 import io.embrace.opentelemetry.kotlin.context.OtelJavaContextKeyRepository
@@ -23,7 +23,7 @@ internal class LoggerAdapter(
         context: Context?,
         severityNumber: SeverityNumber?,
         severityText: String?,
-        attributes: AttributeContainer.() -> Unit
+        attributes: MutableAttributeContainer.() -> Unit
     ) {
         val builder = impl.logRecordBuilder()
 
@@ -46,7 +46,7 @@ internal class LoggerAdapter(
             builder.setSeverityText(severityText)
         }
 
-        val container = AttributeContainerImpl()
+        val container = MutableAttributeContainerImpl()
         attributes(container)
         builder.setAllAttributes(container.otelJavaAttributes())
         builder.emit()

@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 
@@ -17,7 +17,7 @@ class FakeLogger(
         context: Context?,
         severityNumber: SeverityNumber?,
         severityText: String?,
-        attributes: AttributeContainer.() -> Unit
+        attributes: MutableAttributeContainer.() -> Unit
     ) {
     }
 }

@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 
 /**
@@ -10,7 +10,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.Span
  */
 @ExperimentalApi
 @ThreadSafe
-public fun Span.recordException(exception: Throwable, attributes: AttributeContainer.() -> Unit = {}) {
+public fun Span.recordException(exception: Throwable, attributes: MutableAttributeContainer.() -> Unit = {}) {
     addEvent("exception") {
         setStringAttribute("exception.stacktrace", exception.stackTraceToString())
         exception.message?.let {

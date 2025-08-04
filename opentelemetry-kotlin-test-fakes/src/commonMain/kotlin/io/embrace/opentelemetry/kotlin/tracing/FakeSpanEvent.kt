@@ -9,39 +9,37 @@ class FakeSpanEvent(
     override val timestamp: Long
 ) : SpanEvent {
 
-    private val attrs = mutableMapOf<String, Any>()
+    override val attributes = mutableMapOf<String, Any>()
 
     override fun setStringAttribute(key: String, value: String) {
-        attrs[key] = value
+        attributes[key] = value
     }
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
-        attrs[key] = value
+        attributes[key] = value
     }
 
     override fun setLongAttribute(key: String, value: Long) {
-        attrs[key] = value
+        attributes[key] = value
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
-        attrs[key] = value
+        attributes[key] = value
     }
 
     override fun setBooleanListAttribute(key: String, value: List<Boolean>) {
-        attrs[key] = value
+        attributes[key] = value
     }
 
     override fun setStringListAttribute(key: String, value: List<String>) {
-        attrs[key] = value
+        attributes[key] = value
     }
 
     override fun setLongListAttribute(key: String, value: List<Long>) {
-        attrs[key] = value
+        attributes[key] = value
     }
 
     override fun setDoubleListAttribute(key: String, value: List<Double>) {
-        attrs[key] = value
+        attributes[key] = value
     }
-
-    override fun attributes(): Map<String, Any> = attrs.toMap()
 }

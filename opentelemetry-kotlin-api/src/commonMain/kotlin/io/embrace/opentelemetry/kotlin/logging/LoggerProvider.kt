@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 
 /**
  * Provider for retrieving [Logger] instances.
@@ -24,6 +24,6 @@ public interface LoggerProvider {
         name: String,
         version: String? = null,
         schemaUrl: String? = null,
-        attributes: AttributeContainer.() -> Unit = {},
+        attributes: MutableAttributeContainer.() -> Unit = {},
     ): Logger
 }

@@ -2,12 +2,8 @@ package io.embrace.opentelemetry.kotlin.tracing.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainerImpl
-import io.embrace.opentelemetry.kotlin.attributes.setAttributes
-import io.embrace.opentelemetry.kotlin.attributes.toMap
-import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
-import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.opentelemetry.api.common.AttributeKey
 import java.util.concurrent.TimeUnit
@@ -39,36 +35,17 @@ internal class ReadWriteSpanAdapter(
 
     override fun isRecording(): Boolean = impl.isRecording
 
-    override fun addLink(spanContext: SpanContext, attributes: AttributeContainer.() -> Unit) {
-        val container = AttributeContainerImpl()
+    override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
+        val container = MutableAttributeContainerImpl()
         attributes(container)
         val ctx = (spanContext as SpanContextAdapter).impl
         impl.addLink(ctx, container.otelJavaAttributes())
     }
 
-    override fun addEvent(name: String, timestamp: Long?, attributes: AttributeContainer.() -> Unit) {
-        val container = AttributeContainerImpl()
+    override fun addEvent(name: String, timestamp: Long?, attributes: MutableAttributeContainer.() -> Unit) {
+        val container = MutableAttributeContainerImpl()
         attributes(container)
         impl.addEvent(name, container.otelJavaAttributes(), timestamp ?: 0, TimeUnit.NANOSECONDS)
-    }
-
-    override fun events(): List<SpanEvent> = readableSpan.events.map {
-        SpanEventImpl(
-            name = it.name,
-            timestamp = it.timestamp,
-            attributes = AttributeContainerImpl().apply {
-                setAttributes(it.attributes)
-            }
-        )
-    }
-
-    override fun links(): List<Link> = readableSpan.links.map {
-        LinkImpl(
-            spanContext = it.spanContext,
-            attributes = AttributeContainerImpl().apply {
-                setAttributes(it.attributes)
-            }
-        )
     }
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
@@ -102,6 +79,4 @@ internal class ReadWriteSpanAdapter(
     override fun setDoubleListAttribute(key: String, value: List<Double>) {
         impl.setAttribute(AttributeKey.doubleArrayKey(key), value)
     }
-
-    override fun attributes(): Map<String, Any> = impl.attributes.toMap()
 }

@@ -1,19 +1,20 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.tracing.data.EventData
+import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
-import io.embrace.opentelemetry.kotlin.tracing.model.Link
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanEvent
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 
 @Suppress("UNUSED_PARAMETER")
 @OptIn(ExperimentalApi::class)
 class FakeSpan : Span {
 
-    private val events = mutableListOf<SpanEvent>()
+    override val events: MutableList<EventData> = mutableListOf()
+    override val links: MutableList<LinkData> = mutableListOf()
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         TODO("Not yet implemented")
@@ -46,18 +47,12 @@ class FakeSpan : Span {
         TODO("Not yet implemented")
     }
 
-    override fun addLink(spanContext: SpanContext, attributes: AttributeContainer.() -> Unit) {
+    override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
         TODO("Not yet implemented")
     }
 
-    override fun addEvent(name: String, timestamp: Long?, attributes: AttributeContainer.() -> Unit) {
+    override fun addEvent(name: String, timestamp: Long?, attributes: MutableAttributeContainer.() -> Unit) {
         events.add(FakeSpanEvent(name, timestamp ?: 0).apply(attributes))
-    }
-
-    override fun events(): List<SpanEvent> = events.toList()
-
-    override fun links(): List<Link> {
-        TODO("Not yet implemented")
     }
 
     override fun setStringAttribute(key: String, value: String) {
@@ -88,7 +83,6 @@ class FakeSpan : Span {
         TODO("Not yet implemented")
     }
 
-    override fun attributes(): Map<String, Any> {
-        TODO("Not yet implemented")
-    }
+    override val attributes: Map<String, Any>
+        get() = TODO("Not yet implemented")
 }
