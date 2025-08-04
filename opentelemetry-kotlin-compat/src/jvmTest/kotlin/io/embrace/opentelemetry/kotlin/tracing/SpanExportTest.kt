@@ -16,6 +16,7 @@ import io.embrace.opentelemetry.kotlin.tracing.ext.storeInContext
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaTraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 import kotlin.test.BeforeTest
@@ -172,7 +173,10 @@ internal class SpanExportTest {
         assertEquals("0000000000000000", invalidContext.spanId)
 
         // Test span creation with invalid parent
-        val span = harness.tracer.createSpan("test_span", parentContext = harness.objectCreator.context.root())
+        val span = harness.tracer.createSpan(
+            "test_span",
+            parentContext = harness.objectCreator.context.root()
+        )
 
         // Child span should be created with a valid context
         assertTrue(span.spanContext.isValid)
@@ -440,6 +444,25 @@ internal class SpanExportTest {
         harness.assertSpans(3, "span_limits.json")
     }
 
+    @Test
+    fun `test log export with custom processor`() {
+        var link: SpanContext? = null
+        harness.config.spanProcessors.add(
+            CustomSpanProcessor {
+                link
+            }
+        )
+        val other = harness.tracer.createSpan("other")
+        link = other.spanContext
+        other.end()
+        harness.tracer.createSpan("my_span").end()
+
+        harness.assertSpans(
+            expectedCount = 2,
+            goldenFileName = "span_custom_processor.json",
+        )
+    }
+
     private fun SpanRelationships.addMultipleAttrs() {
         setStringAttribute("key1", "value")
         setStringAttribute("key2", "value")
@@ -460,5 +483,48 @@ internal class SpanExportTest {
         override fun isEndRequired(): Boolean = false
         override fun shutdown(): OperationResultCode = OperationResultCode.Success
         override fun forceFlush(): OperationResultCode = OperationResultCode.Success
+    }
+
+    /**
+     * Custom processor that alters spans
+     */
+    private class CustomSpanProcessor(private val link: () -> SpanContext?) : SpanProcessor {
+
+        override fun onStart(
+            span: ReadWriteSpan,
+            parentContext: Context
+        ) {
+            with(span) {
+                name = "override"
+                status = StatusData.Error("bad_err")
+
+                setStringAttribute("string", "value")
+                setBooleanAttribute("bool", false)
+                setDoubleAttribute("double", 5.4)
+                setLongAttribute("long", 5L)
+                setStringListAttribute("stringList", listOf("value"))
+                setBooleanListAttribute("boolList", listOf(false))
+                setDoubleListAttribute("doubleList", listOf(5.4))
+                setLongListAttribute("longList", listOf(5L))
+
+                link()?.let {
+                    addLink(it) {
+                        setStringAttribute("key", "value")
+                    }
+                }
+
+                addEvent("custom_event", 30) {
+                    setStringAttribute("key", "value")
+                }
+            }
+        }
+
+        override fun onEnd(span: ReadableSpan) {
+        }
+
+        override fun shutdown(): OperationResultCode = OperationResultCode.Success
+        override fun forceFlush(): OperationResultCode = OperationResultCode.Success
+        override fun isStartRequired(): Boolean = true
+        override fun isEndRequired(): Boolean = true
     }
 }
