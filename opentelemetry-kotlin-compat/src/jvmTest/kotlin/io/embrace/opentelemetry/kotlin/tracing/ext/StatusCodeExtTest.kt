@@ -12,9 +12,9 @@ internal class StatusCodeExtTest {
     @Test
     fun toOtelJavaStatusCode() {
         val expected = mapOf(
-            StatusCode.Unset to OtelJavaStatusCode.UNSET,
-            StatusCode.Error to OtelJavaStatusCode.ERROR,
-            StatusCode.Ok to OtelJavaStatusCode.OK,
+            StatusCode.UNSET to OtelJavaStatusCode.UNSET,
+            StatusCode.ERROR to OtelJavaStatusCode.ERROR,
+            StatusCode.OK to OtelJavaStatusCode.OK,
         )
         expected.forEach {
             assertEquals(it.key.toOtelJavaStatusCode(), it.value)
