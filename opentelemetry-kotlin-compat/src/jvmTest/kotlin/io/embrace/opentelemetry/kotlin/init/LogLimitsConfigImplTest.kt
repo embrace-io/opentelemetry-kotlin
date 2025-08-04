@@ -8,6 +8,14 @@ import kotlin.test.assertEquals
 internal class LogLimitsConfigImplTest {
 
     @Test
+    fun `test default`() {
+        LogLimitsConfigImpl().apply {
+            assertEquals(0, attributeCountLimit)
+            assertEquals(0, attributeValueLengthLimit)
+        }
+    }
+
+    @Test
     fun `test span limits`() {
         val cfg = LogLimitsConfigImpl()
         cfg.apply {

@@ -1,11 +1,14 @@
 package io.embrace.opentelemetry.kotlin
 
+import io.embrace.opentelemetry.kotlin.context.NoopContextKey
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import io.embrace.opentelemetry.kotlin.tracing.NoopSpan
+import io.embrace.opentelemetry.kotlin.tracing.NoopSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
@@ -28,6 +31,7 @@ internal class NoopTests {
         verifySpanOperationsAreNoop(span)
 
         span.end()
+        anotherSpan.end(5)
 
         // Test span context default values
         val context = span.spanContext
@@ -83,6 +87,53 @@ internal class NoopTests {
         // Noop clock always returns 0
         assertEquals(0L, clock.now())
         assertEquals(0L, clock.now())
+    }
+
+    @Test
+    fun `noop context operations`() {
+        val otel = OpenTelemetryInstance.noop()
+        val ctx = otel.objectCreator.context.root()
+
+        val key = ctx.createKey<String>("key")
+        assertTrue(key is NoopContextKey)
+
+        val other = ctx.set(key, "value")
+        assertSame(ctx, other)
+
+        assertNull(ctx.get(key))
+    }
+
+    @Test
+    fun `noop span context operations`() {
+        val otel = OpenTelemetryInstance.noop()
+        val creator = otel.objectCreator
+        val invalid = creator.spanContext.invalid
+        assertTrue(invalid is NoopSpanContext)
+        assertFalse(invalid.isValid)
+
+        val other = creator.spanContext.create(
+            creator.idCreator.generateTraceId(),
+            creator.idCreator.generateSpanId(),
+            creator.traceFlags.default,
+            creator.traceState.default
+        )
+        assertSame(invalid, other)
+    }
+
+    @Test
+    fun `noop span wrappers`() {
+        val otel = OpenTelemetryInstance.noop()
+        val creator = otel.objectCreator
+
+        val first = creator.span.invalid
+        assertTrue(first is NoopSpan)
+        assertFalse(first.isRecording())
+
+        val second = creator.span.fromSpanContext(creator.spanContext.invalid)
+        assertTrue(second is NoopSpan)
+
+        val third = creator.span.fromContext(creator.context.root())
+        assertTrue(third is NoopSpan)
     }
 
     private fun verifySpanOperationsAreNoop(span: NoopSpan) {

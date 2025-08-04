@@ -8,6 +8,17 @@ import kotlin.test.assertEquals
 internal class SpanLimitsConfigImplTest {
 
     @Test
+    fun `test default`() {
+        SpanLimitsConfigImpl().apply {
+            assertEquals(0, eventCountLimit)
+            assertEquals(0, attributeCountLimit)
+            assertEquals(0, linkCountLimit)
+            assertEquals(0, attributeCountPerLinkLimit)
+            assertEquals(0, attributeCountPerEventLimit)
+        }
+    }
+
+    @Test
     fun `test span limits`() {
         val cfg = SpanLimitsConfigImpl()
         cfg.apply {
