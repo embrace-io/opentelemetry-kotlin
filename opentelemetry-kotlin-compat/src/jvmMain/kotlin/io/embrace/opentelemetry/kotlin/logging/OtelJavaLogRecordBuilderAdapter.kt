@@ -28,6 +28,9 @@ internal class OtelJavaLogRecordBuilderAdapter(private val impl: Logger) :
     }
 
     override fun setTimestamp(instant: Instant): OtelJavaLogRecordBuilder {
+        runCatching {
+            this.timestamp = instant.convertToNanos()
+        }
         return this
     }
 
@@ -37,6 +40,9 @@ internal class OtelJavaLogRecordBuilderAdapter(private val impl: Logger) :
     }
 
     override fun setObservedTimestamp(instant: Instant): OtelJavaLogRecordBuilder {
+        runCatching {
+            this.observedTimestamp = instant.convertToNanos()
+        }
         return this
     }
 
@@ -79,5 +85,14 @@ internal class OtelJavaLogRecordBuilderAdapter(private val impl: Logger) :
         ) {
             attrs.forEach { setStringAttribute(it.key, it.value) }
         }
+    }
+
+    private fun Instant.convertToNanos(): Long? {
+        runCatching {
+            val seconds: Long = epochSecond
+            val nanos: Int = nano
+            return seconds * 1000000000L + nanos
+        }
+        return null
     }
 }
