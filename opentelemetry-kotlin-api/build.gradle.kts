@@ -3,4 +3,5 @@ plugins {
     id("io.embrace.otel.build-logic")
     id("signing")
     id("com.vanniktech.maven.publish")
+    id("org.jetbrains.kotlinx.kover")
 }
