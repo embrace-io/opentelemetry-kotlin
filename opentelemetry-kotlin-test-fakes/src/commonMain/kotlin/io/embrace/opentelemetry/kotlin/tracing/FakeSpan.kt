@@ -11,7 +11,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 
 @Suppress("UNUSED_PARAMETER")
 @OptIn(ExperimentalApi::class)
-internal class FakeSpan : Span {
+class FakeSpan : Span {
 
     private val events = mutableListOf<SpanEvent>()
 

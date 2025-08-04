@@ -1,9 +1,9 @@
-package io.embrace.opentelemetry.kotlin.fakes.otel.kotlin
+package io.embrace.opentelemetry.kotlin.clock
 
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 
 @OptIn(ExperimentalApi::class)
-internal class FakeClock : Clock {
+class FakeClock : Clock {
     override fun now(): Long = 0
 }

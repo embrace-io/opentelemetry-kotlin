@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.toMap
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaLogRecordExporter
-import io.embrace.opentelemetry.kotlin.fakes.otel.kotlin.FakeReadableLogRecord
+import io.embrace.opentelemetry.kotlin.logging.model.FakeReadableLogRecord
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals

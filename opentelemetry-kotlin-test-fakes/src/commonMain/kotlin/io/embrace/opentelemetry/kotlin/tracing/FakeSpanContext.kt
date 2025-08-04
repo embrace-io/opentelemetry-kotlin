@@ -1,17 +1,15 @@
 @file:OptIn(ExperimentalApi::class)
 
-package io.embrace.opentelemetry.kotlin.fakes.otel.kotlin
+package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
-import io.opentelemetry.sdk.trace.IdGenerator
 
-internal class FakeSpanContext(
-    private val idGenerator: IdGenerator = IdGenerator.random(),
-    override val traceId: String = idGenerator.generateTraceId(),
-    override val spanId: String = idGenerator.generateSpanId(),
+class FakeSpanContext(
+    override val traceId: String = "0".repeat(32),
+    override val spanId: String = "0".repeat(16),
     override val traceFlags: TraceFlags = FakeTraceFlags(),
     override val isValid: Boolean = true,
     override val isRemote: Boolean = false,

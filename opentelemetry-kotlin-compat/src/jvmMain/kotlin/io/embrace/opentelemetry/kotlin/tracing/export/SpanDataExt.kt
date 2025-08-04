@@ -1,5 +1,7 @@
 @file:Suppress("DEPRECATION", "TYPEALIAS_EXPANSION_DEPRECATION")
 
+package io.embrace.opentelemetry.kotlin.tracing.export
+
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaEventData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaInstrumentationLibraryInfo

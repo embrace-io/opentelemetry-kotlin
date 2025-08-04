@@ -1,7 +1,4 @@
-package io.embrace.opentelemetry.kotlin.fakes.otel.kotlin
-
-import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
+package io.embrace.opentelemetry.kotlin
 
 @OptIn(ExperimentalApi::class)
 internal class FakeInstrumentationScopeInfo(
