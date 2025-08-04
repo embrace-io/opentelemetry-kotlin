@@ -348,13 +348,6 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Sp
 	public abstract fun isValid ()Z
 }
 
-public final class io/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin : java/lang/Enum {
-	public static final field LOCAL Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;
-	public static final field REMOTE Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;
-	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;
-	public static fun values ()[Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContextOrigin;
-}
-
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanEvent : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getTimestamp ()J
