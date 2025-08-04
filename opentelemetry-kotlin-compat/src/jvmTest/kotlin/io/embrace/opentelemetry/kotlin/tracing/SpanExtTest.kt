@@ -10,6 +10,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
+import io.embrace.opentelemetry.kotlin.tracing.ext.storeInContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContextAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
