@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @OptIn(ExperimentalApi::class)
 internal class SpanExtTest {
@@ -35,5 +36,20 @@ internal class SpanExtTest {
         assertEquals("Whoops!", complexAttrs["exception.message"])
         assertEquals("value", complexAttrs["extra"])
         assertNotNull(complexAttrs["exception.stacktrace"])
+    }
+
+    @Test
+    fun `record exception no qualified class name`() {
+        val span = FakeSpan()
+        val exc = object : IllegalArgumentException() {}
+        span.recordException(exc)
+
+        val event = span.events().single()
+        assertEquals("exception", event.name)
+
+        val simpleAttrs = event.attributes()
+        assertEquals(1, simpleAttrs.size)
+        assertNull(simpleAttrs["exception.type"])
+        assertNotNull(simpleAttrs["exception.stacktrace"])
     }
 }
