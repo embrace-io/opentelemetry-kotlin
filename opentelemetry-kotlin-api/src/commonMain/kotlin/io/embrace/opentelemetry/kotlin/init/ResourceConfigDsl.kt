@@ -5,5 +5,5 @@ import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 
 @ExperimentalApi
 public interface ResourceConfigDsl {
-    public fun resource(attributes: MutableAttributeContainer.() -> Unit, schemaUrl: String? = null)
+    public fun resource(schemaUrl: String? = null, attributes: MutableAttributeContainer.() -> Unit)
 }

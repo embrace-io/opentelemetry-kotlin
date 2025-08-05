@@ -23,7 +23,7 @@ internal class TracerProviderConfigImpl(
         builder.setClock(OtelJavaClockWrapper(clock))
     }
 
-    override fun resource(attributes: MutableAttributeContainer.() -> Unit, schemaUrl: String?) {
+    override fun resource(schemaUrl: String?, attributes: MutableAttributeContainer.() -> Unit) {
         val attrs = MutableAttributeContainerImpl().apply(attributes).otelJavaAttributes()
         builder.setResource(Resource.create(attrs, schemaUrl))
     }
