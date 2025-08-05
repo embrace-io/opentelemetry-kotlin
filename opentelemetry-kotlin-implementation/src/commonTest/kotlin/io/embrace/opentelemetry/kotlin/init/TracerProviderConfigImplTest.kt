@@ -18,11 +18,11 @@ internal class TracerProviderConfigImplTest {
         assertNull(cfg.resource.schemaUrl)
 
         with(cfg.spanLimits) {
-            assertEquals(1000, linkCountLimit)
-            assertEquals(1000, eventCountLimit)
-            assertEquals(1000, attributeCountLimit)
-            assertEquals(1000, attributeCountPerLinkLimit)
-            assertEquals(1000, attributeCountPerEventLimit)
+            assertEquals(128, linkCountLimit)
+            assertEquals(128, eventCountLimit)
+            assertEquals(128, attributeCountLimit)
+            assertEquals(128, attributeCountPerLinkLimit)
+            assertEquals(128, attributeCountPerEventLimit)
         }
     }
 

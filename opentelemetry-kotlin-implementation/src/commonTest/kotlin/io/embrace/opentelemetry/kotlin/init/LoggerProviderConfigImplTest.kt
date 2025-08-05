@@ -18,8 +18,8 @@ internal class LoggerProviderConfigImplTest {
         assertNull(cfg.resource.schemaUrl)
 
         with(cfg.logLimits) {
-            assertEquals(1000, attributeCountLimit)
-            assertEquals(1000, attributeValueLengthLimit)
+            assertEquals(128, attributeCountLimit)
+            assertEquals(Int.MAX_VALUE, attributeValueLengthLimit)
         }
     }
 
