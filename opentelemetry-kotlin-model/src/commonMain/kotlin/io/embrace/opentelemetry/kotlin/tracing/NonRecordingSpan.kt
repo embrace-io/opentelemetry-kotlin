@@ -15,7 +15,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
  * know the trace/span IDs for a parent span.
  */
 @OptIn(ExperimentalApi::class)
-public class NonRecordingSpan(
+class NonRecordingSpan(
     override val parent: SpanContext,
     override val spanContext: SpanContext,
 ) : Span {

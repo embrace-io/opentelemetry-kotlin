@@ -12,6 +12,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 api(project(":opentelemetry-kotlin"))
+                implementation(project(":opentelemetry-kotlin-model"))
                 implementation(project(":opentelemetry-java-typealiases"))
                 implementation(project.dependencies.platform(libs.opentelemetry.bom))
                 implementation(libs.opentelemetry.api)

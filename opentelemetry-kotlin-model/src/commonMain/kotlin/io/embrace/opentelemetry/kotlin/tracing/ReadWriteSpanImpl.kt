@@ -7,7 +7,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 
 @OptIn(ExperimentalApi::class)
-public class ReadWriteSpanImpl(
+class ReadWriteSpanImpl(
     private val readableSpan: ReadableSpan,
     private val spanRelationships: SpanRelationships,
     override var name: String,

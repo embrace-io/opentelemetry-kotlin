@@ -5,7 +5,7 @@ import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanEvent
 
 @OptIn(ExperimentalApi::class)
-public class SpanEventImpl(
+class SpanEventImpl(
     override val name: String,
     override val timestamp: Long,
     private val attributesContainer: MutableAttributeContainer
