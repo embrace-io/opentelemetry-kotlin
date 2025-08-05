@@ -122,11 +122,11 @@ public abstract interface class io/embrace/opentelemetry/kotlin/init/LoggerProvi
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/init/ResourceConfigDsl {
-	public abstract fun resource (Lkotlin/jvm/functions/Function1;Ljava/lang/String;)V
+	public abstract fun resource (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class io/embrace/opentelemetry/kotlin/init/ResourceConfigDsl$DefaultImpls {
-	public static synthetic fun resource$default (Lio/embrace/opentelemetry/kotlin/init/ResourceConfigDsl;Lkotlin/jvm/functions/Function1;Ljava/lang/String;ILjava/lang/Object;)V
+	public static synthetic fun resource$default (Lio/embrace/opentelemetry/kotlin/init/ResourceConfigDsl;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/init/SpanLimitsConfigDsl {

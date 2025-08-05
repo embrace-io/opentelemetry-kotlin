@@ -10,7 +10,7 @@ import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
 @OptIn(ExperimentalApi::class)
-public class ReadWriteLogRecordImpl(
+class ReadWriteLogRecordImpl(
     override var timestamp: Long?,
     override var observedTimestamp: Long?,
     override var severityNumber: SeverityNumber?,

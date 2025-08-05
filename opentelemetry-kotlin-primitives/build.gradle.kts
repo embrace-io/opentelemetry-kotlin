@@ -3,16 +3,17 @@ plugins {
     id("io.embrace.otel.build-logic")
     id("signing")
     id("com.vanniktech.maven.publish")
+    id("org.jetbrains.kotlinx.kover")
 }
 
 kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":opentelemetry-kotlin-api"))
-                api(project(":opentelemetry-kotlin-api-ext"))
-                api(project(":opentelemetry-kotlin-noop"))
-                implementation(project(":opentelemetry-kotlin-model"))
+            }
+        }
+        val commonTest by getting {
+            dependencies {
             }
         }
     }

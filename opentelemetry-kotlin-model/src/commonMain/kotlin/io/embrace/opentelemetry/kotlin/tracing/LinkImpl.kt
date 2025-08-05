@@ -6,7 +6,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.Link
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
 @OptIn(ExperimentalApi::class)
-public class LinkImpl(
+class LinkImpl(
     override val spanContext: SpanContext,
     private val attributesContainer: MutableAttributeContainer
 ) : Link, MutableAttributeContainer by attributesContainer

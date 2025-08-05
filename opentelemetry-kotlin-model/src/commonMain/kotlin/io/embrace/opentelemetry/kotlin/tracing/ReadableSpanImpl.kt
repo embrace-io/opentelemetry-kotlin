@@ -12,7 +12,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 
 @OptIn(ExperimentalApi::class)
-public class ReadableSpanImpl(
+class ReadableSpanImpl(
     override val name: String,
     override val status: StatusData,
     override val parent: SpanContext,

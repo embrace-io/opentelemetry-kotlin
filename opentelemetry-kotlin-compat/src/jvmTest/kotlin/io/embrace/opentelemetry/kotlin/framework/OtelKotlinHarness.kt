@@ -40,13 +40,13 @@ internal class OtelKotlinHarness {
         OpenTelemetryInstance.createOpenTelemetryKotlin(
             clock = FakeClock(),
             tracerProvider = {
-                config.attributes?.let { resource(it, config.schemaUrl) }
+                config.attributes?.let { resource(config.schemaUrl, it) }
                 addSpanProcessor(InMemorySpanProcessor(spanExporter))
                 config.spanProcessors.forEach { addSpanProcessor(it) }
                 spanLimits(config.spanLimits)
             },
             loggerProvider = {
-                config.attributes?.let { resource(it, config.schemaUrl) }
+                config.attributes?.let { resource(config.schemaUrl, it) }
                 addLogRecordProcessor(InMemoryLogRecordProcessor(logRecordExporter))
                 config.logRecordProcessors.forEach { addLogRecordProcessor(it) }
                 logLimits(config.logLimits)
