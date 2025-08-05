@@ -5,10 +5,10 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaStatusData
 import io.opentelemetry.api.common.AttributeKey
 import java.util.concurrent.TimeUnit
 
-@Suppress("UNUSED_PARAMETER")
 @OptIn(ExperimentalApi::class)
 internal class ReadWriteSpanAdapter(
     private val impl: OtelJavaReadWriteSpan,
@@ -16,14 +16,21 @@ internal class ReadWriteSpanAdapter(
 ) : ReadWriteSpan, ReadableSpan by readableSpan {
 
     override var name: String
-        get() = impl.name
-        set(value) {}
+        get() = readableSpan.name
+        set(value) {
+            impl.updateName(value)
+        }
 
     override var status: StatusData
         get() = readableSpan.status
-        set(value) {}
-
-    override val hasEnded: Boolean = impl.hasEnded()
+        set(value) {
+            val status = value.toOtelJavaStatusData()
+            if (status.description.isEmpty()) {
+                impl.setStatus(status.statusCode)
+            } else {
+                impl.setStatus(status.statusCode, status.description)
+            }
+        }
 
     override fun end() {
         impl.end()

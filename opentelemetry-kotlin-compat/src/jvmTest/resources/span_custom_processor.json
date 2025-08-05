@@ -3,8 +3,8 @@
     "name": "other",
     "kind": "INTERNAL",
     "statusData": {
-      "name": "UNSET",
-      "description": ""
+      "name": "ERROR",
+      "description": "bad_err"
     },
     "spanContext": {
       "traceId": "00000000000000000000000000000000",
@@ -65,8 +65,8 @@
     "name": "my_span",
     "kind": "INTERNAL",
     "statusData": {
-      "name": "UNSET",
-      "description": ""
+      "name": "ERROR",
+      "description": "bad_err"
     },
     "spanContext": {
       "traceId": "00000000000000000000000000000000",
