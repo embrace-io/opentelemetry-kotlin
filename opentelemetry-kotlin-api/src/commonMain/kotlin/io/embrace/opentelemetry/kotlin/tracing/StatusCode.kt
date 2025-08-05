@@ -15,15 +15,15 @@ public enum class StatusCode {
     /**
      * Default status.
      */
-    Unset,
+    UNSET,
 
     /**
      * The operation completed successfully.
      */
-    Ok,
+    OK,
 
     /**
      * The operation completed with an error.
      */
-    Error
+    ERROR
 }

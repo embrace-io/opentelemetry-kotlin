@@ -16,17 +16,17 @@ public sealed class StatusData(
      * Default status.
      */
     @ThreadSafe
-    public object Unset : StatusData(StatusCode.Unset, null)
+    public object Unset : StatusData(StatusCode.UNSET, null)
 
     /**
      * The operation completed successfully.
      */
     @ThreadSafe
-    public object Ok : StatusData(StatusCode.Ok, null)
+    public object Ok : StatusData(StatusCode.OK, null)
 
     /**
      * The operation completed with an error. An optional description of the error may be provided.
      */
     @ThreadSafe
-    public class Error(description: String?) : StatusData(StatusCode.Error, description)
+    public class Error(description: String?) : StatusData(StatusCode.ERROR, description)
 }

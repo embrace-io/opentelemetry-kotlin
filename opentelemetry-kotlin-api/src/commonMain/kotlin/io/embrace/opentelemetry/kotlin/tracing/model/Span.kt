@@ -24,7 +24,7 @@ public interface Span : SpanSchema, SpanRelationships {
     public override var name: String
 
     /**
-     * Sets the status of the span. This defaults to [StatusCode.Unset].
+     * Sets the status of the span. This defaults to [StatusCode.UNSET].
      */
     @ThreadSafe
     public override var status: StatusData
