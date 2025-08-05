@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.telescope.telemetry
 import android.content.res.Resources
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
-import io.embrace.opentelemetry.kotlin.compatWithOtelJava
+import io.embrace.opentelemetry.kotlin.decorateJavaApi
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.opentelemetry.exporter.logging.LoggingSpanExporter
 import io.opentelemetry.sdk.OpenTelemetrySdk
@@ -36,7 +36,7 @@ class AppTracerProvider(
             .setTracerProvider(sdkTracerProvider)
             .build()
 
-        val kotlinApi = OpenTelemetryInstance.compatWithOtelJava(javaSdk)
+        val kotlinApi = OpenTelemetryInstance.decorateJavaApi(javaSdk)
 
         return kotlinApi.tracerProvider.getTracer("AppTracer")
     }
