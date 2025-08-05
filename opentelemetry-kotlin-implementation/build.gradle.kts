@@ -14,5 +14,10 @@ kotlin {
                 implementation(project(":opentelemetry-kotlin-model"))
             }
         }
+        val commonTest by getting {
+            dependencies {
+                implementation(project(":opentelemetry-kotlin-test-fakes"))
+            }
+        }
     }
 }
