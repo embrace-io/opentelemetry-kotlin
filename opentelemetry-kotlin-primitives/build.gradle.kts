@@ -10,14 +10,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":opentelemetry-kotlin-api"))
-                implementation(project(":opentelemetry-kotlin-model"))
-                implementation(project(":opentelemetry-kotlin-primitives"))
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(":opentelemetry-kotlin-test-fakes"))
             }
         }
     }
