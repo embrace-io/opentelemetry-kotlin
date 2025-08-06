@@ -22,7 +22,6 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
-                implementation(project(":opentelemetry-kotlin-testing"))
                 implementation(project(":opentelemetry-kotlin-test-fakes"))
             }
         }
