@@ -11,14 +11,6 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
-import io.opentelemetry.api.common.Attributes
-import io.opentelemetry.api.trace.SpanContext
-import io.opentelemetry.api.trace.SpanKind
-import io.opentelemetry.sdk.common.InstrumentationLibraryInfo
-import io.opentelemetry.sdk.resources.Resource
-import io.opentelemetry.sdk.trace.data.EventData
-import io.opentelemetry.sdk.trace.data.LinkData
-import io.opentelemetry.sdk.trace.data.StatusData
 
 /**
  * Implementation of [io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData] that we can construct new instances of. Required for
@@ -42,14 +34,14 @@ internal class OtelJavaSpanDataImpl(
 ) : OtelJavaSpanData {
 
     override fun getName(): String = nameImpl
-    override fun getKind(): SpanKind = kindImpl
-    override fun getSpanContext(): SpanContext = spanContextImpl
-    override fun getParentSpanContext(): SpanContext = parentSpanContextImpl
-    override fun getStatus(): StatusData = statusImpl
+    override fun getKind(): OtelJavaSpanKind = kindImpl
+    override fun getSpanContext(): OtelJavaSpanContext = spanContextImpl
+    override fun getParentSpanContext(): OtelJavaSpanContext = parentSpanContextImpl
+    override fun getStatus(): OtelJavaStatusData = statusImpl
     override fun getStartEpochNanos(): Long = startEpochNanosImpl
-    override fun getAttributes(): Attributes = attributesImpl
-    override fun getEvents(): List<EventData> = eventsImpl
-    override fun getLinks(): List<LinkData> = linksImpl
+    override fun getAttributes(): OtelJavaAttributes = attributesImpl
+    override fun getEvents(): List<OtelJavaEventData> = eventsImpl
+    override fun getLinks(): List<OtelJavaLinkData> = linksImpl
     override fun getEndEpochNanos(): Long = endEpochNanosImpl
     override fun hasEnded(): Boolean = hasEndedImpl
     override fun getTotalRecordedEvents(): Int = eventsImpl.size
@@ -57,6 +49,6 @@ internal class OtelJavaSpanDataImpl(
     override fun getTotalAttributeCount(): Int = attributesImpl.size()
 
     @Deprecated("Deprecated in Java")
-    override fun getInstrumentationLibraryInfo(): InstrumentationLibraryInfo = scopeImpl
-    override fun getResource(): Resource = resourceImpl
+    override fun getInstrumentationLibraryInfo(): OtelJavaInstrumentationLibraryInfo = scopeImpl
+    override fun getResource(): OtelJavaResource = resourceImpl
 }

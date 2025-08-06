@@ -2,13 +2,13 @@
 
 package io.embrace.opentelemetry.kotlin.fakes.otel.java
 
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaInstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadableSpan
-import io.opentelemetry.api.common.AttributeKey
-import io.opentelemetry.api.common.Attributes
-import io.opentelemetry.api.trace.Span
-import io.opentelemetry.api.trace.StatusCode
-import io.opentelemetry.sdk.common.InstrumentationScopeInfo
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
 import java.util.concurrent.TimeUnit
 
 /**
@@ -18,49 +18,49 @@ internal class FakeOtelJavaReadWriteSpan(
     val readableSpan: OtelJavaReadableSpan = FakeOtelJavaReadableSpan()
 ) : OtelJavaReadWriteSpan, OtelJavaReadableSpan by readableSpan {
 
-    override fun getInstrumentationScopeInfo(): InstrumentationScopeInfo {
+    override fun getInstrumentationScopeInfo(): OtelJavaInstrumentationScopeInfo {
         return readableSpan.instrumentationScopeInfo
     }
 
-    override fun getAttributes(): Attributes {
+    override fun getAttributes(): OtelJavaAttributes {
         return readableSpan.attributes
     }
 
     override fun <T : Any?> setAttribute(
-        key: AttributeKey<T?>,
+        key: OtelJavaAttributeKey<T?>,
         value: T?
-    ): Span? {
+    ): OtelJavaSpan {
         TODO("Not yet implemented")
     }
 
-    override fun addEvent(name: String, attributes: Attributes): Span? {
+    override fun addEvent(name: String, attributes: OtelJavaAttributes): OtelJavaSpan {
         TODO("Not yet implemented")
     }
 
     override fun addEvent(
         name: String,
-        attributes: Attributes,
+        attributes: OtelJavaAttributes,
         timestamp: Long,
         unit: TimeUnit
-    ): Span? {
+    ): OtelJavaSpan? {
         TODO("Not yet implemented")
     }
 
     override fun setStatus(
-        statusCode: StatusCode,
+        statusCode: OtelJavaStatusCode,
         description: String
-    ): Span? {
+    ): OtelJavaSpan {
         TODO("Not yet implemented")
     }
 
     override fun recordException(
         exception: Throwable,
-        additionalAttributes: Attributes
-    ): Span? {
+        additionalAttributes: OtelJavaAttributes
+    ): OtelJavaSpan {
         TODO("Not yet implemented")
     }
 
-    override fun updateName(name: String): Span? {
+    override fun updateName(name: String): OtelJavaSpan {
         TODO("Not yet implemented")
     }
 

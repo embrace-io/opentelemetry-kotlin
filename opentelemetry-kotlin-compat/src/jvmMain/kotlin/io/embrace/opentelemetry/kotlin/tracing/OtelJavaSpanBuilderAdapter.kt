@@ -15,7 +15,6 @@ import io.embrace.opentelemetry.kotlin.attributes.toMap
 import io.embrace.opentelemetry.kotlin.context.ContextAdapter
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelKotlinSpanKind
 import io.embrace.opentelemetry.kotlin.tracing.model.OtelJavaSpanAdapter
-import io.opentelemetry.context.Context
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
@@ -36,7 +35,7 @@ internal class OtelJavaSpanBuilderAdapter(
     }
 
     override fun setNoParent(): OtelJavaSpanBuilder {
-        parent = Context.root()
+        parent = OtelJavaContext.root()
         return this
     }
 

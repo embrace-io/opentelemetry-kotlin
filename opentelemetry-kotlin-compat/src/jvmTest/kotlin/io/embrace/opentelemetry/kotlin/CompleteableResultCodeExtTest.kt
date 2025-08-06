@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin
 
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaCompletableResultCode
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
-import io.opentelemetry.sdk.common.CompletableResultCode
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -12,11 +12,11 @@ internal class CompleteableResultCodeExtTest {
     fun `test conversion`() {
         assertEquals(
             OperationResultCode.Success,
-            CompletableResultCode.ofSuccess().toOperationResultCode()
+            OtelJavaCompletableResultCode.ofSuccess().toOperationResultCode()
         )
         assertEquals(
             OperationResultCode.Failure,
-            CompletableResultCode.ofFailure().toOperationResultCode()
+            OtelJavaCompletableResultCode.ofFailure().toOperationResultCode()
         )
     }
 }

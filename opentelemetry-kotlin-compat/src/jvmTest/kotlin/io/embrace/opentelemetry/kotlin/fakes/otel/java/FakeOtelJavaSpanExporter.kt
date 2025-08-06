@@ -1,27 +1,27 @@
 package io.embrace.opentelemetry.kotlin.fakes.otel.java
 
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaCompletableResultCode
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanExporter
-import io.opentelemetry.sdk.common.CompletableResultCode
-import io.opentelemetry.sdk.trace.data.SpanData
 
 internal class FakeOtelJavaSpanExporter : OtelJavaSpanExporter {
 
     var flushCount = 0
     var shutdownCount = 0
-    val exports: MutableList<SpanData> = mutableListOf()
+    val exports: MutableList<OtelJavaSpanData> = mutableListOf()
 
-    override fun export(logs: MutableCollection<SpanData>): CompletableResultCode {
+    override fun export(logs: MutableCollection<OtelJavaSpanData>): OtelJavaCompletableResultCode {
         exports += logs
-        return CompletableResultCode.ofSuccess()
+        return OtelJavaCompletableResultCode.ofSuccess()
     }
 
-    override fun flush(): CompletableResultCode {
+    override fun flush(): OtelJavaCompletableResultCode {
         flushCount += 1
-        return CompletableResultCode.ofSuccess()
+        return OtelJavaCompletableResultCode.ofSuccess()
     }
 
-    override fun shutdown(): CompletableResultCode {
+    override fun shutdown(): OtelJavaCompletableResultCode {
         shutdownCount += 1
-        return CompletableResultCode.ofSuccess()
+        return OtelJavaCompletableResultCode.ofSuccess()
     }
 }

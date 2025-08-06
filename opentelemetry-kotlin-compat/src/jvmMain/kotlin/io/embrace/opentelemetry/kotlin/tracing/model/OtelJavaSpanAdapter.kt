@@ -3,6 +3,9 @@ package io.embrace.opentelemetry.kotlin.tracing.model
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaImplicitContextKeyed
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaScope
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
@@ -10,15 +13,10 @@ import io.embrace.opentelemetry.kotlin.attributes.toMap
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelKotlinStatusData
 import io.embrace.opentelemetry.kotlin.tracing.recordException
-import io.opentelemetry.api.common.Attributes
-import io.opentelemetry.api.trace.SpanContext
-import io.opentelemetry.context.Context
-import io.opentelemetry.context.ImplicitContextKeyed
-import io.opentelemetry.context.Scope
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
-internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan, ImplicitContextKeyed {
+internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan, OtelJavaImplicitContextKeyed {
 
     override fun <T : Any?> setAttribute(key: OtelJavaAttributeKey<T?>, value: T?): OtelJavaSpan {
         span.setStringAttribute(key.key, value.toString())
@@ -50,8 +48,8 @@ internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan, Impli
     }
 
     override fun addLink(
-        spanContext: SpanContext,
-        attributes: Attributes
+        spanContext: OtelJavaSpanContext,
+        attributes: OtelJavaAttributes
     ): OtelJavaSpan {
         span.addLink(SpanContextAdapter(spanContext)) {
             attributes.toMap().forEach {
@@ -97,19 +95,19 @@ internal class OtelJavaSpanAdapter(private val span: Span) : OtelJavaSpan, Impli
 
     override fun isRecording(): Boolean = span.isRecording()
 
-    override fun storeInContext(context: Context): Context {
-        return if ((span is ImplicitContextKeyed)) {
+    override fun storeInContext(context: OtelJavaContext): OtelJavaContext {
+        return if ((span is OtelJavaImplicitContextKeyed)) {
             span.storeInContext(context)
         } else {
             super.storeInContext(context)
         }
     }
 
-    override fun makeCurrent(): Scope {
-        return if ((span is ImplicitContextKeyed)) {
+    override fun makeCurrent(): OtelJavaScope {
+        return if ((span is OtelJavaImplicitContextKeyed)) {
             span.makeCurrent()
         } else {
-            super<ImplicitContextKeyed>.makeCurrent()
+            super<OtelJavaImplicitContextKeyed>.makeCurrent()
         }
     }
 }

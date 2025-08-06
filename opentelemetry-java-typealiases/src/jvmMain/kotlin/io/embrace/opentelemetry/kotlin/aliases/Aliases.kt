@@ -39,6 +39,7 @@ import io.opentelemetry.sdk.logs.LogLimits
 import io.opentelemetry.sdk.logs.LogRecordProcessor
 import io.opentelemetry.sdk.logs.ReadWriteLogRecord
 import io.opentelemetry.sdk.logs.SdkLoggerProvider
+import io.opentelemetry.sdk.logs.SdkLoggerProviderBuilder
 import io.opentelemetry.sdk.logs.data.Body
 import io.opentelemetry.sdk.logs.data.LogRecordData
 import io.opentelemetry.sdk.logs.export.LogRecordExporter
@@ -48,6 +49,7 @@ import io.opentelemetry.sdk.trace.IdGenerator
 import io.opentelemetry.sdk.trace.ReadWriteSpan
 import io.opentelemetry.sdk.trace.ReadableSpan
 import io.opentelemetry.sdk.trace.SdkTracerProvider
+import io.opentelemetry.sdk.trace.SdkTracerProviderBuilder
 import io.opentelemetry.sdk.trace.SpanLimits
 import io.opentelemetry.sdk.trace.SpanProcessor
 import io.opentelemetry.sdk.trace.data.EventData
@@ -92,7 +94,9 @@ typealias OtelJavaReadableSpan = ReadableSpan
 typealias OtelJavaSpanProcessor = SpanProcessor
 typealias OtelJavaOpenTelemetrySdk = OpenTelemetrySdk
 typealias OtelJavaSdkLoggerProvider = SdkLoggerProvider
+typealias OtelJavaSdkLoggerProviderBuilder = SdkLoggerProviderBuilder
 typealias OtelJavaSdkTracerProvider = SdkTracerProvider
+typealias OtelJavaSdkTracerProviderBuilder = SdkTracerProviderBuilder
 typealias OtelJavaBody = Body
 typealias OtelJavaInstrumentationLibraryInfo = InstrumentationLibraryInfo
 typealias OtelJavaAttributesBuilder = AttributesBuilder
