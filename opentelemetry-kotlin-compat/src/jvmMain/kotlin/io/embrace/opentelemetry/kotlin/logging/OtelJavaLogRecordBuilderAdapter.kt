@@ -1,11 +1,11 @@
 package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogRecordBuilder
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSeverity
 import io.embrace.opentelemetry.kotlin.context.toOtelKotlinContext
-import io.opentelemetry.api.common.AttributeKey
-import io.opentelemetry.api.logs.Severity
-import io.opentelemetry.context.Context
 import java.time.Instant
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
@@ -16,8 +16,8 @@ internal class OtelJavaLogRecordBuilderAdapter(private val impl: Logger) :
 
     private var timestamp: Long? = null
     private var observedTimestamp: Long? = null
-    private var context: Context? = null
-    private var severity: Severity? = null
+    private var context: OtelJavaContext? = null
+    private var severity: OtelJavaSeverity? = null
     private var severityText: String? = null
     private var body: String? = null
     private val attrs = ConcurrentHashMap<String, String>()
@@ -46,12 +46,12 @@ internal class OtelJavaLogRecordBuilderAdapter(private val impl: Logger) :
         return this
     }
 
-    override fun setContext(context: Context): OtelJavaLogRecordBuilder {
+    override fun setContext(context: OtelJavaContext): OtelJavaLogRecordBuilder {
         this.context = context
         return this
     }
 
-    override fun setSeverity(severity: Severity): OtelJavaLogRecordBuilder {
+    override fun setSeverity(severity: OtelJavaSeverity): OtelJavaLogRecordBuilder {
         this.severity = severity
         return this
     }
@@ -67,7 +67,7 @@ internal class OtelJavaLogRecordBuilderAdapter(private val impl: Logger) :
     }
 
     override fun <T : Any?> setAttribute(
-        key: AttributeKey<T>,
+        key: OtelJavaAttributeKey<T>,
         value: T?
     ): OtelJavaLogRecordBuilder {
         attrs[key.key] = value.toString()

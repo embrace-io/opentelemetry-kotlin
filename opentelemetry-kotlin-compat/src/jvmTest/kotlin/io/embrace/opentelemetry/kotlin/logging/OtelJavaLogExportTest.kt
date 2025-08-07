@@ -4,13 +4,13 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContextKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogger
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSeverity
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.context.ContextAdapter
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
-import io.opentelemetry.api.logs.Severity
 import java.util.concurrent.TimeUnit
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -50,7 +50,7 @@ internal class OtelJavaLogExportTest {
             .setBody("Hello, world!")
             .setTimestamp(100L, TimeUnit.NANOSECONDS)
             .setObservedTimestamp(50L, TimeUnit.NANOSECONDS)
-            .setSeverity(Severity.ERROR2)
+            .setSeverity(OtelJavaSeverity.ERROR2)
             .setSeverityText("Error")
             .setAttribute("key2", "value2")
             .emit()
