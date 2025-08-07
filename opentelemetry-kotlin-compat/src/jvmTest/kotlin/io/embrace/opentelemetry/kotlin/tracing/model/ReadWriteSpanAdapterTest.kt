@@ -8,15 +8,16 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
 import io.embrace.opentelemetry.kotlin.attributes.attrsFromMap
 import io.embrace.opentelemetry.kotlin.attributes.toMap
+import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaReadWriteSpan
 import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaReadableSpan
 import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaSpanData
 import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.scope.toOtelJavaInstrumentationScopeInfo
-import io.embrace.opentelemetry.kotlin.testing.common.TestSpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
+import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaEventData
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaLinkData
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanContext
@@ -77,8 +78,8 @@ internal class ReadWriteSpanAdapterTest {
     @Test
     fun `span updatable`() {
         val newStatus = StatusData.Error("err")
-        val processor = TestSpanProcessor(
-            runOnStart = assertReadWriteSpan(
+        val processor = FakeSpanProcessor(
+            startAction = assertReadWriteSpan(
                 updateCode = { span ->
                     span.apply {
                         name = "new-name"
@@ -90,7 +91,7 @@ internal class ReadWriteSpanAdapterTest {
                 expectedStatus = StatusData.Error("err"),
                 expectedAttributes = mapOf("key" to "value")
             ),
-            runOnEnd = assertReadableSpan(
+            endAction = assertReadableSpan(
                 expectedName = "name",
                 expectedStatus = StatusData.Error("err"),
                 expectedAttributes = mapOf("key" to "value")
@@ -138,8 +139,9 @@ internal class ReadWriteSpanAdapterTest {
         expectedAttributes: Map<String, Any>? = null,
         expectedEvents: List<EventData>? = null,
         expectedLinks: List<LinkData>? = null,
-    ): (span: ReadWriteSpan) -> Unit {
-        return fun(span: ReadWriteSpan) {
+    ): (span: ReadWriteSpan, _: Context) -> Unit {
+        @Suppress("UnusedParameter", "FunctionParameterNaming")
+        return fun(span: ReadWriteSpan, _: Context) {
             updateCode(span)
             assertReadableSpan(
                 expectedName = expectedName,
