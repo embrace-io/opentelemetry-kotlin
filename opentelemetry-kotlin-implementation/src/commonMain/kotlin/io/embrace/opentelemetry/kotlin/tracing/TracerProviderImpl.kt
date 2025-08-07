@@ -2,10 +2,13 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.init.config.TracingConfig
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderImpl
 
 @OptIn(ExperimentalApi::class)
-internal class TracerProviderImpl : TracerProvider {
+internal class TracerProviderImpl(
+    @Suppress("UNUSED_PARAMETER") tracingConfig: TracingConfig
+) : TracerProvider {
 
     private val apiProvider = ApiProviderImpl<Tracer> { key ->
         TracerImpl(key)
