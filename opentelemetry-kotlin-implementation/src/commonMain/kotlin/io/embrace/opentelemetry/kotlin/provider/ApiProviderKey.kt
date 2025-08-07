@@ -9,7 +9,7 @@ package io.embrace.opentelemetry.kotlin.provider
  */
 internal data class ApiProviderKey(
     val name: String,
-    val version: String?,
-    val schemaUrl: String?,
-    val attributes: Map<String, Any>
+    val version: String? = null,
+    val schemaUrl: String? = null,
+    val attributes: Map<String, Any> = emptyMap(),
 )
