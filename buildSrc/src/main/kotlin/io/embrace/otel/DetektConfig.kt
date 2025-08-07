@@ -13,6 +13,10 @@ fun Project.configureDetekt() {
         "detektPlugins",
         project.findLibrary("detekt-formatting")
     )
+    project.dependencies.add(
+        "detektPlugins",
+        project(":custom-detekt-rules")
+    )
     val detekt = project.extensions.getByType(DetektExtension::class.java)
 
     detekt.apply {

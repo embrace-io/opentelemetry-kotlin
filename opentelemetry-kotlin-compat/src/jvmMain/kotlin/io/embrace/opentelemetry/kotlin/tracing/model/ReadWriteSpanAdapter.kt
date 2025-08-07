@@ -1,12 +1,12 @@
 package io.embrace.opentelemetry.kotlin.tracing.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaStatusData
-import io.opentelemetry.api.common.AttributeKey
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
@@ -72,18 +72,18 @@ internal class ReadWriteSpanAdapter(
     }
 
     override fun setBooleanListAttribute(key: String, value: List<Boolean>) {
-        impl.setAttribute(AttributeKey.booleanArrayKey(key), value)
+        impl.setAttribute(OtelJavaAttributeKey.booleanArrayKey(key), value)
     }
 
     override fun setStringListAttribute(key: String, value: List<String>) {
-        impl.setAttribute(AttributeKey.stringArrayKey(key), value)
+        impl.setAttribute(OtelJavaAttributeKey.stringArrayKey(key), value)
     }
 
     override fun setLongListAttribute(key: String, value: List<Long>) {
-        impl.setAttribute(AttributeKey.longArrayKey(key), value)
+        impl.setAttribute(OtelJavaAttributeKey.longArrayKey(key), value)
     }
 
     override fun setDoubleListAttribute(key: String, value: List<Double>) {
-        impl.setAttribute(AttributeKey.doubleArrayKey(key), value)
+        impl.setAttribute(OtelJavaAttributeKey.doubleArrayKey(key), value)
     }
 }
