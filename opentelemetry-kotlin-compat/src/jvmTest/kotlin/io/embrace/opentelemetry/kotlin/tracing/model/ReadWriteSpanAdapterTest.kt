@@ -4,11 +4,13 @@ import fakeInProgressOtelJavaSpanData
 import fakeOtelJavaEventData
 import fakeOtelJavaLinkData
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusData
 import io.embrace.opentelemetry.kotlin.attributes.attrsFromMap
 import io.embrace.opentelemetry.kotlin.attributes.toMap
 import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.context.toOtelJavaContext
 import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaReadWriteSpan
 import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaReadableSpan
 import io.embrace.opentelemetry.kotlin.fakes.otel.java.FakeOtelJavaSpanData
@@ -140,9 +142,12 @@ internal class ReadWriteSpanAdapterTest {
         expectedEvents: List<EventData>? = null,
         expectedLinks: List<LinkData>? = null,
     ): (span: ReadWriteSpan, _: Context) -> Unit {
-        @Suppress("UnusedParameter", "FunctionParameterNaming")
-        return fun(span: ReadWriteSpan, _: Context) {
+        return fun(span: ReadWriteSpan, context: Context) {
             updateCode(span)
+            assertEquals(
+                OtelJavaSpan.getInvalid().spanContext.spanId,
+                OtelJavaSpan.fromContext(context.toOtelJavaContext()).spanContext.spanId,
+            )
             assertReadableSpan(
                 expectedName = expectedName,
                 expectedStatus = expectedStatus,
