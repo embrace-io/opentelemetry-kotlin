@@ -4,6 +4,8 @@ import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaImplicitContextKeyed
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaScope
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
@@ -15,9 +17,6 @@ import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaStatusData
-import io.opentelemetry.context.Context
-import io.opentelemetry.context.ImplicitContextKeyed
-import io.opentelemetry.context.Scope
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.TimeUnit
@@ -29,7 +28,7 @@ internal class SpanAdapter(
     parentCtx: OtelJavaContext?,
     override val spanKind: SpanKind,
     override val startTimestamp: Long,
-) : Span, ImplicitContextKeyed {
+) : Span, OtelJavaImplicitContextKeyed {
 
     private val attrs: MutableMap<String, Any> = ConcurrentHashMap()
     private val eventsImpl: ConcurrentLinkedQueue<EventData> = ConcurrentLinkedQueue()
@@ -139,11 +138,11 @@ internal class SpanAdapter(
         attrs[key] = value
     }
 
-    override fun storeInContext(context: Context): Context? {
+    override fun storeInContext(context: OtelJavaContext): OtelJavaContext? {
         return impl.storeInContext(context)
     }
 
-    override fun makeCurrent(): Scope? {
+    override fun makeCurrent(): OtelJavaScope? {
         return impl.makeCurrent()
     }
 }
