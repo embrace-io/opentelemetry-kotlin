@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderKey
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanImpl
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 
@@ -18,6 +19,8 @@ internal class TracerImpl(private val key: ApiProviderKey) : Tracer {
         startTimestamp: Long?,
         action: SpanRelationships.() -> Unit
     ): Span {
-        throw UnsupportedOperationException()
+        val spanRelationships = SpanRelationshipsImpl()
+        action(spanRelationships)
+        return SpanImpl(spanRelationships.attrs)
     }
 }
