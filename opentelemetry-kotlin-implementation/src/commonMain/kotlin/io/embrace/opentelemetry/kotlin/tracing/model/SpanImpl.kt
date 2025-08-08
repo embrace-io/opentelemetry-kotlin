@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.tracing.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
@@ -11,6 +12,8 @@ import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 internal class SpanImpl(
     private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl()
 ) : Span {
+
+    private val lock = ReentrantReadWriteLock()
 
     // in future this may need implementing as a tri-state enum to better support span processors
     private var recording = true
@@ -65,28 +68,30 @@ internal class SpanImpl(
     }
 
     override val attributes: Map<String, Any>
-        get() = attrs.attributes
+        get() = readSpan {
+            attrs.attributes
+        }
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
-        if (isRecording()) {
+        writeSpan {
             attrs.setBooleanAttribute(key, value)
         }
     }
 
     override fun setStringAttribute(key: String, value: String) {
-        if (isRecording()) {
+        writeSpan {
             attrs.setStringAttribute(key, value)
         }
     }
 
     override fun setLongAttribute(key: String, value: Long) {
-        if (isRecording()) {
+        writeSpan {
             attrs.setLongAttribute(key, value)
         }
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
-        if (isRecording()) {
+        writeSpan {
             attrs.setDoubleAttribute(key, value)
         }
     }
@@ -95,7 +100,7 @@ internal class SpanImpl(
         key: String,
         value: List<Boolean>
     ) {
-        if (isRecording()) {
+        writeSpan {
             attrs.setBooleanListAttribute(key, value)
         }
     }
@@ -104,7 +109,7 @@ internal class SpanImpl(
         key: String,
         value: List<String>
     ) {
-        if (isRecording()) {
+        writeSpan {
             attrs.setStringListAttribute(key, value)
         }
     }
@@ -113,7 +118,7 @@ internal class SpanImpl(
         key: String,
         value: List<Long>
     ) {
-        if (isRecording()) {
+        writeSpan {
             attrs.setLongListAttribute(key, value)
         }
     }
@@ -122,8 +127,22 @@ internal class SpanImpl(
         key: String,
         value: List<Double>
     ) {
-        if (isRecording()) {
+        writeSpan {
             attrs.setDoubleListAttribute(key, value)
+        }
+    }
+
+    private inline fun <T> writeSpan(crossinline action: () -> T) {
+        return lock.write {
+            if (isRecording()) {
+                action()
+            }
+        }
+    }
+
+    private inline fun <T> readSpan(crossinline action: () -> T): T {
+        return lock.read {
+            action()
         }
     }
 }
