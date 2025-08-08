@@ -3,9 +3,10 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderKey
+import io.embrace.opentelemetry.kotlin.tracing.model.CreatedSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanImpl
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanRecord
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 
 @Suppress("unused")
@@ -21,6 +22,7 @@ internal class TracerImpl(private val key: ApiProviderKey) : Tracer {
     ): Span {
         val spanRelationships = SpanRelationshipsImpl()
         action(spanRelationships)
-        return SpanImpl(spanRelationships.attrs)
+        val spanRecord = SpanRecord(spanRelationships.attrs)
+        return CreatedSpan(spanRecord)
     }
 }
