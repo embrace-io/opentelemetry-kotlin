@@ -3,6 +3,7 @@ package io.embrace.opentelemetry.kotlin.tracing.model
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
+import io.embrace.opentelemetry.kotlin.doubleCheckedLockSync
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
@@ -11,6 +12,8 @@ import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 internal class SpanImpl(
     private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl()
 ) : Span {
+
+    private val lock = Any()
 
     // in future this may need implementing as a tri-state enum to better support span processors
     private var recording = true
@@ -68,25 +71,25 @@ internal class SpanImpl(
         get() = attrs.attributes
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
-        if (isRecording()) {
+        doubleCheckedLockSync(lock, ::isRecording) {
             attrs.setBooleanAttribute(key, value)
         }
     }
 
     override fun setStringAttribute(key: String, value: String) {
-        if (isRecording()) {
+        doubleCheckedLockSync(lock, ::isRecording) {
             attrs.setStringAttribute(key, value)
         }
     }
 
     override fun setLongAttribute(key: String, value: Long) {
-        if (isRecording()) {
+        doubleCheckedLockSync(lock, ::isRecording) {
             attrs.setLongAttribute(key, value)
         }
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
-        if (isRecording()) {
+        doubleCheckedLockSync(lock, ::isRecording) {
             attrs.setDoubleAttribute(key, value)
         }
     }
@@ -95,7 +98,7 @@ internal class SpanImpl(
         key: String,
         value: List<Boolean>
     ) {
-        if (isRecording()) {
+        doubleCheckedLockSync(lock, ::isRecording) {
             attrs.setBooleanListAttribute(key, value)
         }
     }
@@ -104,7 +107,7 @@ internal class SpanImpl(
         key: String,
         value: List<String>
     ) {
-        if (isRecording()) {
+        doubleCheckedLockSync(lock, ::isRecording) {
             attrs.setStringListAttribute(key, value)
         }
     }
@@ -113,7 +116,7 @@ internal class SpanImpl(
         key: String,
         value: List<Long>
     ) {
-        if (isRecording()) {
+        doubleCheckedLockSync(lock, ::isRecording) {
             attrs.setLongListAttribute(key, value)
         }
     }
@@ -122,7 +125,7 @@ internal class SpanImpl(
         key: String,
         value: List<Double>
     ) {
-        if (isRecording()) {
+        doubleCheckedLockSync(lock, ::isRecording) {
             attrs.setDoubleListAttribute(key, value)
         }
     }

@@ -1,4 +1,5 @@
 public final class io/embrace/opentelemetry/kotlin/Sync_jvmKt {
+	public static final fun doubleCheckedLockSync (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;)V
 	public static final fun sync (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
