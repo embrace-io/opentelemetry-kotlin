@@ -30,7 +30,7 @@ public fun OpenTelemetryInstance.decorateJavaApi(
     objectCreator: ObjectCreator = createCompatObjectCreator(),
 ): OpenTelemetry {
     val clock = ClockAdapter(OtelJavaClock.getDefault())
-    return OpenTelemetrySdk(
+    return OpenTelemetryImpl(
         tracerProvider = TracerProviderAdapter(impl.tracerProvider, clock),
         loggerProvider = LoggerProviderAdapter(impl.logsBridge),
         clock = clock,
@@ -57,7 +57,7 @@ public fun OpenTelemetryInstance.createOpenTelemetryKotlin(
     val tracerCfg = TracerProviderConfigImpl(clock).apply(tracerProvider)
     val loggerCfg = LoggerProviderConfigImpl(clock).apply(loggerProvider)
 
-    return OpenTelemetrySdk(
+    return OpenTelemetryImpl(
         tracerProvider = tracerCfg.build(),
         loggerProvider = loggerCfg.build(),
         clock = clock,

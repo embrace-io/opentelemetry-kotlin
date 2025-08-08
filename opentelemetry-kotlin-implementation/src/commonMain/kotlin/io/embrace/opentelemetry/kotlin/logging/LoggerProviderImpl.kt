@@ -2,10 +2,13 @@ package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.init.config.LoggingConfig
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderImpl
 
 @OptIn(ExperimentalApi::class)
-internal class LoggerProviderImpl : LoggerProvider {
+internal class LoggerProviderImpl(
+    @Suppress("UNUSED_PARAMETER") loggingConfig: LoggingConfig
+) : LoggerProvider {
 
     private val apiProvider = ApiProviderImpl<Logger> { key ->
         LoggerImpl(key)

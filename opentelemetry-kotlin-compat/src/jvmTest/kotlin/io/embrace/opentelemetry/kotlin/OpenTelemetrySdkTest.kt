@@ -1,8 +1,5 @@
 package io.embrace.opentelemetry.kotlin
 
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
-import io.embrace.opentelemetry.kotlin.clock.FakeClock
-import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
 import org.junit.Assert
 import org.junit.Test
 
@@ -11,11 +8,7 @@ internal class OpenTelemetrySdkTest {
 
     @Test
     fun `retrieve tracer provider`() {
-        val sdk = OpenTelemetrySdk(
-            OtelJavaOpenTelemetry.noop(),
-            FakeClock(),
-            createCompatObjectCreator()
-        )
+        val sdk = OpenTelemetryInstance.createOpenTelemetryKotlin()
         val provider = sdk.tracerProvider
         val a = provider.getTracer("test")
         val b = provider.getTracer("test")
@@ -30,11 +23,7 @@ internal class OpenTelemetrySdkTest {
 
     @Test
     fun `retrieve logger provider`() {
-        val sdk = OpenTelemetrySdk(
-            OtelJavaOpenTelemetry.noop(),
-            FakeClock(),
-            createCompatObjectCreator()
-        )
+        val sdk = OpenTelemetryInstance.createOpenTelemetryKotlin()
         val provider = sdk.loggerProvider
         val a = provider.getLogger("test")
         val b = provider.getLogger("test")
