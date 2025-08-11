@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.framework.serialization
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class SerializableLogRecordData(
+data class SerializableLogRecordData(
     val resource: SerializableResource,
     val instrumentationScopeInfo: SerializableInstrumentationScopeInfo,
     val timestampEpochNanos: Long,
