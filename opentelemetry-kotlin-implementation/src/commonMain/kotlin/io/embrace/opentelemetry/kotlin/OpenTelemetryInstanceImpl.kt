@@ -3,6 +3,7 @@ package io.embrace.opentelemetry.kotlin
 import io.embrace.opentelemetry.kotlin.clock.ClockImpl
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreatorImpl
+import io.embrace.opentelemetry.kotlin.error.NoopSdkErrorHandler
 import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigDsl
 import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigImpl
 import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigDsl
@@ -22,9 +23,10 @@ public fun OpenTelemetryInstance.default(
 ): OpenTelemetry {
     val tracingConfig = TracerProviderConfigImpl().apply(tracerProvider).generateTracingConfig()
     val loggingConfig = LoggerProviderConfigImpl().apply(loggerProvider).generateLoggingConfig()
+    val sdkErrorHandler = NoopSdkErrorHandler
     return OpenTelemetryImpl(
-        tracerProvider = TracerProviderImpl(tracingConfig),
-        loggerProvider = LoggerProviderImpl(loggingConfig),
+        tracerProvider = TracerProviderImpl(clock, tracingConfig, sdkErrorHandler),
+        loggerProvider = LoggerProviderImpl(clock, loggingConfig, sdkErrorHandler),
         clock = clock,
         objectCreator = objectCreator
     )

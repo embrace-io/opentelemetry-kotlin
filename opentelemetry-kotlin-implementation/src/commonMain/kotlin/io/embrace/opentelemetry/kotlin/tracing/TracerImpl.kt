@@ -1,8 +1,10 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
+import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderKey
+import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.model.CreatedSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
@@ -11,7 +13,11 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 
 @Suppress("unused")
 @OptIn(ExperimentalApi::class)
-internal class TracerImpl(private val key: ApiProviderKey) : Tracer {
+internal class TracerImpl(
+    private val clock: Clock,
+    private val processor: SpanProcessor,
+    private val key: ApiProviderKey
+) : Tracer {
 
     override fun createSpan(
         name: String,
@@ -22,7 +28,7 @@ internal class TracerImpl(private val key: ApiProviderKey) : Tracer {
     ): Span {
         val spanRelationships = SpanRelationshipsImpl()
         action(spanRelationships)
-        val spanRecord = SpanRecord(spanRelationships.attrs)
+        val spanRecord = SpanRecord(clock, processor, spanRelationships.attrs)
         return CreatedSpan(spanRecord)
     }
 }

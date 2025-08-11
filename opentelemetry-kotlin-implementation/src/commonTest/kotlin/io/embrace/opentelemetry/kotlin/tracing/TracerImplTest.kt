@@ -2,7 +2,9 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderKey
+import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -27,7 +29,7 @@ internal class TracerImplTest {
 
     @BeforeTest
     fun setUp() {
-        tracer = TracerImpl(key)
+        tracer = TracerImpl(FakeClock(), FakeSpanProcessor(), key)
     }
 
     @Test
