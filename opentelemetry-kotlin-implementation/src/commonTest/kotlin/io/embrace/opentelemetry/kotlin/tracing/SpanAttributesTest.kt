@@ -3,6 +3,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
+import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderKey
 import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
 import kotlin.test.BeforeTest
@@ -29,7 +30,12 @@ internal class SpanAttributesTest {
 
     @BeforeTest
     fun setUp() {
-        tracer = TracerImpl(FakeClock(), FakeSpanProcessor(), key)
+        tracer = TracerImpl(
+            FakeClock(),
+            FakeSpanProcessor(),
+            FakeObjectCreator(),
+            key
+        )
     }
 
     @Test

@@ -2,6 +2,8 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
+import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
+import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderKey
 import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
 import kotlin.test.BeforeTest
@@ -17,12 +19,14 @@ internal class SpanEndTest {
     private lateinit var tracer: TracerImpl
     private lateinit var clock: FakeClock
     private lateinit var processor: FakeSpanProcessor
+    private lateinit var objectCreator: ObjectCreator
 
     @BeforeTest
     fun setUp() {
         clock = FakeClock()
         processor = FakeSpanProcessor()
-        tracer = TracerImpl(clock, processor, key)
+        objectCreator = FakeObjectCreator()
+        tracer = TracerImpl(clock, processor, objectCreator, key)
     }
 
     @Test
@@ -30,9 +34,7 @@ internal class SpanEndTest {
         val timestamp = 100L
         val span = tracer.createSpan("test")
         span.end(timestamp)
-
-        val endedSpan = processor.endCalls.single()
-        assertEquals(timestamp, endedSpan.endTimestamp)
+        assertSpanTimestamp(timestamp)
     }
 
     @Test
@@ -41,9 +43,7 @@ internal class SpanEndTest {
         clock.time = timestamp
         val span = tracer.createSpan("test")
         span.end()
-
-        val endedSpan = processor.endCalls.single()
-        assertEquals(timestamp, endedSpan.endTimestamp)
+        assertSpanTimestamp(timestamp)
     }
 
     @Test
@@ -68,6 +68,13 @@ internal class SpanEndTest {
 
         span.end()
         assertFalse(span.isRecording())
+
+        assertSpanTimestamp(timestamp)
+    }
+
+    private fun assertSpanTimestamp(timestamp: Long) {
+        val readableSpan = processor.startCalls.single()
+        assertEquals(timestamp, readableSpan.endTimestamp)
 
         val endedSpan = processor.endCalls.single()
         assertEquals(timestamp, endedSpan.endTimestamp)

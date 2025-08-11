@@ -3,6 +3,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderKey
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.model.CreatedSpan
@@ -16,6 +17,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 internal class TracerImpl(
     private val clock: Clock,
     private val processor: SpanProcessor,
+    private val objectCreator: ObjectCreator,
     private val key: ApiProviderKey
 ) : Tracer {
 
@@ -28,7 +30,12 @@ internal class TracerImpl(
     ): Span {
         val spanRelationships = SpanRelationshipsImpl()
         action(spanRelationships)
-        val spanRecord = SpanRecord(clock, processor, spanRelationships.attrs)
+        val spanRecord = SpanRecord(
+            clock,
+            processor,
+            parentContext ?: objectCreator.context.root(),
+            spanRelationships.attrs
+        )
         return CreatedSpan(spanRecord)
     }
 }

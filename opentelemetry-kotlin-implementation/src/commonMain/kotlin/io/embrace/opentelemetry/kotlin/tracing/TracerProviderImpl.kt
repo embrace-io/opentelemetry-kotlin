@@ -3,6 +3,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.error.NoopSdkErrorHandler
 import io.embrace.opentelemetry.kotlin.error.SdkErrorHandler
 import io.embrace.opentelemetry.kotlin.init.config.TracingConfig
@@ -13,12 +14,13 @@ import io.embrace.opentelemetry.kotlin.tracing.export.CompositeSpanProcessor
 internal class TracerProviderImpl(
     private val clock: Clock,
     tracingConfig: TracingConfig,
+    objectCreator: ObjectCreator,
     sdkErrorHandler: SdkErrorHandler = NoopSdkErrorHandler,
 ) : TracerProvider {
 
     private val apiProvider = ApiProviderImpl<Tracer> { key ->
         val processor = CompositeSpanProcessor(tracingConfig.processors, sdkErrorHandler)
-        TracerImpl(clock, processor, key)
+        TracerImpl(clock, processor, objectCreator, key)
     }
 
     override fun getTracer(

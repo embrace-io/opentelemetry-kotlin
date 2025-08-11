@@ -6,6 +6,7 @@ import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
+import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
@@ -21,6 +22,7 @@ import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 internal class SpanRecord(
     private val clock: Clock,
     private val processor: SpanProcessor,
+    private val parentContext: Context,
     private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl()
 ) : ReadWriteSpan {
 
@@ -45,6 +47,7 @@ internal class SpanRecord(
     private fun endInternal(timestamp: Long) {
         writeSpan {
             endTimestamp = timestamp
+            processor.onStart(ReadWriteSpanImpl(this), parentContext)
             processor.onEnd(ReadableSpanImpl(this))
             recording = false
         }
