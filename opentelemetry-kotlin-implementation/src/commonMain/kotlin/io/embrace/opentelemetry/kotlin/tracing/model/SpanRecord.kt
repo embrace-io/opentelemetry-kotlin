@@ -26,9 +26,15 @@ internal class SpanRecord(
     private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl()
 ) : ReadWriteSpan {
 
+    private enum class State {
+        STARTED,
+        ENDING,
+        ENDED
+    }
+
     private val lock = ReentrantReadWriteLock()
 
-    private var recording = true
+    private var state: State = State.STARTED
 
     override var name: String = ""
         get() = throw UnsupportedOperationException()
@@ -45,15 +51,21 @@ internal class SpanRecord(
     }
 
     private fun endInternal(timestamp: Long) {
-        writeSpan {
-            endTimestamp = timestamp
-            processor.onStart(ReadWriteSpanImpl(this), parentContext)
-            processor.onEnd(ReadableSpanImpl(this))
-            recording = false
-        }
+        writeSpan(
+            condition = {
+                state == State.STARTED
+            },
+            action = {
+                state = State.ENDING
+                endTimestamp = timestamp
+                processor.onStart(ReadWriteSpanImpl(this), parentContext)
+                state = State.ENDED
+                processor.onEnd(ReadableSpanImpl(this))
+            }
+        )
     }
 
-    override fun isRecording(): Boolean = recording
+    override fun isRecording(): Boolean = state != State.ENDED
 
     override val parent: SpanContext
         get() = throw UnsupportedOperationException()
@@ -101,7 +113,7 @@ internal class SpanRecord(
         get() = throw UnsupportedOperationException()
 
     override val hasEnded: Boolean
-        get() = throw UnsupportedOperationException()
+        get() = state == State.ENDED
 
     override val attributes: Map<String, Any>
         get() = readSpan {
@@ -168,9 +180,12 @@ internal class SpanRecord(
         }
     }
 
-    private inline fun <T> writeSpan(crossinline action: () -> T) {
+    private inline fun <T> writeSpan(
+        crossinline condition: () -> Boolean = ::isRecording,
+        crossinline action: () -> T,
+    ) {
         return lock.write {
-            if (isRecording()) {
+            if (condition()) {
                 action()
             }
         }

@@ -72,6 +72,31 @@ internal class SpanEndTest {
         assertSpanTimestamp(timestamp)
     }
 
+    @Test
+    fun `test span processor containing end call`() {
+        var startCallCount = 0
+        var endCallCount = 0
+
+        processor.startAction = { rwSpan, _ ->
+            startCallCount++
+            assertTrue(rwSpan.isRecording())
+            rwSpan.end()
+        }
+        processor.endAction = { rSpan ->
+            endCallCount++
+            assertTrue(rSpan.hasEnded)
+        }
+
+        val span = tracer.createSpan("test")
+        assertTrue(span.isRecording())
+        span.end()
+        assertFalse(span.isRecording())
+
+        assertEquals(1, startCallCount)
+        assertEquals(1, endCallCount)
+        assertSpanTimestamp(clock.now())
+    }
+
     private fun assertSpanTimestamp(timestamp: Long) {
         val readableSpan = processor.startCalls.single()
         assertEquals(timestamp, readableSpan.endTimestamp)
