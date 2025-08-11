@@ -19,14 +19,13 @@ import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
  */
 @OptIn(ExperimentalApi::class)
 internal class SpanRecord(
-    @Suppress("unused") private val clock: Clock,
-    @Suppress("unused") private val processor: SpanProcessor,
+    private val clock: Clock,
+    private val processor: SpanProcessor,
     private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl()
 ) : ReadWriteSpan {
 
     private val lock = ReentrantReadWriteLock()
 
-    // in future this may need implementing as a tri-state enum to better support span processors
     private var recording = true
 
     override var name: String = ""
@@ -36,11 +35,19 @@ internal class SpanRecord(
         get() = throw UnsupportedOperationException()
 
     override fun end() {
-        recording = false
+        endInternal(clock.now())
     }
 
     override fun end(timestamp: Long) {
-        throw UnsupportedOperationException()
+        endInternal(timestamp)
+    }
+
+    private fun endInternal(timestamp: Long) {
+        writeSpan {
+            endTimestamp = timestamp
+            processor.onEnd(ReadableSpanImpl(this))
+            recording = false
+        }
     }
 
     override fun isRecording(): Boolean = recording
@@ -82,8 +89,7 @@ internal class SpanRecord(
         throw UnsupportedOperationException()
     }
 
-    override val endTimestamp: Long?
-        get() = throw UnsupportedOperationException()
+    override var endTimestamp: Long? = 0
 
     override val resource: Resource
         get() = throw UnsupportedOperationException()
