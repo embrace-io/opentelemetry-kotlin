@@ -30,14 +30,14 @@ internal class TracerImpl(
         startTimestamp: Long?,
         action: SpanRelationships.() -> Unit
     ): Span {
-        val spanRelationships = SpanRelationshipsImpl()
+        val spanRelationships = SpanRelationshipsImpl(clock)
         action(spanRelationships)
         val spanRecord = SpanRecord(
             clock = clock,
             processor = processor,
             parentContext = parentContext ?: objectCreator.context.root(),
             name = name,
-            attrs = spanRelationships.attrs,
+            spanRelationships = spanRelationships,
             spanKind = spanKind,
             startTimestamp = startTimestamp ?: clock.now(),
             instrumentationScopeInfo = scope,

@@ -10,6 +10,7 @@ import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
+import io.embrace.opentelemetry.kotlin.tracing.SpanRelationshipsImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
@@ -26,7 +27,7 @@ internal class SpanRecord(
     private val processor: SpanProcessor,
     private val parentContext: Context,
     name: String,
-    private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl(),
+    spanRelationships: SpanRelationshipsImpl,
     override val spanKind: SpanKind,
     override val startTimestamp: Long,
     override val instrumentationScopeInfo: InstrumentationScopeInfo,
@@ -94,12 +95,12 @@ internal class SpanRecord(
     override val spanContext: SpanContext
         get() = throw UnsupportedOperationException()
 
-    private val eventsList = mutableListOf<EventData>()
+    private val eventsList = spanRelationships.events.toMutableList()
 
     override val events: List<EventData>
         get() = readSpan { eventsList.toList() }
 
-    private val linksList = mutableListOf<LinkData>()
+    private val linksList = spanRelationships.links.toMutableList()
 
     override val links: List<LinkData>
         get() = readSpan { linksList.toList() }
@@ -136,32 +137,34 @@ internal class SpanRecord(
     override val hasEnded: Boolean
         get() = state == State.ENDED
 
+    private val attrs: MutableMap<String, Any> = spanRelationships.attributes.toMutableMap()
+
     override val attributes: Map<String, Any>
         get() = readSpan {
-            attrs.attributes
+            attrs.toMap()
         }
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         writeSpan {
-            attrs.setBooleanAttribute(key, value)
+            attrs[key] = value
         }
     }
 
     override fun setStringAttribute(key: String, value: String) {
         writeSpan {
-            attrs.setStringAttribute(key, value)
+            attrs[key] = value
         }
     }
 
     override fun setLongAttribute(key: String, value: Long) {
         writeSpan {
-            attrs.setLongAttribute(key, value)
+            attrs[key] = value
         }
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
         writeSpan {
-            attrs.setDoubleAttribute(key, value)
+            attrs[key] = value
         }
     }
 
@@ -170,7 +173,7 @@ internal class SpanRecord(
         value: List<Boolean>
     ) {
         writeSpan {
-            attrs.setBooleanListAttribute(key, value)
+            attrs[key] = value
         }
     }
 
@@ -179,7 +182,7 @@ internal class SpanRecord(
         value: List<String>
     ) {
         writeSpan {
-            attrs.setStringListAttribute(key, value)
+            attrs[key] = value
         }
     }
 
@@ -188,7 +191,7 @@ internal class SpanRecord(
         value: List<Long>
     ) {
         writeSpan {
-            attrs.setLongListAttribute(key, value)
+            attrs[key] = value
         }
     }
 
@@ -197,7 +200,7 @@ internal class SpanRecord(
         value: List<Double>
     ) {
         writeSpan {
-            attrs.setDoubleListAttribute(key, value)
+            attrs[key] = value
         }
     }
 
