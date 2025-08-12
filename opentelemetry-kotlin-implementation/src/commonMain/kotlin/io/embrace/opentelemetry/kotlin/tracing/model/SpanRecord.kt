@@ -23,7 +23,10 @@ internal class SpanRecord(
     private val clock: Clock,
     private val processor: SpanProcessor,
     private val parentContext: Context,
-    private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl()
+    name: String,
+    private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl(),
+    override val spanKind: SpanKind,
+    override val startTimestamp: Long
 ) : ReadWriteSpan {
 
     private enum class State {
@@ -36,11 +39,25 @@ internal class SpanRecord(
 
     private var state: State = State.STARTED
 
-    override var name: String = ""
-        get() = throw UnsupportedOperationException()
+    override var name: String = name
+        get() = readSpan {
+            field
+        }
+        set(value) {
+            writeSpan {
+                field = value
+            }
+        }
 
     override var status: StatusData = StatusData.Unset
-        get() = throw UnsupportedOperationException()
+        get() = readSpan {
+            field
+        }
+        set(value) {
+            writeSpan {
+                field = value
+            }
+        }
 
     override fun end() {
         endInternal(clock.now())
@@ -73,12 +90,6 @@ internal class SpanRecord(
     override val spanContext: SpanContext
         get() = throw UnsupportedOperationException()
 
-    override val spanKind: SpanKind
-        get() = throw UnsupportedOperationException()
-
-    override val startTimestamp: Long
-        get() = throw UnsupportedOperationException()
-
     override val events: List<EventData>
         get() = throw UnsupportedOperationException()
 
@@ -104,7 +115,7 @@ internal class SpanRecord(
         throw UnsupportedOperationException()
     }
 
-    override var endTimestamp: Long? = 0
+    override var endTimestamp: Long? = null
 
     override val resource: Resource
         get() = throw UnsupportedOperationException()
