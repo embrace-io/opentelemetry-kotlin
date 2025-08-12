@@ -1,17 +1,24 @@
 package io.embrace.opentelemetry.kotlin.tracing.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
+import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
+import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 
+/**
+ * The single source of truth for span state. This is not exposed to consumers of the API - they
+ * are presented with views such as [CreatedSpan], depending on which API call they make.
+ */
 @OptIn(ExperimentalApi::class)
-internal class SpanImpl(
+internal class SpanRecord(
     private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl()
-) : Span {
+) : ReadWriteSpan {
 
     private val lock = ReentrantReadWriteLock()
 
@@ -66,6 +73,22 @@ internal class SpanImpl(
     ) {
         throw UnsupportedOperationException()
     }
+
+    override fun toSpanData(): SpanData {
+        throw UnsupportedOperationException()
+    }
+
+    override val endTimestamp: Long?
+        get() = throw UnsupportedOperationException()
+
+    override val resource: Resource
+        get() = throw UnsupportedOperationException()
+
+    override val instrumentationScopeInfo: InstrumentationScopeInfo
+        get() = throw UnsupportedOperationException()
+
+    override val hasEnded: Boolean
+        get() = throw UnsupportedOperationException()
 
     override val attributes: Map<String, Any>
         get() = readSpan {
