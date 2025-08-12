@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin.tracing.model
 
+import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
@@ -10,6 +11,7 @@ import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
+import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 
 /**
  * The single source of truth for span state. This is not exposed to consumers of the API - they
@@ -17,6 +19,8 @@ import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
  */
 @OptIn(ExperimentalApi::class)
 internal class SpanRecord(
+    @Suppress("unused") private val clock: Clock,
+    @Suppress("unused") private val processor: SpanProcessor,
     private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl()
 ) : ReadWriteSpan {
 
