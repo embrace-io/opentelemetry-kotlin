@@ -8,6 +8,7 @@ import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.resource.Resource
+import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
@@ -96,14 +97,20 @@ internal class SpanRecord(
     override val events: List<EventData>
         get() = readSpan { eventsList.toList() }
 
+    private val linksList = mutableListOf<LinkData>()
+
     override val links: List<LinkData>
-        get() = throw UnsupportedOperationException()
+        get() = readSpan { linksList.toList() }
 
     override fun addLink(
         spanContext: SpanContext,
         attributes: MutableAttributeContainer.() -> Unit
     ) {
-        throw UnsupportedOperationException()
+        writeSpan {
+            val attrs = MutableAttributeContainerImpl().apply(attributes)
+            val link = LinkImpl(spanContext, attrs)
+            linksList.add(link)
+        }
     }
 
     override fun addEvent(
