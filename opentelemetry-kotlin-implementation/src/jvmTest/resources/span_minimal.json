@@ -1,0 +1,43 @@
+[
+  {
+    "name": "",
+    "kind": "",
+    "statusData": {
+      "name": "",
+      "description": ""
+    },
+    "spanContext": {
+      "traceId": "",
+      "spanId": "",
+      "traceFlags": "",
+      "traceState": {}
+    },
+    "parentSpanContext": {
+      "traceId": "",
+      "spanId": "",
+      "traceFlags": "",
+      "traceState": {}
+    },
+    "startTimestamp": -1,
+    "attributes": {
+      "foo": "bar"
+    },
+    "events": [],
+    "links": [],
+    "endTimestamp": -1,
+    "ended": false,
+    "totalRecordedEvents": -1,
+    "totalRecordedLinks": -1,
+    "totalAttributeCount": -1,
+    "resource": {
+      "schemaUrl": "",
+      "attributes": {}
+    },
+    "instrumentationScopeInfo": {
+      "name": "",
+      "version": "",
+      "schemaUrl": "",
+      "attributes": {}
+    }
+  }
+]
