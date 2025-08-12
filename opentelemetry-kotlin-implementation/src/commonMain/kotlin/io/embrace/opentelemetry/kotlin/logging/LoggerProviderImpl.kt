@@ -26,7 +26,7 @@ internal class LoggerProviderImpl(
         schemaUrl: String?,
         attributes: MutableAttributeContainer.() -> Unit
     ): Logger {
-        val key = apiProvider.createKey(attributes, name, version, schemaUrl)
+        val key = apiProvider.createInstrumentationScopeInfo(name, version, schemaUrl, attributes)
         return apiProvider.getOrCreate(key)
     }
 }

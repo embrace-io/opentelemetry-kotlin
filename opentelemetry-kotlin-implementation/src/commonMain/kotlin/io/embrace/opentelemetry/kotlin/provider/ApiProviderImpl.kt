@@ -1,6 +1,8 @@
 package io.embrace.opentelemetry.kotlin.provider
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
+import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
@@ -19,27 +21,26 @@ import io.embrace.opentelemetry.kotlin.sync
 @OptIn(ExperimentalApi::class)
 @ThreadSafe
 internal class ApiProviderImpl<T>(
-    val supplier: (key: ApiProviderKey) -> T
+    val supplier: (key: InstrumentationScopeInfo) -> T
 ) {
 
-    private val map = mutableMapOf<ApiProviderKey, T>()
+    private val map = mutableMapOf<InstrumentationScopeInfo, T>()
 
-    fun getOrCreate(key: ApiProviderKey): T = sync(map) {
+    fun getOrCreate(key: InstrumentationScopeInfo): T = sync(map) {
         map.getOrPut(key) {
             supplier(key)
         }
     }
 
-    fun createKey(
-        attributes: MutableAttributeContainer.() -> Unit,
+    fun createInstrumentationScopeInfo(
         name: String,
         version: String?,
-        schemaUrl: String?
-    ): ApiProviderKey {
+        schemaUrl: String?,
+        attributes: MutableAttributeContainer.() -> Unit
+    ): InstrumentationScopeInfo {
         val attrs = MutableAttributeContainerImpl().apply {
             attributes()
         }.attributes
-        val key = ApiProviderKey(name, version, schemaUrl, attrs)
-        return key
+        return InstrumentationScopeInfoImpl(name, version, schemaUrl, attrs)
     }
 }
