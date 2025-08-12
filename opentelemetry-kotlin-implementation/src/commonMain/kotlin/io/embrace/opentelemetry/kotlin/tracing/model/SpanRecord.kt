@@ -28,7 +28,9 @@ internal class SpanRecord(
     name: String,
     private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl(),
     override val spanKind: SpanKind,
-    override val startTimestamp: Long
+    override val startTimestamp: Long,
+    override val instrumentationScopeInfo: InstrumentationScopeInfo,
+    override val resource: Resource,
 ) : ReadWriteSpan {
 
     private enum class State {
@@ -130,12 +132,6 @@ internal class SpanRecord(
     }
 
     override var endTimestamp: Long? = null
-
-    override val resource: Resource
-        get() = throw UnsupportedOperationException()
-
-    override val instrumentationScopeInfo: InstrumentationScopeInfo
-        get() = throw UnsupportedOperationException()
 
     override val hasEnded: Boolean
         get() = state == State.ENDED

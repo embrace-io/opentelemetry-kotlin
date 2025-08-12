@@ -20,7 +20,13 @@ internal class TracerProviderImpl(
 
     private val apiProvider = ApiProviderImpl<Tracer> { key ->
         val processor = CompositeSpanProcessor(tracingConfig.processors, sdkErrorHandler)
-        TracerImpl(clock, processor, objectCreator, key)
+        TracerImpl(
+            clock = clock,
+            processor = processor,
+            objectCreator = objectCreator,
+            scope = key,
+            resource = tracingConfig.resource
+        )
     }
 
     override fun getTracer(
@@ -29,7 +35,12 @@ internal class TracerProviderImpl(
         schemaUrl: String?,
         attributes: MutableAttributeContainer.() -> Unit
     ): Tracer {
-        val key = apiProvider.createKey(attributes, name, version, schemaUrl)
+        val key = apiProvider.createInstrumentationScopeInfo(
+            name = name,
+            version = version,
+            schemaUrl = schemaUrl,
+            attributes = attributes
+        )
         return apiProvider.getOrCreate(key)
     }
 }
