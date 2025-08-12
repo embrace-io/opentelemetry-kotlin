@@ -16,7 +16,7 @@ class FakeSpanProcessor(
     var endAction: (ReadableSpan) -> Unit = {}
 ) : SpanProcessor {
 
-    val startCalls = mutableListOf<ReadableSpan>()
+    val startCalls = mutableListOf<ReadWriteSpan>()
     val endCalls = mutableListOf<ReadableSpan>()
 
     override fun onStart(

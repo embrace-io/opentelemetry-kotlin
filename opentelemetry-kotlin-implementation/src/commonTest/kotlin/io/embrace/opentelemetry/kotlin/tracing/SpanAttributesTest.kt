@@ -11,7 +11,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalApi::class)
-internal class TracerImplTest {
+internal class SpanAttributesTest {
 
     private val expected = mapOf(
         "string" to "value",
