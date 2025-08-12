@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.androidx.material3)
 
     implementation(platform(libs.opentelemetry.bom))
+    implementation(platform(libs.opentelemetry.kotlin.bom))
     implementation(libs.opentelemetry.kotlin.api)
     implementation(libs.opentelemetry.kotlin.api.ext)
     implementation(libs.opentelemetry.kotlin.compat)
