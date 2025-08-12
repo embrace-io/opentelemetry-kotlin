@@ -72,6 +72,22 @@ internal class SpanLinkTest {
         retrieveLinks(0)
     }
 
+    @Test
+    fun `test span link added in creation`() {
+        tracer.createSpan("test", action = {
+            addLink(fakeSpanContext)
+            addLink(otherFakeSpanContext) {
+                setStringAttribute("foo", "bar")
+            }
+        }).apply {
+            end()
+        }
+
+        val links = retrieveLinks(2)
+        assertLinkData(links[0], fakeSpanContext, emptyMap())
+        assertLinkData(links[1], otherFakeSpanContext, mapOf("foo" to "bar"))
+    }
+
     private fun retrieveLinks(expected: Int): List<LinkData> {
         val links = processor.endCalls.single().links
         assertEquals(expected, links.size)

@@ -71,6 +71,25 @@ internal class SpanEventTest {
         retrieveEvents(0)
     }
 
+    @Test
+    fun `test span event added in creation`() {
+        clock.time = 2
+        tracer.createSpan("test", action = {
+            addEvent("event")
+            addEvent("event2", 5)
+            addEvent("event3", 10) {
+                setStringAttribute("foo", "bar")
+            }
+        }).apply {
+            end()
+        }
+
+        val events = retrieveEvents(3)
+        assertEventData(events[0], "event", clock.time, emptyMap())
+        assertEventData(events[1], "event2", 5, emptyMap())
+        assertEventData(events[2], "event3", 10, mapOf("foo" to "bar"))
+    }
+
     private fun retrieveEvents(expected: Int): List<EventData> {
         val events = processor.endCalls.single().events
         assertEquals(expected, events.size)
