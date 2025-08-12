@@ -22,7 +22,7 @@ import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
  * are presented with views such as [CreatedSpan], depending on which API call they make.
  */
 @OptIn(ExperimentalApi::class)
-internal class SpanRecord(
+internal class SpanModel(
     private val clock: Clock,
     private val processor: SpanProcessor,
     private val parentContext: Context,
