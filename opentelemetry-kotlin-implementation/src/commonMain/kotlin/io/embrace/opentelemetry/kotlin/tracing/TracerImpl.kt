@@ -31,10 +31,13 @@ internal class TracerImpl(
         val spanRelationships = SpanRelationshipsImpl()
         action(spanRelationships)
         val spanRecord = SpanRecord(
-            clock,
-            processor,
-            parentContext ?: objectCreator.context.root(),
-            spanRelationships.attrs
+            clock = clock,
+            processor = processor,
+            parentContext = parentContext ?: objectCreator.context.root(),
+            name = name,
+            attrs = spanRelationships.attrs,
+            spanKind = spanKind,
+            startTimestamp = startTimestamp ?: clock.now(),
         )
         return CreatedSpan(spanRecord)
     }
