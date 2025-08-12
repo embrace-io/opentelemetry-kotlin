@@ -49,4 +49,5 @@ private fun KotlinCommonCompilerOptions.configureCompiler() {
     allWarningsAsErrors.set(true)
     apiVersion.set(KotlinVersion.KOTLIN_1_8)
     languageVersion.set(KotlinVersion.KOTLIN_1_8)
+    freeCompilerArgs.add("-Xexpect-actual-classes")
 }
