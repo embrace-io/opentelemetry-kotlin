@@ -9,6 +9,7 @@ import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
+import io.embrace.opentelemetry.kotlin.tracing.SpanDataImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanRelationshipsImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
@@ -124,9 +125,21 @@ internal class SpanModel(
         }
     }
 
-    override fun toSpanData(): SpanData {
-        throw UnsupportedOperationException()
-    }
+    override fun toSpanData(): SpanData = SpanDataImpl(
+        name,
+        status,
+        parent,
+        spanContext,
+        spanKind,
+        startTimestamp,
+        endTimestamp,
+        attributes,
+        events,
+        links,
+        resource,
+        instrumentationScopeInfo,
+        hasEnded
+    )
 
     override var endTimestamp: Long? = null
 
