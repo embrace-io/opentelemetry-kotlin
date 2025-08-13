@@ -76,6 +76,8 @@ public abstract interface class io/embrace/opentelemetry/kotlin/creator/SpanCrea
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/creator/TraceFlagsCreator {
+	public abstract fun create (ZZ)Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
+	public abstract fun fromHex (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
 	public abstract fun getDefault ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
 }
 
