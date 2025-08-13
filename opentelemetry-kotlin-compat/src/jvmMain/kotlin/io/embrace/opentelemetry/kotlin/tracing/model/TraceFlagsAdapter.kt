@@ -9,6 +9,15 @@ internal class TraceFlagsAdapter(
 ) : TraceFlags {
 
     override val isSampled: Boolean = traceFlags.isSampled
-    override val isRandom: Boolean = traceFlags.asHex()[0] == '1'
-    override val hex: String = traceFlags.asHex()
+
+    // verify if the second bit (random flag) is set, using bitwise AND
+    override val isRandom: Boolean = traceFlags.asByte().toInt() and 0b00000010 != 0
+
+    // opentelemetry-kotlin implementation of TraceFlags only exposes 00, 01, 02, 03 as valid hex values.
+    override val hex: String = when {
+        isSampled && isRandom -> "03"
+        !isSampled && isRandom -> "02"
+        isSampled && !isRandom -> "01"
+        else -> "00"
+    }
 }

@@ -9,7 +9,7 @@ internal class ObjectCreatorImpl : ObjectCreator {
         get() = throw UnsupportedOperationException()
 
     override val traceFlags: TraceFlagsCreator
-        get() = throw UnsupportedOperationException()
+        get() = TraceFlagsCreatorImpl()
 
     override val traceState: TraceStateCreator
         get() = throw UnsupportedOperationException()
