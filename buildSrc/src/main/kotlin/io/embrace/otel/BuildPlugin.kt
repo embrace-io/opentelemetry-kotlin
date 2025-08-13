@@ -7,11 +7,13 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 class BuildPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-        val kotlin = project.project.extensions.getByType(KotlinMultiplatformExtension::class.java)
-        project.configureKotlin(kotlin)
-        project.configureDetekt()
-        project.configureBinaryCompatValidation()
-        project.configureExplicitApiMode(kotlin)
+        project.pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
+            val kotlin = project.extensions.getByType(KotlinMultiplatformExtension::class.java)
+            project.configureKotlin(kotlin)
+            project.configureDetekt()
+            project.configureBinaryCompatValidation()
+            project.configureExplicitApiMode(kotlin)
+        }
         project.configurePublishing()
     }
 }
