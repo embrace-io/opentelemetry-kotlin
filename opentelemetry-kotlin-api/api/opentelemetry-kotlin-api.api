@@ -381,5 +381,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Tr
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/TraceState {
 	public abstract fun asMap ()Ljava/util/Map;
 	public abstract fun get (Ljava/lang/String;)Ljava/lang/String;
+	public abstract fun put (Ljava/lang/String;Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
+	public abstract fun remove (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
 }
 
