@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.creator
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.creator.HexUtils.isValidHex
 import io.embrace.opentelemetry.kotlin.tracing.TraceFlagsImpl
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 
@@ -13,11 +14,18 @@ internal class TraceFlagsCreatorImpl : TraceFlagsCreator {
     }
 
     override fun fromHex(hex: String): TraceFlags {
-        if (hex.length != 2) return TraceFlagsImpl(isSampled = false, isRandom = false)
+        if (!hex.isValid()) {
+            return TraceFlagsImpl(isSampled = false, isRandom = false)
+        }
 
-        val byte = hex.toIntOrNull(16)?.toByte() ?: return TraceFlagsImpl(isSampled = false, isRandom = false)
-        val isRandom = (byte.toInt() and 0b00000010) != 0
-        val isSampled = (byte.toInt() and 0b00000001) != 0
-        return TraceFlagsImpl(isSampled = isSampled, isRandom = isRandom)
+        val byte = hex.toInt(16)
+        return TraceFlagsImpl(
+            isSampled = (byte and 0b00000001) != 0,
+            isRandom = (byte and 0b00000010) != 0
+        )
+    }
+
+    private fun String.isValid(): Boolean {
+        return this.length == 2 && this.isValidHex()
     }
 }

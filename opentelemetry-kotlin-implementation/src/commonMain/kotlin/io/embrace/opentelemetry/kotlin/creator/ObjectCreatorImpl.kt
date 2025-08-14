@@ -5,8 +5,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 @OptIn(ExperimentalApi::class)
 internal class ObjectCreatorImpl : ObjectCreator {
 
-    override val spanContext: SpanContextCreator
-        get() = throw UnsupportedOperationException()
+    override val spanContext: SpanContextCreator = SpanContextCreatorImpl()
 
     override val traceFlags: TraceFlagsCreator
         get() = TraceFlagsCreatorImpl()

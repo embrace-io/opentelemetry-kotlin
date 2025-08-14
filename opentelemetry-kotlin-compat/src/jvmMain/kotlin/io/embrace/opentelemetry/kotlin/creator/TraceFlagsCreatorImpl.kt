@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.creator
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceFlags
+import io.embrace.opentelemetry.kotlin.creator.HexUtils.isValidHex
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlagsAdapter
 
@@ -26,6 +27,6 @@ internal class TraceFlagsCreatorImpl : TraceFlagsCreator {
     }
 
     private fun String.isValid(): Boolean {
-        return this.length == 2 && this.all { it.isDigit() || it in 'A'..'F' || it in 'a'..'f' }
+        return this.length == 2 && this.isValidHex()
     }
 }
