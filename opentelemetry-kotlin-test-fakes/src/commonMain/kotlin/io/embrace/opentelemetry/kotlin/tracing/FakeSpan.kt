@@ -26,10 +26,8 @@ class FakeSpan : Span {
     override var status: StatusData
         get() = TODO("Not yet implemented")
         set(value) {}
-    override val parent: SpanContext
-        get() = TODO("Not yet implemented")
-    override val spanContext: SpanContext
-        get() = TODO("Not yet implemented")
+    override val parent: SpanContext = FakeSpanContext()
+    override val spanContext: SpanContext = FakeSpanContext()
     override val spanKind: SpanKind
         get() = TODO("Not yet implemented")
     override val startTimestamp: Long
@@ -47,11 +45,18 @@ class FakeSpan : Span {
         TODO("Not yet implemented")
     }
 
-    override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
+    override fun addLink(
+        spanContext: SpanContext,
+        attributes: MutableAttributeContainer.() -> Unit
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun addEvent(name: String, timestamp: Long?, attributes: MutableAttributeContainer.() -> Unit) {
+    override fun addEvent(
+        name: String,
+        timestamp: Long?,
+        attributes: MutableAttributeContainer.() -> Unit
+    ) {
         events.add(FakeSpanEvent(name, timestamp ?: 0).apply(attributes))
     }
 
