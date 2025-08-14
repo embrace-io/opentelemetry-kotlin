@@ -5,16 +5,15 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContextKey
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaStatusCode
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracerProvider
+import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.context.ContextAdapter
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
-import io.embrace.opentelemetry.kotlin.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
@@ -118,18 +117,15 @@ internal class OtelJavaSpanExportTest {
         b.end()
         c.end()
 
-        harness.assertSpans(3, null, false) { spans ->
+        harness.assertSpans(3, null) { spans ->
             val exportA = spans[0]
             val exportB = spans[1]
             val exportC = spans[2]
 
-            assertEquals(
-                OtelJavaSpanContext.getInvalid().toSerializable(false),
-                exportA.parentSpanContext
-            )
+            assertFalse(exportA.parent.isValid)
             assertNotNull(exportA.spanContext)
-            assertEquals(exportA.spanContext, exportB.parentSpanContext)
-            assertEquals(exportB.spanContext, exportC.parentSpanContext)
+            assertSpanContextsMatch(exportA.spanContext, exportB.parent)
+            assertSpanContextsMatch(exportB.spanContext, exportC.parent)
             assertNotNull(exportC.spanContext)
         }
     }
@@ -262,7 +258,7 @@ internal class OtelJavaSpanExportTest {
         span2.end()
         span3.end()
 
-        harness.assertSpans(3, null, false) { spans ->
+        harness.assertSpans(3, null) { spans ->
             val validationSpan1 = spans.first { it.name == "validation_span_1" }
             val validationSpan2 = spans.first { it.name == "validation_span_2" }
             val validationSpan3 = spans.first { it.name == "validation_span_3" }
@@ -281,7 +277,7 @@ internal class OtelJavaSpanExportTest {
             assertEquals(validationSpan1.spanContext.traceId, validationSpan3.spanContext.traceId)
             assertEquals(
                 validationSpan1.spanContext.spanId,
-                validationSpan3.parentSpanContext.spanId
+                validationSpan3.parent.spanId
             )
         }
     }
@@ -303,7 +299,6 @@ internal class OtelJavaSpanExportTest {
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_resource.json",
-            sanitizeSpanContextIds = true,
         )
     }
 

@@ -31,7 +31,6 @@ internal class LogExportTest {
         harness.assertLogRecords(
             expectedCount = 1,
             goldenFileName = "log_minimal.json",
-            sanitizeSpanContextIds = true,
         )
     }
 
@@ -57,7 +56,6 @@ internal class LogExportTest {
         harness.assertLogRecords(
             expectedCount = 1,
             goldenFileName = "log_props.json",
-            sanitizeSpanContextIds = true,
         )
     }
 
@@ -78,7 +76,6 @@ internal class LogExportTest {
         harness.assertLogRecords(
             expectedCount = 1,
             goldenFileName = "log_resource.json",
-            sanitizeSpanContextIds = true,
         )
     }
 

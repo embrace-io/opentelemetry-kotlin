@@ -58,7 +58,6 @@ internal class OtelJavaLogExportTest {
         harness.assertLogRecords(
             expectedCount = 1,
             goldenFileName = "log_props.json",
-            sanitizeSpanContextIds = true,
         )
     }
 
@@ -79,7 +78,6 @@ internal class OtelJavaLogExportTest {
         harness.assertLogRecords(
             expectedCount = 1,
             goldenFileName = "log_resource.json",
-            sanitizeSpanContextIds = true,
         )
     }
 
