@@ -13,10 +13,10 @@ internal class ObjectCreatorImpl : ObjectCreator {
     override val traceState: TraceStateCreator
         get() = TraceStateCreatorImpl()
 
-    override val context: ContextCreator = ContextCreatorImpl()
+    private val contextCreatorImpl = ContextCreatorImpl()
+    override val context: ContextCreator = contextCreatorImpl
 
-    override val span: SpanCreator
-        get() = throw UnsupportedOperationException()
+    override val span: SpanCreator = SpanCreatorImpl(contextCreatorImpl.spanKey)
 
     override val idCreator: TracingIdCreator
         get() = throw UnsupportedOperationException()
