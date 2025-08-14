@@ -8,6 +8,10 @@ public final class io/embrace/opentelemetry/kotlin/Sync_jvmKt {
 	public static final fun sync (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
+public final class io/embrace/opentelemetry/kotlin/ThreadSafeList_jvmKt {
+	public static final fun threadSafeList ()Ljava/util/List;
+}
+
 public final class io/embrace/opentelemetry/kotlin/ThreadSafeMap_jvmKt {
 	public static final fun threadSafeMap ()Ljava/util/Map;
 }

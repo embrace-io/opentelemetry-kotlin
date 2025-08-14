@@ -1,10 +1,10 @@
 [
   {
-    "name": "",
-    "kind": "",
+    "name": "test",
+    "kind": "INTERNAL",
     "statusData": {
-      "name": "",
-      "description": ""
+      "name": "UNSET",
+      "description": "null"
     },
     "spanContext": {
       "traceId": "",
@@ -18,25 +18,25 @@
       "traceFlags": "",
       "traceState": {}
     },
-    "startTimestamp": -1,
+    "startTimestamp": 0,
     "attributes": {
       "foo": "bar"
     },
     "events": [],
     "links": [],
-    "endTimestamp": -1,
-    "ended": false,
-    "totalRecordedEvents": -1,
-    "totalRecordedLinks": -1,
-    "totalAttributeCount": -1,
+    "endTimestamp": 0,
+    "ended": true,
+    "totalRecordedEvents": 0,
+    "totalRecordedLinks": 0,
+    "totalAttributeCount": 1,
     "resource": {
-      "schemaUrl": "",
+      "schemaUrl": "null",
       "attributes": {}
     },
     "instrumentationScopeInfo": {
-      "name": "",
-      "version": "",
-      "schemaUrl": "",
+      "name": "key",
+      "version": "null",
+      "schemaUrl": "null",
       "attributes": {}
     }
   }

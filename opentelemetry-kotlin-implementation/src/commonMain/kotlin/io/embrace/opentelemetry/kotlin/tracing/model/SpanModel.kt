@@ -8,6 +8,9 @@ import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.resource.Resource
+import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
+import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
+import io.embrace.opentelemetry.kotlin.tracing.SpanRelationshipsImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
@@ -19,11 +22,16 @@ import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
  * are presented with views such as [CreatedSpan], depending on which API call they make.
  */
 @OptIn(ExperimentalApi::class)
-internal class SpanRecord(
+internal class SpanModel(
     private val clock: Clock,
     private val processor: SpanProcessor,
     private val parentContext: Context,
-    private val attrs: MutableAttributeContainer = MutableAttributeContainerImpl()
+    name: String,
+    spanRelationships: SpanRelationshipsImpl,
+    override val spanKind: SpanKind,
+    override val startTimestamp: Long,
+    override val instrumentationScopeInfo: InstrumentationScopeInfo,
+    override val resource: Resource,
 ) : ReadWriteSpan {
 
     private enum class State {
@@ -36,11 +44,25 @@ internal class SpanRecord(
 
     private var state: State = State.STARTED
 
-    override var name: String = ""
-        get() = throw UnsupportedOperationException()
+    override var name: String = name
+        get() = readSpan {
+            field
+        }
+        set(value) {
+            writeSpan {
+                field = value
+            }
+        }
 
     override var status: StatusData = StatusData.Unset
-        get() = throw UnsupportedOperationException()
+        get() = readSpan {
+            field
+        }
+        set(value) {
+            writeSpan {
+                field = value
+            }
+        }
 
     override fun end() {
         endInternal(clock.now())
@@ -73,23 +95,25 @@ internal class SpanRecord(
     override val spanContext: SpanContext
         get() = throw UnsupportedOperationException()
 
-    override val spanKind: SpanKind
-        get() = throw UnsupportedOperationException()
-
-    override val startTimestamp: Long
-        get() = throw UnsupportedOperationException()
+    private val eventsList = spanRelationships.events.toMutableList()
 
     override val events: List<EventData>
-        get() = throw UnsupportedOperationException()
+        get() = readSpan { eventsList.toList() }
+
+    private val linksList = spanRelationships.links.toMutableList()
 
     override val links: List<LinkData>
-        get() = throw UnsupportedOperationException()
+        get() = readSpan { linksList.toList() }
 
     override fun addLink(
         spanContext: SpanContext,
         attributes: MutableAttributeContainer.() -> Unit
     ) {
-        throw UnsupportedOperationException()
+        writeSpan {
+            val attrs = MutableAttributeContainerImpl().apply(attributes)
+            val link = LinkImpl(spanContext, attrs)
+            linksList.add(link)
+        }
     }
 
     override fun addEvent(
@@ -97,50 +121,50 @@ internal class SpanRecord(
         timestamp: Long?,
         attributes: MutableAttributeContainer.() -> Unit
     ) {
-        throw UnsupportedOperationException()
+        writeSpan {
+            val attrs = MutableAttributeContainerImpl().apply(attributes)
+            val event = SpanEventImpl(name, timestamp ?: clock.now(), attrs)
+            eventsList.add(event)
+        }
     }
 
     override fun toSpanData(): SpanData {
         throw UnsupportedOperationException()
     }
 
-    override var endTimestamp: Long? = 0
-
-    override val resource: Resource
-        get() = throw UnsupportedOperationException()
-
-    override val instrumentationScopeInfo: InstrumentationScopeInfo
-        get() = throw UnsupportedOperationException()
+    override var endTimestamp: Long? = null
 
     override val hasEnded: Boolean
         get() = state == State.ENDED
 
+    private val attrs: MutableMap<String, Any> = spanRelationships.attributes.toMutableMap()
+
     override val attributes: Map<String, Any>
         get() = readSpan {
-            attrs.attributes
+            attrs.toMap()
         }
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         writeSpan {
-            attrs.setBooleanAttribute(key, value)
+            attrs[key] = value
         }
     }
 
     override fun setStringAttribute(key: String, value: String) {
         writeSpan {
-            attrs.setStringAttribute(key, value)
+            attrs[key] = value
         }
     }
 
     override fun setLongAttribute(key: String, value: Long) {
         writeSpan {
-            attrs.setLongAttribute(key, value)
+            attrs[key] = value
         }
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
         writeSpan {
-            attrs.setDoubleAttribute(key, value)
+            attrs[key] = value
         }
     }
 
@@ -149,7 +173,7 @@ internal class SpanRecord(
         value: List<Boolean>
     ) {
         writeSpan {
-            attrs.setBooleanListAttribute(key, value)
+            attrs[key] = value
         }
     }
 
@@ -158,7 +182,7 @@ internal class SpanRecord(
         value: List<String>
     ) {
         writeSpan {
-            attrs.setStringListAttribute(key, value)
+            attrs[key] = value
         }
     }
 
@@ -167,7 +191,7 @@ internal class SpanRecord(
         value: List<Long>
     ) {
         writeSpan {
-            attrs.setLongListAttribute(key, value)
+            attrs[key] = value
         }
     }
 
@@ -176,7 +200,7 @@ internal class SpanRecord(
         value: List<Double>
     ) {
         writeSpan {
-            attrs.setDoubleListAttribute(key, value)
+            attrs[key] = value
         }
     }
 

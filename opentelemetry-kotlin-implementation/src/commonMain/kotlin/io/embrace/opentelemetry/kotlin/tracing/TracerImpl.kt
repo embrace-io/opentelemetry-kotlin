@@ -2,14 +2,15 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
-import io.embrace.opentelemetry.kotlin.provider.ApiProviderKey
+import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.model.CreatedSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanRecord
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanModel
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 
 @Suppress("unused")
@@ -18,7 +19,8 @@ internal class TracerImpl(
     private val clock: Clock,
     private val processor: SpanProcessor,
     private val objectCreator: ObjectCreator,
-    private val key: ApiProviderKey
+    private val scope: InstrumentationScopeInfo,
+    private val resource: Resource,
 ) : Tracer {
 
     override fun createSpan(
@@ -28,14 +30,19 @@ internal class TracerImpl(
         startTimestamp: Long?,
         action: SpanRelationships.() -> Unit
     ): Span {
-        val spanRelationships = SpanRelationshipsImpl()
+        val spanRelationships = SpanRelationshipsImpl(clock)
         action(spanRelationships)
-        val spanRecord = SpanRecord(
-            clock,
-            processor,
-            parentContext ?: objectCreator.context.root(),
-            spanRelationships.attrs
+        val spanModel = SpanModel(
+            clock = clock,
+            processor = processor,
+            parentContext = parentContext ?: objectCreator.context.root(),
+            name = name,
+            spanRelationships = spanRelationships,
+            spanKind = spanKind,
+            startTimestamp = startTimestamp ?: clock.now(),
+            instrumentationScopeInfo = scope,
+            resource = resource,
         )
-        return CreatedSpan(spanRecord)
+        return CreatedSpan(spanModel)
     }
 }

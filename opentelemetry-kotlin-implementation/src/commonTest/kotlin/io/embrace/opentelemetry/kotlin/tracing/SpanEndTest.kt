@@ -1,10 +1,11 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
-import io.embrace.opentelemetry.kotlin.provider.ApiProviderKey
+import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -15,7 +16,7 @@ import kotlin.test.assertTrue
 @OptIn(ExperimentalApi::class)
 internal class SpanEndTest {
 
-    private val key = ApiProviderKey("key")
+    private val key = InstrumentationScopeInfoImpl("key", null, null, emptyMap())
     private lateinit var tracer: TracerImpl
     private lateinit var clock: FakeClock
     private lateinit var processor: FakeSpanProcessor
@@ -26,7 +27,13 @@ internal class SpanEndTest {
         clock = FakeClock()
         processor = FakeSpanProcessor()
         objectCreator = FakeObjectCreator()
-        tracer = TracerImpl(clock, processor, objectCreator, key)
+        tracer = TracerImpl(
+            clock,
+            processor,
+            objectCreator,
+            key,
+            FakeResource(),
+        )
     }
 
     @Test
