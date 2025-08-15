@@ -1,7 +1,6 @@
 package io.embrace.opentelemetry.kotlin.creator
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.creator.HexUtils.isValidHex
 import io.embrace.opentelemetry.kotlin.tracing.SpanContextImpl
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
@@ -34,8 +33,14 @@ internal class SpanContextCreatorImpl(
         val isValidSpanId = isValidSpanId(spanId)
 
         return SpanContextImpl(
-            traceId = if (isValidTraceId) traceId else "00000000000000000000000000000000",
-            spanId = if (isValidSpanId) spanId else "0000000000000000",
+            traceId = when {
+                isValidTraceId -> traceId
+                else -> "00000000000000000000000000000000"
+            },
+            spanId = when {
+                isValidSpanId -> spanId
+                else -> "0000000000000000"
+            },
             traceFlags = traceFlags,
             isValid = isValidTraceId && isValidSpanId,
             isRemote = false,
@@ -45,10 +50,14 @@ internal class SpanContextCreatorImpl(
 
     private fun isValidTraceId(traceId: String): Boolean {
         // Must be 32 hex characters (16 bytes)
-        if (traceId.length != 32) return false
+        if (traceId.length != 32) {
+            return false
+        }
 
         // Must be valid hex
-        if (!traceId.isValidHex()) return false
+        if (!traceId.isValidHex()) {
+            return false
+        }
 
         // Must have at least one non-zero byte (not all zeros)
         return traceId != "00000000000000000000000000000000"
@@ -56,10 +65,14 @@ internal class SpanContextCreatorImpl(
 
     private fun isValidSpanId(spanId: String): Boolean {
         // Must be 16 hex characters (8 bytes)
-        if (spanId.length != 16) return false
+        if (spanId.length != 16) {
+            return false
+        }
 
         // Must be valid hex
-        if (!spanId.isValidHex()) return false
+        if (!spanId.isValidHex()) {
+            return false
+        }
 
         // Must have at least one non-zero byte (not all zeros)
         return spanId != "0000000000000000"

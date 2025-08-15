@@ -2,7 +2,6 @@ package io.embrace.opentelemetry.kotlin.creator
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceFlags
-import io.embrace.opentelemetry.kotlin.creator.HexUtils.isValidHex
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlagsAdapter
 
