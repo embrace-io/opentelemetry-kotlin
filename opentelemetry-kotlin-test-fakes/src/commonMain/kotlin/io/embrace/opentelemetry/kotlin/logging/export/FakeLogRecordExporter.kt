@@ -1,25 +1,21 @@
 package io.embrace.opentelemetry.kotlin.logging.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
-import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
+import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 
 @OptIn(ExperimentalApi::class)
-class FakeLogRecordProcessor(
+class FakeLogRecordExporter(
     var flushCode: () -> OperationResultCode = { OperationResultCode.Success },
     var shutdownCode: () -> OperationResultCode = { OperationResultCode.Success },
-    var action: (log: ReadWriteLogRecord, context: Context) -> Unit = { _, _ -> }
-) : LogRecordProcessor {
+    var action: (telemetry: List<ReadableLogRecord>) -> OperationResultCode = { OperationResultCode.Success }
+) : LogRecordExporter {
 
-    val logs: MutableList<ReadWriteLogRecord> = mutableListOf()
+    val logs: MutableList<ReadableLogRecord> = mutableListOf()
 
-    override fun onEmit(
-        log: ReadWriteLogRecord,
-        context: Context
-    ) {
-        logs.add(log)
-        action(log, context)
+    override fun export(telemetry: List<ReadableLogRecord>): OperationResultCode {
+        logs += telemetry
+        return action(telemetry)
     }
 
     override fun forceFlush(): OperationResultCode = flushCode()
