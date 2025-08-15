@@ -23,7 +23,7 @@
       "traceFlags": "00",
       "traceState": {}
     },
-    "severity": "UNDEFINED_SEVERITY_NUMBER",
+    "severity": "UNKNOWN",
     "severityText": null,
     "body": null,
     "attributes": {},

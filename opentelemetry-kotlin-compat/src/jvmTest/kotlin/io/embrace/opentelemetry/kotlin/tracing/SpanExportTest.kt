@@ -1,15 +1,12 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.creator.current
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
-import io.embrace.opentelemetry.kotlin.framework.serialization.SerializableSpanContext
-import io.embrace.opentelemetry.kotlin.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.ext.storeInContext
@@ -138,18 +135,15 @@ internal class SpanExportTest {
         b.end()
         c.end()
 
-        harness.assertSpans(3, null, false) { spans ->
+        harness.assertSpans(3, null) { spans ->
             val exportA = spans[0]
             val exportB = spans[1]
             val exportC = spans[2]
 
-            assertEquals(
-                OtelJavaSpanContext.getInvalid().toSerializable(false),
-                exportA.parentSpanContext
-            )
+            assertFalse(exportA.parent.isValid)
             assertNotNull(exportA.spanContext)
-            assertEquals(exportA.spanContext, exportB.parentSpanContext)
-            assertEquals(exportB.spanContext, exportC.parentSpanContext)
+            assertSpanContextsMatch(exportA.spanContext, exportB.parent)
+            assertSpanContextsMatch(exportB.spanContext, exportC.parent)
             assertNotNull(exportC.spanContext)
         }
     }
@@ -296,7 +290,7 @@ internal class SpanExportTest {
         span2.end()
         span3.end()
 
-        harness.assertSpans(3, null, false) { spans ->
+        harness.assertSpans(3, null) { spans ->
             val validationSpan1 = spans.first { it.name == "validation_span_1" }
             val validationSpan2 = spans.first { it.name == "validation_span_2" }
             val validationSpan3 = spans.first { it.name == "validation_span_3" }
@@ -324,13 +318,13 @@ internal class SpanExportTest {
 
             // Root spans have invalid parents
             listOf(validationSpan1, validationSpan2).forEach {
-                assertEquals("00000000000000000000000000000000", it.parentSpanContext.traceId)
+                assertEquals("00000000000000000000000000000000", it.parent.traceId)
             }
         }
     }
 
     // IDs should be valid hex strings with correct OpenTelemetry lengths (trace: 32 chars, span: 16 chars)
-    private fun SerializableSpanContext.assertValidIds() {
+    private fun SpanContext.assertValidIds() {
         assertEquals(32, traceId.length)
         assertEquals(16, spanId.length)
         val hexPattern = Regex("[0-9a-f]+")
@@ -386,7 +380,6 @@ internal class SpanExportTest {
         harness.assertSpans(
             expectedCount = 1,
             goldenFileName = "span_resource.json",
-            sanitizeSpanContextIds = true,
         )
     }
 

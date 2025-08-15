@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SerializableLogRecordData(
-    val resource: SerializableResource,
-    val instrumentationScopeInfo: SerializableInstrumentationScopeInfo,
+    val resource: SerializableResource?,
+    val instrumentationScopeInfo: SerializableInstrumentationScopeInfo?,
     val timestampEpochNanos: Long,
     val observedTimestampEpochNanos: Long,
     val spanContext: SerializableSpanContext,
