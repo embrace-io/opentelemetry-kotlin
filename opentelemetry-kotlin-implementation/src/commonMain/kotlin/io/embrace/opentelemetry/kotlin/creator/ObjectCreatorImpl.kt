@@ -16,7 +16,7 @@ internal class ObjectCreatorImpl : ObjectCreator {
     private val contextCreatorImpl = ContextCreatorImpl()
     override val context: ContextCreator = contextCreatorImpl
 
-    override val span: SpanCreator = SpanCreatorImpl(contextCreatorImpl.spanKey)
+    override val span: SpanCreator = SpanCreatorImpl(spanContext, contextCreatorImpl.spanKey)
 
     override val idCreator: TracingIdCreator = TracingIdCreatorImpl()
 }

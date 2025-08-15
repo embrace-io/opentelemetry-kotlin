@@ -15,9 +15,9 @@ internal class TraceFlagsCreatorImplTest {
     fun `default property`() {
         val flags = creator.default
 
-        assertFalse(flags.isSampled)
+        assertTrue(flags.isSampled)
         assertFalse(flags.isRandom)
-        assertEquals("00", flags.hex)
+        assertEquals("01", flags.hex)
     }
 
     @Test
