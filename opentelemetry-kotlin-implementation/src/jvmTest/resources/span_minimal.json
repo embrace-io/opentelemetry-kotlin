@@ -4,18 +4,18 @@
     "kind": "INTERNAL",
     "statusData": {
       "name": "UNSET",
-      "description": "null"
+      "description": ""
     },
     "spanContext": {
-      "traceId": "",
-      "spanId": "",
-      "traceFlags": "",
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "01",
       "traceState": {}
     },
     "parentSpanContext": {
-      "traceId": "",
-      "spanId": "",
-      "traceFlags": "",
+      "traceId": "00000000000000000000000000000000",
+      "spanId": "0000000000000000",
+      "traceFlags": "01",
       "traceState": {}
     },
     "startTimestamp": 0,
@@ -34,8 +34,8 @@
       "attributes": {}
     },
     "instrumentationScopeInfo": {
-      "name": "key",
-      "version": "null",
+      "name": "test_tracer",
+      "version": "0.1.0",
       "schemaUrl": "null",
       "attributes": {}
     }
