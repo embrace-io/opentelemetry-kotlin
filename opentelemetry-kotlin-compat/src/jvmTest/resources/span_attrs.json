@@ -7,8 +7,8 @@
       "description": ""
     },
     "spanContext": {
-      "traceId": "00000000000000000000000000000000",
-      "spanId": "0000000000000000",
+      "traceId": "1e6b4ea924f9baa8e77bcc2f537f0b02",
+      "spanId": "2cc2b48c50aefe53",
       "traceFlags": "01",
       "traceState": {}
     },
@@ -20,14 +20,14 @@
     },
     "startTimestamp": 0,
     "attributes": {
-      "bool_key":"true",
-      "bool_list_key":"[true]",
-      "double_key":"3.14",
-      "double_list_key":"[3.14]",
-      "long_key":"42",
-      "long_list_key":"[42]",
-      "string_key":"second_value",
-      "string_list_key":"[a]"
+      "long_key": "42",
+      "bool_list_key": "[true]",
+      "bool_key": "true",
+      "string_list_key": "[a]",
+      "string_key": "second_value",
+      "double_key": "3.14",
+      "long_list_key": "[42]",
+      "double_list_key": "[3.14]"
     },
     "events": [],
     "links": [],

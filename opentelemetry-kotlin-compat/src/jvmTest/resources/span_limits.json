@@ -7,8 +7,8 @@
       "description": ""
     },
     "spanContext": {
-      "traceId": "00000000000000000000000000000000",
-      "spanId": "0000000000000000",
+      "traceId": "1e6b4ea924f9baa8e77bcc2f537f0b02",
+      "spanId": "2cc2b48c50aefe53",
       "traceFlags": "01",
       "traceState": {}
     },
@@ -51,8 +51,8 @@
       "description": ""
     },
     "spanContext": {
-      "traceId": "00000000000000000000000000000000",
-      "spanId": "0000000000000000",
+      "traceId": "f9a51310c8eed9889d46ef3bafda11b1",
+      "spanId": "ac2c315346a8f5dc",
       "traceFlags": "01",
       "traceState": {}
     },
@@ -95,8 +95,8 @@
       "description": ""
     },
     "spanContext": {
-      "traceId": "00000000000000000000000000000000",
-      "spanId": "0000000000000000",
+      "traceId": "68c4b09c566976e517765490bce89c73",
+      "spanId": "64f6c8f22faf620c",
       "traceFlags": "01",
       "traceState": {}
     },
@@ -121,13 +121,13 @@
     "links": [
       {
         "spanContext": {
-          "traceId": "00000000000000000000000000000000",
-          "spanId": "0000000000000000",
+          "traceId": "1e6b4ea924f9baa8e77bcc2f537f0b02",
+          "spanId": "2cc2b48c50aefe53",
           "traceFlags": "01",
           "traceState": {}
         },
-        "totalAttributeCount": 0,
-        "attributes": {}
+        "attributes": {},
+        "totalAttributeCount": 0
       }
     ],
     "endTimestamp": 0,
@@ -148,8 +148,7 @@
       "name": "test_tracer",
       "version": "0.1.0",
       "schemaUrl": "null",
-      "attributes": {
-      }
+      "attributes": {}
     }
   }
 ]

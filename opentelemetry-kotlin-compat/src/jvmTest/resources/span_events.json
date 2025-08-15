@@ -7,8 +7,8 @@
       "description": ""
     },
     "spanContext": {
-      "traceId": "00000000000000000000000000000000",
-      "spanId": "0000000000000000",
+      "traceId": "1e6b4ea924f9baa8e77bcc2f537f0b02",
+      "spanId": "2cc2b48c50aefe53",
       "traceFlags": "01",
       "traceState": {}
     },

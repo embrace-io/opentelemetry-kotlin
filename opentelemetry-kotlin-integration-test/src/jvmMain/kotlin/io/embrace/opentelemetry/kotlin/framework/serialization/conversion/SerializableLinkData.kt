@@ -5,8 +5,8 @@ import io.embrace.opentelemetry.kotlin.framework.serialization.SerializableLinkD
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 
 @OptIn(ExperimentalApi::class)
-fun LinkData.toSerializable(sanitizeSpanContextIds: Boolean = true) = SerializableLinkData(
-    spanContext = spanContext.toSerializable(sanitizeSpanContextIds),
+fun LinkData.toSerializable() = SerializableLinkData(
+    spanContext = spanContext.toSerializable(),
     attributes = attributes.toSerializable(),
     totalAttributeCount = attributes.size,
 )

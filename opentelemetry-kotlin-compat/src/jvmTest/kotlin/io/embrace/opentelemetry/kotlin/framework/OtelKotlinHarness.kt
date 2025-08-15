@@ -3,8 +3,13 @@ package io.embrace.opentelemetry.kotlin.framework
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetry
 import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaIdGenerator
 import io.embrace.opentelemetry.kotlin.createOpenTelemetryKotlin
+import io.embrace.opentelemetry.kotlin.creator.CompatObjectCreator
+import io.embrace.opentelemetry.kotlin.creator.TracingIdCreator
+import io.embrace.opentelemetry.kotlin.creator.TracingIdCreatorImpl
 import io.embrace.opentelemetry.kotlin.decorateKotlinApi
+import kotlin.random.Random
 
 @OptIn(ExperimentalApi::class)
 internal class OtelKotlinHarness : OtelKotlinTestRule() {
@@ -14,10 +19,32 @@ internal class OtelKotlinHarness : OtelKotlinTestRule() {
             clock = clock,
             tracerProvider = tracerProviderConfig,
             loggerProvider = loggerProviderConfig,
+            objectCreator = CompatObjectCreator(idCreator = FakeTracingIdCreator())
         )
     }
 
     val javaApi by lazy {
         OpenTelemetryInstance.decorateKotlinApi(kotlinApi)
+    }
+}
+
+@OptIn(ExperimentalApi::class)
+private class FakeTracingIdCreator(
+    private val impl: TracingIdCreator = TracingIdCreatorImpl(),
+) : TracingIdCreator by impl, OtelJavaIdGenerator {
+
+    private val random: Random = Random(0)
+
+    override fun generateSpanId(): String = randomHex(16)
+    override fun generateTraceId(): String = randomHex(32)
+
+    private fun randomHex(count: Int): String {
+        val bytes = random.nextBytes(count / 2)
+        return buildString(count / 2) {
+            for (byte in bytes) {
+                val unsigned = byte.toInt() and 0xFF
+                append(unsigned.toString(16).padStart(2, '0'))
+            }
+        }
     }
 }

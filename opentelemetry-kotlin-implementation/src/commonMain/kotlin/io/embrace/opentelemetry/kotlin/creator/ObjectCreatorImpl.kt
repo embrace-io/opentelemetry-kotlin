@@ -3,7 +3,9 @@ package io.embrace.opentelemetry.kotlin.creator
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 
 @OptIn(ExperimentalApi::class)
-internal class ObjectCreatorImpl : ObjectCreator {
+internal class ObjectCreatorImpl(
+    override val idCreator: TracingIdCreator = TracingIdCreatorImpl()
+) : ObjectCreator {
 
     override val spanContext: SpanContextCreator = SpanContextCreatorImpl()
 
@@ -17,6 +19,4 @@ internal class ObjectCreatorImpl : ObjectCreator {
     override val context: ContextCreator = contextCreatorImpl
 
     override val span: SpanCreator = SpanCreatorImpl(spanContext, contextCreatorImpl.spanKey)
-
-    override val idCreator: TracingIdCreator = TracingIdCreatorImpl()
 }
