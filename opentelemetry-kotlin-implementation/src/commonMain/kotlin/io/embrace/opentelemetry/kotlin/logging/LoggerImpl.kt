@@ -13,7 +13,6 @@ import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecordImpl
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import io.embrace.opentelemetry.kotlin.resource.Resource
 
-@Suppress("unused")
 @OptIn(ExperimentalApi::class)
 internal class LoggerImpl(
     private val clock: Clock,
@@ -37,6 +36,11 @@ internal class LoggerImpl(
             attributeContainer = attrs,
             resource = resource,
             instrumentationScopeInfo = key,
+            timestamp = timestamp ?: clock.now(),
+            observedTimestamp = observedTimestamp ?: clock.now(),
+            body = body,
+            severityText = severityText,
+            severityNumber = severityNumber ?: SeverityNumber.UNKNOWN,
         )
         val ctx = context ?: objectCreator.context.root()
         processor.onEmit(ReadWriteLogRecordImpl(log), ctx)
