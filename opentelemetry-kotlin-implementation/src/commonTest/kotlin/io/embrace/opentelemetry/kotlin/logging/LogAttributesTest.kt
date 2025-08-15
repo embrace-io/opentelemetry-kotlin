@@ -1,0 +1,81 @@
+package io.embrace.opentelemetry.kotlin.logging
+
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.clock.FakeClock
+import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
+import io.embrace.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
+import io.embrace.opentelemetry.kotlin.resource.FakeResource
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+
+@OptIn(ExperimentalApi::class)
+internal class LogAttributesTest {
+
+    private val expected = mapOf(
+        "string" to "value",
+        "double" to 3.14,
+        "boolean" to true,
+        "long" to 90000000000000,
+        "string_list" to listOf("string"),
+        "double_list" to listOf(3.14),
+        "boolean_list" to listOf(true),
+        "long_list" to listOf(90000000000000)
+    )
+
+    private val key = InstrumentationScopeInfoImpl("key", null, null, emptyMap())
+    private lateinit var logger: LoggerImpl
+    private val processor = FakeLogRecordProcessor()
+
+    @BeforeTest
+    fun setUp() {
+        logger = LoggerImpl(
+            FakeClock(),
+            processor,
+            FakeObjectCreator(),
+            key,
+            FakeResource(),
+        )
+    }
+
+    @Test
+    fun `test log default attributes`() {
+        logger.log("test")
+        val log = processor.logs.single()
+        assertTrue(log.attributes.isEmpty())
+
+        // ensure returned values is immutable, and not the underlying implementation
+        assertTrue(log.attributes !is MutableMap<*, *>)
+    }
+
+    @Test
+    fun `test log add attributes during creation`() {
+        logger.log("test") {
+            addTestAttributes()
+        }
+        val log = processor.logs.single()
+        assertEquals(expected, log.attributes)
+    }
+
+    @Test
+    fun `test log add attributes after creation`() {
+        logger.log("test")
+        val log = processor.logs.single()
+        log.addTestAttributes()
+        assertEquals(expected, log.attributes)
+    }
+
+    private fun MutableAttributeContainer.addTestAttributes() {
+        setStringAttribute("string", "value")
+        setDoubleAttribute("double", 3.14)
+        setBooleanAttribute("boolean", true)
+        setLongAttribute("long", 90000000000000)
+        setStringListAttribute("string_list", listOf("string"))
+        setDoubleListAttribute("double_list", listOf(3.14))
+        setBooleanListAttribute("boolean_list", listOf(true))
+        setLongListAttribute("long_list", listOf(90000000000000))
+    }
+}
