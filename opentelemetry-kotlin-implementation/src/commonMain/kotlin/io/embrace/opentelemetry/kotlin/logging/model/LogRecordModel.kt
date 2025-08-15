@@ -2,6 +2,8 @@ package io.embrace.opentelemetry.kotlin.logging.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
+import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
+import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
@@ -12,7 +14,11 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
  */
 @Suppress("unused", "UNUSED_PARAMETER")
 @OptIn(ExperimentalApi::class)
-internal class LogRecordModel : ReadWriteLogRecord {
+internal class LogRecordModel(
+    attributeContainer: AttributeContainer,
+) : ReadWriteLogRecord {
+
+    private val lock = ReentrantReadWriteLock()
 
     override var timestamp: Long?
         get() = throw UnsupportedOperationException()
@@ -41,56 +47,88 @@ internal class LogRecordModel : ReadWriteLogRecord {
     override val context: Context?
         get() = throw UnsupportedOperationException()
 
-    override val attributes: Map<String, Any>
-        get() = throw UnsupportedOperationException()
-
     override val resource: Resource?
         get() = throw UnsupportedOperationException()
 
     override val instrumentationScopeInfo: InstrumentationScopeInfo?
         get() = throw UnsupportedOperationException()
 
+    private val attrs: MutableMap<String, Any> = attributeContainer.attributes.toMutableMap()
+
+    override val attributes: Map<String, Any>
+        get() = readLogRecord {
+            attrs.toMap()
+        }
+
     override fun setBooleanAttribute(key: String, value: Boolean) {
-        throw UnsupportedOperationException()
+        writeLogRecord {
+            attrs[key] = value
+        }
     }
 
     override fun setStringAttribute(key: String, value: String) {
-        throw UnsupportedOperationException()
+        writeLogRecord {
+            attrs[key] = value
+        }
     }
 
     override fun setLongAttribute(key: String, value: Long) {
-        throw UnsupportedOperationException()
+        writeLogRecord {
+            attrs[key] = value
+        }
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
-        throw UnsupportedOperationException()
+        writeLogRecord {
+            attrs[key] = value
+        }
     }
 
     override fun setBooleanListAttribute(
         key: String,
         value: List<Boolean>
     ) {
-        throw UnsupportedOperationException()
+        writeLogRecord {
+            attrs[key] = value
+        }
     }
 
     override fun setStringListAttribute(
         key: String,
         value: List<String>
     ) {
-        throw UnsupportedOperationException()
+        writeLogRecord {
+            attrs[key] = value
+        }
     }
 
     override fun setLongListAttribute(
         key: String,
         value: List<Long>
     ) {
-        throw UnsupportedOperationException()
+        writeLogRecord {
+            attrs[key] = value
+        }
     }
 
     override fun setDoubleListAttribute(
         key: String,
         value: List<Double>
     ) {
-        throw UnsupportedOperationException()
+        writeLogRecord {
+            attrs[key] = value
+        }
+    }
+
+    private inline fun <T> writeLogRecord(crossinline action: () -> T) {
+        return lock.write {
+            action()
+        }
+    }
+
+    private inline fun <T> readLogRecord(crossinline action: () -> T): T {
+        return lock.read {
+            action()
+        }
     }
 }

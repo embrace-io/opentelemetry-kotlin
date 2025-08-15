@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
@@ -31,7 +32,8 @@ internal class LoggerImpl(
         severityText: String?,
         attributes: MutableAttributeContainer.() -> Unit
     ) {
-        val log = LogRecordModel()
+        val attrs = MutableAttributeContainerImpl().apply(attributes)
+        val log = LogRecordModel(attrs)
         val ctx = context ?: objectCreator.context.root()
         processor.onEmit(ReadWriteLogRecordImpl(log), ctx)
     }
