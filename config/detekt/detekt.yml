@@ -52,6 +52,10 @@ style:
     active: false
   BracesOnIfStatements:
     active: true
+    singleLine: 'always'
+    multiLine: 'always'
+  BracesOnWhenStatements:
+    active: true
     singleLine: 'consistent'
     multiLine: 'always'
   MandatoryBracesLoops:
@@ -66,6 +70,9 @@ naming:
   ForbiddenClassName:
     active: true
     forbiddenName: ['*Embrace']
+  ClassNaming:
+    active: true
+    classPattern: '^(?!.*Utils)[A-Z][A-Za-z0-9]*$'
 
 # Custom rules defined in this project
 custom-rules:
