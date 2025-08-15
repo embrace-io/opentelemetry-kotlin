@@ -50,6 +50,9 @@ internal class NoopTests {
         val traceState = context.traceState
         assertTrue(traceState.asMap().isEmpty())
         assertEquals(null, traceState.get("any-key"))
+
+        assertSame(traceState, traceState.put("key", "value"))
+        assertSame(traceState, traceState.remove("key"))
     }
 
     @Test

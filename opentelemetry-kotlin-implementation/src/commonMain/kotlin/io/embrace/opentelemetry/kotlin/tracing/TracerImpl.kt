@@ -8,6 +8,7 @@ import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.model.CreatedSpan
+import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpanImpl
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
@@ -49,7 +50,7 @@ internal class TracerImpl(
             parent = parentSpanContext,
             spanContext = spanContext
         )
-        processor.onStart(spanModel, ctx)
+        processor.onStart(ReadWriteSpanImpl(spanModel), ctx)
         return CreatedSpan(spanModel)
     }
 
