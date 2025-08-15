@@ -4,7 +4,6 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
-import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
@@ -12,7 +11,6 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
  * The single source of truth for log record state. This is not exposed to consumers of the API - they
  * are presented with views such as [ReadableLogRecordImpl], depending on which API call they make.
  */
-@Suppress("unused", "UNUSED_PARAMETER")
 @OptIn(ExperimentalApi::class)
 internal class LogRecordModel(
     attributeContainer: AttributeContainer,
@@ -22,7 +20,8 @@ internal class LogRecordModel(
     observedTimestamp: Long,
     body: String?,
     severityText: String?,
-    severityNumber: SeverityNumber?
+    severityNumber: SeverityNumber?,
+    spanContext: SpanContext,
 ) : ReadWriteLogRecord {
 
     private val lock = ReentrantReadWriteLock()
@@ -67,12 +66,13 @@ internal class LogRecordModel(
             }
         }
 
-    override var spanContext: SpanContext
-        get() = throw UnsupportedOperationException()
-        set(value) {}
-
-    override val context: Context?
-        get() = throw UnsupportedOperationException()
+    override var spanContext: SpanContext = spanContext
+        get() = readLogRecord { field }
+        set(value) {
+            writeLogRecord {
+                field = value
+            }
+        }
 
     private val attrs: MutableMap<String, Any> = attributeContainer.attributes.toMutableMap()
 

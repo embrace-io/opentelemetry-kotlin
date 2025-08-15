@@ -32,6 +32,7 @@ internal class LoggerImpl(
         attributes: MutableAttributeContainer.() -> Unit
     ) {
         val attrs = MutableAttributeContainerImpl().apply(attributes)
+        val ctx = context ?: objectCreator.context.root()
         val log = LogRecordModel(
             attributeContainer = attrs,
             resource = resource,
@@ -41,8 +42,8 @@ internal class LoggerImpl(
             body = body,
             severityText = severityText,
             severityNumber = severityNumber ?: SeverityNumber.UNKNOWN,
+            spanContext = objectCreator.span.fromContext(ctx).spanContext,
         )
-        val ctx = context ?: objectCreator.context.root()
         processor.onEmit(ReadWriteLogRecordImpl(log), ctx)
     }
 }
