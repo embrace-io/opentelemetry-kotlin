@@ -3,7 +3,6 @@ package io.embrace.opentelemetry.kotlin.logging.model
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.FakeInstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
-import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.FakeSpanContext
@@ -17,7 +16,6 @@ class FakeReadWriteLogRecord : ReadWriteLogRecord {
     override var severityText: String? = null
     override var body: String? = null
     override var spanContext: SpanContext = FakeSpanContext()
-    override val context: Context? = null
     override val attributes: Map<String, Any> = emptyMap()
     override val resource: Resource = FakeResource()
     override val instrumentationScopeInfo: InstrumentationScopeInfo =

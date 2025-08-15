@@ -192,7 +192,6 @@ public abstract interface class io/embrace/opentelemetry/kotlin/logging/model/Re
 public abstract interface class io/embrace/opentelemetry/kotlin/logging/model/ReadableLogRecord {
 	public abstract fun getAttributes ()Ljava/util/Map;
 	public abstract fun getBody ()Ljava/lang/String;
-	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
 	public abstract fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
 	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
 	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/resource/Resource;
