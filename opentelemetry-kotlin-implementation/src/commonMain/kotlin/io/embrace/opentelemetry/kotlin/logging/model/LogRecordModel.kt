@@ -18,29 +18,54 @@ internal class LogRecordModel(
     attributeContainer: AttributeContainer,
     override val resource: Resource,
     override val instrumentationScopeInfo: InstrumentationScopeInfo,
+    timestamp: Long,
+    observedTimestamp: Long,
+    body: String?,
+    severityText: String?,
+    severityNumber: SeverityNumber?
 ) : ReadWriteLogRecord {
 
     private val lock = ReentrantReadWriteLock()
 
-    override var timestamp: Long?
-        get() = throw UnsupportedOperationException()
-        set(value) {}
+    override var timestamp: Long? = timestamp
+        get() = readLogRecord { field }
+        set(value) {
+            writeLogRecord {
+                field = value
+            }
+        }
 
-    override var observedTimestamp: Long?
-        get() = throw UnsupportedOperationException()
-        set(value) {}
+    override var observedTimestamp: Long? = observedTimestamp
+        get() = readLogRecord { field }
+        set(value) {
+            writeLogRecord {
+                field = value
+            }
+        }
 
-    override var severityNumber: SeverityNumber?
-        get() = throw UnsupportedOperationException()
-        set(value) {}
+    override var severityNumber: SeverityNumber? = severityNumber
+        get() = readLogRecord { field }
+        set(value) {
+            writeLogRecord {
+                field = value
+            }
+        }
 
-    override var severityText: String?
-        get() = throw UnsupportedOperationException()
-        set(value) {}
+    override var severityText: String? = severityText
+        get() = readLogRecord { field }
+        set(value) {
+            writeLogRecord {
+                field = value
+            }
+        }
 
-    override var body: String?
-        get() = throw UnsupportedOperationException()
-        set(value) {}
+    override var body: String? = body
+        get() = readLogRecord { field }
+        set(value) {
+            writeLogRecord {
+                field = value
+            }
+        }
 
     override var spanContext: SpanContext
         get() = throw UnsupportedOperationException()

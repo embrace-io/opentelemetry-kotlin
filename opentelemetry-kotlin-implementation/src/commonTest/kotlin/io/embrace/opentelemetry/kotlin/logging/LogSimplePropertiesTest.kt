@@ -6,9 +6,12 @@ import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
+import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 @OptIn(ExperimentalApi::class)
 internal class LogSimplePropertiesTest {
@@ -35,8 +38,35 @@ internal class LogSimplePropertiesTest {
 
     @Test
     fun `test minimal log`() {
+        val now = 5L
+        clock.time = now
         logger.log()
+
         val log = processor.logs.single()
-        checkNotNull(log)
+        assertNull(log.body)
+        assertEquals(now, log.timestamp)
+        assertEquals(now, log.observedTimestamp)
+        assertEquals(SeverityNumber.UNKNOWN, log.severityNumber)
+        assertNull(log.severityText)
+    }
+
+    @Test
+    fun `test log properties`() {
+        val body = "Hello, World!"
+        val severityText = "INFO"
+        logger.log(
+            body = body,
+            timestamp = 2,
+            observedTimestamp = 3,
+            severityNumber = SeverityNumber.INFO,
+            severityText = severityText
+        )
+
+        val log = processor.logs.single()
+        assertEquals(body, log.body)
+        assertEquals(2, log.timestamp)
+        assertEquals(3, log.observedTimestamp)
+        assertEquals(SeverityNumber.INFO, log.severityNumber)
+        assertEquals(severityText, log.severityText)
     }
 }
