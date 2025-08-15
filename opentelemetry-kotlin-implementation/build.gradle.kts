@@ -13,6 +13,7 @@ kotlin {
                 implementation(project(":opentelemetry-kotlin-api"))
                 implementation(project(":opentelemetry-kotlin-model"))
                 implementation(project(":opentelemetry-kotlin-primitives"))
+                implementation(libs.kotlinx.datetime)
             }
         }
         val commonTest by getting {
