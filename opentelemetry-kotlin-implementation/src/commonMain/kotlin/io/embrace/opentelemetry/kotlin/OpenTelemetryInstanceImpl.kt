@@ -26,7 +26,7 @@ public fun OpenTelemetryInstance.default(
     val sdkErrorHandler = NoopSdkErrorHandler
     return OpenTelemetryImpl(
         tracerProvider = TracerProviderImpl(clock, tracingConfig, objectCreator, sdkErrorHandler),
-        loggerProvider = LoggerProviderImpl(clock, loggingConfig, sdkErrorHandler),
+        loggerProvider = LoggerProviderImpl(clock, loggingConfig, objectCreator, sdkErrorHandler),
         clock = clock,
         objectCreator = objectCreator
     )
