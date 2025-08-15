@@ -45,14 +45,14 @@ internal class OtelJavaLogRecordExporterAdapterTest {
         assertEquals(original.severityNumber?.severityNumber, observed.severity.severityNumber)
         assertEquals(original.body, observed.bodyValue?.asString())
         assertEquals(original.attributes, observed.attributes.toMap())
-        assertEquals(original.resource?.attributes, observed.resource.attributes.toMap())
+        assertEquals(original.resource.attributes, observed.resource.attributes.toMap())
         assertEquals(original.spanContext.spanId, observed.spanContext.spanId)
 
         val originalScope = original.instrumentationScopeInfo
         val observedScope = observed.instrumentationScopeInfo
-        assertEquals(originalScope?.name, observedScope.name)
-        assertEquals(originalScope?.version, observedScope.version)
-        assertEquals(originalScope?.schemaUrl, observedScope.schemaUrl)
-        assertEquals(originalScope?.attributes, observedScope.attributes.toMap())
+        assertEquals(originalScope.name, observedScope.name)
+        assertEquals(originalScope.version, observedScope.version)
+        assertEquals(originalScope.schemaUrl, observedScope.schemaUrl)
+        assertEquals(originalScope.attributes, observedScope.attributes.toMap())
     }
 }
