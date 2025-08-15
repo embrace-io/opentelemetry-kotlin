@@ -8,6 +8,7 @@ import io.embrace.opentelemetry.kotlin.framework.serialization.conversion.toSeri
 import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigDsl
 import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigDsl
 import io.embrace.opentelemetry.kotlin.logging.Logger
+import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
@@ -71,6 +72,11 @@ abstract class OtelKotlinTestRule {
      * Syntactic sugar to obtain a tracer provider from the API.
      */
     val tracerProvider: TracerProvider by lazy { kotlinApi.tracerProvider }
+
+    /**
+     * Syntactic sugar to obtain a logger provider from the API.
+     */
+    val loggerProvider: LoggerProvider by lazy { kotlinApi.loggerProvider }
 
     /**
      * Syntactic sugar to obtain a tracer from the API.
