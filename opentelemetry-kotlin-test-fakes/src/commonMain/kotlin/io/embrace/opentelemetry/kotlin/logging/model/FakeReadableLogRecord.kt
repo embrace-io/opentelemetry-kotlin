@@ -20,6 +20,6 @@ class FakeReadableLogRecord(
     override val body: String? = "Hello, World!",
     override val attributes: Map<String, Any> = mapOf("key" to "value"),
     override val spanContext: FakeSpanContext = FakeSpanContext(),
-    override val resource: Resource? = FakeResource(),
-    override val instrumentationScopeInfo: InstrumentationScopeInfo? = FakeInstrumentationScopeInfo()
+    override val resource: Resource = FakeResource(),
+    override val instrumentationScopeInfo: InstrumentationScopeInfo = FakeInstrumentationScopeInfo()
 ) : ReadableLogRecord

@@ -19,8 +19,8 @@ class FakeReadWriteLogRecord : ReadWriteLogRecord {
     override var spanContext: SpanContext = FakeSpanContext()
     override val context: Context? = null
     override val attributes: Map<String, Any> = emptyMap()
-    override val resource: Resource? = FakeResource()
-    override val instrumentationScopeInfo: InstrumentationScopeInfo? =
+    override val resource: Resource = FakeResource()
+    override val instrumentationScopeInfo: InstrumentationScopeInfo =
         FakeInstrumentationScopeInfo()
 
     override fun setBooleanAttribute(key: String, value: Boolean) {

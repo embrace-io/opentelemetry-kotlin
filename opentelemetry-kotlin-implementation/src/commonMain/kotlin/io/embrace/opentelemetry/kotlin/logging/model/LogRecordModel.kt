@@ -16,6 +16,8 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 @OptIn(ExperimentalApi::class)
 internal class LogRecordModel(
     attributeContainer: AttributeContainer,
+    override val resource: Resource,
+    override val instrumentationScopeInfo: InstrumentationScopeInfo,
 ) : ReadWriteLogRecord {
 
     private val lock = ReentrantReadWriteLock()
@@ -45,12 +47,6 @@ internal class LogRecordModel(
         set(value) {}
 
     override val context: Context?
-        get() = throw UnsupportedOperationException()
-
-    override val resource: Resource?
-        get() = throw UnsupportedOperationException()
-
-    override val instrumentationScopeInfo: InstrumentationScopeInfo?
         get() = throw UnsupportedOperationException()
 
     private val attrs: MutableMap<String, Any> = attributeContainer.attributes.toMutableMap()

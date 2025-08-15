@@ -6,8 +6,8 @@ import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 
 @OptIn(ExperimentalApi::class)
 fun ReadableLogRecord.toSerializable() = SerializableLogRecordData(
-    resource = resource?.toSerializable(),
-    instrumentationScopeInfo = instrumentationScopeInfo?.toSerializable(),
+    resource = resource.toSerializable(),
+    instrumentationScopeInfo = instrumentationScopeInfo.toSerializable(),
     timestampEpochNanos = timestamp ?: 0,
     observedTimestampEpochNanos = observedTimestamp ?: 0,
     spanContext = spanContext.toSerializable(),

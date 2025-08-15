@@ -56,12 +56,12 @@ public interface ReadableLogRecord {
     public val spanContext: SpanContext
 
     /**
-     * The resource associated with the log record, if any.
+     * The resource associated with the log record
      */
-    public val resource: Resource?
+    public val resource: Resource
 
     /**
-     * The instrumentation scope information associated with the log record, if any.
+     * The instrumentation scope information associated with the log record
      */
-    public val instrumentationScopeInfo: InstrumentationScopeInfo?
+    public val instrumentationScopeInfo: InstrumentationScopeInfo
 }
