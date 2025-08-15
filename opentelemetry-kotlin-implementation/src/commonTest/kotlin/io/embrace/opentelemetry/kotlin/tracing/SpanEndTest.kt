@@ -95,7 +95,7 @@ internal class SpanEndTest {
         }
 
         val span = tracer.createSpan("test")
-        assertTrue(span.isRecording())
+        assertFalse(span.isRecording())
         span.end()
         assertFalse(span.isRecording())
 

@@ -40,7 +40,6 @@ internal class TracerImpl(
         val spanModel = SpanModel(
             clock = clock,
             processor = processor,
-            parentContext = ctx,
             name = name,
             spanRelationships = spanRelationships,
             spanKind = spanKind,
@@ -50,6 +49,7 @@ internal class TracerImpl(
             parent = parentSpanContext,
             spanContext = spanContext
         )
+        processor.onStart(spanModel, ctx)
         return CreatedSpan(spanModel)
     }
 
