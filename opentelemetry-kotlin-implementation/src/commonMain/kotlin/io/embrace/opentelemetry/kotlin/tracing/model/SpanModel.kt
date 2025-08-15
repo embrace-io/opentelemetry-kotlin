@@ -32,6 +32,8 @@ internal class SpanModel(
     override val startTimestamp: Long,
     override val instrumentationScopeInfo: InstrumentationScopeInfo,
     override val resource: Resource,
+    override val parent: SpanContext,
+    override val spanContext: SpanContext,
 ) : ReadWriteSpan {
 
     private enum class State {
@@ -88,12 +90,6 @@ internal class SpanModel(
     }
 
     override fun isRecording(): Boolean = state != State.ENDED
-
-    override val parent: SpanContext
-        get() = throw UnsupportedOperationException()
-
-    override val spanContext: SpanContext
-        get() = throw UnsupportedOperationException()
 
     private val eventsList = spanRelationships.events.toMutableList()
 
