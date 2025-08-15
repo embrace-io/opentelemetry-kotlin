@@ -1,6 +1,7 @@
-package io.embrace.opentelemetry.kotlin.integration.test
+package io.embrace.opentelemetry.kotlin.integration.test.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.integration.test.IntegrationTestHarness
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.BeforeTest

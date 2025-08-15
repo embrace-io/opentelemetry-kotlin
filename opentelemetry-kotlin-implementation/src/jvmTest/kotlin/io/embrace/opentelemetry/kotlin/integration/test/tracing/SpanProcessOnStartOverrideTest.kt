@@ -1,8 +1,9 @@
-package io.embrace.opentelemetry.kotlin.integration.test
+package io.embrace.opentelemetry.kotlin.integration.test.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
+import io.embrace.opentelemetry.kotlin.integration.test.IntegrationTestHarness
 import io.embrace.opentelemetry.kotlin.tracing.FakeSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
@@ -17,7 +18,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalApi::class)
-internal class SpanProcessOnEndReadTest {
+internal class SpanProcessOnStartOverrideTest {
 
     private lateinit var harness: IntegrationTestHarness
 
@@ -27,22 +28,20 @@ internal class SpanProcessOnEndReadTest {
     }
 
     @Test
-    fun `test read properties in SpanProcessor onEnd`() {
-        harness.config.spanProcessors.add(OnEndSpanProcessor())
+    fun `test override properties in SpanProcessor onStart`() {
+        harness.config.spanProcessors.add(OnStartSpanProcessor())
         harness.tracer.createSpan("span") {
             setStringAttribute("key", "value")
             addEvent("test")
-            addLink(FakeSpanContext()) {
-                setStringAttribute("foo", "bar")
-            }
-        }.end()
+            addLink(FakeSpanContext())
+        }
         harness.assertSpans(
             expectedCount = 1,
-            goldenFileName = "span_read_on_end.json",
+            goldenFileName = "span_override_on_start.json",
         )
     }
 
-    private class OnEndSpanProcessor : SpanProcessor {
+    private class OnStartSpanProcessor : SpanProcessor {
         override fun onStart(
             span: ReadWriteSpan,
             parentContext: Context
@@ -50,10 +49,7 @@ internal class SpanProcessOnEndReadTest {
             span.handleSpan()
         }
 
-        override fun onEnd(span: ReadableSpan) {
-        }
-
-        private fun ReadableSpan.handleSpan() {
+        private fun ReadWriteSpan.handleSpan() {
             // assert properties can be read
             assertEquals("span", name)
             assertEquals(StatusData.Unset, status)
@@ -66,8 +62,23 @@ internal class SpanProcessOnEndReadTest {
             assertTrue(resource.attributes.isEmpty())
             assertEquals("test_tracer", instrumentationScopeInfo.name)
             assertEquals(mapOf("key" to "value"), attributes)
-            assertEquals("test", events.single().name)
-            assertEquals("bar", links.single().attributes["foo"])
+            assertEquals(1, events.size)
+            assertEquals(1, links.size)
+
+            // assert subset of properties can be written
+            name = "override"
+            status = StatusData.Error("override")
+            setStringAttribute("foo", "bar")
+            addEvent("test", 5) {
+                setStringAttribute("foo", "bar")
+            }
+            addLink(FakeSpanContext()) {
+                setStringAttribute("foo", "bar")
+            }
+            end(678)
+        }
+
+        override fun onEnd(span: ReadableSpan) {
         }
 
         override fun isStartRequired(): Boolean = true

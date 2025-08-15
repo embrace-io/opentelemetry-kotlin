@@ -26,7 +26,6 @@ class FakeLogger(
             FakeReadableLogRecord(
                 timestamp,
                 observedTimestamp,
-                context,
                 severityNumber,
                 severityText,
                 body

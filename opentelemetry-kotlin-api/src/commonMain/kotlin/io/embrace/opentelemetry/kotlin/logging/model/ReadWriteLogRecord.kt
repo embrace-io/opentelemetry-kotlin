@@ -2,7 +2,6 @@ package io.embrace.opentelemetry.kotlin.logging.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
-import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
 /**
  * A read-write representation of a log record.
@@ -37,9 +36,4 @@ public interface ReadWriteLogRecord : ReadableLogRecord, MutableAttributeContain
      * Contains the body of the log message - i.e. a human-readable string or free-form string data.
      */
     public override var body: String?
-
-    /**
-     * The span context associated with the log record
-     */
-    public override var spanContext: SpanContext
 }

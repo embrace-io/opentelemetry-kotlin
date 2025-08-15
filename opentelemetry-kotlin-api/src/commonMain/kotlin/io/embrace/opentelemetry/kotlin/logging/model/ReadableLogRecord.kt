@@ -2,7 +2,6 @@ package io.embrace.opentelemetry.kotlin.logging.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
-import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
@@ -23,11 +22,6 @@ public interface ReadableLogRecord {
      * The timestamp in nanoseconds at which the event was entered into the OpenTelemetry API.
      */
     public val observedTimestamp: Long?
-
-    /**
-     * The context in which the log was emitted.
-     */
-    public val context: Context?
 
     /**
      * The severity of the log.
@@ -56,12 +50,12 @@ public interface ReadableLogRecord {
     public val spanContext: SpanContext
 
     /**
-     * The resource associated with the log record, if any.
+     * The resource associated with the log record
      */
-    public val resource: Resource?
+    public val resource: Resource
 
     /**
-     * The instrumentation scope information associated with the log record, if any.
+     * The instrumentation scope information associated with the log record
      */
-    public val instrumentationScopeInfo: InstrumentationScopeInfo?
+    public val instrumentationScopeInfo: InstrumentationScopeInfo
 }

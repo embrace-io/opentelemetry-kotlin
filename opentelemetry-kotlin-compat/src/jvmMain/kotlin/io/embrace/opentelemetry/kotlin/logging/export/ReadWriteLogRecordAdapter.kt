@@ -5,7 +5,6 @@ import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteLogRecord
 import io.embrace.opentelemetry.kotlin.attributes.toMap
-import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import io.embrace.opentelemetry.kotlin.logging.toOtelKotlinSeverityNumber
@@ -83,9 +82,6 @@ internal class ReadWriteLogRecordAdapter(
     override var spanContext: SpanContext
         get() = SpanContextAdapter(impl.spanContext)
         set(value) {}
-
-    override val context: Context?
-        get() = null
 
     override val resource: Resource
         get() = ResourceAdapter(impl.toLogRecordData().resource)
