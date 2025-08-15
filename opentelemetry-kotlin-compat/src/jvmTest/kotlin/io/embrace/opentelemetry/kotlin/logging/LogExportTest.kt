@@ -8,7 +8,6 @@ import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
-import io.embrace.opentelemetry.kotlin.tracing.FakeSpanContext
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertSame
@@ -148,7 +147,6 @@ internal class LogExportTest {
             with(log) {
                 timestamp = 5
                 observedTimestamp = 10
-                spanContext = FakeSpanContext("1".repeat(32), "2".repeat(16))
 
                 setStringAttribute("string", "value")
                 setBooleanAttribute("bool", false)
