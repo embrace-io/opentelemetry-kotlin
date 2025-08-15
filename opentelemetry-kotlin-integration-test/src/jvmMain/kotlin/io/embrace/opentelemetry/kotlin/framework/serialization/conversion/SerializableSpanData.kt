@@ -5,12 +5,12 @@ import io.embrace.opentelemetry.kotlin.framework.serialization.SerializableSpanD
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 
 @OptIn(ExperimentalApi::class)
-fun SpanData.toSerializable(sanitizeSpanContextIds: Boolean = true) = SerializableSpanData(
+fun SpanData.toSerializable() = SerializableSpanData(
     name = name,
     kind = spanKind.name,
     statusData = status.toSerializable(),
-    spanContext = spanContext.toSerializable(sanitizeSpanContextIds),
-    parentSpanContext = parent.toSerializable(sanitizeSpanContextIds),
+    spanContext = spanContext.toSerializable(),
+    parentSpanContext = parent.toSerializable(),
     startTimestamp = startTimestamp,
     attributes = attributes.toSerializable(),
     events = events.map { it.toSerializable() },

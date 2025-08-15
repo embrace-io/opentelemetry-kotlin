@@ -7,8 +7,8 @@
       "description": "bad_err"
     },
     "spanContext": {
-      "traceId": "00000000000000000000000000000000",
-      "spanId": "0000000000000000",
+      "traceId": "1e6b4ea924f9baa8e77bcc2f537f0b02",
+      "spanId": "2cc2b48c50aefe53",
       "traceFlags": "01",
       "traceState": {}
     },
@@ -20,14 +20,14 @@
     },
     "startTimestamp": 0,
     "attributes": {
-      "bool": "false",
-      "boolList": "[false]",
       "double": "5.4",
-      "doubleList": "[5.4]",
-      "long": "5",
-      "longList": "[5]",
       "string": "value",
-      "stringList": "[value]"
+      "bool": "false",
+      "doubleList": "[5.4]",
+      "stringList": "[value]",
+      "longList": "[5]",
+      "boolList": "[false]",
+      "long": "5"
     },
     "events": [
       {
@@ -69,8 +69,8 @@
       "description": "bad_err"
     },
     "spanContext": {
-      "traceId": "00000000000000000000000000000000",
-      "spanId": "0000000000000000",
+      "traceId": "f9a51310c8eed9889d46ef3bafda11b1",
+      "spanId": "ac2c315346a8f5dc",
       "traceFlags": "01",
       "traceState": {}
     },
@@ -82,14 +82,14 @@
     },
     "startTimestamp": 0,
     "attributes": {
-      "bool": "false",
-      "boolList": "[false]",
       "double": "5.4",
-      "doubleList": "[5.4]",
-      "long": "5",
-      "longList": "[5]",
       "string": "value",
-      "stringList": "[value]"
+      "bool": "false",
+      "doubleList": "[5.4]",
+      "stringList": "[value]",
+      "longList": "[5]",
+      "boolList": "[false]",
+      "long": "5"
     },
     "events": [
       {
@@ -104,8 +104,8 @@
     "links": [
       {
         "spanContext": {
-          "traceId": "00000000000000000000000000000000",
-          "spanId": "0000000000000000",
+          "traceId": "1e6b4ea924f9baa8e77bcc2f537f0b02",
+          "spanId": "2cc2b48c50aefe53",
           "traceFlags": "01",
           "traceState": {}
         },

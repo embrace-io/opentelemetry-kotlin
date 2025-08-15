@@ -5,12 +5,12 @@ import io.embrace.opentelemetry.kotlin.framework.serialization.SerializableLogRe
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 
 @OptIn(ExperimentalApi::class)
-fun ReadableLogRecord.toSerializable(sanitizeSpanContextIds: Boolean = true) = SerializableLogRecordData(
+fun ReadableLogRecord.toSerializable() = SerializableLogRecordData(
     resource = resource?.toSerializable(),
     instrumentationScopeInfo = instrumentationScopeInfo?.toSerializable(),
     timestampEpochNanos = timestamp ?: 0,
     observedTimestampEpochNanos = observedTimestamp ?: 0,
-    spanContext = spanContext.toSerializable(sanitizeSpanContextIds),
+    spanContext = spanContext.toSerializable(),
     severity = severityNumber?.name.orEmpty(),
     severityText = severityText,
     body = body,
