@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.context
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 
 @OptIn(ExperimentalApi::class)
-internal class ContextImpl : Context {
+internal class ContextImpl(private val impl: Map<ContextKey<*>, Any?> = emptyMap()) : Context {
 
     override fun <T> createKey(name: String): ContextKey<T> = ContextKeyImpl(name)
 
@@ -11,10 +11,12 @@ internal class ContextImpl : Context {
         key: ContextKey<T>,
         value: T?
     ): Context {
-        throw UnsupportedOperationException()
+        val newValues = impl.plus(Pair(key, value))
+        return ContextImpl(newValues)
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T> get(key: ContextKey<T>): T? {
-        throw UnsupportedOperationException()
+        return impl[key] as? T
     }
 }

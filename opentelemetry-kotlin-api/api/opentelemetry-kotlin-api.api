@@ -53,6 +53,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/context/ContextK
 
 public abstract interface class io/embrace/opentelemetry/kotlin/creator/ContextCreator {
 	public abstract fun root ()Lio/embrace/opentelemetry/kotlin/context/Context;
+	public abstract fun storeSpan (Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/tracing/model/Span;)Lio/embrace/opentelemetry/kotlin/context/Context;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/creator/ObjectCreator {

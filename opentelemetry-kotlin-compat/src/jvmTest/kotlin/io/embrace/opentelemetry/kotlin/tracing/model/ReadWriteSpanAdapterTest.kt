@@ -106,8 +106,8 @@ internal class ReadWriteSpanAdapterTest {
             assertions = { spans ->
                 with(spans.single()) {
                     assertEquals("name", name)
-                    assertEquals(newStatus.statusCode.name, statusData.name)
-                    assertEquals(newStatus.description, statusData.description)
+                    assertEquals(newStatus.statusCode.name, status.statusCode.name)
+                    assertEquals(newStatus.description, status.description)
                     assertEquals(mapOf("key" to "value"), attributes)
                 }
             }

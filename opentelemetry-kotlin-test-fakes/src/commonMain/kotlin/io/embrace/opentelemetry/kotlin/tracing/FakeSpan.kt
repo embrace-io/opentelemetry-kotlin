@@ -11,7 +11,9 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 
 @Suppress("UNUSED_PARAMETER")
 @OptIn(ExperimentalApi::class)
-class FakeSpan : Span {
+class FakeSpan(
+    override var name: String = ""
+) : Span {
 
     override val events: MutableList<EventData> = mutableListOf()
     override val links: MutableList<LinkData> = mutableListOf()
@@ -20,9 +22,6 @@ class FakeSpan : Span {
         TODO("Not yet implemented")
     }
 
-    override var name: String
-        get() = TODO("Not yet implemented")
-        set(value) {}
     override var status: StatusData
         get() = TODO("Not yet implemented")
         set(value) {}

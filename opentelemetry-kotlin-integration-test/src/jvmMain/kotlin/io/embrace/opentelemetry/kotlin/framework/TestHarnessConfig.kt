@@ -8,7 +8,7 @@ import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 
 @OptIn(ExperimentalApi::class)
-internal data class TestHarnessConfig(
+data class TestHarnessConfig(
     var schemaUrl: String? = null,
     var attributes: (MutableAttributeContainer.() -> Unit)? = null,
     val spanProcessors: MutableList<SpanProcessor> = mutableListOf(),
