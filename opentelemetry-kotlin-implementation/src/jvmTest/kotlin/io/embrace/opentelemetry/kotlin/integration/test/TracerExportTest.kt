@@ -1,8 +1,13 @@
 package io.embrace.opentelemetry.kotlin.integration.test
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
+import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
+import kotlin.test.assertTrue
 
 @OptIn(ExperimentalApi::class)
 internal class TracerExportTest {
@@ -15,11 +20,134 @@ internal class TracerExportTest {
     }
 
     @Test
-    fun `test span exported by tracer`() {
+    fun `test minimal span exported by tracer`() {
         val span = harness.tracer.createSpan("test") {
             setStringAttribute("foo", "bar")
         }
         span.end()
         harness.assertSpans(1, "span_minimal.json")
+    }
+
+    @Test
+    fun `test span with basic properties exported by tracer`() {
+        harness.tracer.createSpan(
+            name = "custom_span",
+            spanKind = SpanKind.PRODUCER,
+            startTimestamp = 500
+        ).apply {
+            status = StatusData.Error("Whoops")
+            end(1000)
+        }
+        harness.assertSpans(1, "span_basic_props.json")
+    }
+
+    @Test
+    fun `test span with attributes exported by tracer`() {
+        val span = harness.tracer.createSpan("test") {
+            setStringAttribute("foo", "bar")
+            setBooleanAttribute("experiment_enabled", true)
+        }
+        span.end()
+        harness.assertSpans(1, "span_attrs.json")
+    }
+
+    @Test
+    fun `test span with attributes added after creation exported by tracer`() {
+        val span = harness.tracer.createSpan("test")
+        span.apply {
+            setStringAttribute("foo", "bar")
+            setBooleanAttribute("experiment_enabled", true)
+            end()
+        }
+        harness.assertSpans(1, "span_attrs.json")
+    }
+
+    @Test
+    fun `test span event exported by tracer`() {
+        harness.tracer.createSpan("test") {
+            addEvent("my_event", 500) {
+                setStringAttribute("foo", "bar")
+            }
+        }.end()
+        harness.assertSpans(1, "span_event.json")
+    }
+
+    @Test
+    fun `test span event added after creation exported by tracer`() {
+        harness.tracer.createSpan("test").apply {
+            addEvent("my_event", 500) {
+                setStringAttribute("foo", "bar")
+            }
+            end()
+        }
+        harness.assertSpans(1, "span_event.json")
+    }
+
+    @Test
+    fun `test span link exported by tracer`() {
+        val linkName = "link"
+        val otherName = "other"
+        val link = harness.tracer.createSpan(linkName)
+        val other = harness.tracer.createSpan(otherName) {
+            addLink(link.spanContext) {
+                setStringAttribute("foo", "bar")
+            }
+        }
+        link.end()
+        other.end()
+        harness.assertSpans(2, "span_links.json", assertions = {
+            val linkSpan = it.single { span -> span.name == linkName }
+            val otherSpan = it.single { span -> span.name == otherName }
+
+            assertTrue(linkSpan.links.isEmpty())
+            val firstLink = otherSpan.links.single().spanContext
+            assertEquals(firstLink.traceId, linkSpan.spanContext.traceId)
+            assertEquals(firstLink.spanId, linkSpan.spanContext.spanId)
+        })
+    }
+
+    @Test
+    fun `test span link added after creation exported by tracer`() {
+        val linkName = "link"
+        val otherName = "other"
+        val link = harness.tracer.createSpan(linkName)
+        val other = harness.tracer.createSpan(otherName)
+        other.addLink(link.spanContext) {
+            setStringAttribute("foo", "bar")
+        }
+        link.end()
+        other.end()
+        harness.assertSpans(2, "span_links.json", assertions = {
+            val linkSpan = it.single { span -> span.name == linkName }
+            val otherSpan = it.single { span -> span.name == otherName }
+
+            assertTrue(linkSpan.links.isEmpty())
+            val firstLink = otherSpan.links.single().spanContext
+            assertEquals(firstLink.traceId, linkSpan.spanContext.traceId)
+            assertEquals(firstLink.spanId, linkSpan.spanContext.spanId)
+        })
+    }
+
+    @Test
+    fun `test span with parent exported by tracer`() {
+        val parentName = "parent"
+        val childName = "child"
+        val parentSpan = harness.tracer.createSpan(parentName)
+        val contextCreator = harness.objectCreator.context
+        val parentCtx = contextCreator.storeSpan(contextCreator.root(), parentSpan)
+        val childSpan = harness.tracer.createSpan(childName, parentContext = parentCtx)
+        parentSpan.end()
+        childSpan.end()
+
+        harness.assertSpans(2, "span_ancestry.json", assertions = {
+            val parent = it.single { span -> span.name == parentName }
+            val child = it.single { span -> span.name == childName }
+
+            assertEquals(parent.spanContext.traceId, child.spanContext.traceId)
+            assertNotEquals(parent.spanContext.spanId, child.spanContext.spanId)
+
+            assertEquals(parent.spanContext.traceId, child.parent.traceId)
+            assertEquals(parent.spanContext.spanId, child.parent.spanId)
+        })
     }
 }
