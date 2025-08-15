@@ -18,6 +18,5 @@ internal class ObjectCreatorImpl : ObjectCreator {
 
     override val span: SpanCreator = SpanCreatorImpl(contextCreatorImpl.spanKey)
 
-    override val idCreator: TracingIdCreator
-        get() = throw UnsupportedOperationException()
+    override val idCreator: TracingIdCreator = TracingIdCreatorImpl()
 }
