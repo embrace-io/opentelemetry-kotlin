@@ -1,18 +1,19 @@
 [versions]
-agp = "8.7.2"
+agp = "8.12.0"
 kotlin = "2.1.21"
 android-minSdk = "21"
 android-compileSdk = "36"
 detekt = "1.23.8"
 binaryCompatibilityValidator = "0.18.1"
 otel = "1.53.0"
-kotlinSerialization = "1.8.1"
+kotlinSerialization = "1.9.0"
 mavenPublish = "0.34.0"
 nexus = "2.0.0"
 junit4 = "4.13.2"
 junit5 = "5.13.4"
-kotlinExposed = "1.8.22"
 koverGradlePlugin = "0.9.1"
+#noinspection GradleDependency
+kotlinExposed = "1.8.22"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
