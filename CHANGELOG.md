@@ -1,5 +1,15 @@
 # opentelemetry-kotlin changelog
 
+# 0.4.0
+*Aug 18, 2025*
+
+- Initial implementation of Logging + Tracing APIs
+
+# 0.3.1
+*Aug 09, 2025*
+
+- Various API changes and fixes to the adapter implementations
+
 # 0.3.0
 *Aug 15, 2025*
 
