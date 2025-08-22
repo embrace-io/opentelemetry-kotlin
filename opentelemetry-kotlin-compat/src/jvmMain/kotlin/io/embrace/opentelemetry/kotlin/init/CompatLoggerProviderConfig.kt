@@ -13,7 +13,7 @@ import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.embrace.opentelemetry.kotlin.logging.export.OtelJavaLogRecordProcessorAdapter
 
 @ExperimentalApi
-internal class LoggerProviderConfigImpl(
+internal class CompatLoggerProviderConfig(
     clock: Clock
 ) : LoggerProviderConfigDsl {
 
@@ -33,7 +33,7 @@ internal class LoggerProviderConfigImpl(
     }
 
     override fun logLimits(action: LogLimitsConfigDsl.() -> Unit) {
-        builder.setLogLimits { LogLimitsConfigImpl().apply(action).build() }
+        builder.setLogLimits { CompatLogLimitsConfig().apply(action).build() }
     }
 
     fun build(): LoggerProvider = LoggerProviderAdapter(builder.build())

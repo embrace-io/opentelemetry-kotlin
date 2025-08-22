@@ -1,3 +1,5 @@
+@file:Suppress("DiscouragedImport")
+
 package io.embrace.opentelemetry.kotlin.creator
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
@@ -12,7 +14,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanContextAdapter
 import io.opentelemetry.api.trace.otelJavaSpanContextKey
 
 @OptIn(ExperimentalApi::class)
-internal class SpanCreatorImpl(spanContextCreator: SpanContextCreator) : SpanCreator {
+internal class CompatSpanCreator(spanContextCreator: SpanContextCreator) : SpanCreator {
 
     private val invalidSpanContext by lazy { spanContextCreator.invalid }
 

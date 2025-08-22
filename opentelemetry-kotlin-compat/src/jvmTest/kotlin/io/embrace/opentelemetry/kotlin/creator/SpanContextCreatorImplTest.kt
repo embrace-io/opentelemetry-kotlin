@@ -16,7 +16,7 @@ internal class SpanContextCreatorImplTest {
 
     @Test
     fun `test valid`() {
-        val generator = TracingIdCreatorImpl()
+        val generator = CompatTracingIdCreator()
         val traceId = generator.generateTraceId()
         val spanId = generator.generateSpanId()
         val traceFlags = creator.traceFlags.default

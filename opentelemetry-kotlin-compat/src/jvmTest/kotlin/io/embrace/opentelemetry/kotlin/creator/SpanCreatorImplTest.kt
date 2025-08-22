@@ -25,7 +25,7 @@ internal class SpanCreatorImplTest {
 
     @Test
     fun `test from span context`() {
-        val generator = TracingIdCreatorImpl()
+        val generator = CompatTracingIdCreator()
         val spanContext = creator.spanContext.create(
             traceId = generator.generateTraceId(),
             spanId = generator.generateSpanId(),

@@ -5,10 +5,10 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
 import io.embrace.opentelemetry.kotlin.clock.ClockAdapter
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
+import io.embrace.opentelemetry.kotlin.init.CompatLoggerProviderConfig
+import io.embrace.opentelemetry.kotlin.init.CompatTracerProviderConfig
 import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigDsl
-import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigImpl
 import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigDsl
-import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigImpl
 import io.embrace.opentelemetry.kotlin.logging.LoggerProviderAdapter
 import io.embrace.opentelemetry.kotlin.logging.OtelJavaLoggerProviderAdapter
 import io.embrace.opentelemetry.kotlin.tracing.OtelJavaTracerProviderAdapter
@@ -55,8 +55,8 @@ public fun OpenTelemetryInstance.createOpenTelemetryKotlin(
     objectCreator: ObjectCreator = createCompatObjectCreator(),
 ): OpenTelemetry {
     objectCreator.idCreator
-    val tracerCfg = TracerProviderConfigImpl(clock, objectCreator).apply(tracerProvider)
-    val loggerCfg = LoggerProviderConfigImpl(clock).apply(loggerProvider)
+    val tracerCfg = CompatTracerProviderConfig(clock, objectCreator).apply(tracerProvider)
+    val loggerCfg = CompatLoggerProviderConfig(clock).apply(loggerProvider)
 
     return OpenTelemetryImpl(
         tracerProvider = tracerCfg.build(),

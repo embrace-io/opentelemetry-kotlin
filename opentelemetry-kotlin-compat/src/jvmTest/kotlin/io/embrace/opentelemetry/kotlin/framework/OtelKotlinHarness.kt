@@ -6,8 +6,8 @@ import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaIdGenerator
 import io.embrace.opentelemetry.kotlin.createOpenTelemetryKotlin
 import io.embrace.opentelemetry.kotlin.creator.CompatObjectCreator
+import io.embrace.opentelemetry.kotlin.creator.CompatTracingIdCreator
 import io.embrace.opentelemetry.kotlin.creator.TracingIdCreator
-import io.embrace.opentelemetry.kotlin.creator.TracingIdCreatorImpl
 import io.embrace.opentelemetry.kotlin.decorateKotlinApi
 import kotlin.random.Random
 
@@ -30,7 +30,7 @@ internal class OtelKotlinHarness : OtelKotlinTestRule() {
 
 @OptIn(ExperimentalApi::class)
 private class FakeTracingIdCreator(
-    private val impl: TracingIdCreator = TracingIdCreatorImpl(),
+    private val impl: TracingIdCreator = CompatTracingIdCreator(),
 ) : TracingIdCreator by impl, OtelJavaIdGenerator {
 
     private val random: Random = Random(0)

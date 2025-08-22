@@ -8,7 +8,7 @@ import io.embrace.opentelemetry.kotlin.tracing.ext.storeInContext
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 
 @OptIn(ExperimentalApi::class)
-internal class ContextCreatorImpl : ContextCreator {
+internal class CompatContextCreator : ContextCreator {
 
     override fun root(): Context = OtelJavaContext.root().toOtelKotlinContext()
 
