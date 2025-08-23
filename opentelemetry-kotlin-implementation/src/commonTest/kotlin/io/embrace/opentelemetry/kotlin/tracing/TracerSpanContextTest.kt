@@ -47,7 +47,7 @@ internal class TracerSpanContextTest {
     }
 
     @Test
-    fun `test span with explicit parent context, invalid span`() {
+    fun `test span with explicit parent context - invalid span`() {
         val invalidSpan = objectCreator.span.invalid
         assertFalse(invalidSpan.spanContext.isValid)
         val parentCtx = objectCreator.context.storeSpan(objectCreator.context.root(), invalidSpan)
@@ -59,7 +59,7 @@ internal class TracerSpanContextTest {
     }
 
     @Test
-    fun `test span with explicit parent context, valid span`() {
+    fun `test span with explicit parent context - valid span`() {
         val parentSpan = tracer.createSpan("parent")
         val parentCtx = objectCreator.context.storeSpan(objectCreator.context.root(), parentSpan)
         val span = tracer.createSpan("test", parentContext = parentCtx)

@@ -15,7 +15,7 @@ import io.embrace.opentelemetry.kotlin.tracing.export.OtelJavaSpanProcessorAdapt
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 
 @ExperimentalApi
-internal class TracerProviderConfigImpl(
+internal class CompatTracerProviderConfig(
     private val clock: Clock,
     objectCreator: ObjectCreator,
 ) : TracerProviderConfigDsl {
@@ -37,7 +37,7 @@ internal class TracerProviderConfigImpl(
     }
 
     override fun spanLimits(action: SpanLimitsConfigDsl.() -> Unit) {
-        builder.setSpanLimits(SpanLimitsConfigImpl().apply(action).build())
+        builder.setSpanLimits(CompatSpanLimitsConfig().apply(action).build())
     }
 
     override fun addSpanProcessor(processor: SpanProcessor) {

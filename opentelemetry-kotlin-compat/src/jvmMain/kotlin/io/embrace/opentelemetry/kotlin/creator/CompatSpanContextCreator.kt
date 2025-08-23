@@ -13,7 +13,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceStateAdapter
 
 @OptIn(ExperimentalApi::class)
-internal class SpanContextCreatorImpl : SpanContextCreator {
+internal class CompatSpanContextCreator : SpanContextCreator {
 
     override val invalid: SpanContext by lazy {
         val impl: OtelJavaSpanContext = OtelJavaSpanContext.getInvalid()

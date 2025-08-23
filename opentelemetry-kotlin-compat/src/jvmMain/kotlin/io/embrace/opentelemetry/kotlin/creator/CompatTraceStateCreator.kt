@@ -6,6 +6,6 @@ import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceStateAdapter
 
 @OptIn(ExperimentalApi::class)
-internal class TraceStateCreatorImpl : TraceStateCreator {
+internal class CompatTraceStateCreator : TraceStateCreator {
     override val default: TraceState by lazy { TraceStateAdapter(OtelJavaTraceState.getDefault()) }
 }

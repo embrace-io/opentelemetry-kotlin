@@ -9,7 +9,7 @@ internal class SpanLimitsConfigImplTest {
 
     @Test
     fun `test default`() {
-        SpanLimitsConfigImpl().apply {
+        CompatSpanLimitsConfig().apply {
             assertEquals(0, eventCountLimit)
             assertEquals(0, attributeCountLimit)
             assertEquals(0, linkCountLimit)
@@ -20,7 +20,7 @@ internal class SpanLimitsConfigImplTest {
 
     @Test
     fun `test span limits`() {
-        val cfg = SpanLimitsConfigImpl()
+        val cfg = CompatSpanLimitsConfig()
         cfg.apply {
             eventCountLimit = 1
             attributeCountLimit = 2

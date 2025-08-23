@@ -9,7 +9,7 @@ internal class LogLimitsConfigImplTest {
 
     @Test
     fun `test default`() {
-        LogLimitsConfigImpl().apply {
+        CompatLogLimitsConfig().apply {
             assertEquals(0, attributeCountLimit)
             assertEquals(0, attributeValueLengthLimit)
         }
@@ -17,7 +17,7 @@ internal class LogLimitsConfigImplTest {
 
     @Test
     fun `test span limits`() {
-        val cfg = LogLimitsConfigImpl()
+        val cfg = CompatLogLimitsConfig()
         cfg.apply {
             attributeCountLimit = 11
             attributeValueLengthLimit = 111

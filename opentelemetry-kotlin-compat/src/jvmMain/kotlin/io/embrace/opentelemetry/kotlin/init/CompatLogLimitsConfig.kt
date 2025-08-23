@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaLogLimits
 
 @ExperimentalApi
-internal class LogLimitsConfigImpl : LogLimitsConfigDsl {
+internal class CompatLogLimitsConfig : LogLimitsConfigDsl {
 
     private val builder = OtelJavaLogLimits.builder()
 

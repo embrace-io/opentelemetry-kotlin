@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanLimits
 
 @ExperimentalApi
-internal class SpanLimitsConfigImpl : SpanLimitsConfigDsl {
+internal class CompatSpanLimitsConfig : SpanLimitsConfigDsl {
 
     private val builder = OtelJavaSpanLimits.builder()
 

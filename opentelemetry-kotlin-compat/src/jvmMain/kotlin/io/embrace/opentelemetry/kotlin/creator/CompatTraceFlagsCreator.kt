@@ -6,7 +6,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlagsAdapter
 
 @OptIn(ExperimentalApi::class)
-internal class TraceFlagsCreatorImpl : TraceFlagsCreator {
+internal class CompatTraceFlagsCreator : TraceFlagsCreator {
     override val default: TraceFlags by lazy { TraceFlagsAdapter(OtelJavaTraceFlags.getDefault()) }
 
     override fun create(sampled: Boolean, random: Boolean): TraceFlags {
