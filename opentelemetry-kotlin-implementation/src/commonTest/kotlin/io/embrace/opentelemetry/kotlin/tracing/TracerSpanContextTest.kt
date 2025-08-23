@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreatorImpl
+import io.embrace.opentelemetry.kotlin.creator.createObjectCreator
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
@@ -28,7 +28,7 @@ internal class TracerSpanContextTest {
     fun setUp() {
         clock = FakeClock()
         processor = FakeSpanProcessor()
-        objectCreator = ObjectCreatorImpl()
+        objectCreator = createObjectCreator()
         tracer = TracerImpl(
             clock,
             processor,

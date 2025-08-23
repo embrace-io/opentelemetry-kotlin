@@ -9,7 +9,7 @@ import kotlin.test.assertFalse
 @OptIn(ExperimentalApi::class)
 internal class SpanCreatorImplTest {
 
-    private val objectCreatorImpl = ObjectCreatorImpl()
+    private val objectCreatorImpl = createObjectCreator()
     private val creator = objectCreatorImpl.span
 
     @Test

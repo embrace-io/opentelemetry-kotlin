@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreatorImpl
+import io.embrace.opentelemetry.kotlin.creator.createObjectCreator
 import io.embrace.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.tracing.TracerImpl
@@ -27,7 +27,7 @@ internal class LogContextTest {
     fun setUp() {
         clock = FakeClock()
         processor = FakeLogRecordProcessor()
-        objectCreator = ObjectCreatorImpl()
+        objectCreator = createObjectCreator()
         logger = LoggerImpl(
             clock,
             processor,
