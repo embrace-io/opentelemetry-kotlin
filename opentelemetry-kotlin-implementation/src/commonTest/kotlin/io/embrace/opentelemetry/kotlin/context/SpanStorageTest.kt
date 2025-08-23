@@ -3,8 +3,8 @@ package io.embrace.opentelemetry.kotlin.context
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.creator.ContextCreator
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreatorImpl
 import io.embrace.opentelemetry.kotlin.creator.SpanCreator
+import io.embrace.opentelemetry.kotlin.creator.createObjectCreator
 import io.embrace.opentelemetry.kotlin.tracing.FakeSpan
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -19,7 +19,7 @@ internal class SpanStorageTest {
 
     @BeforeTest
     fun setUp() {
-        objectCreator = ObjectCreatorImpl()
+        objectCreator = createObjectCreator()
         spanCreator = objectCreator.span
         contextCreator = objectCreator.context
     }
