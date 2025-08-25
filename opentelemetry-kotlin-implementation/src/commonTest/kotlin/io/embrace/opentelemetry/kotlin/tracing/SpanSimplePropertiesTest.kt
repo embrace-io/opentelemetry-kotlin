@@ -27,7 +27,8 @@ internal class SpanSimplePropertiesTest {
             FakeSpanProcessor(),
             FakeObjectCreator(),
             key,
-            FakeResource()
+            FakeResource(),
+            fakeSpanLimitsConfig
         )
     }
 

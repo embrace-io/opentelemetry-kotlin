@@ -5,6 +5,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
+import io.embrace.opentelemetry.kotlin.init.config.SpanLimitConfig
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.model.CreatedSpan
@@ -22,6 +23,7 @@ internal class TracerImpl(
     private val objectCreator: ObjectCreator,
     private val scope: InstrumentationScopeInfo,
     private val resource: Resource,
+    private val spanLimitConfig: SpanLimitConfig,
 ) : Tracer {
 
     override fun createSpan(
@@ -31,7 +33,7 @@ internal class TracerImpl(
         startTimestamp: Long?,
         action: SpanRelationships.() -> Unit
     ): Span {
-        val spanRelationships = SpanRelationshipsImpl(clock)
+        val spanRelationships = SpanRelationshipsImpl(clock, spanLimitConfig)
         action(spanRelationships)
 
         val ctx = parentContext ?: objectCreator.context.root()
@@ -48,7 +50,8 @@ internal class TracerImpl(
             instrumentationScopeInfo = scope,
             resource = resource,
             parent = parentSpanContext,
-            spanContext = spanContext
+            spanContext = spanContext,
+            spanLimitConfig = spanLimitConfig
         )
         processor.onStart(ReadWriteSpanImpl(spanModel), ctx)
         return CreatedSpan(spanModel)

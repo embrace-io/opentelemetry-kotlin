@@ -6,54 +6,78 @@ import io.embrace.opentelemetry.kotlin.threadSafeMap
 
 @OptIn(ExperimentalApi::class)
 @ThreadSafe
-internal class MutableAttributeContainerImpl : MutableAttributeContainer {
+internal class MutableAttributeContainerImpl(
+    private val attributeLimit: Int = DEFAULT_ATTRIBUTE_LIMIT
+) : MutableAttributeContainer {
 
     private val attrs: MutableMap<String, Any> = threadSafeMap()
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
-        attrs[key] = value
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
     }
 
     override fun setStringAttribute(key: String, value: String) {
-        attrs[key] = value
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
     }
 
     override fun setLongAttribute(key: String, value: Long) {
-        attrs[key] = value
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
-        attrs[key] = value
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
     }
 
     override fun setBooleanListAttribute(
         key: String,
         value: List<Boolean>
     ) {
-        attrs[key] = value
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
     }
 
     override fun setStringListAttribute(
         key: String,
         value: List<String>
     ) {
-        attrs[key] = value
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
     }
 
     override fun setLongListAttribute(
         key: String,
         value: List<Long>
     ) {
-        attrs[key] = value
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
     }
 
     override fun setDoubleListAttribute(
         key: String,
         value: List<Double>
     ) {
-        attrs[key] = value
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
     }
 
     override val attributes: Map<String, Any>
         get() = attrs.toMap()
+
+    private fun canAddAttribute(key: String): Boolean = attrs.size < attributeLimit || attrs.contains(key)
+
+    private companion object {
+        const val DEFAULT_ATTRIBUTE_LIMIT = 128
+    }
 }

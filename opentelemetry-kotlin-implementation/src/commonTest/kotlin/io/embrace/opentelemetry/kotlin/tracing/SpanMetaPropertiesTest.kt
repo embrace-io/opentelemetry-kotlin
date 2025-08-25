@@ -29,6 +29,7 @@ internal class SpanMetaPropertiesTest {
             FakeObjectCreator(),
             key,
             fakeResource,
+            fakeSpanLimitsConfig,
         )
     }
 

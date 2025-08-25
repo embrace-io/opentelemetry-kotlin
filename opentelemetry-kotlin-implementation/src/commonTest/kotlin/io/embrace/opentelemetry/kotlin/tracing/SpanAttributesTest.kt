@@ -5,6 +5,7 @@ import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
+import io.embrace.opentelemetry.kotlin.init.config.SpanLimitConfig
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
 import kotlin.test.BeforeTest
@@ -15,6 +16,7 @@ import kotlin.test.assertTrue
 @OptIn(ExperimentalApi::class)
 internal class SpanAttributesTest {
 
+    private val attributeLimit = 8
     private val expected = mapOf(
         "string" to "value",
         "double" to 3.14,
@@ -27,16 +29,25 @@ internal class SpanAttributesTest {
     )
 
     private val key = InstrumentationScopeInfoImpl("key", null, null, emptyMap())
+    private lateinit var spanLimitConfig: SpanLimitConfig
     private lateinit var tracer: TracerImpl
 
     @BeforeTest
     fun setUp() {
+        spanLimitConfig = SpanLimitConfig(
+            attributeCountLimit = attributeLimit,
+            linkCountLimit = fakeSpanLimitsConfig.linkCountLimit,
+            eventCountLimit = fakeSpanLimitsConfig.eventCountLimit,
+            attributeCountPerEventLimit = fakeSpanLimitsConfig.attributeCountPerEventLimit,
+            attributeCountPerLinkLimit = fakeSpanLimitsConfig.attributeCountPerLinkLimit
+        )
         tracer = TracerImpl(
             FakeClock(),
             FakeSpanProcessor(),
             FakeObjectCreator(),
             key,
             FakeResource(),
+            spanLimitConfig,
         )
     }
 
@@ -74,15 +85,40 @@ internal class SpanAttributesTest {
         assertEquals(expected, span.attributes)
     }
 
-    private fun MutableAttributeContainer.addTestAttributes() {
-        setStringAttribute("string", "value")
-        setDoubleAttribute("double", 3.14)
-        setBooleanAttribute("boolean", true)
-        setLongAttribute("long", 90000000000000)
-        setStringListAttribute("string_list", listOf("string"))
-        setDoubleListAttribute("double_list", listOf(3.14))
-        setBooleanListAttribute("boolean_list", listOf(true))
-        setLongListAttribute("long_list", listOf(90000000000000))
+    @Test
+    fun `span attribute only added in creation if limit not exceeded`() {
+        val span = tracer.createSpan("test", action = {
+            overrideTestAttributes()
+            addTestAttributes("xyz")
+            addTestAttributes()
+        }).apply {
+            end()
+        }
+
+        assertEquals(expected, span.attributes)
+    }
+
+    @Test
+    fun `span attribute only added if limit not exceeded`() {
+        val span = tracer.createSpan("test").apply {
+            overrideTestAttributes()
+            addTestAttributes("xyz")
+            addTestAttributes()
+            end()
+        }
+
+        assertEquals(expected, span.attributes)
+    }
+
+    private fun MutableAttributeContainer.addTestAttributes(keyToken: String = "") {
+        setStringAttribute("string$keyToken", "value")
+        setDoubleAttribute("double$keyToken", 3.14)
+        setBooleanAttribute("boolean$keyToken", true)
+        setLongAttribute("long$keyToken", 90000000000000)
+        setStringListAttribute("string_list$keyToken", listOf("string"))
+        setDoubleListAttribute("double_list$keyToken", listOf(3.14))
+        setBooleanListAttribute("boolean_list$keyToken", listOf(true))
+        setLongListAttribute("long_list$keyToken", listOf(90000000000000))
     }
 
     private fun MutableAttributeContainer.overrideTestAttributes() {

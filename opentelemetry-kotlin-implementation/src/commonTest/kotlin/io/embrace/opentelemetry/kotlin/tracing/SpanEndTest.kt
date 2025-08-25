@@ -33,6 +33,7 @@ internal class SpanEndTest {
             objectCreator,
             key,
             FakeResource(),
+            fakeSpanLimitsConfig
         )
     }
 
