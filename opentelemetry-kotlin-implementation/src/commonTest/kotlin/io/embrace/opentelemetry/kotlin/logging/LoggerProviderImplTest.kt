@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreatorImpl
+import io.embrace.opentelemetry.kotlin.creator.createObjectCreator
 import io.embrace.opentelemetry.kotlin.init.config.LogLimitConfig
 import io.embrace.opentelemetry.kotlin.init.config.LoggingConfig
 import io.embrace.opentelemetry.kotlin.resource.ResourceImpl
@@ -20,7 +20,7 @@ internal class LoggerProviderImplTest {
         LogLimitConfig(100, 100),
         ResourceImpl(emptyMap(), null)
     )
-    private val objectCreator = ObjectCreatorImpl()
+    private val objectCreator = createObjectCreator()
 
     @Test
     fun `test minimal logger provider`() {
