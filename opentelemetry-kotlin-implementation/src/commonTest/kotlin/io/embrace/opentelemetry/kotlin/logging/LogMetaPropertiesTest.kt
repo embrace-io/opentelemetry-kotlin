@@ -6,6 +6,7 @@ import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
 import io.embrace.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
+import io.embrace.opentelemetry.kotlin.tracing.fakeLogLimitsConfig
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertSame
@@ -29,6 +30,7 @@ internal class LogMetaPropertiesTest {
             FakeObjectCreator(),
             key,
             fakeResource,
+            fakeLogLimitsConfig
         )
     }
 

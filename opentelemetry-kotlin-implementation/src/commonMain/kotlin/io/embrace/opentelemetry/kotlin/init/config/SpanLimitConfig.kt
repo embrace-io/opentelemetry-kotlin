@@ -33,3 +33,6 @@ internal class SpanLimitConfig(
      */
     val attributeCountPerLinkLimit: Int,
 )
+
+internal const val DEFAULT_LINK_LIMIT: Int = 128
+internal const val DEFAULT_EVENT_LIMIT: Int = 128

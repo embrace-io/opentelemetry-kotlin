@@ -5,8 +5,10 @@ import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
+import io.embrace.opentelemetry.kotlin.init.config.LogLimitConfig
 import io.embrace.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
+import io.embrace.opentelemetry.kotlin.tracing.fakeLogLimitsConfig
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -38,6 +40,10 @@ internal class LogAttributesTest {
             FakeObjectCreator(),
             key,
             FakeResource(),
+            LogLimitConfig(
+                attributeCountLimit = 8,
+                attributeValueLengthLimit = fakeLogLimitsConfig.attributeValueLengthLimit
+            )
         )
     }
 
@@ -68,14 +74,46 @@ internal class LogAttributesTest {
         assertEquals(expected, log.attributes)
     }
 
-    private fun MutableAttributeContainer.addTestAttributes() {
-        setStringAttribute("string", "value")
-        setDoubleAttribute("double", 3.14)
-        setBooleanAttribute("boolean", true)
-        setLongAttribute("long", 90000000000000)
-        setStringListAttribute("string_list", listOf("string"))
-        setDoubleListAttribute("double_list", listOf(3.14))
-        setBooleanListAttribute("boolean_list", listOf(true))
-        setLongListAttribute("long_list", listOf(90000000000000))
+    @Test
+    fun `log attribute updatable but new attributes only added in creation if limit not exceeded`() {
+        logger.log("test") {
+            addTestAttributesAlternateValues()
+            addTestAttributes()
+            addTestAttributes("xyz")
+        }
+        val log = processor.logs.single()
+        assertEquals(expected, log.attributes)
+    }
+
+    @Test
+    fun `log attribute updatable but new attributes only added if limit not exceeded`() {
+        logger.log("test")
+        val log = processor.logs.single()
+        log.addTestAttributesAlternateValues()
+        log.addTestAttributes()
+        log.addTestAttributes("xyz")
+        assertEquals(expected, log.attributes)
+    }
+
+    private fun MutableAttributeContainer.addTestAttributes(keyToken: String = "") {
+        setStringAttribute("string$keyToken", "value")
+        setDoubleAttribute("double$keyToken", 3.14)
+        setBooleanAttribute("boolean$keyToken", true)
+        setLongAttribute("long$keyToken", 90000000000000)
+        setStringListAttribute("string_list$keyToken", listOf("string"))
+        setDoubleListAttribute("double_list$keyToken", listOf(3.14))
+        setBooleanListAttribute("boolean_list$keyToken", listOf(true))
+        setLongListAttribute("long_list$keyToken", listOf(90000000000000))
+    }
+
+    private fun MutableAttributeContainer.addTestAttributesAlternateValues() {
+        setStringAttribute("string", "old-value")
+        setDoubleAttribute("double", 6.14)
+        setBooleanAttribute("boolean", false)
+        setLongAttribute("long", 80000000000000)
+        setStringListAttribute("string_list", listOf("stringah"))
+        setDoubleListAttribute("double_list", listOf(5.14))
+        setBooleanListAttribute("boolean_list", listOf(false))
+        setLongListAttribute("long_list", listOf(60000000000000))
     }
 }

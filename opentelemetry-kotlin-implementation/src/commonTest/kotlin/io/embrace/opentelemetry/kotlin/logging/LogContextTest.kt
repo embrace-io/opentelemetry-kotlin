@@ -9,6 +9,7 @@ import io.embrace.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.tracing.TracerImpl
 import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
+import io.embrace.opentelemetry.kotlin.tracing.fakeLogLimitsConfig
 import io.embrace.opentelemetry.kotlin.tracing.fakeSpanLimitsConfig
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -35,6 +36,7 @@ internal class LogContextTest {
             objectCreator,
             key,
             FakeResource(),
+            fakeLogLimitsConfig
         )
         tracer = TracerImpl(
             clock,

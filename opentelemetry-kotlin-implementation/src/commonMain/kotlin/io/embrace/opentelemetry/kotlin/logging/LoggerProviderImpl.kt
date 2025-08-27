@@ -20,7 +20,7 @@ internal class LoggerProviderImpl(
 
     private val apiProvider = ApiProviderImpl<Logger> { key ->
         val processor = CompositeLogRecordProcessor(loggingConfig.processors, sdkErrorHandler)
-        LoggerImpl(clock, processor, objectCreator, key, loggingConfig.resource)
+        LoggerImpl(clock, processor, objectCreator, key, loggingConfig.resource, loggingConfig.logLimits)
     }
 
     override fun getLogger(

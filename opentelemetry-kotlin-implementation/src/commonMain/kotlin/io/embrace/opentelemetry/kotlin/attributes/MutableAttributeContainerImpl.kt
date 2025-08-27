@@ -7,7 +7,7 @@ import io.embrace.opentelemetry.kotlin.threadSafeMap
 @OptIn(ExperimentalApi::class)
 @ThreadSafe
 internal class MutableAttributeContainerImpl(
-    private val attributeLimit: Int = DEFAULT_ATTRIBUTE_LIMIT
+    private val attributeLimit: Int
 ) : MutableAttributeContainer {
 
     private val attrs: MutableMap<String, Any> = threadSafeMap()
@@ -76,8 +76,6 @@ internal class MutableAttributeContainerImpl(
         get() = attrs.toMap()
 
     private fun canAddAttribute(key: String): Boolean = attrs.size < attributeLimit || attrs.contains(key)
-
-    private companion object {
-        const val DEFAULT_ATTRIBUTE_LIMIT = 128
-    }
 }
+
+internal const val DEFAULT_ATTRIBUTE_LIMIT: Int = 128

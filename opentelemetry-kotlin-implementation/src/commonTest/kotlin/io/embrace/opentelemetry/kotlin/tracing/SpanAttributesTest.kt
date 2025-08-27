@@ -81,14 +81,14 @@ internal class SpanAttributesTest {
         span.addTestAttributes()
         assertEquals(expected, span.attributes)
         span.end()
-        span.overrideTestAttributes()
+        span.addTestAttributesAlternateValues()
         assertEquals(expected, span.attributes)
     }
 
     @Test
-    fun `span attribute only added in creation if limit not exceeded`() {
+    fun `span attribute updatable but new attributes only added in creation if limit not exceeded`() {
         val span = tracer.createSpan("test", action = {
-            overrideTestAttributes()
+            addTestAttributesAlternateValues()
             addTestAttributes("xyz")
             addTestAttributes()
         }).apply {
@@ -99,9 +99,9 @@ internal class SpanAttributesTest {
     }
 
     @Test
-    fun `span attribute only added if limit not exceeded`() {
+    fun `span attribute updatable but new attributes only added if limit not exceeded`() {
         val span = tracer.createSpan("test").apply {
-            overrideTestAttributes()
+            addTestAttributesAlternateValues()
             addTestAttributes("xyz")
             addTestAttributes()
             end()
@@ -121,7 +121,7 @@ internal class SpanAttributesTest {
         setLongListAttribute("long_list$keyToken", listOf(90000000000000))
     }
 
-    private fun MutableAttributeContainer.overrideTestAttributes() {
+    private fun MutableAttributeContainer.addTestAttributesAlternateValues() {
         setStringAttribute("string", "override")
         setDoubleAttribute("double", 5.4)
         setBooleanAttribute("boolean", false)
