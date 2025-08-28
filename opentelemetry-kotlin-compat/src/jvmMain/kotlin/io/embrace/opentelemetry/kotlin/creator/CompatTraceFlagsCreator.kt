@@ -28,4 +28,18 @@ internal class CompatTraceFlagsCreator : TraceFlagsCreator {
     private fun String.isValid(): Boolean {
         return this.length == 2 && this.isValidHex()
     }
+
+    /**
+     * Returns true if the character is a valid hexadecimal digit (0-9, a-f, A-F).
+     */
+    private fun Char.isHexDigit(): Boolean {
+        return this.isDigit() || this in 'a'..'f' || this in 'A'..'F'
+    }
+
+    /**
+     * Returns true if the string contains only valid hexadecimal characters.
+     */
+    private fun String.isValidHex(): Boolean {
+        return this.all { it.isHexDigit() }
+    }
 }
