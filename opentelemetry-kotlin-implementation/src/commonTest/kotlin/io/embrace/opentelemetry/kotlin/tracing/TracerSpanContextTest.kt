@@ -35,6 +35,7 @@ internal class TracerSpanContextTest {
             objectCreator,
             key,
             FakeResource(),
+            fakeSpanLimitsConfig,
         )
     }
 

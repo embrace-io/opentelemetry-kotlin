@@ -36,7 +36,8 @@ internal class SpanDataTest {
             processor,
             FakeObjectCreator(),
             key,
-            fakeResource
+            fakeResource,
+            fakeSpanLimitsConfig
         )
     }
 

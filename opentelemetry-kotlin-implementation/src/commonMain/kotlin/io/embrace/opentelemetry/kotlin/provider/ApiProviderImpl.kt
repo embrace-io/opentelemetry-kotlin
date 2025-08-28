@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.ThreadSafe
+import io.embrace.opentelemetry.kotlin.attributes.DEFAULT_ATTRIBUTE_LIMIT
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.sync
@@ -38,7 +39,7 @@ internal class ApiProviderImpl<T>(
         schemaUrl: String?,
         attributes: MutableAttributeContainer.() -> Unit
     ): InstrumentationScopeInfo {
-        val attrs = MutableAttributeContainerImpl().apply {
+        val attrs = MutableAttributeContainerImpl(DEFAULT_ATTRIBUTE_LIMIT).apply {
             attributes()
         }.attributes
         return InstrumentationScopeInfoImpl(name, version, schemaUrl, attrs)

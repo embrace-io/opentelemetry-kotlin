@@ -5,15 +5,21 @@ import io.embrace.opentelemetry.kotlin.integration.test.IntegrationTestHarness
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalApi::class)
 internal class LoggerExportTest {
 
+    private val logAttributeLimit = 5
     private lateinit var harness: IntegrationTestHarness
 
     @BeforeTest
     fun setUp() {
-        harness = IntegrationTestHarness()
+        harness = IntegrationTestHarness().apply {
+            config.logLimits = {
+                attributeCountLimit = logAttributeLimit
+            }
+        }
     }
 
     @Test
@@ -73,5 +79,17 @@ internal class LoggerExportTest {
         val ctx = contextCreator.root()
         harness.logger.log("test", context = ctx)
         harness.assertLogRecords(1, "log_root_context.json")
+    }
+
+    @Test
+    fun `verify attribute limits on logs are adhered to`() {
+        harness.logger.log("test") {
+            repeat(logAttributeLimit + 1) {
+                setStringAttribute("key-$it", "value")
+            }
+        }
+        harness.assertLogRecords(expectedCount = 1) { logs ->
+            assertEquals(logAttributeLimit, logs.single().attributes.size)
+        }
     }
 }

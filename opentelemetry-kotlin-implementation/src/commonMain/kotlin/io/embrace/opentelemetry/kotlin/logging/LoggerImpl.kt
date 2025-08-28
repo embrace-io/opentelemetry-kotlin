@@ -7,6 +7,7 @@ import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
+import io.embrace.opentelemetry.kotlin.init.config.LogLimitConfig
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.embrace.opentelemetry.kotlin.logging.model.LogRecordModel
 import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecordImpl
@@ -20,6 +21,7 @@ internal class LoggerImpl(
     private val objectCreator: ObjectCreator,
     private val key: InstrumentationScopeInfo,
     private val resource: Resource,
+    private val logLimitConfig: LogLimitConfig,
 ) : Logger {
 
     override fun log(
@@ -31,7 +33,7 @@ internal class LoggerImpl(
         severityText: String?,
         attributes: MutableAttributeContainer.() -> Unit
     ) {
-        val attrs = MutableAttributeContainerImpl().apply(attributes)
+        val attrs = MutableAttributeContainerImpl(logLimitConfig.attributeCountLimit).apply(attributes)
         val ctx = context ?: objectCreator.context.root()
         val log = LogRecordModel(
             attributeContainer = attrs,
@@ -43,6 +45,7 @@ internal class LoggerImpl(
             severityText = severityText,
             severityNumber = severityNumber ?: SeverityNumber.UNKNOWN,
             spanContext = objectCreator.span.fromContext(ctx).spanContext,
+            logLimitConfig = logLimitConfig
         )
         processor.onEmit(ReadWriteLogRecordImpl(log), ctx)
     }

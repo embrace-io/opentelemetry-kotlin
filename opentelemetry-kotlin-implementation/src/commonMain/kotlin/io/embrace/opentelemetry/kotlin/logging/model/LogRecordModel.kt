@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
 import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.init.config.LogLimitConfig
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
@@ -22,6 +23,7 @@ internal class LogRecordModel(
     severityText: String?,
     severityNumber: SeverityNumber?,
     spanContext: SpanContext,
+    private val logLimitConfig: LogLimitConfig,
 ) : ReadWriteLogRecord {
 
     private val lock = ReentrantReadWriteLock()
@@ -82,25 +84,25 @@ internal class LogRecordModel(
         }
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
-        writeLogRecord {
+        addAttribute(key = key) {
             attrs[key] = value
         }
     }
 
     override fun setStringAttribute(key: String, value: String) {
-        writeLogRecord {
+        addAttribute(key = key) {
             attrs[key] = value
         }
     }
 
     override fun setLongAttribute(key: String, value: Long) {
-        writeLogRecord {
+        addAttribute(key = key) {
             attrs[key] = value
         }
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
-        writeLogRecord {
+        addAttribute(key = key) {
             attrs[key] = value
         }
     }
@@ -109,7 +111,7 @@ internal class LogRecordModel(
         key: String,
         value: List<Boolean>
     ) {
-        writeLogRecord {
+        addAttribute(key = key) {
             attrs[key] = value
         }
     }
@@ -118,7 +120,7 @@ internal class LogRecordModel(
         key: String,
         value: List<String>
     ) {
-        writeLogRecord {
+        addAttribute(key = key) {
             attrs[key] = value
         }
     }
@@ -127,7 +129,7 @@ internal class LogRecordModel(
         key: String,
         value: List<Long>
     ) {
-        writeLogRecord {
+        addAttribute(key = key) {
             attrs[key] = value
         }
     }
@@ -136,14 +138,31 @@ internal class LogRecordModel(
         key: String,
         value: List<Double>
     ) {
-        writeLogRecord {
+        addAttribute(key = key) {
             attrs[key] = value
         }
     }
 
-    private inline fun <T> writeLogRecord(crossinline action: () -> T) {
+    private inline fun <T> addAttribute(
+        key: String,
+        crossinline action: () -> T,
+    ) {
+        return writeLogRecord(
+            condition = {
+                attrs.size < logLimitConfig.attributeCountLimit || attrs.contains(key)
+            },
+            action = action
+        )
+    }
+
+    private inline fun <T> writeLogRecord(
+        crossinline condition: () -> Boolean = { true },
+        crossinline action: () -> T
+    ) {
         return lock.write {
-            action()
+            if (condition()) {
+                action()
+            }
         }
     }
 

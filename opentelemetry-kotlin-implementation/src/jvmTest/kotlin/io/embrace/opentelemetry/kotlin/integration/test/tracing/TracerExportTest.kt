@@ -13,11 +13,22 @@ import kotlin.test.assertTrue
 @OptIn(ExperimentalApi::class)
 internal class TracerExportTest {
 
+    private val spanAttributeLimit = 5
+    private val eventLimit = 3
+    private val linkLimit = 2
     private lateinit var harness: IntegrationTestHarness
 
     @BeforeTest
     fun setUp() {
-        harness = IntegrationTestHarness()
+        harness = IntegrationTestHarness().apply {
+            config.spanLimits = {
+                attributeCountLimit = spanAttributeLimit
+                eventCountLimit = eventLimit
+                attributeCountPerEventLimit = spanAttributeLimit
+                linkCountLimit = linkLimit
+                attributeCountPerLinkLimit = spanAttributeLimit
+            }
+        }
     }
 
     @Test
@@ -150,5 +161,42 @@ internal class TracerExportTest {
             assertEquals(parent.spanContext.traceId, child.parent.traceId)
             assertEquals(parent.spanContext.spanId, child.parent.spanId)
         })
+    }
+
+    @Test
+    fun `verify limits on spans are adhered to`() {
+        val linkedSpan = harness.tracer.createSpan("linkedSpan")
+        harness.tracer.createSpan("test") {
+            repeat(spanAttributeLimit + 1) {
+                setStringAttribute("key-$it", "value")
+            }
+            repeat(eventLimit + 1) {
+                addEvent("event") {
+                    repeat(spanAttributeLimit + 1) {
+                        setStringAttribute("key-$it", "value")
+                    }
+                }
+            }
+            repeat(linkLimit + 1) {
+                addLink(linkedSpan.spanContext) {
+                    repeat(spanAttributeLimit + 1) {
+                        setStringAttribute("key-$it", "value")
+                    }
+                }
+            }
+        }.run {
+            end()
+        }
+
+        harness.assertSpans(expectedCount = 1) { spans ->
+            val exportedSpan = spans.single()
+            with(exportedSpan) {
+                assertEquals(spanAttributeLimit, attributes.size)
+                assertEquals(eventLimit, events.size)
+                assertEquals(linkLimit, links.size)
+                assertEquals(spanAttributeLimit, events.first().attributes.size)
+                assertEquals(spanAttributeLimit, links.first().attributes.size)
+            }
+        }
     }
 }

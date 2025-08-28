@@ -25,7 +25,8 @@ internal class TracerProviderImpl(
             processor = processor,
             objectCreator = objectCreator,
             scope = key,
-            resource = tracingConfig.resource
+            resource = tracingConfig.resource,
+            spanLimitConfig = tracingConfig.spanLimits
         )
     }
 

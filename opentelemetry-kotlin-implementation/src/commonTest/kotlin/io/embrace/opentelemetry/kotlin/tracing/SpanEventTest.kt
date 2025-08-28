@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
+import io.embrace.opentelemetry.kotlin.init.config.SpanLimitConfig
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
@@ -14,21 +15,31 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalApi::class)
 internal class SpanEventTest {
 
+    private val eventLimit = 3
     private val key = InstrumentationScopeInfoImpl("key", null, null, emptyMap())
     private lateinit var tracer: TracerImpl
     private lateinit var clock: FakeClock
     private lateinit var processor: FakeSpanProcessor
+    private lateinit var spanLimitConfig: SpanLimitConfig
 
     @BeforeTest
     fun setUp() {
         clock = FakeClock()
         processor = FakeSpanProcessor()
+        spanLimitConfig = SpanLimitConfig(
+            attributeCountLimit = fakeSpanLimitsConfig.attributeCountLimit,
+            linkCountLimit = fakeSpanLimitsConfig.linkCountLimit,
+            eventCountLimit = eventLimit,
+            attributeCountPerEventLimit = fakeSpanLimitsConfig.attributeCountPerEventLimit,
+            attributeCountPerLinkLimit = fakeSpanLimitsConfig.attributeCountPerLinkLimit
+        )
         tracer = TracerImpl(
             clock,
             processor,
             FakeObjectCreator(),
             key,
-            FakeResource()
+            FakeResource(),
+            spanLimitConfig
         )
     }
 
@@ -88,6 +99,31 @@ internal class SpanEventTest {
         assertEventData(events[0], "event", clock.time, emptyMap())
         assertEventData(events[1], "event2", 5, emptyMap())
         assertEventData(events[2], "event3", 10, mapOf("foo" to "bar"))
+    }
+
+    @Test
+    fun `span event only added in creation if limit not exceeded`() {
+        tracer.createSpan("test", action = {
+            repeat(eventLimit + 1) {
+                addEvent("event")
+            }
+        }).apply {
+            end()
+        }
+
+        retrieveEvents(3)
+    }
+
+    @Test
+    fun `span event only added if limit not exceeded`() {
+        tracer.createSpan("test").apply {
+            repeat(eventLimit + 1) {
+                addEvent("event")
+            }
+            end()
+        }
+
+        retrieveEvents(3)
     }
 
     private fun retrieveEvents(expected: Int): List<EventData> {

@@ -1,33 +1,60 @@
 package io.embrace.opentelemetry.kotlin.attributes
 
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+@OptIn(ExperimentalApi::class)
 internal class MutableAttributeContainerImplTest {
+
+    private val attributeLimit = 8
+    private val expected = mapOf(
+        "string" to "value",
+        "double" to 3.14,
+        "boolean" to true,
+        "long" to 90000000000000,
+        "string_list" to listOf("string"),
+        "double_list" to listOf(3.14),
+        "boolean_list" to listOf(true),
+        "long_list" to listOf(90000000000000)
+    )
 
     @Test
     fun `test attributes`() {
-        val attrs = MutableAttributeContainerImpl().apply {
-            setStringAttribute("string", "value")
-            setBooleanAttribute("boolean", true)
-            setDoubleAttribute("double", 5.2)
-            setLongAttribute("long", 123L)
-            setStringListAttribute("stringList", listOf("a", "b", "c"))
-            setDoubleListAttribute("doubleList", listOf(1.5, 2.5, 3.5))
-            setLongListAttribute("longList", listOf(4L, 5L, 6L))
-            setBooleanListAttribute("booleanList", listOf(true, false, true))
+        val attrs = MutableAttributeContainerImpl(attributeLimit).apply {
+            addTestAttributes()
         }.attributes
-
-        val expected = mapOf(
-            "string" to "value",
-            "boolean" to true,
-            "double" to 5.2,
-            "long" to 123L,
-            "stringList" to listOf("a", "b", "c"),
-            "doubleList" to listOf(1.5, 2.5, 3.5),
-            "longList" to listOf(4L, 5L, 6L),
-            "booleanList" to listOf(true, false, true),
-        )
         assertEquals(expected, attrs)
+    }
+
+    fun `attributes updatable when container at limit but cannot exceed limit`() {
+        val attrs = MutableAttributeContainerImpl(attributeLimit).apply {
+            addTestAttributesAlternateValues()
+            addTestAttributes("xyz")
+            addTestAttributes()
+        }.attributes
+        assertEquals(expected, attrs)
+    }
+
+    private fun MutableAttributeContainer.addTestAttributes(keyToken: String = "") {
+        setStringAttribute("string$keyToken", "value")
+        setDoubleAttribute("double$keyToken", 3.14)
+        setBooleanAttribute("boolean$keyToken", true)
+        setLongAttribute("long$keyToken", 90000000000000)
+        setStringListAttribute("string_list$keyToken", listOf("string"))
+        setDoubleListAttribute("double_list$keyToken", listOf(3.14))
+        setBooleanListAttribute("boolean_list$keyToken", listOf(true))
+        setLongListAttribute("long_list$keyToken", listOf(90000000000000))
+    }
+
+    private fun MutableAttributeContainer.addTestAttributesAlternateValues() {
+        setStringAttribute("string", "override")
+        setDoubleAttribute("double", 5.4)
+        setBooleanAttribute("boolean", false)
+        setLongAttribute("long", 80000000000000)
+        setStringListAttribute("string_list", listOf("override"))
+        setDoubleListAttribute("double_list", listOf(5.4))
+        setBooleanListAttribute("boolean_list", listOf(false))
+        setLongListAttribute("long_list", listOf(80000000000000))
     }
 }
