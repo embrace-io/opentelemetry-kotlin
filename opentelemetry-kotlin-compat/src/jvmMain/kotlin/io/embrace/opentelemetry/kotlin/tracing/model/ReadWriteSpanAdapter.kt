@@ -3,8 +3,8 @@ package io.embrace.opentelemetry.kotlin.tracing.model
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaReadWriteSpan
+import io.embrace.opentelemetry.kotlin.attributes.CompatMutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
-import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaStatusData
 import java.util.concurrent.TimeUnit
@@ -43,14 +43,14 @@ internal class ReadWriteSpanAdapter(
     override fun isRecording(): Boolean = impl.isRecording
 
     override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
-        val container = MutableAttributeContainerImpl()
+        val container = CompatMutableAttributeContainer()
         attributes(container)
         val ctx = (spanContext as SpanContextAdapter).impl
         impl.addLink(ctx, container.otelJavaAttributes())
     }
 
     override fun addEvent(name: String, timestamp: Long?, attributes: MutableAttributeContainer.() -> Unit) {
-        val container = MutableAttributeContainerImpl()
+        val container = CompatMutableAttributeContainer()
         attributes(container)
         impl.addEvent(name, container.otelJavaAttributes(), timestamp ?: 0, TimeUnit.NANOSECONDS)
     }

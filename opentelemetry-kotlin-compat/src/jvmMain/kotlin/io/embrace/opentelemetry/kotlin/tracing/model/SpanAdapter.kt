@@ -8,8 +8,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaImplicitContextKeyed
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaScope
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
+import io.embrace.opentelemetry.kotlin.attributes.CompatMutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
-import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
@@ -80,7 +80,7 @@ internal class SpanAdapter(
     override fun isRecording(): Boolean = impl.isRecording
 
     override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
-        val container = MutableAttributeContainerImpl()
+        val container = CompatMutableAttributeContainer()
         attributes(container)
         linksImpl.add(LinkImpl(spanContext, container))
         impl.addLink(spanContext.toOtelJavaSpanContext(), container.otelJavaAttributes())
@@ -91,7 +91,7 @@ internal class SpanAdapter(
         timestamp: Long?,
         attributes: MutableAttributeContainer.() -> Unit
     ) {
-        val container = MutableAttributeContainerImpl()
+        val container = CompatMutableAttributeContainer()
         attributes(container)
         val time = timestamp ?: clock.now()
         eventsImpl.add(SpanEventImpl(name, time, container))
