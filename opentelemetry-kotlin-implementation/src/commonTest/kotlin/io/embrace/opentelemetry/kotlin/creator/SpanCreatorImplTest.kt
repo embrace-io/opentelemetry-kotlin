@@ -13,12 +13,12 @@ internal class SpanCreatorImplTest {
     private val creator = objectCreatorImpl.span
 
     @Test
-    fun `invalid span`() {
+    fun testInvalidSpan() {
         assertFalse(creator.invalid.spanContext.isValid)
     }
 
     @Test
-    fun `from span context`() {
+    fun testFromSpanContext() {
         val spanContext = FakeSpanContext(
             traceId = "12345678901234567890123456789012",
             spanId = "1234567890123456",

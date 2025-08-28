@@ -7,7 +7,7 @@ import kotlin.test.assertSame
 internal class OpenTelemetryExtTest {
 
     @Test
-    fun `test get tracer`() {
+    fun testGetTracer() {
         val otel = FakeOpenTelemetry()
         val name = "my_tracer"
         val expected = otel.tracerProvider.getTracer(name)
@@ -16,7 +16,7 @@ internal class OpenTelemetryExtTest {
     }
 
     @Test
-    fun `test get logger`() {
+    fun testGetLogger() {
         val otel = FakeOpenTelemetry()
         val name = "my_logger"
         val expected = otel.loggerProvider.getLogger(name)

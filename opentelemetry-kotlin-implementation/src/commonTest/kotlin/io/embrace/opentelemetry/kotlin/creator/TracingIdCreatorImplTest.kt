@@ -23,27 +23,27 @@ internal class TracingIdCreatorImplTest {
     }
 
     @Test
-    fun `test invalid id creation`() {
+    fun testInvalidId() {
         assertEquals("00000000000000000000000000000000", creator.invalidTraceId)
         assertEquals("0000000000000000", creator.invalidSpanId)
     }
 
     @Test
-    fun `spanId has correct length and hex format`() {
+    fun testValidSpanId() {
         val spanId = creator.generateSpanId()
         assertEquals(16, spanId.length)
         assertTrue(spanId.matches(SPAN_ID_PATTERN.toRegex()))
     }
 
     @Test
-    fun `traceId has correct length and hex format`() {
+    fun testValidTraceId() {
         val traceId = creator.generateTraceId()
         assertEquals(32, traceId.length)
         assertTrue(traceId.matches(TRACE_ID_PATTERN.toRegex()))
     }
 
     @Test
-    fun `distinct trace IDs are generated`() {
+    fun testDistinctTraceIds() {
         assertEquals(
             "2cc2b48c50aefe53b3974ed91e6b4ea9",
             creator.generateTraceId()
@@ -59,7 +59,7 @@ internal class TracingIdCreatorImplTest {
     }
 
     @Test
-    fun `distinct span IDs are generated`() {
+    fun testDistinctSpanIds() {
         assertEquals("2cc2b48c50aefe53", creator.generateSpanId())
         assertEquals("1e6b4ea924f9baa8", creator.generateSpanId())
         assertEquals("537f0b02efe86030", creator.generateSpanId())

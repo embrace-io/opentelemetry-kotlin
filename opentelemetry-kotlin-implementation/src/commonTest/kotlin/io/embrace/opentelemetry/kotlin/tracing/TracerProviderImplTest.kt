@@ -28,12 +28,12 @@ internal class TracerProviderImplTest {
     }
 
     @Test
-    fun `test minimal tracer provider`() {
+    fun testMinimalTracerProvider() {
         assertNotNull(impl.getTracer(name = ""))
     }
 
     @Test
-    fun `test full tracer provider`() {
+    fun testFullTracerProvider() {
         val first = impl.getTracer(
             name = "name",
             version = "0.1.0",
@@ -45,7 +45,7 @@ internal class TracerProviderImplTest {
     }
 
     @Test
-    fun `test dupe tracer provider name`() {
+    fun testTracerProviderSameName() {
         val first = impl.getTracer(name = "name")
         val second = impl.getTracer(name = "name")
         val third = impl.getTracer(name = "other")
@@ -54,7 +54,7 @@ internal class TracerProviderImplTest {
     }
 
     @Test
-    fun `test dupe tracer provider version`() {
+    fun testTracerProviderSameVersion() {
         val first = impl.getTracer(name = "name", version = "0.1.0")
         val second = impl.getTracer(name = "name", version = "0.1.0")
         val third = impl.getTracer(name = "name", version = "0.2.0")
@@ -63,7 +63,7 @@ internal class TracerProviderImplTest {
     }
 
     @Test
-    fun `test dupe tracer provider schemaUrl`() {
+    fun testTracerProviderSameSchemaUrl() {
         val first = impl.getTracer(name = "name", schemaUrl = "https://example.com/foo")
         val second = impl.getTracer(name = "name", schemaUrl = "https://example.com/foo")
         val third = impl.getTracer(name = "name", schemaUrl = "https://example.com/bar")
@@ -72,7 +72,7 @@ internal class TracerProviderImplTest {
     }
 
     @Test
-    fun `test dupe tracer provider attributes`() {
+    fun testTracerProviderSameAttributes() {
         val first = impl.getTracer(name = "name") {
             setStringAttribute("key", "value")
         }

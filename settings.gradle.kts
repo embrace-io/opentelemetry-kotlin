@@ -30,6 +30,7 @@ include(
     ":opentelemetry-java-typealiases",
     ":custom-detekt-rules",
     "examples:jvm-app",
+    "examples:js-app",
     "examples:android-app",
     "examples:example-common"
 )

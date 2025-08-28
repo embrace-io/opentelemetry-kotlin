@@ -13,7 +13,7 @@ internal class TraceFlagsImplTest {
     private val creator = TraceFlagsCreatorImpl()
 
     @Test
-    fun `fromHex returns Default TraceFlags on an empty string`() {
+    fun testEmptyString() {
         val flags = creator.fromHex("")
 
         assertFalse(flags.isSampled)
@@ -22,7 +22,7 @@ internal class TraceFlagsImplTest {
     }
 
     @Test
-    fun `fromHex returns Default TraceFlags on a single character`() {
+    fun testSingleChar() {
         val flags = creator.fromHex("1")
 
         assertFalse(flags.isSampled)
@@ -31,7 +31,7 @@ internal class TraceFlagsImplTest {
     }
 
     @Test
-    fun `fromHex returns correct TraceFlags`() {
+    fun testValidTraceFlagsParsed() {
         val default = creator.fromHex("00")
         assertFalse(default.isRandom)
         assertFalse(default.isSampled)

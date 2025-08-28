@@ -25,7 +25,7 @@ internal class SpanStorageTest {
     }
 
     @Test
-    fun `test span storage and retrieval`() {
+    fun testSpanStorage() {
         val span = FakeSpan()
         val root = contextCreator.root()
         val newCtx = contextCreator.storeSpan(root, span)
@@ -34,7 +34,7 @@ internal class SpanStorageTest {
     }
 
     @Test
-    fun `test storing multiple spans`() {
+    fun testStoringMultipleSpans() {
         val span = FakeSpan("a")
         val otherSpan = FakeSpan("b")
         val root = contextCreator.root()

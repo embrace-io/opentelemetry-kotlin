@@ -35,14 +35,14 @@ internal class LogMetaPropertiesTest {
     }
 
     @Test
-    fun `test log instrumentation scope`() {
+    fun testLogInstrumentationScope() {
         logger.log()
         val log = processor.logs.single()
         assertSame(key, log.instrumentationScopeInfo)
     }
 
     @Test
-    fun `test log resource`() {
+    fun testLogResource() {
         logger.log()
         val log = processor.logs.single()
         assertSame(fakeResource, log.resource)

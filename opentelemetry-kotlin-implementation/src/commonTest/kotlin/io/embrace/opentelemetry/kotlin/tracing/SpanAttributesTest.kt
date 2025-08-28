@@ -52,7 +52,7 @@ internal class SpanAttributesTest {
     }
 
     @Test
-    fun `test span default attributes`() {
+    fun testSpanDefaultAttributes() {
         val span = tracer.createSpan("test")
         assertTrue(span.attributes.isEmpty())
 
@@ -61,7 +61,7 @@ internal class SpanAttributesTest {
     }
 
     @Test
-    fun `test span add attributes during creation`() {
+    fun testSpanAddAttributesDuringCreation() {
         val span = tracer.createSpan("test") {
             addTestAttributes()
         }
@@ -69,14 +69,14 @@ internal class SpanAttributesTest {
     }
 
     @Test
-    fun `test span add attributes after creation`() {
+    fun testSpanAddAttributesAfterCreation() {
         val span = tracer.createSpan("test")
         span.addTestAttributes()
         assertEquals(expected, span.attributes)
     }
 
     @Test
-    fun `test span add attributes after end`() {
+    fun testSpanAddAttributesAfterEnd() {
         val span = tracer.createSpan("test")
         span.addTestAttributes()
         assertEquals(expected, span.attributes)
@@ -86,7 +86,7 @@ internal class SpanAttributesTest {
     }
 
     @Test
-    fun `span attribute updatable but new attributes only added in creation if limit not exceeded`() {
+    fun testAttributesLimitNotExceeded() {
         val span = tracer.createSpan("test", action = {
             addTestAttributesAlternateValues()
             addTestAttributes("xyz")
@@ -99,7 +99,7 @@ internal class SpanAttributesTest {
     }
 
     @Test
-    fun `span attribute updatable but new attributes only added if limit not exceeded`() {
+    fun testAttributesLimitNotExceeded2() {
         val span = tracer.createSpan("test").apply {
             addTestAttributesAlternateValues()
             addTestAttributes("xyz")

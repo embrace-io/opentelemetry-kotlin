@@ -27,7 +27,7 @@ internal class CompositeLogRecordProcessorTest {
     }
 
     @Test
-    fun `test no span processors`() {
+    fun testNoSpanProcessors() {
         val processor = CompositeLogRecordProcessor(emptyList(), errorHandler)
         processor.assertReturnValuesMatch(
             Success,
@@ -37,7 +37,7 @@ internal class CompositeLogRecordProcessorTest {
     }
 
     @Test
-    fun `test multiple span processors`() {
+    fun testMultipleSpanProcessors() {
         val first = FakeLogRecordProcessor()
         val second = FakeLogRecordProcessor()
         val processor = CompositeLogRecordProcessor(listOf(first, second), errorHandler)
@@ -49,7 +49,7 @@ internal class CompositeLogRecordProcessorTest {
     }
 
     @Test
-    fun `test one processor flush fails`() {
+    fun testOneProcessorFlushFails() {
         val first = FakeLogRecordProcessor(flushCode = { Failure })
         val second = FakeLogRecordProcessor()
         val processor = CompositeLogRecordProcessor(listOf(first, second), errorHandler)
@@ -61,7 +61,7 @@ internal class CompositeLogRecordProcessorTest {
     }
 
     @Test
-    fun `test one processor shutdown fails`() {
+    fun testOneProcessorShutdownFails() {
         val first = FakeLogRecordProcessor(shutdownCode = { Failure })
         val second = FakeLogRecordProcessor()
         val processor = CompositeLogRecordProcessor(listOf(first, second), errorHandler)
@@ -73,7 +73,7 @@ internal class CompositeLogRecordProcessorTest {
     }
 
     @Test
-    fun `test one processor throws exception in onEmit`() {
+    fun testOneProcessorThrowsInOnEmit() {
         val first = FakeLogRecordProcessor(action = { _, _ -> throw IllegalStateException() })
         val second = FakeLogRecordProcessor()
         val processor = CompositeLogRecordProcessor(listOf(first, second), errorHandler)
@@ -85,7 +85,7 @@ internal class CompositeLogRecordProcessorTest {
     }
 
     @Test
-    fun `test one processor throws exception in flush`() {
+    fun testOneProcessorThrowsInFlush() {
         val first = FakeLogRecordProcessor(flushCode = { throw IllegalStateException() })
         val second = FakeLogRecordProcessor()
         val processor = CompositeLogRecordProcessor(listOf(first, second), errorHandler)
@@ -97,7 +97,7 @@ internal class CompositeLogRecordProcessorTest {
     }
 
     @Test
-    fun `test one processor throws exception in shutdown`() {
+    fun testOneProcessorThrowsInShutdown() {
         val first = FakeLogRecordProcessor(shutdownCode = { throw IllegalStateException() })
         val second = FakeLogRecordProcessor()
         val processor = CompositeLogRecordProcessor(listOf(first, second), errorHandler)

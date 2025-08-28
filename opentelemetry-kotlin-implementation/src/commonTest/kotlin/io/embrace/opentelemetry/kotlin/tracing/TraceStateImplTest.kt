@@ -11,7 +11,7 @@ import kotlin.test.assertTrue
 internal class TraceStateImplTest {
 
     @Test
-    fun `empty TraceState returns null for any key`() {
+    fun testEmptyTraceStateReturnsNullForKey() {
         val traceState = TraceStateImpl.create()
 
         assertNull(traceState.get("any-key"))
@@ -19,7 +19,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `TraceState with data returns correct values`() {
+    fun testTraceStateRetrievesValues() {
         val traceState = TraceStateImpl.create()
             .put("key", "value")
             .put("version", "1.0")
@@ -30,7 +30,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `asMap returns copy of internal data`() {
+    fun testAsMapPerformsDeepCopy() {
         val traceState = TraceStateImpl.create()
             .put("key1", "value1")
             .put("key2", "value2")
@@ -49,7 +49,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `TraceState handles empty string values`() {
+    fun testEmptyValues() {
         val traceState = TraceStateImpl.create()
             .put("empty", "")
             .put("space", " ")
@@ -59,7 +59,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `put validates value excludes tabs newlines and carriage returns`() {
+    fun testWhitespaceIgnored() {
         val traceState = TraceStateImpl.create()
 
         // Invalid values with control characters should return same instance
@@ -77,7 +77,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `put adds new key-value pair`() {
+    fun testPutAddingNewKvp() {
         val traceState = TraceStateImpl.create()
         val newTraceState = traceState.put("key", "value")
 
@@ -86,7 +86,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `put updates existing key`() {
+    fun testPutUpdatesExistingKvp() {
         val original = TraceStateImpl.create().put("vendor", "old-value")
         val updated = original.put("vendor", "new-value")
 
@@ -95,7 +95,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `remove key that exists returns new instance`() {
+    fun testRemovingKeyReturnsNewInstance() {
         val original = TraceStateImpl.create()
             .put("key1", "value1")
             .put("key2", "value2")
@@ -107,7 +107,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `remove key that does not exist returns same instance`() {
+    fun testRemoveFailureReturnsSameInstance() {
         val original = TraceStateImpl.create().put("key1", "value1")
         val result = original.remove("nonexistent")
 
@@ -115,7 +115,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `put validates key format`() {
+    fun testPutValidatesKeyFormat() {
         val traceState = TraceStateImpl.create()
 
         // Valid simple keys should work
@@ -162,7 +162,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `put validates simple key length limits`() {
+    fun testPutValidatesKeyLengthLimit() {
         val traceState = TraceStateImpl.create()
 
         // Valid simple key at max length (256 chars)
@@ -177,7 +177,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `put validates value length limits`() {
+    fun testPutValidatesValueLengthLimit() {
         val traceState = TraceStateImpl.create()
 
         // Valid value at max length (256 chars)
@@ -192,7 +192,7 @@ internal class TraceStateImplTest {
     }
 
     @Test
-    fun `put validates multi-tenant key length limits`() {
+    fun testPutValidatesMultiTenantLengthLimit() {
         val traceState = TraceStateImpl.create()
 
         // Valid length limits

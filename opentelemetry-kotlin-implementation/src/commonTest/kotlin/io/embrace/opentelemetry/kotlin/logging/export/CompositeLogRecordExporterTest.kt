@@ -25,7 +25,7 @@ internal class CompositeLogRecordExporterTest {
     }
 
     @Test
-    fun `test no span exporters`() {
+    fun testNoSpanExporters() {
         val exporter = CompositeLogRecordExporter(emptyList(), errorHandler)
         exporter.assertReturnValuesMatch(
             Success,
@@ -36,7 +36,7 @@ internal class CompositeLogRecordExporterTest {
     }
 
     @Test
-    fun `test multiple span exporters`() {
+    fun testMultipleSpanExporters() {
         val first = FakeLogRecordExporter()
         val second = FakeLogRecordExporter()
         val exporter = CompositeLogRecordExporter(listOf(first, second), errorHandler)
@@ -49,7 +49,7 @@ internal class CompositeLogRecordExporterTest {
     }
 
     @Test
-    fun `test one exporter export fails`() {
+    fun testOneExporterExportFails() {
         val first = FakeLogRecordExporter(action = { Failure })
         val second = FakeLogRecordExporter()
         val exporter = CompositeLogRecordExporter(listOf(first, second), errorHandler)
@@ -62,7 +62,7 @@ internal class CompositeLogRecordExporterTest {
     }
 
     @Test
-    fun `test one exporter flush fails`() {
+    fun testOneExporterFlushFails() {
         val first = FakeLogRecordExporter(flushCode = { Failure })
         val second = FakeLogRecordExporter()
         val exporter = CompositeLogRecordExporter(listOf(first, second), errorHandler)
@@ -75,7 +75,7 @@ internal class CompositeLogRecordExporterTest {
     }
 
     @Test
-    fun `test one exporter shutdown fails`() {
+    fun testOneExporterShutdownFails() {
         val first = FakeLogRecordExporter(shutdownCode = { Failure })
         val second = FakeLogRecordExporter()
         val exporter = CompositeLogRecordExporter(listOf(first, second), errorHandler)
@@ -88,7 +88,7 @@ internal class CompositeLogRecordExporterTest {
     }
 
     @Test
-    fun `test one exporter throws exception in export`() {
+    fun testOneExporterThrowsInExport() {
         val first = FakeLogRecordExporter(action = { throw IllegalStateException() })
         val second = FakeLogRecordExporter()
         val exporter = CompositeLogRecordExporter(listOf(first, second), errorHandler)
@@ -101,7 +101,7 @@ internal class CompositeLogRecordExporterTest {
     }
 
     @Test
-    fun `test one exporter throws exception in flush`() {
+    fun testOneExporterThrowsInFlush() {
         val first = FakeLogRecordExporter(flushCode = { throw IllegalStateException() })
         val second = FakeLogRecordExporter()
         val exporter = CompositeLogRecordExporter(listOf(first, second), errorHandler)
@@ -114,7 +114,7 @@ internal class CompositeLogRecordExporterTest {
     }
 
     @Test
-    fun `test one exporter throws exception in shutdown`() {
+    fun testOneExporterThrowsInShutdown() {
         val first = FakeLogRecordExporter(shutdownCode = { throw IllegalStateException() })
         val second = FakeLogRecordExporter()
         val exporter = CompositeLogRecordExporter(listOf(first, second), errorHandler)
