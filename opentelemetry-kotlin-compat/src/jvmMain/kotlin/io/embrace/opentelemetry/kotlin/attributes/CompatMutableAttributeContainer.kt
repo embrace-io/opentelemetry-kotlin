@@ -6,7 +6,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributesBuilder
 
 @OptIn(ExperimentalApi::class)
-internal class MutableAttributeContainerImpl(
+internal class CompatMutableAttributeContainer(
     private val attrs: OtelJavaAttributesBuilder = OtelJavaAttributes.builder()
 ) : MutableAttributeContainer {
 
