@@ -44,7 +44,7 @@ jobs:
           ref: release/${{ inputs.rc_version }}
 
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'adopt'
           java-version: 17
