@@ -25,7 +25,7 @@ internal class CompositeSpanExporterTest {
     }
 
     @Test
-    fun `test no span exporters`() {
+    fun testNoSpanExporters() {
         val exporter = CompositeSpanExporter(emptyList(), errorHandler)
         exporter.assertReturnValuesMatch(
             Success,
@@ -36,7 +36,7 @@ internal class CompositeSpanExporterTest {
     }
 
     @Test
-    fun `test multiple span exporters`() {
+    fun testMultipleSpanExporters() {
         val first = FakeSpanExporter()
         val second = FakeSpanExporter()
         val exporter = CompositeSpanExporter(listOf(first, second), errorHandler)
@@ -49,7 +49,7 @@ internal class CompositeSpanExporterTest {
     }
 
     @Test
-    fun `test one exporter export fails`() {
+    fun testOneExporterExportFails() {
         val first = FakeSpanExporter(exportReturnValue = { Failure })
         val second = FakeSpanExporter()
         val exporter = CompositeSpanExporter(listOf(first, second), errorHandler)
@@ -62,7 +62,7 @@ internal class CompositeSpanExporterTest {
     }
 
     @Test
-    fun `test one exporter flush fails`() {
+    fun testOneExporterFlushFails() {
         val first = FakeSpanExporter(forceFlushReturnValue = { Failure })
         val second = FakeSpanExporter()
         val exporter = CompositeSpanExporter(listOf(first, second), errorHandler)
@@ -75,7 +75,7 @@ internal class CompositeSpanExporterTest {
     }
 
     @Test
-    fun `test one exporter shutdown fails`() {
+    fun testOneExporterShutdownFails() {
         val first = FakeSpanExporter(shutdownReturnValue = { Failure })
         val second = FakeSpanExporter()
         val exporter = CompositeSpanExporter(listOf(first, second), errorHandler)
@@ -88,7 +88,7 @@ internal class CompositeSpanExporterTest {
     }
 
     @Test
-    fun `test one exporter throws exception in export`() {
+    fun testOneExporterThrowsInExport() {
         val first = FakeSpanExporter(exportReturnValue = { throw IllegalStateException() })
         val second = FakeSpanExporter()
         val exporter = CompositeSpanExporter(listOf(first, second), errorHandler)
@@ -101,7 +101,7 @@ internal class CompositeSpanExporterTest {
     }
 
     @Test
-    fun `test one exporter throws exception in flush`() {
+    fun testOneExporterThrowsInFlush() {
         val first = FakeSpanExporter(forceFlushReturnValue = { throw IllegalStateException() })
         val second = FakeSpanExporter()
         val exporter = CompositeSpanExporter(listOf(first, second), errorHandler)
@@ -114,7 +114,7 @@ internal class CompositeSpanExporterTest {
     }
 
     @Test
-    fun `test one exporter throws exception in shutdown`() {
+    fun testOneExporterThrowsInShutdown() {
         val first = FakeSpanExporter(shutdownReturnValue = { throw IllegalStateException() })
         val second = FakeSpanExporter()
         val exporter = CompositeSpanExporter(listOf(first, second), errorHandler)

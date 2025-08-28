@@ -41,7 +41,7 @@ internal class SpanAttributesTest {
     }
 
     @Test
-    fun `test span default attributes`() {
+    fun testSpanDefaultAttributes() {
         val span = tracer.createSpan("test")
         assertTrue(span.attributes.isEmpty())
 
@@ -50,7 +50,7 @@ internal class SpanAttributesTest {
     }
 
     @Test
-    fun `test span add attributes during creation`() {
+    fun testSpanAddAttributesDuringCreation() {
         val span = tracer.createSpan("test") {
             addTestAttributes()
         }
@@ -58,14 +58,14 @@ internal class SpanAttributesTest {
     }
 
     @Test
-    fun `test span add attributes after creation`() {
+    fun testSpanAddAttributesAfterCreation() {
         val span = tracer.createSpan("test")
         span.addTestAttributes()
         assertEquals(expected, span.attributes)
     }
 
     @Test
-    fun `test span add attributes after end`() {
+    fun testSpanAddAttributesAfterEnd() {
         val span = tracer.createSpan("test")
         span.addTestAttributes()
         assertEquals(expected, span.attributes)

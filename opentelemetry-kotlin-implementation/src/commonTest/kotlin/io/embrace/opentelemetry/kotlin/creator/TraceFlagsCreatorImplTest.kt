@@ -12,7 +12,7 @@ internal class TraceFlagsCreatorImplTest {
     private val creator = TraceFlagsCreatorImpl()
 
     @Test
-    fun `default property`() {
+    fun testDefaultProperty() {
         val flags = creator.default
 
         assertTrue(flags.isSampled)
@@ -21,7 +21,7 @@ internal class TraceFlagsCreatorImplTest {
     }
 
     @Test
-    fun `create sampled only`() {
+    fun testSampledOnly() {
         val flags = creator.create(sampled = true, random = false)
 
         assertTrue(flags.isSampled)
@@ -30,7 +30,7 @@ internal class TraceFlagsCreatorImplTest {
     }
 
     @Test
-    fun `create random only`() {
+    fun testRandomOnly() {
         val flags = creator.create(sampled = false, random = true)
 
         assertFalse(flags.isSampled)
@@ -39,7 +39,7 @@ internal class TraceFlagsCreatorImplTest {
     }
 
     @Test
-    fun `create sampled and random`() {
+    fun testSampledAndRandom() {
         val flags = creator.create(sampled = true, random = true)
 
         assertTrue(flags.isSampled)
@@ -48,7 +48,7 @@ internal class TraceFlagsCreatorImplTest {
     }
 
     @Test
-    fun `create default via function`() {
+    fun testDefault() {
         val flags = creator.create(sampled = false, random = false)
 
         assertFalse(flags.isSampled)
@@ -57,7 +57,7 @@ internal class TraceFlagsCreatorImplTest {
     }
 
     @Test
-    fun `fromHex with valid hex strings`() {
+    fun testFromHexWithValidStrings() {
         val default = creator.fromHex("00")
         assertFalse(default.isSampled)
         assertFalse(default.isRandom)
@@ -85,7 +85,7 @@ internal class TraceFlagsCreatorImplTest {
     }
 
     @Test
-    fun `fromHex with invalid hex strings`() {
+    fun testFromHexWithInvalidStrings() {
         val emptyString = creator.fromHex("")
         assertFalse(emptyString.isSampled)
         assertFalse(emptyString.isRandom)

@@ -13,6 +13,12 @@ fun Project.configureKotlin(
         jvmToolchain(8)
         compilerOptions.configureCompiler()
 
+        js(IR) {
+            nodejs()
+            browser()
+            binaries.library()
+        }
+
         jvm {
             compilerOptions.configureCompiler()
         }
@@ -38,6 +44,7 @@ fun Project.configureKotlin(
                     }
                 }
             }
+            getByName("jsMain")
         }
         compilerOptions {
             configureCompiler()

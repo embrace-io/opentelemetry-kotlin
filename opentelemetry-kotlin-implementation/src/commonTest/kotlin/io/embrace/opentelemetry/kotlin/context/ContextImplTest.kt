@@ -20,25 +20,25 @@ internal class ContextImplTest {
     }
 
     @Test
-    fun `test context obtain root`() {
+    fun testContextObtainRoot() {
         assertSame(creator.root(), creator.root())
     }
 
     @Test
-    fun `test context create context key`() {
+    fun testContextCreateContextKey() {
         val ctx = creator.root()
         assertNotEquals(ctx.createKey<String>("my_key"), ctx.createKey("my_key"))
     }
 
     @Test
-    fun `test context get absent value`() {
+    fun testContextGetAbsentValue() {
         val ctx = creator.root()
         val key = ctx.createKey<String>("my_key")
         assertNull(ctx.get(key))
     }
 
     @Test
-    fun `test context get present value`() {
+    fun testContextGetPresentValue() {
         val ctx = creator.root()
         val key = ctx.createKey<String>("my_key")
         val value = "my_value"
@@ -49,7 +49,7 @@ internal class ContextImplTest {
     }
 
     @Test
-    fun `test context multiple values`() {
+    fun testContextMultipleValues() {
         val ctx = creator.root()
         val key1 = ctx.createKey<String>("my_key1")
         val key2 = ctx.createKey<String>("my_key2")
@@ -65,7 +65,7 @@ internal class ContextImplTest {
     }
 
     @Test
-    fun `test context override existing key`() {
+    fun testContextOverrideExistingKey() {
         val ctx = creator.root()
         val key = ctx.createKey<String>("my_key")
         val value1 = "my_value1"
@@ -76,7 +76,7 @@ internal class ContextImplTest {
     }
 
     @Test
-    fun `test context key explicit null`() {
+    fun testContextKeyExplicitNull() {
         val ctx = creator.root()
         val key = ctx.createKey<String>("key")
         val newCtx = ctx.set(key, null)

@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 internal class MutableAttributeContainerImplTest {
 
     @Test
-    fun `test attributes`() {
+    fun testAttributes() {
         val attrs = MutableAttributeContainerImpl().apply {
             setStringAttribute("string", "value")
             setBooleanAttribute("boolean", true)

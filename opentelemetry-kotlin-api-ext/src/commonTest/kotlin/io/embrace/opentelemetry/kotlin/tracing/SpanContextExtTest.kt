@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 internal class SpanContextExtTest {
 
     @Test
-    fun `test span context spanIdBytes extension`() {
+    fun testSpanIdBytes() {
         val spanContext = FakeSpanContext()
         val expected = spanContext.spanId
         val observed = spanContext.spanIdBytes.decodeToString()
@@ -16,7 +16,7 @@ internal class SpanContextExtTest {
     }
 
     @Test
-    fun `test span context traceIdBytes extension`() {
+    fun testTraceIdBytes() {
         val spanContext = FakeSpanContext()
         val expected = spanContext.traceId
         val observed = spanContext.traceIdBytes.decodeToString()

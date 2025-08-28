@@ -4,6 +4,11 @@ plugins {
 
 kotlin {
     jvm {}
+    js(IR) {
+        nodejs()
+        browser()
+        binaries.library()
+    }
 }
 
 kotlin {

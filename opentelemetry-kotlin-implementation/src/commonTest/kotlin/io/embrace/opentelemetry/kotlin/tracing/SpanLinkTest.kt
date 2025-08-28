@@ -37,7 +37,7 @@ internal class SpanLinkTest {
     }
 
     @Test
-    fun `test span link`() {
+    fun testSpanLink() {
         tracer.createSpan("test").apply {
             addLink(fakeSpanContext)
             addLink(otherFakeSpanContext) {
@@ -52,7 +52,7 @@ internal class SpanLinkTest {
     }
 
     @Test
-    fun `test two span links with same keys`() {
+    fun testTwoSpanLinksWithSameKey() {
         tracer.createSpan("test").apply {
             addLink(fakeSpanContext)
             addLink(fakeSpanContext)
@@ -64,7 +64,7 @@ internal class SpanLinkTest {
     }
 
     @Test
-    fun `test span link after end`() {
+    fun testSpanLinkAfterEnd() {
         tracer.createSpan("test").apply {
             end()
             addLink(fakeSpanContext)
@@ -73,7 +73,7 @@ internal class SpanLinkTest {
     }
 
     @Test
-    fun `test span link added in creation`() {
+    fun testSpanLinkDuringCreation() {
         tracer.createSpan("test", action = {
             addLink(fakeSpanContext)
             addLink(otherFakeSpanContext) {

@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
 internal class NoopTests {
 
     @Test
-    fun `noop tracing`() {
+    fun testNoopTracing() {
         val otel = OpenTelemetryInstance.noop()
         val tracerProvider = otel.tracerProvider
         val tracer = tracerProvider.getTracer("test-tracer")
@@ -56,7 +56,7 @@ internal class NoopTests {
     }
 
     @Test
-    fun `noop logging operations`() {
+    fun testNoopLogging() {
         val otel = OpenTelemetryInstance.noop()
         val loggerProvider = otel.loggerProvider
         val logger = loggerProvider.getLogger("test-logger")
@@ -83,7 +83,7 @@ internal class NoopTests {
     }
 
     @Test
-    fun `noop clock returns zero timestamp`() {
+    fun testNoopClockDefault() {
         val otel = OpenTelemetryInstance.noop()
         val clock = otel.clock
 
@@ -93,7 +93,7 @@ internal class NoopTests {
     }
 
     @Test
-    fun `noop context operations`() {
+    fun testNoopContext() {
         val otel = OpenTelemetryInstance.noop()
         val ctx = otel.objectCreator.context.root()
 
@@ -107,7 +107,7 @@ internal class NoopTests {
     }
 
     @Test
-    fun `noop span context operations`() {
+    fun testNoopSpanContext() {
         val otel = OpenTelemetryInstance.noop()
         val creator = otel.objectCreator
         val invalid = creator.spanContext.invalid
@@ -124,7 +124,7 @@ internal class NoopTests {
     }
 
     @Test
-    fun `noop span wrappers`() {
+    fun testNoopSpan() {
         val otel = OpenTelemetryInstance.noop()
         val creator = otel.objectCreator
 

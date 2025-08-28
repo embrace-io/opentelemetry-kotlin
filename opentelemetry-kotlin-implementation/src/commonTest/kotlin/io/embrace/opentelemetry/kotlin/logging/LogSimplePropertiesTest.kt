@@ -37,7 +37,7 @@ internal class LogSimplePropertiesTest {
     }
 
     @Test
-    fun `test minimal log`() {
+    fun testMinimalLog() {
         val now = 5L
         clock.time = now
         logger.log()
@@ -51,7 +51,7 @@ internal class LogSimplePropertiesTest {
     }
 
     @Test
-    fun `test log properties`() {
+    fun testLogProperties() {
         val body = "Hello, World!"
         val severityText = "INFO"
         logger.log(

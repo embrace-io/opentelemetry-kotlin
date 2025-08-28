@@ -33,7 +33,7 @@ internal class SpanEventTest {
     }
 
     @Test
-    fun `test span event`() {
+    fun testSpanEvent() {
         clock.time = 2
         tracer.createSpan("test").apply {
             addEvent("event")
@@ -51,7 +51,7 @@ internal class SpanEventTest {
     }
 
     @Test
-    fun `test two span events with same keys`() {
+    fun testTwoEventsWithSameKey() {
         tracer.createSpan("test").apply {
             addEvent("event")
             addEvent("event")
@@ -63,7 +63,7 @@ internal class SpanEventTest {
     }
 
     @Test
-    fun `test span event after end`() {
+    fun testSpanEventAfterEnd() {
         tracer.createSpan("test").apply {
             end()
             addEvent("event")
@@ -72,7 +72,7 @@ internal class SpanEventTest {
     }
 
     @Test
-    fun `test span event added in creation`() {
+    fun testSpanEventDuringCreation() {
         clock.time = 2
         tracer.createSpan("test", action = {
             addEvent("event")

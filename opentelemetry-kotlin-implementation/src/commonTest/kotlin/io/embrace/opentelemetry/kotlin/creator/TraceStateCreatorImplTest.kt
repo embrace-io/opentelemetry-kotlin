@@ -11,9 +11,8 @@ internal class TraceStateCreatorImplTest {
     private val creator = TraceStateCreatorImpl()
 
     @Test
-    fun `default property returns empty TraceState`() {
+    fun testDefaultTraceState() {
         val traceState = creator.default
-
         assertNull(traceState.get("any-key"))
         assertTrue(traceState.asMap().isEmpty())
     }

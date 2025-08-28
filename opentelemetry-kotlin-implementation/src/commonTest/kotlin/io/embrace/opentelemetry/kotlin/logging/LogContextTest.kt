@@ -45,7 +45,7 @@ internal class LogContextTest {
     }
 
     @Test
-    fun `test default context`() {
+    fun testDefaultContext() {
         logger.log()
         val log = processor.logs.single()
         val root = objectCreator.span.fromContext(objectCreator.context.root()).spanContext
@@ -53,7 +53,7 @@ internal class LogContextTest {
     }
 
     @Test
-    fun `test non-default context`() {
+    fun testOverrideContext() {
         val span = tracer.createSpan("span")
         val ctx = objectCreator.context.storeSpan(objectCreator.context.root(), span)
         logger.log(context = ctx)
