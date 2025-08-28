@@ -20,6 +20,7 @@ include(
     ":opentelemetry-kotlin-api-ext",
     ":opentelemetry-kotlin-noop",
     ":opentelemetry-kotlin-implementation",
+    ":opentelemetry-kotlin-implementation-java-compat",
     ":opentelemetry-kotlin-model",
     ":opentelemetry-kotlin-compat",
     ":opentelemetry-kotlin-primitives",
