@@ -2,7 +2,7 @@ plugins {
     id("java-platform")
     id("signing")
     id("com.vanniktech.maven.publish")
-    id("io.embrace.otel.build-logic")
+    id("io.embrace.opentelemetry.kotlin.build-logic")
 }
 
 description = "OpenTelemetry Kotlin Java Compatibility BOM"

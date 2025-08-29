@@ -1,4 +1,4 @@
-package io.embrace.otel
+package io.embrace.opentelemetry.kotlin
 
 import kotlinx.validation.ApiValidationExtension
 import org.gradle.api.Project

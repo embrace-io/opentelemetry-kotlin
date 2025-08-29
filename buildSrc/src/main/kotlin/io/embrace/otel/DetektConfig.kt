@@ -1,4 +1,4 @@
-package io.embrace.otel
+package io.embrace.opentelemetry.kotlin
 
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask

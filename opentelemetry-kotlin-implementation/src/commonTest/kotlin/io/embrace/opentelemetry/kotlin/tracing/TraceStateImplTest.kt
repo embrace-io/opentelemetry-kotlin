@@ -21,10 +21,10 @@ internal class TraceStateImplTest {
     @Test
     fun `TraceState with data returns correct values`() {
         val traceState = TraceStateImpl.create()
-            .put("vendor", "embrace")
+            .put("key", "value")
             .put("version", "1.0")
 
-        assertEquals("embrace", traceState.get("vendor"))
+        assertEquals("value", traceState.get("key"))
         assertEquals("1.0", traceState.get("version"))
         assertNull(traceState.get("missing-key"))
     }
@@ -79,10 +79,10 @@ internal class TraceStateImplTest {
     @Test
     fun `put adds new key-value pair`() {
         val traceState = TraceStateImpl.create()
-        val newTraceState = traceState.put("vendor", "embrace")
+        val newTraceState = traceState.put("key", "value")
 
-        assertNull(traceState.get("vendor")) // Original unchanged
-        assertEquals("embrace", newTraceState.get("vendor"))
+        assertNull(traceState.get("key")) // Original unchanged
+        assertEquals("value", newTraceState.get("key"))
     }
 
     @Test
@@ -119,8 +119,8 @@ internal class TraceStateImplTest {
         val traceState = TraceStateImpl.create()
 
         // Valid simple keys should work
-        val result1 = traceState.put("vendor", "embrace") // starts with letter
-        assertEquals("embrace", result1.get("vendor"))
+        val result1 = traceState.put("key", "value") // starts with letter
+        assertEquals("value", result1.get("key"))
 
         val result2 = traceState.put("1vendor", "test") // starts with digit
         assertEquals("test", result2.get("1vendor"))

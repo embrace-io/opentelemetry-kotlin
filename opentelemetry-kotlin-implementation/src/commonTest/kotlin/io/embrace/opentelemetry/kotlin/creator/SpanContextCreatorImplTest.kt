@@ -162,7 +162,7 @@ internal class SpanContextCreatorImplTest {
         val invalidTraceId = "invalid"
         val invalidSpanId = "bad"
         val customTraceFlags = traceFlagsCreator.create(sampled = true, random = false)
-        val customTraceState = traceStateCreator.default.put("vendor", "embrace")
+        val customTraceState = traceStateCreator.default.put("key", "value")
 
         val spanContext = creator.create(invalidTraceId, invalidSpanId, customTraceFlags, customTraceState)
 

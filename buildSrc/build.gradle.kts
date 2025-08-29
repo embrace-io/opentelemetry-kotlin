@@ -24,8 +24,8 @@ dependencies {
 gradlePlugin {
     plugins {
         create("otelBuildPlugin") {
-            id = "io.embrace.otel.build-logic"
-            implementationClass = "io.embrace.otel.BuildPlugin"
+            id = "io.embrace.opentelemetry.kotlin.build-logic"
+            implementationClass = "io.embrace.opentelemetry.kotlin.BuildPlugin"
         }
     }
 }
