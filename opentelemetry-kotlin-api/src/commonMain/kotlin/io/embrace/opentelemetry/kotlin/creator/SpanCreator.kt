@@ -23,7 +23,7 @@ public interface SpanCreator {
     public fun fromSpanContext(spanContext: SpanContext): Span
 
     /**
-     * Returns a span from the supplied [Context]. If the context has no span an invalid span
+     * Returns a span from the supplied [io.embrace.opentelemetry.kotlin.context.Context]. If the context has no span an invalid span
      * object will be returned.
      */
     public fun fromContext(context: Context): Span

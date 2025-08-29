@@ -5,7 +5,7 @@ import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 
 /**
- * A factory for retrieving [Context] instances.
+ * A factory for retrieving [io.embrace.opentelemetry.kotlin.context.Context] instances.
  */
 @ExperimentalApi
 public interface ContextCreator {
@@ -16,7 +16,7 @@ public interface ContextCreator {
     public fun root(): Context
 
     /**
-     * Stores a span and returns a new [Context], using a pre-defined key.
+     * Stores a span and returns a new [io.embrace.opentelemetry.kotlin.context.Context], using a pre-defined key.
      */
     public fun storeSpan(context: Context, span: Span): Context
 }
