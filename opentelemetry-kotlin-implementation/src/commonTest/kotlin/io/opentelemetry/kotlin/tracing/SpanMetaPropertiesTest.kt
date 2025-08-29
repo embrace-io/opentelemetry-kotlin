@@ -1,0 +1,49 @@
+package io.opentelemetry.kotlin.tracing
+
+import io.opentelemetry.kotlin.ExperimentalApi
+import io.opentelemetry.kotlin.InstrumentationScopeInfoImpl
+import io.opentelemetry.kotlin.clock.FakeClock
+import io.opentelemetry.kotlin.creator.FakeObjectCreator
+import io.opentelemetry.kotlin.resource.FakeResource
+import io.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertSame
+
+@OptIn(ExperimentalApi::class)
+internal class SpanMetaPropertiesTest {
+
+    private val key = InstrumentationScopeInfoImpl("key", null, null, emptyMap())
+    private val fakeResource = FakeResource()
+    private lateinit var tracer: TracerImpl
+    private lateinit var clock: FakeClock
+    private lateinit var processor: FakeSpanProcessor
+
+    @BeforeTest
+    fun setUp() {
+        clock = FakeClock()
+        processor = FakeSpanProcessor()
+        tracer = TracerImpl(
+            clock,
+            processor,
+            FakeObjectCreator(),
+            key,
+            fakeResource,
+            fakeSpanLimitsConfig,
+        )
+    }
+
+    @Test
+    fun `test span instrumentation scope`() {
+        tracer.createSpan("test").end()
+        val scope = processor.endCalls.single().instrumentationScopeInfo
+        assertSame(key, scope)
+    }
+
+    @Test
+    fun `test span resource`() {
+        tracer.createSpan("test").end()
+        val resource = processor.endCalls.single().resource
+        assertSame(fakeResource, resource)
+    }
+}

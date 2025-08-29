@@ -1,0 +1,68 @@
+package io.opentelemetry.kotlin.logging
+
+import io.opentelemetry.kotlin.ExperimentalApi
+import io.opentelemetry.kotlin.InstrumentationScopeInfoImpl
+import io.opentelemetry.kotlin.clock.FakeClock
+import io.opentelemetry.kotlin.creator.ObjectCreator
+import io.opentelemetry.kotlin.creator.createObjectCreator
+import io.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
+import io.opentelemetry.kotlin.resource.FakeResource
+import io.opentelemetry.kotlin.tracing.TracerImpl
+import io.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
+import io.opentelemetry.kotlin.tracing.fakeLogLimitsConfig
+import io.opentelemetry.kotlin.tracing.fakeSpanLimitsConfig
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertSame
+
+@OptIn(ExperimentalApi::class)
+internal class LogContextTest {
+
+    private val key = InstrumentationScopeInfoImpl("key", null, null, emptyMap())
+    private lateinit var logger: LoggerImpl
+    private lateinit var tracer: TracerImpl
+    private lateinit var clock: FakeClock
+    private lateinit var processor: FakeLogRecordProcessor
+    private lateinit var objectCreator: ObjectCreator
+
+    @BeforeTest
+    fun setUp() {
+        clock = FakeClock()
+        processor = FakeLogRecordProcessor()
+        objectCreator = createObjectCreator()
+        logger = LoggerImpl(
+            clock,
+            processor,
+            objectCreator,
+            key,
+            FakeResource(),
+            fakeLogLimitsConfig
+        )
+        tracer = TracerImpl(
+            clock,
+            FakeSpanProcessor(),
+            objectCreator,
+            key,
+            FakeResource(),
+            fakeSpanLimitsConfig
+        )
+    }
+
+    @Test
+    fun `test default context`() {
+        logger.log()
+        val log = processor.logs.single()
+        val root = objectCreator.span.fromContext(objectCreator.context.root()).spanContext
+        assertSame(root, log.spanContext)
+    }
+
+    @Test
+    fun `test non-default context`() {
+        val span = tracer.createSpan("span")
+        val ctx = objectCreator.context.storeSpan(objectCreator.context.root(), span)
+        logger.log(context = ctx)
+
+        val log = processor.logs.single()
+        assertSame(span.spanContext, log.spanContext)
+    }
+}

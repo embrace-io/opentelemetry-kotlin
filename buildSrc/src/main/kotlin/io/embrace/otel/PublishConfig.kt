@@ -10,7 +10,7 @@ fun Project.configurePublishing() {
         mavenPublishing.apply {
             publishToMavenCentral()
             signAllPublications()
-            coordinates("io.embrace.opentelemetry.kotlin", project.name, project.version.toString())
+            coordinates("io.opentelemetry.kotlin", project.name, project.version.toString())
 
             pom {
                 name.set("Opentelemetry Kotlin")

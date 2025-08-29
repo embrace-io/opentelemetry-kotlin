@@ -1,0 +1,122 @@
+package io.opentelemetry.kotlin.creator
+
+import io.opentelemetry.kotlin.ExperimentalApi
+import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
+
+@OptIn(ExperimentalApi::class)
+internal class TraceFlagsCreatorImplTest {
+
+    private val creator = createCompatObjectCreator().traceFlags
+
+    @Test
+    fun `default property`() {
+        val flags = creator.default
+
+        assertFalse(flags.isSampled)
+        assertFalse(flags.isRandom)
+        assertEquals("00", flags.hex)
+    }
+
+    @Test
+    fun `create sampled only`() {
+        val flags = creator.create(sampled = true, random = false)
+
+        assertTrue(flags.isSampled)
+        assertFalse(flags.isRandom)
+        assertEquals("01", flags.hex)
+    }
+
+    @Test
+    fun `create random only`() {
+        val flags = creator.create(sampled = false, random = true)
+
+        assertFalse(flags.isSampled)
+        assertTrue(flags.isRandom)
+        assertEquals("02", flags.hex)
+    }
+
+    @Test
+    fun `create sampled and random`() {
+        val flags = creator.create(sampled = true, random = true)
+
+        assertTrue(flags.isSampled)
+        assertTrue(flags.isRandom)
+        assertEquals("03", flags.hex)
+    }
+
+    @Test
+    fun `create default via function`() {
+        val flags = creator.create(sampled = false, random = false)
+
+        assertFalse(flags.isSampled)
+        assertFalse(flags.isRandom)
+        assertEquals("00", flags.hex)
+    }
+
+    @Test
+    fun `fromHex with valid hex strings`() {
+        val default = creator.fromHex("00")
+        assertFalse(default.isSampled)
+        assertFalse(default.isRandom)
+        assertEquals("00", default.hex)
+
+        val sampled = creator.fromHex("01")
+        assertTrue(sampled.isSampled)
+        assertFalse(sampled.isRandom)
+        assertEquals("01", sampled.hex)
+
+        val random = creator.fromHex("02")
+        assertFalse(random.isSampled)
+        assertTrue(random.isRandom)
+        assertEquals("02", random.hex)
+
+        val both = creator.fromHex("03")
+        assertTrue(both.isSampled)
+        assertTrue(both.isRandom)
+        assertEquals("03", both.hex)
+    }
+
+    @Test
+    fun `fromHex with valid hex strings bigger than 03`() {
+        val default = creator.fromHex("04")
+        assertFalse(default.isSampled)
+        assertFalse(default.isRandom)
+        assertEquals("00", default.hex)
+
+        val sampled = creator.fromHex("05")
+        assertTrue(sampled.isSampled)
+        assertFalse(sampled.isRandom)
+        assertEquals("01", sampled.hex)
+
+        val random = creator.fromHex("06")
+        assertFalse(random.isSampled)
+        assertTrue(random.isRandom)
+        assertEquals("02", random.hex)
+
+        val both = creator.fromHex("07")
+        assertTrue(both.isSampled)
+        assertTrue(both.isRandom)
+        assertEquals("03", both.hex)
+    }
+
+    @Test
+    fun `fromHex with invalid hex strings`() {
+        val emptyString = creator.fromHex("")
+        assertFalse(emptyString.isSampled)
+        assertFalse(emptyString.isRandom)
+        assertEquals("00", emptyString.hex)
+
+        val shortString = creator.fromHex("1")
+        assertFalse(shortString.isSampled)
+        assertFalse(shortString.isRandom)
+        assertEquals("00", shortString.hex)
+
+        val invalidHex = creator.fromHex("zz")
+        assertFalse(invalidHex.isSampled)
+        assertFalse(invalidHex.isRandom)
+        assertEquals("00", invalidHex.hex)
+    }
+}

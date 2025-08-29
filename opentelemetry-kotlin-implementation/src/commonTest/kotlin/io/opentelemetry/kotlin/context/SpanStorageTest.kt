@@ -1,0 +1,47 @@
+package io.opentelemetry.kotlin.context
+
+import io.opentelemetry.kotlin.ExperimentalApi
+import io.opentelemetry.kotlin.creator.ContextCreator
+import io.opentelemetry.kotlin.creator.ObjectCreator
+import io.opentelemetry.kotlin.creator.SpanCreator
+import io.opentelemetry.kotlin.creator.createObjectCreator
+import io.opentelemetry.kotlin.tracing.FakeSpan
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertSame
+
+@OptIn(ExperimentalApi::class)
+internal class SpanStorageTest {
+
+    private lateinit var objectCreator: ObjectCreator
+    private lateinit var spanCreator: SpanCreator
+    private lateinit var contextCreator: ContextCreator
+
+    @BeforeTest
+    fun setUp() {
+        objectCreator = createObjectCreator()
+        spanCreator = objectCreator.span
+        contextCreator = objectCreator.context
+    }
+
+    @Test
+    fun `test span storage and retrieval`() {
+        val span = FakeSpan()
+        val root = contextCreator.root()
+        val newCtx = contextCreator.storeSpan(root, span)
+        val retrievedSpan = spanCreator.fromContext(newCtx)
+        assertSame(span, retrievedSpan)
+    }
+
+    @Test
+    fun `test storing multiple spans`() {
+        val span = FakeSpan("a")
+        val otherSpan = FakeSpan("b")
+        val root = contextCreator.root()
+        val newCtx = contextCreator.storeSpan(root, span)
+
+        val finalCtx = contextCreator.storeSpan(newCtx, otherSpan)
+        val retrievedSpan = spanCreator.fromContext(finalCtx)
+        assertSame(otherSpan, retrievedSpan)
+    }
+}

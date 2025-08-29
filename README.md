@@ -27,8 +27,8 @@ Support for iOS and other platforms is planned for the future.
 
 ```
 dependencies {
-    implementation("io.embrace.opentelemetry.kotlin:opentelemetry-kotlin:<latest-version>")
-    implementation("io.embrace.opentelemetry.kotlin:opentelemetry-kotlin-compat:<latest-version>")
+    implementation("io.opentelemetry.kotlin:opentelemetry-kotlin:<latest-version>")
+    implementation("io.opentelemetry.kotlin:opentelemetry-kotlin-compat:<latest-version>")
 }
 ```
 

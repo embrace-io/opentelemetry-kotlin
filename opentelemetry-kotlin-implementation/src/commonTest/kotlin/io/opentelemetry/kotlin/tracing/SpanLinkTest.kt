@@ -1,0 +1,141 @@
+package io.opentelemetry.kotlin.tracing
+
+import io.opentelemetry.kotlin.ExperimentalApi
+import io.opentelemetry.kotlin.InstrumentationScopeInfoImpl
+import io.opentelemetry.kotlin.clock.FakeClock
+import io.opentelemetry.kotlin.creator.FakeObjectCreator
+import io.opentelemetry.kotlin.init.config.SpanLimitConfig
+import io.opentelemetry.kotlin.resource.FakeResource
+import io.opentelemetry.kotlin.tracing.data.LinkData
+import io.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
+import io.opentelemetry.kotlin.tracing.model.SpanContext
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+@OptIn(ExperimentalApi::class)
+internal class SpanLinkTest {
+
+    private val linkLimit = 3
+    private val fakeSpanContext = FakeSpanContext()
+    private val otherFakeSpanContext = FakeSpanContext()
+    private val key = InstrumentationScopeInfoImpl("key", null, null, emptyMap())
+
+    private lateinit var tracer: TracerImpl
+    private lateinit var clock: FakeClock
+    private lateinit var processor: FakeSpanProcessor
+    private lateinit var spanLimitConfig: SpanLimitConfig
+
+    @BeforeTest
+    fun setUp() {
+        clock = FakeClock()
+        processor = FakeSpanProcessor()
+        spanLimitConfig = SpanLimitConfig(
+            attributeCountLimit = fakeSpanLimitsConfig.attributeCountLimit,
+            linkCountLimit = linkLimit,
+            eventCountLimit = fakeSpanLimitsConfig.eventCountLimit,
+            attributeCountPerEventLimit = fakeSpanLimitsConfig.attributeCountPerEventLimit,
+            attributeCountPerLinkLimit = fakeSpanLimitsConfig.attributeCountPerLinkLimit
+        )
+        tracer = TracerImpl(
+            clock,
+            processor,
+            FakeObjectCreator(),
+            key,
+            FakeResource(),
+            spanLimitConfig
+        )
+    }
+
+    @Test
+    fun `test span link`() {
+        tracer.createSpan("test").apply {
+            addLink(fakeSpanContext)
+            addLink(otherFakeSpanContext) {
+                setStringAttribute("foo", "bar")
+            }
+            end()
+        }
+
+        val links = retrieveLinks(2)
+        assertLinkData(links[0], fakeSpanContext, emptyMap())
+        assertLinkData(links[1], otherFakeSpanContext, mapOf("foo" to "bar"))
+    }
+
+    @Test
+    fun `test two span links with same keys`() {
+        tracer.createSpan("test").apply {
+            addLink(fakeSpanContext)
+            addLink(fakeSpanContext)
+            end()
+        }
+        val links = retrieveLinks(2)
+        assertLinkData(links[0], fakeSpanContext, emptyMap())
+        assertLinkData(links[1], fakeSpanContext, emptyMap())
+    }
+
+    @Test
+    fun `test span link after end`() {
+        tracer.createSpan("test").apply {
+            end()
+            addLink(fakeSpanContext)
+        }
+        retrieveLinks(0)
+    }
+
+    @Test
+    fun `test span link added in creation`() {
+        tracer.createSpan("test", action = {
+            addLink(fakeSpanContext)
+            addLink(otherFakeSpanContext) {
+                setStringAttribute("foo", "bar")
+            }
+        }).apply {
+            end()
+        }
+
+        val links = retrieveLinks(2)
+        assertLinkData(links[0], fakeSpanContext, emptyMap())
+        assertLinkData(links[1], otherFakeSpanContext, mapOf("foo" to "bar"))
+    }
+
+    @Test
+    fun `span link only added in creation if limit not exceeded`() {
+        tracer.createSpan("test", action = {
+            repeat(linkLimit + 1) {
+                addLink(fakeSpanContext)
+            }
+        }).apply {
+            end()
+        }
+
+        retrieveLinks(3)
+    }
+
+    @Test
+    fun `span link only added if limit not exceeded`() {
+        tracer.createSpan("test").apply {
+            repeat(linkLimit + 1) {
+                addLink(fakeSpanContext)
+            }
+            end()
+        }
+
+        retrieveLinks(3)
+    }
+
+    private fun retrieveLinks(expected: Int): List<LinkData> {
+        val links = processor.endCalls.single().links
+        assertEquals(expected, links.size)
+        return links
+    }
+
+    private fun assertLinkData(
+        link: LinkData,
+        spanContext: SpanContext,
+        attrs: Map<String, Any>
+    ) {
+        assertEquals(spanContext, link.spanContext)
+        assertEquals(attrs, link.attributes)
+    }
+}
