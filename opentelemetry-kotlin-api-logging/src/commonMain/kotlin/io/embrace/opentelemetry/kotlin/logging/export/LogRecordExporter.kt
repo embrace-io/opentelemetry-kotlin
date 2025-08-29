@@ -13,7 +13,7 @@ public interface LogRecordExporter : TelemetryCloseable {
 
     /**
      * Exports a batch of logs. This operation is considered successful if the implementation
-     * returns [OperationResultCode.Success]. If the export operation fails the batch must be dropped.
+     * returns [io.embrace.opentelemetry.kotlin.export.OperationResultCode.Success]. If the export operation fails the batch must be dropped.
      */
     public fun export(telemetry: List<ReadableLogRecord>): OperationResultCode
 }

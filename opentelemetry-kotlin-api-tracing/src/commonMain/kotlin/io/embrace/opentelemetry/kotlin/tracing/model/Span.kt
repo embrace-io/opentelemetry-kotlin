@@ -2,7 +2,6 @@ package io.embrace.opentelemetry.kotlin.tracing.model
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.ThreadSafe
-import io.embrace.opentelemetry.kotlin.tracing.StatusCode
 import io.embrace.opentelemetry.kotlin.tracing.TracingDsl
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanSchema
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
@@ -24,7 +23,7 @@ public interface Span : SpanSchema, SpanRelationships {
     public override var name: String
 
     /**
-     * Sets the status of the span. This defaults to [StatusCode.UNSET].
+     * Sets the status of the span. This defaults to [io.embrace.opentelemetry.kotlin.tracing.StatusCode.UNSET].
      */
     @ThreadSafe
     public override var status: StatusData

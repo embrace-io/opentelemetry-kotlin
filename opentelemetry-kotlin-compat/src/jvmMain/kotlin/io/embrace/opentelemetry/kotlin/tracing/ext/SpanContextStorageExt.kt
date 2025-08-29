@@ -11,7 +11,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanAdapter
 
 /**
- * Stores a span in the supplied [Context], returning the new context.
+ * Stores a span in the supplied [io.embrace.opentelemetry.kotlin.context.Context], returning the new context.
  */
 public fun Span.storeInContext(context: Context): Context {
     val otelJavaCtx = (context as? ContextAdapter)?.impl ?: OtelJavaContext.root()
