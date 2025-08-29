@@ -12,12 +12,17 @@ internal class ContextKeyRepository {
         val INSTANCE = ContextKeyRepository()
     }
 
-    private val impl = Collections.synchronizedMap(WeakHashMap<ContextKey<*>, OtelJavaContextKey<*>>())
+    private val impl =
+        Collections.synchronizedMap(WeakHashMap<ContextKey<*>, OtelJavaContextKey<*>>())
 
     @Suppress("UNCHECKED_CAST")
     fun <T> get(key: ContextKey<T>): OtelJavaContextKey<T> {
         return impl.getOrPut(key) {
-            (key as ContextKeyAdapter).impl
+            if (key is ContextKeyAdapter) {
+                key.impl
+            } else {
+                OtelJavaContextKey.named(key.name)
+            }
         } as OtelJavaContextKey<T>
     }
 }

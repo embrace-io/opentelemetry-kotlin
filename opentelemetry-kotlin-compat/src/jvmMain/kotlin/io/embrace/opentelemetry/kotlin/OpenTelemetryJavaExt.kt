@@ -1,6 +1,8 @@
 package io.embrace.opentelemetry.kotlin
 
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
+import io.embrace.opentelemetry.kotlin.logging.OtelJavaLoggerProviderAdapter
+import io.embrace.opentelemetry.kotlin.tracing.OtelJavaTracerProviderAdapter
 
 /**
  * Constructs an [OtelJavaOpenTelemetry] instance that makes the Kotlin implementation conform
@@ -11,5 +13,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
  */
 @ExperimentalApi
 public fun OpenTelemetry.toOtelJavaApi(): OtelJavaOpenTelemetry {
-    return OtelJavaOpenTelemetrySdk(this)
+    return OtelJavaOpenTelemetrySdk(
+        OtelJavaTracerProviderAdapter(tracerProvider),
+        OtelJavaLoggerProviderAdapter(loggerProvider)
+    )
 }

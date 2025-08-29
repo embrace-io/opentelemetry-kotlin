@@ -6,6 +6,10 @@ public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstanceCompatKt
 	public static final fun decorateKotlinApi (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lio/embrace/opentelemetry/kotlin/OpenTelemetry;)Lio/opentelemetry/api/OpenTelemetry;
 }
 
+public final class io/embrace/opentelemetry/kotlin/OpenTelemetryJavaExtKt {
+	public static final fun toOtelJavaApi (Lio/embrace/opentelemetry/kotlin/OpenTelemetry;)Lio/opentelemetry/api/OpenTelemetry;
+}
+
 public final class io/embrace/opentelemetry/kotlin/context/ContextExtKt {
 	public static final fun toOtelJavaContext (Lio/embrace/opentelemetry/kotlin/context/Context;)Lio/opentelemetry/context/Context;
 }

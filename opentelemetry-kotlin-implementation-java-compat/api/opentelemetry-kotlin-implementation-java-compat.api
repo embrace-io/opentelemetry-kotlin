@@ -1,4 +1,0 @@
-public final class io/embrace/opentelemetry/kotlin/OpenTelemetryJavaExtKt {
-	public static final fun toOtelJavaApi (Lio/embrace/opentelemetry/kotlin/OpenTelemetry;)Lio/opentelemetry/api/OpenTelemetry;
-}
-
