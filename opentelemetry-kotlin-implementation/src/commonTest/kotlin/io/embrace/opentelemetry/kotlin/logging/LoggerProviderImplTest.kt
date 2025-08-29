@@ -23,13 +23,13 @@ internal class LoggerProviderImplTest {
     private val objectCreator = createObjectCreator()
 
     @Test
-    fun `test minimal logger provider`() {
+    fun testMinimalLoggerProvider() {
         val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
         assertNotNull(impl.getLogger(name = ""))
     }
 
     @Test
-    fun `test full logger provider`() {
+    fun testFullLoggerProvider() {
         val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
         val first = impl.getLogger(
             name = "name",
@@ -42,7 +42,7 @@ internal class LoggerProviderImplTest {
     }
 
     @Test
-    fun `test dupe logger provider name`() {
+    fun testDupeLoggerProviderName() {
         val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
         val first = impl.getLogger(name = "name")
         val second = impl.getLogger(name = "name")
@@ -52,7 +52,7 @@ internal class LoggerProviderImplTest {
     }
 
     @Test
-    fun `test dupe logger provider version`() {
+    fun testDupeLoggerProviderVersion() {
         val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
         val first = impl.getLogger(name = "name", version = "0.1.0")
         val second = impl.getLogger(name = "name", version = "0.1.0")
@@ -62,7 +62,7 @@ internal class LoggerProviderImplTest {
     }
 
     @Test
-    fun `test dupe logger provider schemaUrl`() {
+    fun testDupeLoggerProviderSchemaUrl() {
         val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
         val first = impl.getLogger(name = "name", schemaUrl = "https://example.com/foo")
         val second = impl.getLogger(name = "name", schemaUrl = "https://example.com/foo")
@@ -72,7 +72,7 @@ internal class LoggerProviderImplTest {
     }
 
     @Test
-    fun `test dupe logger provider attributes`() {
+    fun testDupeLoggerProviderAttributes() {
         val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
         val first = impl.getLogger(name = "name") {
             setStringAttribute("key", "value")

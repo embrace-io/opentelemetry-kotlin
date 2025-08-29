@@ -27,7 +27,7 @@ internal class CompositeSpanProcessorTest {
     }
 
     @Test
-    fun `test no span processors`() {
+    fun testNoSpanProcessors() {
         val processor = CompositeSpanProcessor(emptyList(), errorHandler)
         processor.assertReturnValuesMatch(
             Success,
@@ -39,7 +39,7 @@ internal class CompositeSpanProcessorTest {
     }
 
     @Test
-    fun `test processor not invoked`() {
+    fun testProcessorNotInvoked() {
         val impl = FakeSpanProcessor(startRequired = false, endRequired = false)
         val other = FakeSpanProcessor()
         val processor = CompositeSpanProcessor(listOf(impl, other), errorHandler)
@@ -54,7 +54,7 @@ internal class CompositeSpanProcessorTest {
     }
 
     @Test
-    fun `test multiple span processors`() {
+    fun testMultipleSpanProcessors() {
         val first = FakeSpanProcessor()
         val second = FakeSpanProcessor()
         val processor = CompositeSpanProcessor(listOf(first, second), errorHandler)
@@ -66,7 +66,7 @@ internal class CompositeSpanProcessorTest {
     }
 
     @Test
-    fun `test one processor flush fails`() {
+    fun testOneProcessorFlushFails() {
         val first = FakeSpanProcessor(flushCode = { Failure })
         val second = FakeSpanProcessor()
         val processor = CompositeSpanProcessor(listOf(first, second), errorHandler)
@@ -78,7 +78,7 @@ internal class CompositeSpanProcessorTest {
     }
 
     @Test
-    fun `test one processor shutdown fails`() {
+    fun testOneProcessorShutdownFails() {
         val first = FakeSpanProcessor(shutdownCode = { Failure })
         val second = FakeSpanProcessor()
         val processor = CompositeSpanProcessor(listOf(first, second), errorHandler)
@@ -90,7 +90,7 @@ internal class CompositeSpanProcessorTest {
     }
 
     @Test
-    fun `test one processor throws exception in onStart`() {
+    fun testOneProcessorsThrowsInOnStart() {
         val first = FakeSpanProcessor(startAction = { _, _ -> throw IllegalStateException() })
         val second = FakeSpanProcessor()
         val processor = CompositeSpanProcessor(listOf(first, second), errorHandler)
@@ -102,7 +102,7 @@ internal class CompositeSpanProcessorTest {
     }
 
     @Test
-    fun `test one processor throws exception in onEnd`() {
+    fun testOneProcessorsThrowsInOnEnd() {
         val first = FakeSpanProcessor(endAction = { throw IllegalStateException() })
         val second = FakeSpanProcessor()
         val processor = CompositeSpanProcessor(listOf(first, second), errorHandler)
@@ -114,7 +114,7 @@ internal class CompositeSpanProcessorTest {
     }
 
     @Test
-    fun `test one processor throws exception in flush`() {
+    fun testOneProcessorsThrowsInFlush() {
         val first = FakeSpanProcessor(flushCode = { throw IllegalStateException() })
         val second = FakeSpanProcessor()
         val processor = CompositeSpanProcessor(listOf(first, second), errorHandler)
@@ -126,7 +126,7 @@ internal class CompositeSpanProcessorTest {
     }
 
     @Test
-    fun `test one processor throws exception in shutdown`() {
+    fun testOneProcessorsThrowsInShutdown() {
         val first = FakeSpanProcessor(shutdownCode = { throw IllegalStateException() })
         val second = FakeSpanProcessor()
         val processor = CompositeSpanProcessor(listOf(first, second), errorHandler)

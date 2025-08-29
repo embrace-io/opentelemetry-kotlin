@@ -42,14 +42,14 @@ internal class SpanDataTest {
     }
 
     @Test
-    fun `test span data creation onStart`() {
+    fun testSpanDataCreationOnStart() {
         val span = simulateSpan()
         val data = processor.startCalls.single().toSpanData()
         assertSpanData(span, data)
     }
 
     @Test
-    fun `test span data creation onEnd`() {
+    fun testSpanDataCreationOnEnd() {
         val span = simulateSpan()
         val data = processor.startCalls.single().toSpanData()
         assertSpanData(span, data)

@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.exceptionType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -10,12 +11,14 @@ import kotlin.test.assertNull
 internal class SpanExtTest {
 
     @Test
-    fun `record exception`() {
+    fun testRecordException() {
         val span = FakeSpan()
         assertEquals(0, span.events.size)
 
-        span.recordException(IllegalArgumentException())
-        span.recordException(IllegalStateException("Whoops!")) {
+        val exc = IllegalArgumentException()
+        span.recordException(exc)
+        val exc1 = IllegalStateException("Whoops!")
+        span.recordException(exc1) {
             setStringAttribute("extra", "value")
         }
         val events = span.events
@@ -25,21 +28,21 @@ internal class SpanExtTest {
         assertEquals("exception", simple.name)
         val simpleAttrs = simple.attributes
         assertEquals(2, simpleAttrs.size)
-        assertEquals("java.lang.IllegalArgumentException", simpleAttrs["exception.type"])
+        assertEquals(exc.exceptionType(), simpleAttrs["exception.type"])
         assertNotNull(simpleAttrs["exception.stacktrace"])
 
         val complex = events.last()
         assertEquals("exception", complex.name)
         val complexAttrs = complex.attributes
         assertEquals(4, complexAttrs.size)
-        assertEquals("java.lang.IllegalStateException", complexAttrs["exception.type"])
+        assertEquals(exc1.exceptionType(), complexAttrs["exception.type"])
         assertEquals("Whoops!", complexAttrs["exception.message"])
         assertEquals("value", complexAttrs["extra"])
         assertNotNull(complexAttrs["exception.stacktrace"])
     }
 
     @Test
-    fun `record exception no qualified class name`() {
+    fun testRecordExceptionNoClassName() {
         val span = FakeSpan()
         val exc = object : IllegalArgumentException() {}
         span.recordException(exc)

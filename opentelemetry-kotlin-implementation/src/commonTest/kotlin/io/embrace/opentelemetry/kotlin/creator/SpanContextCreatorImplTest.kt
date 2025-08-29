@@ -14,7 +14,7 @@ internal class SpanContextCreatorImplTest {
     private val creator = SpanContextCreatorImpl(traceFlagsCreator, traceStateCreator)
 
     @Test
-    internal fun `invalid property`() {
+    internal fun testInvalidProperty() {
         val spanContext = creator.invalid
 
         assertEquals("00000000000000000000000000000000", spanContext.traceId)
@@ -26,7 +26,7 @@ internal class SpanContextCreatorImplTest {
     }
 
     @Test
-    internal fun `create valid span context`() {
+    internal fun testValidSpanContext() {
         val traceId = "12345678901234567890123456789012"
         val spanId = "1234567890123456"
         val traceFlags = traceFlagsCreator.default
@@ -43,7 +43,7 @@ internal class SpanContextCreatorImplTest {
     }
 
     @Test
-    internal fun `create with invalid trace ID`() {
+    internal fun testInvalidTraceId() {
         val traceId = "00000000000000000000000000000000" // all zeros
         val spanId = "1234567890123456"
         val traceFlags = traceFlagsCreator.default
@@ -59,7 +59,7 @@ internal class SpanContextCreatorImplTest {
     }
 
     @Test
-    internal fun `create with invalid span ID`() {
+    internal fun testInvalidSpanId() {
         val traceId = "12345678901234567890123456789012"
         val spanId = "0000000000000000" // all zeros
         val traceFlags = traceFlagsCreator.default
@@ -75,7 +75,7 @@ internal class SpanContextCreatorImplTest {
     }
 
     @Test
-    internal fun `create with invalid length IDs`() {
+    internal fun testInvalidLengthIds() {
         val shortTraceId = "123"
         val shortSpanId = "456"
         val traceFlags = traceFlagsCreator.default
@@ -91,7 +91,7 @@ internal class SpanContextCreatorImplTest {
     }
 
     @Test
-    internal fun `create with invalid hex characters`() {
+    internal fun testInvalidHexChars() {
         val invalidTraceId = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz" // 32 chars but not hex
         val invalidSpanId = "gggggggggggggggg" // 16 chars but not hex
         val traceFlags = traceFlagsCreator.default
@@ -107,7 +107,7 @@ internal class SpanContextCreatorImplTest {
     }
 
     @Test
-    internal fun `create with valid uppercase hex`() {
+    internal fun testUppercaseHex() {
         val traceId = "ABCDEF1234567890ABCDEF1234567890" // uppercase hex
         val spanId = "ABCDEF1234567890" // uppercase hex
         val traceFlags = traceFlagsCreator.default
@@ -123,7 +123,7 @@ internal class SpanContextCreatorImplTest {
     }
 
     @Test
-    internal fun `create with valid lowercase hex`() {
+    internal fun testLowercaseHex() {
         val traceId = "abcdef1234567890abcdef1234567890" // lowercase hex
         val spanId = "abcdef1234567890" // lowercase hex
         val traceFlags = traceFlagsCreator.default
@@ -139,7 +139,7 @@ internal class SpanContextCreatorImplTest {
     }
 
     @Test
-    internal fun `create with custom trace flags and state`() {
+    internal fun testCreateWithCustomTraceFlagsAndState() {
         val traceId = "12345678901234567890123456789012"
         val spanId = "1234567890123456"
         val customTraceFlags = traceFlagsCreator.create(sampled = true, random = true)
@@ -158,7 +158,7 @@ internal class SpanContextCreatorImplTest {
     }
 
     @Test
-    internal fun `create with custom flags and state preserved even with invalid IDs`() {
+    internal fun testStatePreservedWithInvalidIds() {
         val invalidTraceId = "invalid"
         val invalidSpanId = "bad"
         val customTraceFlags = traceFlagsCreator.create(sampled = true, random = false)

@@ -48,7 +48,7 @@ internal class SpanLinkTest {
     }
 
     @Test
-    fun `test span link`() {
+    fun testSpanLink() {
         tracer.createSpan("test").apply {
             addLink(fakeSpanContext)
             addLink(otherFakeSpanContext) {
@@ -63,7 +63,7 @@ internal class SpanLinkTest {
     }
 
     @Test
-    fun `test two span links with same keys`() {
+    fun testTwoSpanLinksWithSameKey() {
         tracer.createSpan("test").apply {
             addLink(fakeSpanContext)
             addLink(fakeSpanContext)
@@ -75,7 +75,7 @@ internal class SpanLinkTest {
     }
 
     @Test
-    fun `test span link after end`() {
+    fun testSpanLinkAfterEnd() {
         tracer.createSpan("test").apply {
             end()
             addLink(fakeSpanContext)
@@ -84,7 +84,7 @@ internal class SpanLinkTest {
     }
 
     @Test
-    fun `test span link added in creation`() {
+    fun testSpanLinkDuringCreation() {
         tracer.createSpan("test", action = {
             addLink(fakeSpanContext)
             addLink(otherFakeSpanContext) {
@@ -100,7 +100,7 @@ internal class SpanLinkTest {
     }
 
     @Test
-    fun `span link only added in creation if limit not exceeded`() {
+    fun testLinksLimitNotExceeded() {
         tracer.createSpan("test", action = {
             repeat(linkLimit + 1) {
                 addLink(fakeSpanContext)
@@ -113,7 +113,7 @@ internal class SpanLinkTest {
     }
 
     @Test
-    fun `span link only added if limit not exceeded`() {
+    fun testLinksLimitNotExceeded2() {
         tracer.createSpan("test").apply {
             repeat(linkLimit + 1) {
                 addLink(fakeSpanContext)

@@ -11,7 +11,7 @@ import kotlin.test.assertTrue
 internal class LoggerProviderConfigImplTest {
 
     @Test
-    fun `test tracing config defaults`() {
+    fun testDefaultLoggingConfig() {
         val cfg = LoggerProviderConfigImpl().generateLoggingConfig()
         assertTrue(cfg.processors.isEmpty())
         assertTrue(cfg.resource.attributes.isEmpty())
@@ -24,7 +24,7 @@ internal class LoggerProviderConfigImplTest {
     }
 
     @Test
-    fun `test tracing config overrides`() {
+    fun testOverrideLoggingConfig() {
         val firstProcessor = FakeLogRecordProcessor()
         val secondProcessor = FakeLogRecordProcessor()
         val attrCount = 100

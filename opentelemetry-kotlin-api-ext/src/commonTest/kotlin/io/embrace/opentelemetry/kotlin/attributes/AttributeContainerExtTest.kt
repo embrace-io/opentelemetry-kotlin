@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 internal class AttributeContainerExtTest {
 
     @Test
-    fun `set attributes`() {
+    fun testSetAttributes() {
         val attrs = FakeMutableAttributeContainer()
         val input = mapOf(
             "string" to "value",

@@ -33,14 +33,14 @@ internal class SpanSimplePropertiesTest {
     }
 
     @Test
-    fun `test span name`() {
+    fun testSpanName() {
         val name = "test"
         val span = tracer.createSpan(name)
         assertEquals(name, span.name)
     }
 
     @Test
-    fun `test span name override`() {
+    fun testSpanNameOverride() {
         val span = tracer.createSpan("test")
         val override = "another"
         span.name = override
@@ -48,7 +48,7 @@ internal class SpanSimplePropertiesTest {
     }
 
     @Test
-    fun `test span name after end`() {
+    fun testSpanNameAfterEnd() {
         val name = "test"
         val span = tracer.createSpan(name)
         span.end()
@@ -57,20 +57,20 @@ internal class SpanSimplePropertiesTest {
     }
 
     @Test
-    fun `test span status`() {
+    fun testSpanStatus() {
         val span = tracer.createSpan("test")
         assertEquals(StatusData.Unset, span.status)
     }
 
     @Test
-    fun `test span status override`() {
+    fun testSpanStatusOverride() {
         val span = tracer.createSpan("test")
         span.status = StatusData.Ok
         assertEquals(StatusData.Ok, span.status)
     }
 
     @Test
-    fun `test span status after end`() {
+    fun testSpanStatusAfterEnd() {
         val span = tracer.createSpan("test")
         span.end()
         span.status = StatusData.Ok
@@ -78,26 +78,26 @@ internal class SpanSimplePropertiesTest {
     }
 
     @Test
-    fun `test span kind default`() {
+    fun testSpanKind() {
         val span = tracer.createSpan("test")
         assertEquals(SpanKind.INTERNAL, span.spanKind)
     }
 
     @Test
-    fun `test span kind override `() {
+    fun testSpanKindOverride() {
         val span = tracer.createSpan("test", spanKind = SpanKind.CLIENT)
         assertEquals(SpanKind.CLIENT, span.spanKind)
     }
 
     @Test
-    fun `test span start timestamp default`() {
+    fun testSpanStartTimestamp() {
         clock.time = 5
         val span = tracer.createSpan("test")
         assertEquals(clock.time, span.startTimestamp)
     }
 
     @Test
-    fun `test span start timestamp explicit`() {
+    fun testSpanStartTimestampExplicit() {
         val now = 9L
         val span = tracer.createSpan("test", startTimestamp = now)
         assertEquals(now, span.startTimestamp)

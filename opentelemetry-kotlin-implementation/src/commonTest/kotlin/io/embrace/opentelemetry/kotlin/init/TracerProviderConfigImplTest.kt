@@ -11,7 +11,7 @@ import kotlin.test.assertTrue
 internal class TracerProviderConfigImplTest {
 
     @Test
-    fun `test tracing config defaults`() {
+    fun testDefaultTracingConfig() {
         val cfg = TracerProviderConfigImpl().generateTracingConfig()
         assertTrue(cfg.processors.isEmpty())
         assertTrue(cfg.resource.attributes.isEmpty())
@@ -27,7 +27,7 @@ internal class TracerProviderConfigImplTest {
     }
 
     @Test
-    fun `test tracing config overrides`() {
+    fun testOverrideTracingConfig() {
         val firstProcessor = FakeSpanProcessor()
         val secondProcessor = FakeSpanProcessor()
         val linkCount = 100
