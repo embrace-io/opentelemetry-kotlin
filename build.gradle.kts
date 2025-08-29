@@ -11,7 +11,7 @@ version = project.version
 kover {
     merge {
         subprojects { project ->
-            project.findProperty("io.embrace.enableCodeCoverage")?.toString()?.toBoolean() ?: true
+            project.findProperty("io.embrace.opentelemetry.kotlin.enableCodeCoverage")?.toString()?.toBoolean() ?: true
         }
     }
     reports {

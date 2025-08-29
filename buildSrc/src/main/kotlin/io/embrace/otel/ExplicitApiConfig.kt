@@ -1,4 +1,4 @@
-package io.embrace.otel
+package io.embrace.opentelemetry.kotlin
 
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
