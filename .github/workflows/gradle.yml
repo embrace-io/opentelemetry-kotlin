@@ -42,7 +42,7 @@ jobs:
           files: build/reports/kover/reportRelease.xml
 
       - name: Build Example Apps
-        run: ./gradlew :examples:jvm-app-java-api:build :examples:jvm-app-kotlin-api:build :examples:android-app-java-api:assembleRelease :examples:android-app-kotlin-api:assembleRelease --stacktrace
+        run: ./gradlew :examples:jvm-app:build :examples:android-app:assembleRelease --stacktrace
 
       - name: Build Telescope App
         run: ./gradlew pTML && cd examples/telescope-app && ./gradlew assembleRelease --stacktrace
