@@ -14,7 +14,6 @@ kotlin {
                 api(project(":opentelemetry-kotlin-api-context"))
                 api(project(":opentelemetry-kotlin-api-logging"))
                 api(project(":opentelemetry-kotlin-api-tracing"))
-                api(project(":opentelemetry-kotlin-api-factory"))
             }
         }
     }

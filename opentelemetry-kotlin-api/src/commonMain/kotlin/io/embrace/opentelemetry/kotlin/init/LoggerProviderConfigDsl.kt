@@ -11,7 +11,7 @@ import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 public interface LoggerProviderConfigDsl : ResourceConfigDsl {
 
     /**
-     * Adds a [LogRecordProcessor] to the logger provider. Processors will be invoked
+     * Adds a [io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor] to the logger provider. Processors will be invoked
      * in the order in which they were added.
      */
     public fun addLogRecordProcessor(processor: LogRecordProcessor)

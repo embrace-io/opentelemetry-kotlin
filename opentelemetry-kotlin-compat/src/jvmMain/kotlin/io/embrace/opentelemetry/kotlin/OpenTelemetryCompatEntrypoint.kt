@@ -32,7 +32,7 @@ public fun createCompatOpenTelemetryInstance(
 
 /**
  * Internal implementation of [createCompatOpenTelemetryInstance]. This is not publicly visible as
- * we don't want to allow users to supply a custom [SdkFactory].
+ * we don't want to allow users to supply a custom [io.embrace.opentelemetry.kotlin.factory.SdkFactory].
  */
 @ExperimentalApi
 internal fun createCompatOpenTelemetryInstanceImpl(

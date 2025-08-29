@@ -1,0 +1,80 @@
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/Logger {
+	public abstract fun log (Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/logging/Logger$DefaultImpls {
+	public static synthetic fun log$default (Lio/embrace/opentelemetry/kotlin/logging/Logger;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/LoggerProvider {
+	public abstract fun getLogger (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/logging/Logger;
+}
+
+public final class io/embrace/opentelemetry/kotlin/logging/LoggerProvider$DefaultImpls {
+	public static synthetic fun getLogger$default (Lio/embrace/opentelemetry/kotlin/logging/LoggerProvider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/logging/Logger;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
+	public abstract fun export (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
+	public abstract fun onEmit (Lio/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord;Lio/embrace/opentelemetry/kotlin/context/Context;)V
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord : io/embrace/opentelemetry/kotlin/attributes/MutableAttributeContainer, io/embrace/opentelemetry/kotlin/logging/model/ReadableLogRecord {
+	public abstract fun getBody ()Ljava/lang/String;
+	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
+	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public abstract fun getSeverityText ()Ljava/lang/String;
+	public abstract fun getTimestamp ()Ljava/lang/Long;
+	public abstract fun setBody (Ljava/lang/String;)V
+	public abstract fun setObservedTimestamp (Ljava/lang/Long;)V
+	public abstract fun setSeverityNumber (Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;)V
+	public abstract fun setSeverityText (Ljava/lang/String;)V
+	public abstract fun setTimestamp (Ljava/lang/Long;)V
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/logging/model/ReadableLogRecord {
+	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getBody ()Ljava/lang/String;
+	public abstract fun getInstrumentationScopeInfo ()Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
+	public abstract fun getObservedTimestamp ()Ljava/lang/Long;
+	public abstract fun getResource ()Lio/embrace/opentelemetry/kotlin/resource/Resource;
+	public abstract fun getSeverityNumber ()Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public abstract fun getSeverityText ()Ljava/lang/String;
+	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+	public abstract fun getTimestamp ()Ljava/lang/Long;
+}
+
+public final class io/embrace/opentelemetry/kotlin/logging/model/SeverityNumber : java/lang/Enum {
+	public static final field DEBUG Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field DEBUG2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field DEBUG3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field DEBUG4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field ERROR Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field ERROR2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field ERROR3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field ERROR4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field FATAL Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field FATAL2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field FATAL3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field FATAL4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field INFO Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field INFO2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field INFO3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field INFO4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field TRACE Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field TRACE2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field TRACE3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field TRACE4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field UNKNOWN Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field WARN Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field WARN2 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field WARN3 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static final field WARN4 Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public final fun getSeverityNumber ()I
+	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+	public static fun values ()[Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
+}
+

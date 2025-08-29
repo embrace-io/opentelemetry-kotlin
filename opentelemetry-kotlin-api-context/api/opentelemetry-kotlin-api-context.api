@@ -1,0 +1,32 @@
+public abstract interface class io/embrace/opentelemetry/kotlin/context/Context {
+	public abstract fun createKey (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/context/ContextKey;
+	public abstract fun get (Lio/embrace/opentelemetry/kotlin/context/ContextKey;)Ljava/lang/Object;
+	public abstract fun set (Lio/embrace/opentelemetry/kotlin/context/ContextKey;Ljava/lang/Object;)Lio/embrace/opentelemetry/kotlin/context/Context;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/context/ContextKey {
+	public abstract fun getName ()Ljava/lang/String;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanContext {
+	public abstract fun getSpanId ()Ljava/lang/String;
+	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
+	public abstract fun getTraceId ()Ljava/lang/String;
+	public abstract fun getTraceState ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
+	public abstract fun isRemote ()Z
+	public abstract fun isValid ()Z
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/TraceFlags {
+	public abstract fun getHex ()Ljava/lang/String;
+	public abstract fun isRandom ()Z
+	public abstract fun isSampled ()Z
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/TraceState {
+	public abstract fun asMap ()Ljava/util/Map;
+	public abstract fun get (Ljava/lang/String;)Ljava/lang/String;
+	public abstract fun put (Ljava/lang/String;Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
+	public abstract fun remove (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
+}
+

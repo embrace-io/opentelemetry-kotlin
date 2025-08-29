@@ -1,0 +1,53 @@
+public abstract interface class io/embrace/opentelemetry/kotlin/Clock {
+	public abstract fun now ()J
+}
+
+public abstract interface annotation class io/embrace/opentelemetry/kotlin/ExperimentalApi : java/lang/annotation/Annotation {
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/InstrumentationScopeInfo {
+	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun getSchemaUrl ()Ljava/lang/String;
+	public abstract fun getVersion ()Ljava/lang/String;
+}
+
+public abstract interface annotation class io/embrace/opentelemetry/kotlin/ThreadSafe : java/lang/annotation/Annotation {
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
+	public abstract fun getAttributes ()Ljava/util/Map;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/attributes/MutableAttributeContainer : io/embrace/opentelemetry/kotlin/attributes/AttributeContainer {
+	public abstract fun setBooleanAttribute (Ljava/lang/String;Z)V
+	public abstract fun setBooleanListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public abstract fun setDoubleAttribute (Ljava/lang/String;D)V
+	public abstract fun setDoubleListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public abstract fun setLongAttribute (Ljava/lang/String;J)V
+	public abstract fun setLongListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public abstract fun setStringAttribute (Ljava/lang/String;Ljava/lang/String;)V
+	public abstract fun setStringListAttribute (Ljava/lang/String;Ljava/util/List;)V
+}
+
+public abstract class io/embrace/opentelemetry/kotlin/export/OperationResultCode {
+}
+
+public final class io/embrace/opentelemetry/kotlin/export/OperationResultCode$Failure : io/embrace/opentelemetry/kotlin/export/OperationResultCode {
+	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/export/OperationResultCode$Failure;
+}
+
+public final class io/embrace/opentelemetry/kotlin/export/OperationResultCode$Success : io/embrace/opentelemetry/kotlin/export/OperationResultCode {
+	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/export/OperationResultCode$Success;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
+	public abstract fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+	public abstract fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/resource/Resource {
+	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getSchemaUrl ()Ljava/lang/String;
+}
+

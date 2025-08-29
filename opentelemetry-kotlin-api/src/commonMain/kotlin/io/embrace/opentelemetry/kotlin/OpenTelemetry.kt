@@ -1,9 +1,7 @@
 package io.embrace.opentelemetry.kotlin
 
 import io.embrace.opentelemetry.kotlin.factory.SdkFactory
-import io.embrace.opentelemetry.kotlin.logging.Logger
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
-import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 
 /**
@@ -13,12 +11,12 @@ import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 public interface OpenTelemetry : SdkFactory {
 
     /**
-     * The [TracerProvider] for creating [Tracer] instances.
+     * The [io.embrace.opentelemetry.kotlin.tracing.TracerProvider] for creating [io.embrace.opentelemetry.kotlin.tracing.Tracer] instances.
      */
     public val tracerProvider: TracerProvider
 
     /**
-     * The [LoggerProvider] for creating [Logger] instances.
+     * The [io.embrace.opentelemetry.kotlin.logging.LoggerProvider] for creating [io.embrace.opentelemetry.kotlin.logging.Logger] instances.
      */
     public val loggerProvider: LoggerProvider
 
