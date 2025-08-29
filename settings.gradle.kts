@@ -29,8 +29,9 @@ include(
     ":opentelemetry-kotlin-compat-bom",
     ":opentelemetry-java-typealiases",
     ":custom-detekt-rules",
-    "examples:jvm-app",
-    "examples:js-app",
     "examples:android-app",
+    "examples:ios-app",
+    "examples:js-app",
+    "examples:jvm-app",
     "examples:example-common"
 )
