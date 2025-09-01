@@ -36,7 +36,7 @@ internal class TracerImpl(
         val spanRelationships = SpanRelationshipsImpl(clock, spanLimitConfig)
         action(spanRelationships)
 
-        val ctx = parentContext ?: sdkFactory.context.root()
+        val ctx = parentContext ?: sdkFactory.contextFactory.root()
         val parentSpanContext = retrieveParentSpanContext(ctx)
         val spanContext = calculateSpanContext(parentSpanContext, sdkFactory)
 
@@ -58,7 +58,7 @@ internal class TracerImpl(
     }
 
     private fun retrieveParentSpanContext(parent: Context): SpanContext {
-        val parentSpan = sdkFactory.span.fromContext(parent)
+        val parentSpan = sdkFactory.spanFactory.fromContext(parent)
         return parentSpan.spanContext
     }
 
@@ -66,7 +66,7 @@ internal class TracerImpl(
         parent: SpanContext,
         sdkFactory: SdkFactory
     ): SpanContext {
-        val factory = sdkFactory.tracingIds
+        val factory = sdkFactory.tracingIdFactory
 
         val traceId = if (parent.isValid) {
             parent.traceId
@@ -78,10 +78,10 @@ internal class TracerImpl(
         return SpanContextImpl(
             traceId = traceId,
             spanId = spanId,
-            traceFlags = sdkFactory.traceFlags.default,
+            traceFlags = sdkFactory.traceFlagsFactory.default,
             isValid = true,
             isRemote = false,
-            traceState = sdkFactory.traceState.default,
+            traceState = sdkFactory.traceStateFactory.default,
         )
     }
 }

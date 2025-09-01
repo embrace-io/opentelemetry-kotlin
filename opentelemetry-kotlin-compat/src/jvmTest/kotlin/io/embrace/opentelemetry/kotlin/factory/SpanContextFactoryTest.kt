@@ -11,7 +11,7 @@ internal class SpanContextFactoryTest {
 
     @Test
     fun `test invalid`() {
-        assertSame(factory.spanContext.invalid, factory.spanContext.invalid)
+        assertSame(factory.spanContextFactory.invalid, factory.spanContextFactory.invalid)
     }
 
     @Test
@@ -19,9 +19,9 @@ internal class SpanContextFactoryTest {
         val generator = CompatTracingIdFactory()
         val traceId = generator.generateTraceId()
         val spanId = generator.generateSpanId()
-        val traceFlags = factory.traceFlags.default
-        val traceState = factory.traceState.default
-        val spanContext = factory.spanContext.create(
+        val traceFlags = factory.traceFlagsFactory.default
+        val traceState = factory.traceStateFactory.default
+        val spanContext = factory.spanContextFactory.create(
             traceId,
             spanId,
             traceFlags,

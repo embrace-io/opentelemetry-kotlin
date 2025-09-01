@@ -95,7 +95,7 @@ internal class NoopTests {
     @Test
     fun testNoopContext() {
         val otel = OpenTelemetryInstance.noop()
-        val ctx = otel.sdkFactory.context.root()
+        val ctx = otel.sdkFactory.contextFactory.root()
 
         val key = ctx.createKey<String>("key")
         assertTrue(key is NoopContextKey)
@@ -110,15 +110,15 @@ internal class NoopTests {
     fun testNoopSpanContext() {
         val otel = OpenTelemetryInstance.noop()
         val factory = otel.sdkFactory
-        val invalid = factory.spanContext.invalid
+        val invalid = factory.spanContextFactory.invalid
         assertTrue(invalid is NoopSpanContext)
         assertFalse(invalid.isValid)
 
-        val other = factory.spanContext.create(
-            factory.tracingIds.generateTraceId(),
-            factory.tracingIds.generateSpanId(),
-            factory.traceFlags.default,
-            factory.traceState.default
+        val other = factory.spanContextFactory.create(
+            factory.tracingIdFactory.generateTraceId(),
+            factory.tracingIdFactory.generateSpanId(),
+            factory.traceFlagsFactory.default,
+            factory.traceStateFactory.default
         )
         assertSame(invalid, other)
     }
@@ -128,14 +128,14 @@ internal class NoopTests {
         val otel = OpenTelemetryInstance.noop()
         val factory = otel.sdkFactory
 
-        val first = factory.span.invalid
+        val first = factory.spanFactory.invalid
         assertTrue(first is NoopSpan)
         assertFalse(first.isRecording())
 
-        val second = factory.span.fromSpanContext(factory.spanContext.invalid)
+        val second = factory.spanFactory.fromSpanContext(factory.spanContextFactory.invalid)
         assertTrue(second is NoopSpan)
 
-        val third = factory.span.fromContext(factory.context.root())
+        val third = factory.spanFactory.fromContext(factory.contextFactory.root())
         assertTrue(third is NoopSpan)
     }
 

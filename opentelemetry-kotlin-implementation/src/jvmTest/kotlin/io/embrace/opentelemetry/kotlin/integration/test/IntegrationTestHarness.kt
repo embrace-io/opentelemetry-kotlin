@@ -20,7 +20,7 @@ internal class IntegrationTestHarness : OtelKotlinTestRule() {
             tracerProvider = tracerProviderConfig,
             loggerProvider = loggerProviderConfig,
             clock = clock,
-            sdkFactory = SdkFactoryImpl(tracingIds = TracingIdFactoryImpl(Random(0)))
+            sdkFactory = SdkFactoryImpl(tracingIdFactory = TracingIdFactoryImpl(Random(0)))
         )
     }
 }

@@ -34,7 +34,7 @@ internal class LoggerImpl(
         attributes: MutableAttributeContainer.() -> Unit
     ) {
         val attrs = MutableAttributeContainerImpl(logLimitConfig.attributeCountLimit).apply(attributes)
-        val ctx = context ?: sdkFactory.context.root()
+        val ctx = context ?: sdkFactory.contextFactory.root()
         val log = LogRecordModel(
             attributeContainer = attrs,
             resource = resource,
@@ -44,7 +44,7 @@ internal class LoggerImpl(
             body = body,
             severityText = severityText,
             severityNumber = severityNumber ?: SeverityNumber.UNKNOWN,
-            spanContext = sdkFactory.span.fromContext(ctx).spanContext,
+            spanContext = sdkFactory.spanFactory.fromContext(ctx).spanContext,
             logLimitConfig = logLimitConfig
         )
         processor.onEmit(ReadWriteLogRecordImpl(log), ctx)

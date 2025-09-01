@@ -52,14 +52,14 @@ internal class LogContextTest {
     fun testDefaultContext() {
         logger.log()
         val log = processor.logs.single()
-        val root = sdkFactory.span.fromContext(sdkFactory.context.root()).spanContext
+        val root = sdkFactory.spanFactory.fromContext(sdkFactory.contextFactory.root()).spanContext
         assertSame(root, log.spanContext)
     }
 
     @Test
     fun testOverrideContext() {
         val span = tracer.createSpan("span")
-        val ctx = sdkFactory.context.storeSpan(sdkFactory.context.root(), span)
+        val ctx = sdkFactory.contextFactory.storeSpan(sdkFactory.contextFactory.root(), span)
         logger.log(context = ctx)
 
         val log = processor.logs.single()

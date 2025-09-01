@@ -54,7 +54,7 @@ public fun OpenTelemetryInstance.createOpenTelemetryKotlin(
     clock: Clock = ClockAdapter(io.opentelemetry.sdk.common.Clock.getDefault()),
     sdkFactory: SdkFactory = createCompatSdkFactory(),
 ): OpenTelemetry {
-    sdkFactory.tracingIds
+    sdkFactory.tracingIdFactory
     val tracerCfg = CompatTracerProviderConfig(clock, sdkFactory).apply(tracerProvider)
     val loggerCfg = CompatLoggerProviderConfig(clock).apply(loggerProvider)
 

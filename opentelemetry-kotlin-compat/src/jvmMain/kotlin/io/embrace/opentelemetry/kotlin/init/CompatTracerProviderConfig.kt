@@ -26,7 +26,7 @@ internal class CompatTracerProviderConfig(
     init {
         builder.setClock(OtelJavaClockWrapper(clock))
 
-        val idGenerator = sdkFactory.tracingIds
+        val idGenerator = sdkFactory.tracingIdFactory
         if (idGenerator is OtelJavaIdGenerator) {
             builder.setIdGenerator(idGenerator)
         }

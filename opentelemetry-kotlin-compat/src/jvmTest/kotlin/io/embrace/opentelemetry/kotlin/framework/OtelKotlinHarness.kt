@@ -19,7 +19,7 @@ internal class OtelKotlinHarness : OtelKotlinTestRule() {
             clock = clock,
             tracerProvider = tracerProviderConfig,
             loggerProvider = loggerProviderConfig,
-            sdkFactory = CompatSdkFactory(tracingIds = FakeTracingIdFactory())
+            sdkFactory = CompatSdkFactory(tracingIdFactory = FakeTracingIdFactory())
         )
     }
 
