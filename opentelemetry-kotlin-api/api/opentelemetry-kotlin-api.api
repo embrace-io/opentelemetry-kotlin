@@ -12,10 +12,9 @@ public abstract interface class io/embrace/opentelemetry/kotlin/InstrumentationS
 	public abstract fun getVersion ()Ljava/lang/String;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/OpenTelemetry {
+public abstract interface class io/embrace/opentelemetry/kotlin/OpenTelemetry : io/embrace/opentelemetry/kotlin/factory/SdkFactory {
 	public abstract fun getClock ()Lio/embrace/opentelemetry/kotlin/Clock;
 	public abstract fun getLoggerProvider ()Lio/embrace/opentelemetry/kotlin/logging/LoggerProvider;
-	public abstract fun getSdkFactory ()Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;
 	public abstract fun getTracerProvider ()Lio/embrace/opentelemetry/kotlin/tracing/TracerProvider;
 }
 

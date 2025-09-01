@@ -3,7 +3,6 @@ package io.embrace.opentelemetry.kotlin.framework
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetry
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
-import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.framework.serialization.conversion.toSerializable
 import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigDsl
 import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigDsl
@@ -87,11 +86,6 @@ abstract class OtelKotlinTestRule {
      * Syntactic sugar to obtain a logger from the API.
      */
     val logger: Logger by lazy { kotlinApi.loggerProvider.getLogger("test_logger") }
-
-    /**
-     * Syntactic sugar to obtain an object factory from the API.
-     */
-    val sdkFactory: SdkFactory by lazy { kotlinApi.sdkFactory }
 
     /**
      * Asserts that log records were exported correctly. A custom assertion can be provided as a lambda,

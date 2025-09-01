@@ -42,7 +42,7 @@ fun runTracingExamples(api: OpenTelemetry) {
     val simpleSpan = tracer.createSpan("simple_span")
 
     // create a more complex span
-    val complexSpan = createComplexSpan(tracer, simpleSpan, api.sdkFactory.contextFactory.root())
+    val complexSpan = createComplexSpan(tracer, simpleSpan, api.contextFactory.root())
 
     // alter the span after its creation
 

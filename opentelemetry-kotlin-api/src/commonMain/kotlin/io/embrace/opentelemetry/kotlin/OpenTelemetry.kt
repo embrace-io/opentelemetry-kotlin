@@ -10,7 +10,7 @@ import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
  * The main entry point for the OpenTelemetry API.
  */
 @ExperimentalApi
-public interface OpenTelemetry {
+public interface OpenTelemetry : SdkFactory {
 
     /**
      * The [TracerProvider] for creating [Tracer] instances.
@@ -26,9 +26,4 @@ public interface OpenTelemetry {
      * The [Clock] that will be used for obtaining timestamps by this instance.
      */
     public val clock: Clock
-
-    /**
-     * Used for creating new objects that can be passed to the SDK.
-     */
-    public val sdkFactory: SdkFactory
 }

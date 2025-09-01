@@ -8,9 +8,8 @@ import io.embrace.opentelemetry.kotlin.tracing.NoopTracerProvider
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 
 @ExperimentalApi
-internal object NoopOpenTelemetry : OpenTelemetry {
+internal object NoopOpenTelemetry : OpenTelemetry, SdkFactory by NoopSdkFactory {
     override val tracerProvider: TracerProvider = NoopTracerProvider
     override val loggerProvider: LoggerProvider = NoopLoggerProvider
     override val clock: Clock = NoopClock
-    override val sdkFactory: SdkFactory = NoopSdkFactory
 }
