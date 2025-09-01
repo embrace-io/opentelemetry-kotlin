@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
-import io.embrace.opentelemetry.kotlin.creator.createObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.createSdkFactory
 import io.embrace.opentelemetry.kotlin.init.config.LogLimitConfig
 import io.embrace.opentelemetry.kotlin.init.config.LoggingConfig
 import io.embrace.opentelemetry.kotlin.resource.ResourceImpl
@@ -20,17 +20,17 @@ internal class LoggerProviderImplTest {
         LogLimitConfig(100, 100),
         ResourceImpl(emptyMap(), null)
     )
-    private val objectCreator = createObjectCreator()
+    private val factory = createSdkFactory()
 
     @Test
     fun testMinimalLoggerProvider() {
-        val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
+        val impl = LoggerProviderImpl(clock, loggingConfig, factory)
         assertNotNull(impl.getLogger(name = ""))
     }
 
     @Test
     fun testFullLoggerProvider() {
-        val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
+        val impl = LoggerProviderImpl(clock, loggingConfig, factory)
         val first = impl.getLogger(
             name = "name",
             version = "0.1.0",
@@ -43,7 +43,7 @@ internal class LoggerProviderImplTest {
 
     @Test
     fun testDupeLoggerProviderName() {
-        val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
+        val impl = LoggerProviderImpl(clock, loggingConfig, factory)
         val first = impl.getLogger(name = "name")
         val second = impl.getLogger(name = "name")
         val third = impl.getLogger(name = "other")
@@ -53,7 +53,7 @@ internal class LoggerProviderImplTest {
 
     @Test
     fun testDupeLoggerProviderVersion() {
-        val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
+        val impl = LoggerProviderImpl(clock, loggingConfig, factory)
         val first = impl.getLogger(name = "name", version = "0.1.0")
         val second = impl.getLogger(name = "name", version = "0.1.0")
         val third = impl.getLogger(name = "name", version = "0.2.0")
@@ -63,7 +63,7 @@ internal class LoggerProviderImplTest {
 
     @Test
     fun testDupeLoggerProviderSchemaUrl() {
-        val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
+        val impl = LoggerProviderImpl(clock, loggingConfig, factory)
         val first = impl.getLogger(name = "name", schemaUrl = "https://example.com/foo")
         val second = impl.getLogger(name = "name", schemaUrl = "https://example.com/foo")
         val third = impl.getLogger(name = "name", schemaUrl = "https://example.com/bar")
@@ -73,7 +73,7 @@ internal class LoggerProviderImplTest {
 
     @Test
     fun testDupeLoggerProviderAttributes() {
-        val impl = LoggerProviderImpl(clock, loggingConfig, objectCreator)
+        val impl = LoggerProviderImpl(clock, loggingConfig, factory)
         val first = impl.getLogger(name = "name") {
             setStringAttribute("key", "value")
         }

@@ -3,9 +3,9 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.error.NoopSdkErrorHandler
 import io.embrace.opentelemetry.kotlin.error.SdkErrorHandler
+import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.init.config.TracingConfig
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderImpl
 import io.embrace.opentelemetry.kotlin.tracing.export.CompositeSpanProcessor
@@ -14,7 +14,7 @@ import io.embrace.opentelemetry.kotlin.tracing.export.CompositeSpanProcessor
 internal class TracerProviderImpl(
     private val clock: Clock,
     tracingConfig: TracingConfig,
-    objectCreator: ObjectCreator,
+    sdkFactory: SdkFactory,
     sdkErrorHandler: SdkErrorHandler = NoopSdkErrorHandler,
 ) : TracerProvider {
 
@@ -23,7 +23,7 @@ internal class TracerProviderImpl(
         TracerImpl(
             clock = clock,
             processor = processor,
-            objectCreator = objectCreator,
+            sdkFactory = sdkFactory,
             scope = key,
             resource = tracingConfig.resource,
             spanLimitConfig = tracingConfig.spanLimits

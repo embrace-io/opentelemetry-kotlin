@@ -3,8 +3,8 @@ package io.embrace.opentelemetry.kotlin
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaClock
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
 import io.embrace.opentelemetry.kotlin.clock.ClockAdapter
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
-import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.SdkFactory
+import io.embrace.opentelemetry.kotlin.factory.createCompatSdkFactory
 import io.embrace.opentelemetry.kotlin.init.CompatLoggerProviderConfig
 import io.embrace.opentelemetry.kotlin.init.CompatTracerProviderConfig
 import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigDsl
@@ -27,14 +27,14 @@ import io.embrace.opentelemetry.kotlin.tracing.TracerProviderAdapter
 @ExperimentalApi
 public fun OpenTelemetryInstance.decorateJavaApi(
     impl: OtelJavaOpenTelemetry,
-    objectCreator: ObjectCreator = createCompatObjectCreator(),
+    sdkFactory: SdkFactory = createCompatSdkFactory(),
 ): OpenTelemetry {
     val clock = ClockAdapter(OtelJavaClock.getDefault())
     return OpenTelemetryImpl(
         tracerProvider = TracerProviderAdapter(impl.tracerProvider, clock),
         loggerProvider = LoggerProviderAdapter(impl.logsBridge),
         clock = clock,
-        objectCreator = objectCreator
+        sdkFactory = sdkFactory
     )
 }
 
@@ -52,17 +52,17 @@ public fun OpenTelemetryInstance.createOpenTelemetryKotlin(
     tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
     loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
     clock: Clock = ClockAdapter(io.opentelemetry.sdk.common.Clock.getDefault()),
-    objectCreator: ObjectCreator = createCompatObjectCreator(),
+    sdkFactory: SdkFactory = createCompatSdkFactory(),
 ): OpenTelemetry {
-    objectCreator.idCreator
-    val tracerCfg = CompatTracerProviderConfig(clock, objectCreator).apply(tracerProvider)
+    sdkFactory.tracingIds
+    val tracerCfg = CompatTracerProviderConfig(clock, sdkFactory).apply(tracerProvider)
     val loggerCfg = CompatLoggerProviderConfig(clock).apply(loggerProvider)
 
     return OpenTelemetryImpl(
         tracerProvider = tracerCfg.build(),
         loggerProvider = loggerCfg.build(),
         clock = clock,
-        objectCreator = objectCreator,
+        sdkFactory = sdkFactory,
     )
 }
 

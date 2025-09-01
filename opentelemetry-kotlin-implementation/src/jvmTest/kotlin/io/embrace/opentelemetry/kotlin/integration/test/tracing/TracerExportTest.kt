@@ -145,8 +145,8 @@ internal class TracerExportTest {
         val parentName = "parent"
         val childName = "child"
         val parentSpan = harness.tracer.createSpan(parentName)
-        val contextCreator = harness.objectCreator.context
-        val parentCtx = contextCreator.storeSpan(contextCreator.root(), parentSpan)
+        val contextFactory = harness.sdkFactory.context
+        val parentCtx = contextFactory.storeSpan(contextFactory.root(), parentSpan)
         val childSpan = harness.tracer.createSpan(childName, parentContext = parentCtx)
         parentSpan.end()
         childSpan.end()

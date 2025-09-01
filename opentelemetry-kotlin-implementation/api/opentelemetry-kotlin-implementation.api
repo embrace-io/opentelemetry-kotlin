@@ -1,9 +1,9 @@
 public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstanceImplKt {
-	public static final fun default (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/creator/ObjectCreator;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
-	public static synthetic fun default$default (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/creator/ObjectCreator;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
+	public static final fun default (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
+	public static synthetic fun default$default (Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
 }
 
-public final class io/embrace/opentelemetry/kotlin/creator/ObjectCreatorExtKt {
-	public static final fun createObjectCreator ()Lio/embrace/opentelemetry/kotlin/creator/ObjectCreator;
+public final class io/embrace/opentelemetry/kotlin/factory/SdkFactoryExtKt {
+	public static final fun createSdkFactory ()Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;
 }
 

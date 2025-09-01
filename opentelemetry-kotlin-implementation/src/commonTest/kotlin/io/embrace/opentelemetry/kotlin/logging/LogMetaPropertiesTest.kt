@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.logging
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
-import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.FakeSdkFactory
 import io.embrace.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.tracing.fakeLogLimitsConfig
@@ -27,7 +27,7 @@ internal class LogMetaPropertiesTest {
         logger = LoggerImpl(
             clock,
             processor,
-            FakeObjectCreator(),
+            FakeSdkFactory(),
             key,
             fakeResource,
             fakeLogLimitsConfig

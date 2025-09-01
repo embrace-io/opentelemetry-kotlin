@@ -1,6 +1,6 @@
 package io.embrace.opentelemetry.kotlin
 
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 
@@ -9,5 +9,5 @@ class OpenTelemetryImpl(
     override val tracerProvider: TracerProvider,
     override val loggerProvider: LoggerProvider,
     override val clock: Clock,
-    override val objectCreator: ObjectCreator
+    override val sdkFactory: SdkFactory
 ) : OpenTelemetry

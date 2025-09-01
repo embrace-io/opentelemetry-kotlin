@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
-import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.FakeSdkFactory
 import io.embrace.opentelemetry.kotlin.init.config.TracingConfig
 import io.embrace.opentelemetry.kotlin.resource.ResourceImpl
 import kotlin.test.BeforeTest
@@ -24,7 +24,7 @@ internal class TracerProviderImplTest {
 
     @BeforeTest
     fun setUp() {
-        impl = TracerProviderImpl(FakeClock(), tracingConfig, FakeObjectCreator())
+        impl = TracerProviderImpl(FakeClock(), tracingConfig, FakeSdkFactory())
     }
 
     @Test

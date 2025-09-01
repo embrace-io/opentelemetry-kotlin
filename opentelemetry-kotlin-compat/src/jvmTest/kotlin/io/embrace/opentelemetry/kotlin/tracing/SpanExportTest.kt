@@ -4,8 +4,8 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.context.Context
-import io.embrace.opentelemetry.kotlin.creator.current
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
+import io.embrace.opentelemetry.kotlin.factory.current
 import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
@@ -115,7 +115,7 @@ internal class SpanExportTest {
 
     @Test
     fun `test span context parent`() {
-        val root = harness.objectCreator.context.root()
+        val root = harness.sdkFactory.context.root()
 
         val a = harness.tracer.createSpan("a", parentContext = root)
         val ctxa = a.storeInContext(root)
@@ -125,7 +125,7 @@ internal class SpanExportTest {
 
         val c = harness.tracer.createSpan("c", parentContext = ctxb)
 
-        assertSpanContextsMatch(harness.objectCreator.spanContext.invalid, a.parent)
+        assertSpanContextsMatch(harness.sdkFactory.spanContext.invalid, a.parent)
         assertNotNull(a.spanContext)
         assertSpanContextsMatch(a.spanContext, b.parent)
         assertSpanContextsMatch(b.spanContext, c.parent)
@@ -159,7 +159,7 @@ internal class SpanExportTest {
 
     @Test
     fun `test invalid span context`() {
-        val invalidContext = harness.objectCreator.spanContext.invalid
+        val invalidContext = harness.sdkFactory.spanContext.invalid
 
         // Test invalid context properties
         assertFalse(invalidContext.isValid)
@@ -169,7 +169,7 @@ internal class SpanExportTest {
         // Test span creation with invalid parent
         val span = harness.tracer.createSpan(
             "test_span",
-            parentContext = harness.objectCreator.context.root()
+            parentContext = harness.sdkFactory.context.root()
         )
 
         // Child span should be created with a valid context
@@ -283,7 +283,7 @@ internal class SpanExportTest {
     fun `test trace and span id validation without sanitization`() {
         val span1 = harness.tracer.createSpan("validation_span_1")
         val span2 = harness.tracer.createSpan("validation_span_2")
-        val ctx = span1.storeInContext(harness.objectCreator.context.root())
+        val ctx = span1.storeInContext(harness.sdkFactory.context.root())
         val span3 = harness.tracer.createSpan("validation_span_3", ctx)
 
         span1.end()
@@ -390,7 +390,7 @@ internal class SpanExportTest {
         harness.config.spanProcessors.add(contextCapturingProcessor)
 
         // Create a context key and add a test value
-        val currentContext = harness.objectCreator.context.current()
+        val currentContext = harness.sdkFactory.context.current()
         val contextKey = currentContext.createKey<String>("best_team")
         val testContextValue = "independiente"
         val testContext = currentContext.set(contextKey, testContextValue)
