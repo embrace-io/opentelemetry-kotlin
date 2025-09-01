@@ -7,6 +7,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkLoggerProvider
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkLoggerProviderBuilder
 import io.embrace.opentelemetry.kotlin.attributes.CompatMutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.setAttributes
 import io.embrace.opentelemetry.kotlin.logging.LoggerProvider
 import io.embrace.opentelemetry.kotlin.logging.LoggerProviderAdapter
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
@@ -26,6 +27,12 @@ internal class CompatLoggerProviderConfig(
     override fun resource(schemaUrl: String?, attributes: MutableAttributeContainer.() -> Unit) {
         val attrs = CompatMutableAttributeContainer().apply(attributes).otelJavaAttributes()
         builder.setResource(OtelJavaResource.create(attrs, schemaUrl))
+    }
+
+    override fun resource(map: Map<String, Any>) {
+        resource {
+            setAttributes(map)
+        }
     }
 
     override fun addLogRecordProcessor(processor: LogRecordProcessor) {

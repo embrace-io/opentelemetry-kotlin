@@ -11,6 +11,7 @@ import io.embrace.opentelemetry.kotlin.ThreadSafe
 @ExperimentalApi
 @ThreadSafe
 public interface AttributeContainer {
+
     /**
      * Returns a snapshot of the attributes as a map.
      */

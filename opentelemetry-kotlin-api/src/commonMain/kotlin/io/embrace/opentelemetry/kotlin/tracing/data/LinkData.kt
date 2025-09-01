@@ -10,6 +10,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
  */
 @ExperimentalApi
 public interface LinkData : AttributeContainer {
+
     /**
      * The span context of the link.
      */

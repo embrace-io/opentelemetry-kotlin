@@ -9,6 +9,7 @@ import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
  */
 @ExperimentalApi
 public interface EventData : AttributeContainer {
+
     /**
      * The name of the event
      */

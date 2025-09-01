@@ -12,6 +12,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
  */
 @ExperimentalApi
 public interface SpanSchema : AttributeContainer {
+
     /**
      * The span name
      */

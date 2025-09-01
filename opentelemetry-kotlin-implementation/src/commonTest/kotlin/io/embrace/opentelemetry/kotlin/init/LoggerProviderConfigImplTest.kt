@@ -54,4 +54,12 @@ internal class LoggerProviderConfigImplTest {
             assertEquals(attrValueCount, attributeValueLengthLimit)
         }
     }
+
+    @Test
+    fun testSimpleResourceConfig() {
+        val cfg = LoggerProviderConfigImpl().apply {
+            resource(mapOf("key" to "value"))
+        }.generateLoggingConfig()
+        assertEquals(mapOf("key" to "value"), cfg.resource.attributes)
+    }
 }

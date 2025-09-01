@@ -12,6 +12,7 @@ public sealed class StatusData(
     public val statusCode: StatusCode,
     public val description: String?
 ) {
+
     /**
      * Default status.
      */

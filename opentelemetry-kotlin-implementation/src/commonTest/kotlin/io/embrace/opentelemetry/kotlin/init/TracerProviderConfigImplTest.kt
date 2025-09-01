@@ -66,4 +66,12 @@ internal class TracerProviderConfigImplTest {
             assertEquals(attrCountPerEvent, attributeCountPerEventLimit)
         }
     }
+
+    @Test
+    fun testSimpleResourceConfig() {
+        val cfg = TracerProviderConfigImpl().apply {
+            resource(mapOf("key" to "value"))
+        }.generateTracingConfig()
+        assertEquals(mapOf("key" to "value"), cfg.resource.attributes)
+    }
 }

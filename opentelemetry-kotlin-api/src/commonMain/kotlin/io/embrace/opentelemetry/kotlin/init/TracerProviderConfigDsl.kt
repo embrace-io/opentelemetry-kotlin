@@ -11,7 +11,8 @@ import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 public interface TracerProviderConfigDsl : ResourceConfigDsl {
 
     /**
-     * The span limits configuration for this tracer provider.
+     * The span limits configuration for this tracer provider. Processors will be invoked
+     * in the order in which they were added.
      */
     public fun spanLimits(action: SpanLimitsConfigDsl.() -> Unit)
 

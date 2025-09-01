@@ -8,6 +8,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProvider
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProviderBuilder
 import io.embrace.opentelemetry.kotlin.attributes.CompatMutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.setAttributes
 import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 import io.embrace.opentelemetry.kotlin.tracing.TracerProviderAdapter
@@ -34,6 +35,12 @@ internal class CompatTracerProviderConfig(
     override fun resource(schemaUrl: String?, attributes: MutableAttributeContainer.() -> Unit) {
         val attrs = CompatMutableAttributeContainer().apply(attributes).otelJavaAttributes()
         builder.setResource(OtelJavaResource.create(attrs, schemaUrl))
+    }
+
+    override fun resource(map: Map<String, Any>) {
+        resource {
+            setAttributes(map)
+        }
     }
 
     override fun spanLimits(action: SpanLimitsConfigDsl.() -> Unit) {
