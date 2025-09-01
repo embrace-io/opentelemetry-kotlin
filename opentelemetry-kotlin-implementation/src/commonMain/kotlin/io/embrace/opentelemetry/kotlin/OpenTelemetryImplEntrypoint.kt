@@ -15,7 +15,7 @@ import io.embrace.opentelemetry.kotlin.tracing.TracerProviderImpl
  * Constructs an [OpenTelemetry] instance that uses the opentelemetry-kotlin implementation.
  */
 @ExperimentalApi
-public fun OpenTelemetryInstance.default(
+public fun createOpenTelemetryInstance(
     tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
     loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
     clock: Clock = ClockImpl(),

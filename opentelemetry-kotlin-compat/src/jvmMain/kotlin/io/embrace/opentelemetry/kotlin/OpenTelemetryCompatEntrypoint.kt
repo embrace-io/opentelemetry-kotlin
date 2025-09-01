@@ -18,7 +18,7 @@ import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigDsl
  * [toOtelKotlinApi] instead.
  */
 @ExperimentalApi
-public fun OpenTelemetryInstance.createOpenTelemetryKotlin(
+public fun createCompatOpenTelemetryInstance(
     tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
     loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
     clock: Clock = ClockAdapter(io.opentelemetry.sdk.common.Clock.getDefault()),
