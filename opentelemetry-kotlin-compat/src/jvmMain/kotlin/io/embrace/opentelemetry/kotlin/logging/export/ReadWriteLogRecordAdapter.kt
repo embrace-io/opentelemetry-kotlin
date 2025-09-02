@@ -17,7 +17,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanContextAdapter
 @Suppress("UNUSED_PARAMETER")
 @OptIn(ExperimentalApi::class)
 internal class ReadWriteLogRecordAdapter(
-    private val impl: OtelJavaReadWriteLogRecord
+    val impl: OtelJavaReadWriteLogRecord
 ) : ReadWriteLogRecord {
 
     override var timestamp: Long?
