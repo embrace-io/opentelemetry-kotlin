@@ -7,6 +7,7 @@ import io.embrace.opentelemetry.example.ExampleSpanProcessor
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetry
 import io.embrace.opentelemetry.kotlin.context.Context
+import io.embrace.opentelemetry.kotlin.context.ContextStorageMode
 import io.embrace.opentelemetry.kotlin.createOpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
