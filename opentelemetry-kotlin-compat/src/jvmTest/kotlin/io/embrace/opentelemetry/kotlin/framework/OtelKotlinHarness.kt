@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.framework
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetry
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaIdGenerator
-import io.embrace.opentelemetry.kotlin.createCompatOpenTelemetryInstance
+import io.embrace.opentelemetry.kotlin.createCompatOpenTelemetryInstanceImpl
 import io.embrace.opentelemetry.kotlin.factory.CompatSdkFactory
 import io.embrace.opentelemetry.kotlin.factory.CompatTracingIdFactory
 import io.embrace.opentelemetry.kotlin.factory.TracingIdFactory
@@ -14,7 +14,7 @@ import kotlin.random.Random
 internal class OtelKotlinHarness : OtelKotlinTestRule() {
 
     override val kotlinApi: OpenTelemetry by lazy {
-        createCompatOpenTelemetryInstance(
+        createCompatOpenTelemetryInstanceImpl(
             tracerProvider = tracerProviderConfig,
             loggerProvider = loggerProviderConfig,
             clock = clock,

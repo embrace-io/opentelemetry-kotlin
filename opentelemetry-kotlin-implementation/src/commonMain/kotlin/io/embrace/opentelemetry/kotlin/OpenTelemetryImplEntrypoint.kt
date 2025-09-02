@@ -19,6 +19,23 @@ public fun createOpenTelemetryInstance(
     tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
     loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
     clock: Clock = ClockImpl(),
+): OpenTelemetry {
+    return createOpenTelemetryInstanceImpl(
+        tracerProvider,
+        loggerProvider,
+        clock,
+    )
+}
+
+/**
+ * Internal implementation of [createOpenTelemetryInstance]. This is not publicly visible as
+ * we don't want to allow users to supply a custom [SdkFactory].
+ */
+@ExperimentalApi
+internal fun createOpenTelemetryInstanceImpl(
+    tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
+    loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
+    clock: Clock = ClockImpl(),
     sdkFactory: SdkFactory = createSdkFactory()
 ): OpenTelemetry {
     val tracingConfig = TracerProviderConfigImpl().apply(tracerProvider).generateTracingConfig()

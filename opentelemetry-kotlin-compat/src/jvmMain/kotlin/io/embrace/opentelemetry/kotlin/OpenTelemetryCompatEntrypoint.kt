@@ -22,9 +22,25 @@ public fun createCompatOpenTelemetryInstance(
     tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
     loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
     clock: Clock = ClockAdapter(io.opentelemetry.sdk.common.Clock.getDefault()),
+): OpenTelemetry {
+    return createCompatOpenTelemetryInstanceImpl(
+        tracerProvider,
+        loggerProvider,
+        clock,
+    )
+}
+
+/**
+ * Internal implementation of [createCompatOpenTelemetryInstance]. This is not publicly visible as
+ * we don't want to allow users to supply a custom [SdkFactory].
+ */
+@ExperimentalApi
+internal fun createCompatOpenTelemetryInstanceImpl(
+    tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
+    loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
+    clock: Clock = ClockAdapter(io.opentelemetry.sdk.common.Clock.getDefault()),
     sdkFactory: SdkFactory = createCompatSdkFactory(),
 ): OpenTelemetry {
-    sdkFactory.tracingIdFactory
     val tracerCfg = CompatTracerProviderConfig(clock, sdkFactory).apply(tracerProvider)
     val loggerCfg = CompatLoggerProviderConfig(clock).apply(loggerProvider)
 
