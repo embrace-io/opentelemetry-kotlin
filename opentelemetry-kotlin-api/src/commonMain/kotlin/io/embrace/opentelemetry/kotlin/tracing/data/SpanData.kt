@@ -10,6 +10,7 @@ import io.embrace.opentelemetry.kotlin.resource.Resource
  */
 @ExperimentalApi
 public interface SpanData : SpanSchema {
+
     /**
      * The timestamp at which this span ended, in nanoseconds. If it has not ended null will return.
      */

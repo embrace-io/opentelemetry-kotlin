@@ -126,6 +126,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/init/LoggerProvi
 
 public abstract interface class io/embrace/opentelemetry/kotlin/init/ResourceConfigDsl {
 	public abstract fun resource (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public abstract fun resource (Ljava/util/Map;)V
 }
 
 public final class io/embrace/opentelemetry/kotlin/init/ResourceConfigDsl$DefaultImpls {
