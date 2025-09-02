@@ -7,7 +7,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 @OptIn(ExperimentalApi::class)
-internal class OtelJavaSpanExporterExtTest {
+internal class SpanExporterExtTest {
 
     @Test
     fun toOtelKotlinSpanExporter() {

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
 internal class ReadWriteSpanAdapter(
-    private val impl: OtelJavaReadWriteSpan,
+    val impl: OtelJavaReadWriteSpan,
     private val readableSpan: ReadableSpanAdapter = ReadableSpanAdapter(impl)
 ) : ReadWriteSpan, ReadableSpan by readableSpan {
 
@@ -42,14 +42,21 @@ internal class ReadWriteSpanAdapter(
 
     override fun isRecording(): Boolean = impl.isRecording
 
-    override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
+    override fun addLink(
+        spanContext: SpanContext,
+        attributes: MutableAttributeContainer.() -> Unit
+    ) {
         val container = CompatMutableAttributeContainer()
         attributes(container)
         val ctx = (spanContext as SpanContextAdapter).impl
         impl.addLink(ctx, container.otelJavaAttributes())
     }
 
-    override fun addEvent(name: String, timestamp: Long?, attributes: MutableAttributeContainer.() -> Unit) {
+    override fun addEvent(
+        name: String,
+        timestamp: Long?,
+        attributes: MutableAttributeContainer.() -> Unit
+    ) {
         val container = CompatMutableAttributeContainer()
         attributes(container)
         impl.addEvent(name, container.otelJavaAttributes(), timestamp ?: 0, TimeUnit.NANOSECONDS)
