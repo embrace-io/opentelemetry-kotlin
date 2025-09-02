@@ -1,7 +1,5 @@
 package io.embrace.opentelemetry.kotlin
 
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaClock
-import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
 import io.embrace.opentelemetry.kotlin.clock.ClockAdapter
 import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.factory.createCompatSdkFactory
@@ -9,34 +7,6 @@ import io.embrace.opentelemetry.kotlin.init.CompatLoggerProviderConfig
 import io.embrace.opentelemetry.kotlin.init.CompatTracerProviderConfig
 import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigDsl
 import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigDsl
-import io.embrace.opentelemetry.kotlin.logging.LoggerProviderAdapter
-import io.embrace.opentelemetry.kotlin.logging.OtelJavaLoggerProviderAdapter
-import io.embrace.opentelemetry.kotlin.tracing.OtelJavaTracerProviderAdapter
-import io.embrace.opentelemetry.kotlin.tracing.TracerProviderAdapter
-
-/**
- * Constructs an [OpenTelemetry] instance that exposes OpenTelemetry as a Kotlin API.
- * Callers must pass a reference to an OpenTelemetry Java SDK instance. Under the hood calls to the
- * Kotlin API will be delegated to the Java SDK implementation.
- *
- * This function is useful if you have existing OpenTelemetry Java SDK code that you don't want
- * to/can't rewrite, but still wish to use the Kotlin API for new code. It is permitted to call
- * both the Kotlin and Java APIs throughout the lifecycle of your application, although it would
- * generally be encouraged to migrate to [createOpenTelemetryKotlin] as a long-term goal.
- */
-@ExperimentalApi
-public fun OpenTelemetryInstance.decorateJavaApi(
-    impl: OtelJavaOpenTelemetry,
-    sdkFactory: SdkFactory = createCompatSdkFactory(),
-): OpenTelemetry {
-    val clock = ClockAdapter(OtelJavaClock.getDefault())
-    return OpenTelemetryImpl(
-        tracerProvider = TracerProviderAdapter(impl.tracerProvider, clock),
-        loggerProvider = LoggerProviderAdapter(impl.logsBridge),
-        clock = clock,
-        sdkFactory = sdkFactory
-    )
-}
 
 /**
  * Constructs an [OpenTelemetry] instance that exposes OpenTelemetry as a Kotlin API. The SDK is
@@ -45,7 +15,7 @@ public fun OpenTelemetryInstance.decorateJavaApi(
  *
  * It's not possible to obtain a reference to the Java API using this function. If this is a
  * requirement because you have existing instrumentation, it's recommended to call
- * [decorateJavaApi] instead.
+ * [toOtelKotlinApi] instead.
  */
 @ExperimentalApi
 public fun OpenTelemetryInstance.createOpenTelemetryKotlin(
@@ -63,20 +33,5 @@ public fun OpenTelemetryInstance.createOpenTelemetryKotlin(
         loggerProvider = loggerCfg.build(),
         clock = clock,
         sdkFactory = sdkFactory,
-    )
-}
-
-/**
- * Constructs an [OtelJavaOpenTelemetry] instance that makes the Kotlin implementation conform
- * to the opentelemetry-java API.
- *
- * End-users should generally not use this function and should call [createOpenTelemetryKotlin]
- * or [decorateJavaApi] instead.
- */
-@ExperimentalApi
-public fun OpenTelemetryInstance.decorateKotlinApi(impl: OpenTelemetry): OtelJavaOpenTelemetry {
-    return OtelJavaOpenTelemetrySdk(
-        tracerProvider = OtelJavaTracerProviderAdapter(impl.tracerProvider),
-        loggerProvider = OtelJavaLoggerProviderAdapter(impl.loggerProvider)
     )
 }
