@@ -13,26 +13,26 @@ internal class SpanFactoryImplTest {
 
     @Test
     fun `test invalid`() {
-        assertSame(factory.spanContext.invalid, factory.spanContext.invalid)
+        assertSame(factory.spanContextFactory.invalid, factory.spanContextFactory.invalid)
     }
 
     @Test
     fun `test from context`() {
-        val ctx = factory.context.root()
-        val span = factory.span.fromContext(ctx)
+        val ctx = factory.contextFactory.root()
+        val span = factory.spanFactory.fromContext(ctx)
         assertFalse(span.spanContext.isValid)
     }
 
     @Test
     fun `test from span context`() {
         val generator = CompatTracingIdFactory()
-        val spanContext = factory.spanContext.create(
+        val spanContext = factory.spanContextFactory.create(
             traceId = generator.generateTraceId(),
             spanId = generator.generateSpanId(),
-            traceState = factory.traceState.default,
-            traceFlags = factory.traceFlags.default,
+            traceState = factory.traceStateFactory.default,
+            traceFlags = factory.traceFlagsFactory.default,
         )
-        val span = factory.span.fromSpanContext(spanContext)
+        val span = factory.spanFactory.fromSpanContext(spanContext)
         assertTrue(span.spanContext.isValid)
     }
 }

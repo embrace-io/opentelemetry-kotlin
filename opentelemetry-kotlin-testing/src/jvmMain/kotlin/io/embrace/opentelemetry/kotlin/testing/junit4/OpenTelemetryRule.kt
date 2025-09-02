@@ -4,19 +4,17 @@ package io.embrace.opentelemetry.kotlin.testing.junit4
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetry
-import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetrySdk
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProvider
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanData
-import io.embrace.opentelemetry.kotlin.decorateJavaApi
-import io.embrace.opentelemetry.kotlin.getTracer
 import io.embrace.opentelemetry.kotlin.testing.common.InMemorySpanExporter
 import io.embrace.opentelemetry.kotlin.testing.common.InMemorySpanProcessor
+import io.embrace.opentelemetry.kotlin.toOtelKotlinApi
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import org.junit.rules.ExternalResource
 
 /**
- * A JUnit4 rule which sets up an [OpenTelemetrySdk] for testing, resetting state before each test.
+ * A JUnit4 rule which sets up an [OpenTelemetry] instance for testing, resetting state before each test.
  *
  * ```kotlin
  * class CoolTest {
@@ -40,7 +38,7 @@ import org.junit.rules.ExternalResource
  * }
  * ```
  */
-public class OpenTelemetryRule : ExternalResource() {
+class OpenTelemetryRule : ExternalResource() {
 
     private val spanExporter = InMemorySpanExporter()
 
@@ -52,13 +50,13 @@ public class OpenTelemetryRule : ExternalResource() {
         .setTracerProvider(tracerProvider)
         .build()
 
-    public val openTelemetry: OpenTelemetry = OpenTelemetryInstance.decorateJavaApi(sdk)
+    val openTelemetry: OpenTelemetry = sdk.toOtelKotlinApi()
 
-    public val spans: List<OtelJavaSpanData>
+    val spans: List<OtelJavaSpanData>
         get() = spanExporter.exportedSpans
 
-    public fun getTracer(name: String): Tracer {
-        return openTelemetry.getTracer(name)
+    fun getTracer(name: String): Tracer {
+        return openTelemetry.tracerProvider.getTracer(name)
     }
 
     override fun before() {

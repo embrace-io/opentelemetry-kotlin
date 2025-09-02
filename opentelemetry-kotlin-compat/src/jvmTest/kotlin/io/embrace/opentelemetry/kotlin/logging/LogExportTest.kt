@@ -85,7 +85,7 @@ internal class LogExportTest {
         harness.config.logRecordProcessors.add(contextCapturingProcessor)
 
         // Create a context key and add a test value
-        val currentContext = harness.kotlinApi.sdkFactory.context.current()
+        val currentContext = harness.kotlinApi.contextFactory.current()
         val contextKey = currentContext.createKey<String>("best_team")
         val testContextValue = "independiente"
         val testContext = currentContext.set(contextKey, testContextValue)

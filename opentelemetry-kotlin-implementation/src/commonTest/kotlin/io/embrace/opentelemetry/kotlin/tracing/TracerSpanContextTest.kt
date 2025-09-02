@@ -49,9 +49,9 @@ internal class TracerSpanContextTest {
 
     @Test
     fun testExplicitParentContextOfInvalidSpan() {
-        val invalidSpan = sdkFactory.span.invalid
+        val invalidSpan = sdkFactory.spanFactory.invalid
         assertFalse(invalidSpan.spanContext.isValid)
-        val parentCtx = sdkFactory.context.storeSpan(sdkFactory.context.root(), invalidSpan)
+        val parentCtx = sdkFactory.contextFactory.storeSpan(sdkFactory.contextFactory.root(), invalidSpan)
         val span = tracer.createSpan("test", parentContext = parentCtx)
 
         assertFalse(span.parent.isValid)
@@ -62,7 +62,7 @@ internal class TracerSpanContextTest {
     @Test
     fun testExplicitParentContextOfValidSpan() {
         val parentSpan = tracer.createSpan("parent")
-        val parentCtx = sdkFactory.context.storeSpan(sdkFactory.context.root(), parentSpan)
+        val parentCtx = sdkFactory.contextFactory.storeSpan(sdkFactory.contextFactory.root(), parentSpan)
         val span = tracer.createSpan("test", parentContext = parentCtx)
 
         assertTrue(span.parent.isValid)
@@ -75,8 +75,8 @@ internal class TracerSpanContextTest {
     private fun assertValidSpanContext(spanContext: SpanContext) {
         assertTrue(spanContext.isValid)
         assertFalse(spanContext.isRemote)
-        assertNotEquals(sdkFactory.tracingIds.invalidTraceId, spanContext.traceId)
-        assertNotEquals(sdkFactory.tracingIds.invalidSpanId, spanContext.spanId)
+        assertNotEquals(sdkFactory.tracingIdFactory.invalidTraceId, spanContext.traceId)
+        assertNotEquals(sdkFactory.tracingIdFactory.invalidSpanId, spanContext.spanId)
         assertEquals(emptyMap(), spanContext.traceState.asMap())
         assertEquals("01", spanContext.traceFlags.hex)
     }

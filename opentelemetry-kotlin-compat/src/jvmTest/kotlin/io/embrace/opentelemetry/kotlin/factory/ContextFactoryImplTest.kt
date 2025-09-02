@@ -13,11 +13,11 @@ internal class ContextFactoryImplTest {
 
     @Test
     fun `test root`() {
-        assertSame(OtelJavaContext.root(), factory.context.root().toOtelJavaContext())
+        assertSame(OtelJavaContext.root(), factory.contextFactory.root().toOtelJavaContext())
     }
 
     @Test
     fun `test current`() {
-        assertSame(OtelJavaContext.current(), factory.context.current().toOtelJavaContext())
+        assertSame(OtelJavaContext.current(), factory.contextFactory.current().toOtelJavaContext())
     }
 }

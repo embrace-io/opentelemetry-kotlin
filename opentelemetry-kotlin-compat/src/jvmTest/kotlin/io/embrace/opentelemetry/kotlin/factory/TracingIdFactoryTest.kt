@@ -7,7 +7,7 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalApi::class)
 internal class TracingIdFactoryTest {
 
-    private val factory = createCompatSdkFactory().tracingIds
+    private val factory = createCompatSdkFactory().tracingIdFactory
 
     @Test
     fun `test invalid`() {

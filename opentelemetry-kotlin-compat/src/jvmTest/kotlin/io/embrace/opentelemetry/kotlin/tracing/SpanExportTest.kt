@@ -115,7 +115,7 @@ internal class SpanExportTest {
 
     @Test
     fun `test span context parent`() {
-        val root = harness.sdkFactory.context.root()
+        val root = harness.kotlinApi.contextFactory.root()
 
         val a = harness.tracer.createSpan("a", parentContext = root)
         val ctxa = a.storeInContext(root)
@@ -125,7 +125,7 @@ internal class SpanExportTest {
 
         val c = harness.tracer.createSpan("c", parentContext = ctxb)
 
-        assertSpanContextsMatch(harness.sdkFactory.spanContext.invalid, a.parent)
+        assertSpanContextsMatch(harness.kotlinApi.spanContextFactory.invalid, a.parent)
         assertNotNull(a.spanContext)
         assertSpanContextsMatch(a.spanContext, b.parent)
         assertSpanContextsMatch(b.spanContext, c.parent)
@@ -159,7 +159,7 @@ internal class SpanExportTest {
 
     @Test
     fun `test invalid span context`() {
-        val invalidContext = harness.sdkFactory.spanContext.invalid
+        val invalidContext = harness.kotlinApi.spanContextFactory.invalid
 
         // Test invalid context properties
         assertFalse(invalidContext.isValid)
@@ -169,7 +169,7 @@ internal class SpanExportTest {
         // Test span creation with invalid parent
         val span = harness.tracer.createSpan(
             "test_span",
-            parentContext = harness.sdkFactory.context.root()
+            parentContext = harness.kotlinApi.contextFactory.root()
         )
 
         // Child span should be created with a valid context
@@ -283,7 +283,7 @@ internal class SpanExportTest {
     fun `test trace and span id validation without sanitization`() {
         val span1 = harness.tracer.createSpan("validation_span_1")
         val span2 = harness.tracer.createSpan("validation_span_2")
-        val ctx = span1.storeInContext(harness.sdkFactory.context.root())
+        val ctx = span1.storeInContext(harness.kotlinApi.contextFactory.root())
         val span3 = harness.tracer.createSpan("validation_span_3", ctx)
 
         span1.end()
@@ -390,7 +390,7 @@ internal class SpanExportTest {
         harness.config.spanProcessors.add(contextCapturingProcessor)
 
         // Create a context key and add a test value
-        val currentContext = harness.sdkFactory.context.current()
+        val currentContext = harness.kotlinApi.contextFactory.current()
         val contextKey = currentContext.createKey<String>("best_team")
         val testContextValue = "independiente"
         val testContext = currentContext.set(contextKey, testContextValue)

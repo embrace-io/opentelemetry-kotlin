@@ -9,5 +9,5 @@ class OpenTelemetryImpl(
     override val tracerProvider: TracerProvider,
     override val loggerProvider: LoggerProvider,
     override val clock: Clock,
-    override val sdkFactory: SdkFactory
-) : OpenTelemetry
+    private val sdkFactory: SdkFactory
+) : OpenTelemetry, SdkFactory by sdkFactory

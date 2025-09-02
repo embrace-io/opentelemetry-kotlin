@@ -51,7 +51,7 @@ internal class LogProcessorOnEmitTest {
 
     private fun prepareContext(): Context {
         val span = harness.tracer.createSpan("span")
-        val contextFactory = harness.sdkFactory.context
+        val contextFactory = harness.kotlinApi.contextFactory
         val ctx = contextFactory.storeSpan(contextFactory.root(), span)
         return ctx
     }

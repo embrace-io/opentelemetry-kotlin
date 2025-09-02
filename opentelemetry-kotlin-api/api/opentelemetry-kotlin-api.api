@@ -12,15 +12,10 @@ public abstract interface class io/embrace/opentelemetry/kotlin/InstrumentationS
 	public abstract fun getVersion ()Ljava/lang/String;
 }
 
-public abstract interface class io/embrace/opentelemetry/kotlin/OpenTelemetry {
+public abstract interface class io/embrace/opentelemetry/kotlin/OpenTelemetry : io/embrace/opentelemetry/kotlin/factory/SdkFactory {
 	public abstract fun getClock ()Lio/embrace/opentelemetry/kotlin/Clock;
 	public abstract fun getLoggerProvider ()Lio/embrace/opentelemetry/kotlin/logging/LoggerProvider;
-	public abstract fun getSdkFactory ()Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;
 	public abstract fun getTracerProvider ()Lio/embrace/opentelemetry/kotlin/tracing/TracerProvider;
-}
-
-public final class io/embrace/opentelemetry/kotlin/OpenTelemetryInstance {
-	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/OpenTelemetryInstance;
 }
 
 public abstract interface annotation class io/embrace/opentelemetry/kotlin/ThreadSafe : java/lang/annotation/Annotation {
@@ -73,12 +68,12 @@ public abstract interface class io/embrace/opentelemetry/kotlin/factory/ContextF
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/factory/SdkFactory {
-	public abstract fun getContext ()Lio/embrace/opentelemetry/kotlin/factory/ContextFactory;
-	public abstract fun getSpan ()Lio/embrace/opentelemetry/kotlin/factory/SpanFactory;
-	public abstract fun getSpanContext ()Lio/embrace/opentelemetry/kotlin/factory/SpanContextFactory;
-	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/factory/TraceFlagsFactory;
-	public abstract fun getTraceState ()Lio/embrace/opentelemetry/kotlin/factory/TraceStateFactory;
-	public abstract fun getTracingIds ()Lio/embrace/opentelemetry/kotlin/factory/TracingIdFactory;
+	public abstract fun getContextFactory ()Lio/embrace/opentelemetry/kotlin/factory/ContextFactory;
+	public abstract fun getSpanContextFactory ()Lio/embrace/opentelemetry/kotlin/factory/SpanContextFactory;
+	public abstract fun getSpanFactory ()Lio/embrace/opentelemetry/kotlin/factory/SpanFactory;
+	public abstract fun getTraceFlagsFactory ()Lio/embrace/opentelemetry/kotlin/factory/TraceFlagsFactory;
+	public abstract fun getTraceStateFactory ()Lio/embrace/opentelemetry/kotlin/factory/TraceStateFactory;
+	public abstract fun getTracingIdFactory ()Lio/embrace/opentelemetry/kotlin/factory/TracingIdFactory;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/factory/SpanContextFactory {

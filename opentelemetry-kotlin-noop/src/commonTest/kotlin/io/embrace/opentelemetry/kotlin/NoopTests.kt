@@ -17,7 +17,7 @@ internal class NoopTests {
 
     @Test
     fun testNoopTracing() {
-        val otel = OpenTelemetryInstance.noop()
+        val otel = noopOpenTelemetry()
         val tracerProvider = otel.tracerProvider
         val tracer = tracerProvider.getTracer("test-tracer")
 
@@ -57,7 +57,7 @@ internal class NoopTests {
 
     @Test
     fun testNoopLogging() {
-        val otel = OpenTelemetryInstance.noop()
+        val otel = noopOpenTelemetry()
         val loggerProvider = otel.loggerProvider
         val logger = loggerProvider.getLogger("test-logger")
 
@@ -84,7 +84,7 @@ internal class NoopTests {
 
     @Test
     fun testNoopClockDefault() {
-        val otel = OpenTelemetryInstance.noop()
+        val otel = noopOpenTelemetry()
         val clock = otel.clock
 
         // Noop clock always returns 0
@@ -94,8 +94,8 @@ internal class NoopTests {
 
     @Test
     fun testNoopContext() {
-        val otel = OpenTelemetryInstance.noop()
-        val ctx = otel.sdkFactory.context.root()
+        val otel = noopOpenTelemetry()
+        val ctx = otel.contextFactory.root()
 
         val key = ctx.createKey<String>("key")
         assertTrue(key is NoopContextKey)
@@ -108,34 +108,32 @@ internal class NoopTests {
 
     @Test
     fun testNoopSpanContext() {
-        val otel = OpenTelemetryInstance.noop()
-        val factory = otel.sdkFactory
-        val invalid = factory.spanContext.invalid
+        val otel = noopOpenTelemetry()
+        val invalid = otel.spanContextFactory.invalid
         assertTrue(invalid is NoopSpanContext)
         assertFalse(invalid.isValid)
 
-        val other = factory.spanContext.create(
-            factory.tracingIds.generateTraceId(),
-            factory.tracingIds.generateSpanId(),
-            factory.traceFlags.default,
-            factory.traceState.default
+        val other = otel.spanContextFactory.create(
+            otel.tracingIdFactory.generateTraceId(),
+            otel.tracingIdFactory.generateSpanId(),
+            otel.traceFlagsFactory.default,
+            otel.traceStateFactory.default
         )
         assertSame(invalid, other)
     }
 
     @Test
     fun testNoopSpan() {
-        val otel = OpenTelemetryInstance.noop()
-        val factory = otel.sdkFactory
+        val otel = noopOpenTelemetry()
 
-        val first = factory.span.invalid
+        val first = otel.spanFactory.invalid
         assertTrue(first is NoopSpan)
         assertFalse(first.isRecording())
 
-        val second = factory.span.fromSpanContext(factory.spanContext.invalid)
+        val second = otel.spanFactory.fromSpanContext(otel.spanContextFactory.invalid)
         assertTrue(second is NoopSpan)
 
-        val third = factory.span.fromContext(factory.context.root())
+        val third = otel.spanFactory.fromContext(otel.contextFactory.root())
         assertTrue(third is NoopSpan)
     }
 

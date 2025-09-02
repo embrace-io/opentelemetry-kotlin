@@ -9,7 +9,7 @@ import kotlin.test.assertTrue
 @OptIn(ExperimentalApi::class)
 internal class TraceFlagsFactoryTest {
 
-    private val factory = createCompatSdkFactory().traceFlags
+    private val factory = createCompatSdkFactory().traceFlagsFactory
 
     @Test
     fun `default property`() {

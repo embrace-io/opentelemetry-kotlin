@@ -20,8 +20,8 @@ internal class SpanStorageTest {
     @BeforeTest
     fun setUp() {
         sdkFactory = createSdkFactory()
-        spanFactory = sdkFactory.span
-        contextFactory = sdkFactory.context
+        spanFactory = sdkFactory.spanFactory
+        contextFactory = sdkFactory.contextFactory
     }
 
     @Test
