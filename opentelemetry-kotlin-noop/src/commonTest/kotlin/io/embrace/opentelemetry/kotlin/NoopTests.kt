@@ -95,7 +95,7 @@ internal class NoopTests {
     @Test
     fun testNoopContext() {
         val otel = OpenTelemetryInstance.noop()
-        val ctx = otel.sdkFactory.contextFactory.root()
+        val ctx = otel.contextFactory.root()
 
         val key = ctx.createKey<String>("key")
         assertTrue(key is NoopContextKey)
@@ -109,16 +109,15 @@ internal class NoopTests {
     @Test
     fun testNoopSpanContext() {
         val otel = OpenTelemetryInstance.noop()
-        val factory = otel.sdkFactory
-        val invalid = factory.spanContextFactory.invalid
+        val invalid = otel.spanContextFactory.invalid
         assertTrue(invalid is NoopSpanContext)
         assertFalse(invalid.isValid)
 
-        val other = factory.spanContextFactory.create(
-            factory.tracingIdFactory.generateTraceId(),
-            factory.tracingIdFactory.generateSpanId(),
-            factory.traceFlagsFactory.default,
-            factory.traceStateFactory.default
+        val other = otel.spanContextFactory.create(
+            otel.tracingIdFactory.generateTraceId(),
+            otel.tracingIdFactory.generateSpanId(),
+            otel.traceFlagsFactory.default,
+            otel.traceStateFactory.default
         )
         assertSame(invalid, other)
     }
@@ -126,16 +125,15 @@ internal class NoopTests {
     @Test
     fun testNoopSpan() {
         val otel = OpenTelemetryInstance.noop()
-        val factory = otel.sdkFactory
 
-        val first = factory.spanFactory.invalid
+        val first = otel.spanFactory.invalid
         assertTrue(first is NoopSpan)
         assertFalse(first.isRecording())
 
-        val second = factory.spanFactory.fromSpanContext(factory.spanContextFactory.invalid)
+        val second = otel.spanFactory.fromSpanContext(otel.spanContextFactory.invalid)
         assertTrue(second is NoopSpan)
 
-        val third = factory.spanFactory.fromContext(factory.contextFactory.root())
+        val third = otel.spanFactory.fromContext(otel.contextFactory.root())
         assertTrue(third is NoopSpan)
     }
 
