@@ -7,7 +7,7 @@ import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 import io.embrace.opentelemetry.kotlin.toOperationResultCode
 
 @OptIn(ExperimentalApi::class)
-internal class OtelJavaLogRecordExporterAdapter(
+internal class LogRecordExporterAdapter(
     private val impl: OtelJavaLogRecordExporter
 ) : LogRecordExporter {
 

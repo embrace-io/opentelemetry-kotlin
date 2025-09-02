@@ -9,17 +9,18 @@ import io.embrace.opentelemetry.kotlin.tracing.FakeSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
 @OptIn(ExperimentalApi::class)
-class FakeReadWriteLogRecord : ReadWriteLogRecord {
-    override var timestamp: Long? = null
-    override var observedTimestamp: Long? = null
-    override var severityNumber: SeverityNumber? = SeverityNumber.UNKNOWN
-    override var severityText: String? = null
-    override var body: String? = null
-    override var spanContext: SpanContext = FakeSpanContext()
-    override val attributes: Map<String, Any> = emptyMap()
-    override val resource: Resource = FakeResource()
+class FakeReadWriteLogRecord(
+    override var timestamp: Long? = null,
+    override var observedTimestamp: Long? = null,
+    override var severityNumber: SeverityNumber? = SeverityNumber.UNKNOWN,
+    override var severityText: String? = null,
+    override var body: String? = null,
+    override var spanContext: SpanContext = FakeSpanContext(),
+    override val attributes: Map<String, Any> = emptyMap(),
+    override val resource: Resource = FakeResource(),
     override val instrumentationScopeInfo: InstrumentationScopeInfo =
-        FakeInstrumentationScopeInfo()
+        FakeInstrumentationScopeInfo(),
+) : ReadWriteLogRecord {
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
     }
