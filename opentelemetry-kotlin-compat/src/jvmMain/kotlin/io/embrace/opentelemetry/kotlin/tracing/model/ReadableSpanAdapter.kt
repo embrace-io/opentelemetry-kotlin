@@ -19,7 +19,7 @@ import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelKotlinStatusData
 
 @OptIn(ExperimentalApi::class)
 internal class ReadableSpanAdapter(
-    private val impl: OtelJavaReadableSpan
+    val impl: OtelJavaReadableSpan
 ) : ReadableSpan {
     override val parent: SpanContext
     override val spanContext: SpanContext

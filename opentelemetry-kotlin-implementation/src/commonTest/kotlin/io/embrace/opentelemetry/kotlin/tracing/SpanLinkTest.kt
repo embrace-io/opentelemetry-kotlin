@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
-import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.FakeSdkFactory
 import io.embrace.opentelemetry.kotlin.init.config.SpanLimitConfig
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
@@ -40,7 +40,7 @@ internal class SpanLinkTest {
         tracer = TracerImpl(
             clock,
             processor,
-            FakeObjectCreator(),
+            FakeSdkFactory(),
             key,
             FakeResource(),
             spanLimitConfig

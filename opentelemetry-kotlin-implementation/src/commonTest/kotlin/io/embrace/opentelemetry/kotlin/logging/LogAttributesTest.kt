@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
-import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.FakeSdkFactory
 import io.embrace.opentelemetry.kotlin.init.config.LogLimitConfig
 import io.embrace.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
@@ -37,7 +37,7 @@ internal class LogAttributesTest {
         logger = LoggerImpl(
             FakeClock(),
             processor,
-            FakeObjectCreator(),
+            FakeSdkFactory(),
             key,
             FakeResource(),
             LogLimitConfig(

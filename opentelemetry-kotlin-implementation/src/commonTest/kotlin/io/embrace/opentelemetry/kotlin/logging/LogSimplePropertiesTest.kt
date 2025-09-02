@@ -3,8 +3,8 @@ package io.embrace.opentelemetry.kotlin.logging
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
-import io.embrace.opentelemetry.kotlin.creator.FakeObjectCreator
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.FakeSdkFactory
+import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
@@ -21,17 +21,17 @@ internal class LogSimplePropertiesTest {
     private lateinit var logger: LoggerImpl
     private lateinit var clock: FakeClock
     private lateinit var processor: FakeLogRecordProcessor
-    private lateinit var objectCreator: ObjectCreator
+    private lateinit var sdkFactory: SdkFactory
 
     @BeforeTest
     fun setUp() {
         clock = FakeClock()
         processor = FakeLogRecordProcessor()
-        objectCreator = FakeObjectCreator()
+        sdkFactory = FakeSdkFactory()
         logger = LoggerImpl(
             clock,
             processor,
-            objectCreator,
+            sdkFactory,
             key,
             FakeResource(),
             fakeLogLimitsConfig

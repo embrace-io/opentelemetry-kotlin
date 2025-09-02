@@ -67,16 +67,16 @@ internal class LoggerExportTest {
     @Test
     fun `test log with parent span in context`() {
         val span = harness.tracer.createSpan("span")
-        val contextCreator = harness.objectCreator.context
-        val ctx = contextCreator.storeSpan(contextCreator.root(), span)
+        val contextFactory = harness.kotlinApi.contextFactory
+        val ctx = contextFactory.storeSpan(contextFactory.root(), span)
         harness.logger.log("test", context = ctx)
         harness.assertLogRecords(1, "log_span_context.json")
     }
 
     @Test
     fun `test log with root context`() {
-        val contextCreator = harness.objectCreator.context
-        val ctx = contextCreator.root()
+        val contextFactory = harness.kotlinApi.contextFactory
+        val ctx = contextFactory.root()
         harness.logger.log("test", context = ctx)
         harness.assertLogRecords(1, "log_root_context.json")
     }

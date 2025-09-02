@@ -2,36 +2,35 @@ package io.embrace.opentelemetry.kotlin.framework
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetry
-import io.embrace.opentelemetry.kotlin.OpenTelemetryInstance
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaIdGenerator
-import io.embrace.opentelemetry.kotlin.createOpenTelemetryKotlin
-import io.embrace.opentelemetry.kotlin.creator.CompatObjectCreator
-import io.embrace.opentelemetry.kotlin.creator.CompatTracingIdCreator
-import io.embrace.opentelemetry.kotlin.creator.TracingIdCreator
-import io.embrace.opentelemetry.kotlin.decorateKotlinApi
+import io.embrace.opentelemetry.kotlin.createCompatOpenTelemetryInstanceImpl
+import io.embrace.opentelemetry.kotlin.factory.CompatSdkFactory
+import io.embrace.opentelemetry.kotlin.factory.CompatTracingIdFactory
+import io.embrace.opentelemetry.kotlin.factory.TracingIdFactory
+import io.embrace.opentelemetry.kotlin.toOtelJavaApi
 import kotlin.random.Random
 
 @OptIn(ExperimentalApi::class)
 internal class OtelKotlinHarness : OtelKotlinTestRule() {
 
     override val kotlinApi: OpenTelemetry by lazy {
-        OpenTelemetryInstance.createOpenTelemetryKotlin(
-            clock = clock,
+        createCompatOpenTelemetryInstanceImpl(
             tracerProvider = tracerProviderConfig,
             loggerProvider = loggerProviderConfig,
-            objectCreator = CompatObjectCreator(idCreator = FakeTracingIdCreator())
+            clock = clock,
+            sdkFactory = CompatSdkFactory(tracingIdFactory = FakeTracingIdFactory())
         )
     }
 
     val javaApi by lazy {
-        OpenTelemetryInstance.decorateKotlinApi(kotlinApi)
+        kotlinApi.toOtelJavaApi()
     }
 }
 
 @OptIn(ExperimentalApi::class)
-private class FakeTracingIdCreator(
-    private val impl: TracingIdCreator = CompatTracingIdCreator(),
-) : TracingIdCreator by impl, OtelJavaIdGenerator {
+private class FakeTracingIdFactory(
+    private val impl: TracingIdFactory = CompatTracingIdFactory(),
+) : TracingIdFactory by impl, OtelJavaIdGenerator {
 
     private val random: Random = Random(0)
 

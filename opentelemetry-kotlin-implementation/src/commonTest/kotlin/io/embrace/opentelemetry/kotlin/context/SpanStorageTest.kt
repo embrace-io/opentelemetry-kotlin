@@ -1,10 +1,10 @@
 package io.embrace.opentelemetry.kotlin.context
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.creator.ContextCreator
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
-import io.embrace.opentelemetry.kotlin.creator.SpanCreator
-import io.embrace.opentelemetry.kotlin.creator.createObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.ContextFactory
+import io.embrace.opentelemetry.kotlin.factory.SdkFactory
+import io.embrace.opentelemetry.kotlin.factory.SpanFactory
+import io.embrace.opentelemetry.kotlin.factory.createSdkFactory
 import io.embrace.opentelemetry.kotlin.tracing.FakeSpan
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -13,23 +13,23 @@ import kotlin.test.assertSame
 @OptIn(ExperimentalApi::class)
 internal class SpanStorageTest {
 
-    private lateinit var objectCreator: ObjectCreator
-    private lateinit var spanCreator: SpanCreator
-    private lateinit var contextCreator: ContextCreator
+    private lateinit var sdkFactory: SdkFactory
+    private lateinit var spanFactory: SpanFactory
+    private lateinit var contextFactory: ContextFactory
 
     @BeforeTest
     fun setUp() {
-        objectCreator = createObjectCreator()
-        spanCreator = objectCreator.span
-        contextCreator = objectCreator.context
+        sdkFactory = createSdkFactory()
+        spanFactory = sdkFactory.spanFactory
+        contextFactory = sdkFactory.contextFactory
     }
 
     @Test
     fun testSpanStorage() {
         val span = FakeSpan()
-        val root = contextCreator.root()
-        val newCtx = contextCreator.storeSpan(root, span)
-        val retrievedSpan = spanCreator.fromContext(newCtx)
+        val root = contextFactory.root()
+        val newCtx = contextFactory.storeSpan(root, span)
+        val retrievedSpan = spanFactory.fromContext(newCtx)
         assertSame(span, retrievedSpan)
     }
 
@@ -37,11 +37,11 @@ internal class SpanStorageTest {
     fun testStoringMultipleSpans() {
         val span = FakeSpan("a")
         val otherSpan = FakeSpan("b")
-        val root = contextCreator.root()
-        val newCtx = contextCreator.storeSpan(root, span)
+        val root = contextFactory.root()
+        val newCtx = contextFactory.storeSpan(root, span)
 
-        val finalCtx = contextCreator.storeSpan(newCtx, otherSpan)
-        val retrievedSpan = spanCreator.fromContext(finalCtx)
+        val finalCtx = contextFactory.storeSpan(newCtx, otherSpan)
+        val retrievedSpan = spanFactory.fromContext(finalCtx)
         assertSame(otherSpan, retrievedSpan)
     }
 }

@@ -82,4 +82,4 @@ custom-rules:
       - "io.opentelemetry"
     allowedFileIds:
       - "io.embrace.opentelemetry.kotlin.aliases.Aliases"
-      - "io.embrace.opentelemetry.kotlin.creator.SpanCreatorImpl"
+      - "io.embrace.opentelemetry.kotlin.factory.SpanFactoryImpl"

@@ -9,7 +9,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSdkTracerProviderBuilder
 import io.embrace.opentelemetry.kotlin.attributes.CompatMutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.setAttributes
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.tracing.TracerProvider
 import io.embrace.opentelemetry.kotlin.tracing.TracerProviderAdapter
 import io.embrace.opentelemetry.kotlin.tracing.export.OtelJavaSpanProcessorAdapter
@@ -18,7 +18,7 @@ import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
 @ExperimentalApi
 internal class CompatTracerProviderConfig(
     private val clock: Clock,
-    objectCreator: ObjectCreator,
+    sdkFactory: SdkFactory,
 ) : TracerProviderConfigDsl {
 
     private val builder: OtelJavaSdkTracerProviderBuilder = OtelJavaSdkTracerProvider.builder()
@@ -26,7 +26,7 @@ internal class CompatTracerProviderConfig(
     init {
         builder.setClock(OtelJavaClockWrapper(clock))
 
-        val idGenerator = objectCreator.idCreator
+        val idGenerator = sdkFactory.tracingIdFactory
         if (idGenerator is OtelJavaIdGenerator) {
             builder.setIdGenerator(idGenerator)
         }

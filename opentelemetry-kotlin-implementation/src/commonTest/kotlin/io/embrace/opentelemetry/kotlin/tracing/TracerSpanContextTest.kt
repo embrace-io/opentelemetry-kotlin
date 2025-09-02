@@ -3,8 +3,8 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
-import io.embrace.opentelemetry.kotlin.creator.createObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.SdkFactory
+import io.embrace.opentelemetry.kotlin.factory.createSdkFactory
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
@@ -22,17 +22,17 @@ internal class TracerSpanContextTest {
     private lateinit var tracer: TracerImpl
     private lateinit var clock: FakeClock
     private lateinit var processor: FakeSpanProcessor
-    private lateinit var objectCreator: ObjectCreator
+    private lateinit var sdkFactory: SdkFactory
 
     @BeforeTest
     fun setUp() {
         clock = FakeClock()
         processor = FakeSpanProcessor()
-        objectCreator = createObjectCreator()
+        sdkFactory = createSdkFactory()
         tracer = TracerImpl(
             clock,
             processor,
-            objectCreator,
+            sdkFactory,
             key,
             FakeResource(),
             fakeSpanLimitsConfig,
@@ -49,9 +49,9 @@ internal class TracerSpanContextTest {
 
     @Test
     fun testExplicitParentContextOfInvalidSpan() {
-        val invalidSpan = objectCreator.span.invalid
+        val invalidSpan = sdkFactory.spanFactory.invalid
         assertFalse(invalidSpan.spanContext.isValid)
-        val parentCtx = objectCreator.context.storeSpan(objectCreator.context.root(), invalidSpan)
+        val parentCtx = sdkFactory.contextFactory.storeSpan(sdkFactory.contextFactory.root(), invalidSpan)
         val span = tracer.createSpan("test", parentContext = parentCtx)
 
         assertFalse(span.parent.isValid)
@@ -62,7 +62,7 @@ internal class TracerSpanContextTest {
     @Test
     fun testExplicitParentContextOfValidSpan() {
         val parentSpan = tracer.createSpan("parent")
-        val parentCtx = objectCreator.context.storeSpan(objectCreator.context.root(), parentSpan)
+        val parentCtx = sdkFactory.contextFactory.storeSpan(sdkFactory.contextFactory.root(), parentSpan)
         val span = tracer.createSpan("test", parentContext = parentCtx)
 
         assertTrue(span.parent.isValid)
@@ -75,8 +75,8 @@ internal class TracerSpanContextTest {
     private fun assertValidSpanContext(spanContext: SpanContext) {
         assertTrue(spanContext.isValid)
         assertFalse(spanContext.isRemote)
-        assertNotEquals(objectCreator.idCreator.invalidTraceId, spanContext.traceId)
-        assertNotEquals(objectCreator.idCreator.invalidSpanId, spanContext.spanId)
+        assertNotEquals(sdkFactory.tracingIdFactory.invalidTraceId, spanContext.traceId)
+        assertNotEquals(sdkFactory.tracingIdFactory.invalidSpanId, spanContext.spanId)
         assertEquals(emptyMap(), spanContext.traceState.asMap())
         assertEquals("01", spanContext.traceFlags.hex)
     }

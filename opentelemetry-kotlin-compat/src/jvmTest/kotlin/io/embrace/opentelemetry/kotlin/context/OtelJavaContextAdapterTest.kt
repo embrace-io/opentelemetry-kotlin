@@ -2,7 +2,7 @@ package io.embrace.opentelemetry.kotlin.context
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaContextKey
-import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.createCompatSdkFactory
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotSame
@@ -13,9 +13,9 @@ internal class OtelJavaContextAdapterTest {
 
     @Test
     fun `test context`() {
-        val creator = createCompatObjectCreator()
+        val factory = createCompatSdkFactory()
         val repository = OtelJavaContextKeyRepository()
-        val ctx = OtelJavaContextAdapter(creator.context.root(), repository)
+        val ctx = OtelJavaContextAdapter(factory.contextFactory.root(), repository)
         val key1 = OtelJavaContextKey.named<String>("foo")
         val key2 = OtelJavaContextKey.named<String>("foo")
         val key3 = OtelJavaContextKey.named<String>("bar")

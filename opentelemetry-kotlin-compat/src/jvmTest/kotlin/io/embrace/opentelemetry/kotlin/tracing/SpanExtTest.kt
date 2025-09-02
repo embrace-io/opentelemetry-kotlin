@@ -9,7 +9,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceFlags
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
-import io.embrace.opentelemetry.kotlin.creator.createCompatObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.createCompatSdkFactory
 import io.embrace.opentelemetry.kotlin.tracing.ext.storeInContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContextAdapter
@@ -20,40 +20,40 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalApi::class)
 internal class SpanExtTest {
 
-    private val objectCreator = createCompatObjectCreator()
+    private val factory = createCompatSdkFactory()
     private val generator = OtelJavaIdGenerator.random()
 
-    private val validSpanContext = objectCreator.spanContext.create(
+    private val validSpanContext = factory.spanContextFactory.create(
         traceId = generator.generateTraceId(),
         spanId = generator.generateSpanId(),
-        traceState = objectCreator.traceState.default,
-        traceFlags = objectCreator.traceFlags.default,
+        traceState = factory.traceStateFactory.default,
+        traceFlags = factory.traceFlagsFactory.default,
     )
 
     @Test
     fun `test invalid span`() {
-        val invalid = objectCreator.span.invalid
-        assertSpanContextsMatch(objectCreator.spanContext.invalid, invalid.spanContext)
-        assertSpanContextsMatch(objectCreator.spanContext.invalid, invalid.parent)
+        val invalid = factory.spanFactory.invalid
+        assertSpanContextsMatch(factory.spanContextFactory.invalid, invalid.spanContext)
+        assertSpanContextsMatch(factory.spanContextFactory.invalid, invalid.parent)
     }
 
     @Test
     fun `test from span context valid`() {
-        val span = objectCreator.span.fromSpanContext(validSpanContext)
+        val span = factory.spanFactory.fromSpanContext(validSpanContext)
         assertSpanContextsMatch(validSpanContext, span.spanContext)
-        assertSpanContextsMatch(objectCreator.spanContext.invalid, span.parent)
+        assertSpanContextsMatch(factory.spanContextFactory.invalid, span.parent)
     }
 
     @Test
     fun `test from span context invalid`() {
-        val span = objectCreator.span.fromSpanContext(objectCreator.spanContext.invalid)
-        assertEquals(objectCreator.span.invalid, span)
+        val span = factory.spanFactory.fromSpanContext(factory.spanContextFactory.invalid)
+        assertEquals(factory.spanFactory.invalid, span)
     }
 
     @Test
     fun `test from context invalid`() {
-        val span = objectCreator.span.fromContext(objectCreator.context.root())
-        assertSpanContextsMatch(objectCreator.spanContext.invalid, span.spanContext)
+        val span = factory.spanFactory.fromContext(factory.contextFactory.root())
+        assertSpanContextsMatch(factory.spanContextFactory.invalid, span.spanContext)
     }
 
     @Test
@@ -71,12 +71,12 @@ internal class SpanExtTest {
             SpanKind.INTERNAL,
             0
         )
-        val root = objectCreator.context.root()
+        val root = factory.contextFactory.root()
         val ctx = span.storeInContext(root)
-        val observed = objectCreator.span.fromContext(root).spanContext
-        assertSpanContextsMatch(objectCreator.spanContext.invalid, observed)
+        val observed = factory.spanFactory.fromContext(root).spanContext
+        assertSpanContextsMatch(factory.spanContextFactory.invalid, observed)
 
-        val retrievedSpan = objectCreator.span.fromContext(ctx)
+        val retrievedSpan = factory.spanFactory.fromContext(ctx)
         assertSpanContextsMatch(SpanContextAdapter(spanContext), retrievedSpan.spanContext)
     }
 }

@@ -4,7 +4,7 @@ import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.context.Context
-import io.embrace.opentelemetry.kotlin.creator.ObjectCreator
+import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.init.config.SpanLimitConfig
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.export.SpanProcessor
@@ -20,7 +20,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 internal class TracerImpl(
     private val clock: Clock,
     private val processor: SpanProcessor,
-    private val objectCreator: ObjectCreator,
+    private val sdkFactory: SdkFactory,
     private val scope: InstrumentationScopeInfo,
     private val resource: Resource,
     private val spanLimitConfig: SpanLimitConfig,
@@ -36,9 +36,9 @@ internal class TracerImpl(
         val spanRelationships = SpanRelationshipsImpl(clock, spanLimitConfig)
         action(spanRelationships)
 
-        val ctx = parentContext ?: objectCreator.context.root()
+        val ctx = parentContext ?: sdkFactory.contextFactory.root()
         val parentSpanContext = retrieveParentSpanContext(ctx)
-        val spanContext = calculateSpanContext(parentSpanContext, objectCreator)
+        val spanContext = calculateSpanContext(parentSpanContext, sdkFactory)
 
         val spanModel = SpanModel(
             clock = clock,
@@ -58,30 +58,30 @@ internal class TracerImpl(
     }
 
     private fun retrieveParentSpanContext(parent: Context): SpanContext {
-        val parentSpan = objectCreator.span.fromContext(parent)
+        val parentSpan = sdkFactory.spanFactory.fromContext(parent)
         return parentSpan.spanContext
     }
 
     private fun calculateSpanContext(
         parent: SpanContext,
-        objectCreator: ObjectCreator
+        sdkFactory: SdkFactory
     ): SpanContext {
-        val idCreator = objectCreator.idCreator
+        val factory = sdkFactory.tracingIdFactory
 
         val traceId = if (parent.isValid) {
             parent.traceId
         } else {
-            idCreator.generateTraceId()
+            factory.generateTraceId()
         }
-        val spanId = idCreator.generateSpanId()
+        val spanId = factory.generateSpanId()
 
         return SpanContextImpl(
             traceId = traceId,
             spanId = spanId,
-            traceFlags = objectCreator.traceFlags.default,
+            traceFlags = sdkFactory.traceFlagsFactory.default,
             isValid = true,
             isRemote = false,
-            traceState = objectCreator.traceState.default,
+            traceState = sdkFactory.traceStateFactory.default,
         )
     }
 }

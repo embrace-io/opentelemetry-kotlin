@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin.context
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.creator.ContextCreatorImpl
+import io.embrace.opentelemetry.kotlin.factory.ContextFactoryImpl
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -12,34 +12,34 @@ import kotlin.test.assertSame
 @OptIn(ExperimentalApi::class)
 internal class ContextImplTest {
 
-    private lateinit var creator: ContextCreatorImpl
+    private lateinit var factory: ContextFactoryImpl
 
     @BeforeTest
     fun setUp() {
-        creator = ContextCreatorImpl()
+        factory = ContextFactoryImpl()
     }
 
     @Test
     fun testContextObtainRoot() {
-        assertSame(creator.root(), creator.root())
+        assertSame(factory.root(), factory.root())
     }
 
     @Test
     fun testContextCreateContextKey() {
-        val ctx = creator.root()
+        val ctx = factory.root()
         assertNotEquals(ctx.createKey<String>("my_key"), ctx.createKey("my_key"))
     }
 
     @Test
     fun testContextGetAbsentValue() {
-        val ctx = creator.root()
+        val ctx = factory.root()
         val key = ctx.createKey<String>("my_key")
         assertNull(ctx.get(key))
     }
 
     @Test
     fun testContextGetPresentValue() {
-        val ctx = creator.root()
+        val ctx = factory.root()
         val key = ctx.createKey<String>("my_key")
         val value = "my_value"
         val newCtx = ctx.set(key, value)
@@ -50,7 +50,7 @@ internal class ContextImplTest {
 
     @Test
     fun testContextMultipleValues() {
-        val ctx = creator.root()
+        val ctx = factory.root()
         val key1 = ctx.createKey<String>("my_key1")
         val key2 = ctx.createKey<String>("my_key2")
         val key3 = ctx.createKey<Int>("my_key3")
@@ -66,7 +66,7 @@ internal class ContextImplTest {
 
     @Test
     fun testContextOverrideExistingKey() {
-        val ctx = creator.root()
+        val ctx = factory.root()
         val key = ctx.createKey<String>("my_key")
         val value1 = "my_value1"
         val value2 = "my_value2"
@@ -77,7 +77,7 @@ internal class ContextImplTest {
 
     @Test
     fun testContextKeyExplicitNull() {
-        val ctx = creator.root()
+        val ctx = factory.root()
         val key = ctx.createKey<String>("key")
         val newCtx = ctx.set(key, null)
         assertNull(newCtx.get(key))
