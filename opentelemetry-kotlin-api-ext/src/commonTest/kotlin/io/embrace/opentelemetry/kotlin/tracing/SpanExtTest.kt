@@ -6,6 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @OptIn(ExperimentalApi::class)
 internal class SpanExtTest {
@@ -54,5 +55,29 @@ internal class SpanExtTest {
         assertEquals(1, simpleAttrs.size)
         assertNull(simpleAttrs["exception.type"])
         assertNotNull(simpleAttrs["exception.stacktrace"])
+    }
+
+    @Test
+    fun testAddLinkSimple() {
+        val a = FakeSpan()
+        val b = FakeSpan()
+
+        a.addLink(b)
+        val link = a.links.single()
+        assertEquals(b.spanContext, link.spanContext)
+        assertTrue(link.attributes.isEmpty())
+    }
+
+    @Test
+    fun testAddLinkWithAttrs() {
+        val a = FakeSpan()
+        val b = FakeSpan()
+
+        a.addLink(b) {
+            setStringAttribute("extra", "value")
+        }
+        val link = a.links.single()
+        assertEquals(b.spanContext, link.spanContext)
+        assertEquals(mapOf("extra" to "value"), link.attributes)
     }
 }
