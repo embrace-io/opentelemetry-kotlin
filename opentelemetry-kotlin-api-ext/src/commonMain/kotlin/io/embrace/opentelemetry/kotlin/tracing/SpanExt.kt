@@ -26,3 +26,12 @@ public fun Span.recordException(
         attributes(this)
     }
 }
+
+/**
+ * Adds a link to the span that associates it with another [Span].
+ */
+@OptIn(ExperimentalApi::class)
+@ThreadSafe
+public fun Span.addLink(span: Span, attributes: MutableAttributeContainer.() -> Unit = {}) {
+    addLink(span.spanContext, attributes)
+}

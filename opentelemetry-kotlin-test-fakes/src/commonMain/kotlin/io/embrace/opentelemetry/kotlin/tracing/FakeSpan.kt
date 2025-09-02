@@ -1,8 +1,10 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.attributes.FakeMutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
+import io.embrace.opentelemetry.kotlin.tracing.data.FakeLinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.StatusData
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
@@ -48,7 +50,8 @@ class FakeSpan(
         spanContext: SpanContext,
         attributes: MutableAttributeContainer.() -> Unit
     ) {
-        TODO("Not yet implemented")
+        val attrs = FakeMutableAttributeContainer().apply(attributes).attributes
+        links.add(FakeLinkData(spanContext, attrs))
     }
 
     override fun addEvent(

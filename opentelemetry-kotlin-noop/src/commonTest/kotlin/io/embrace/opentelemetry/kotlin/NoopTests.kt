@@ -17,7 +17,7 @@ internal class NoopTests {
 
     @Test
     fun testNoopTracing() {
-        val otel = OpenTelemetryInstance.noop()
+        val otel = noopOpenTelemetry()
         val tracerProvider = otel.tracerProvider
         val tracer = tracerProvider.getTracer("test-tracer")
 
@@ -57,7 +57,7 @@ internal class NoopTests {
 
     @Test
     fun testNoopLogging() {
-        val otel = OpenTelemetryInstance.noop()
+        val otel = noopOpenTelemetry()
         val loggerProvider = otel.loggerProvider
         val logger = loggerProvider.getLogger("test-logger")
 
@@ -84,7 +84,7 @@ internal class NoopTests {
 
     @Test
     fun testNoopClockDefault() {
-        val otel = OpenTelemetryInstance.noop()
+        val otel = noopOpenTelemetry()
         val clock = otel.clock
 
         // Noop clock always returns 0
@@ -94,7 +94,7 @@ internal class NoopTests {
 
     @Test
     fun testNoopContext() {
-        val otel = OpenTelemetryInstance.noop()
+        val otel = noopOpenTelemetry()
         val ctx = otel.contextFactory.root()
 
         val key = ctx.createKey<String>("key")
@@ -108,7 +108,7 @@ internal class NoopTests {
 
     @Test
     fun testNoopSpanContext() {
-        val otel = OpenTelemetryInstance.noop()
+        val otel = noopOpenTelemetry()
         val invalid = otel.spanContextFactory.invalid
         assertTrue(invalid is NoopSpanContext)
         assertFalse(invalid.isValid)
@@ -124,7 +124,7 @@ internal class NoopTests {
 
     @Test
     fun testNoopSpan() {
-        val otel = OpenTelemetryInstance.noop()
+        val otel = noopOpenTelemetry()
 
         val first = otel.spanFactory.invalid
         assertTrue(first is NoopSpan)
