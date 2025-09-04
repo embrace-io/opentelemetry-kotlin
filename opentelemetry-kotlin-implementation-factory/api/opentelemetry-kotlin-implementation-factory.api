@@ -1,0 +1,39 @@
+public final class io/embrace/opentelemetry/kotlin/factory/ContextFactoryImpl : io/embrace/opentelemetry/kotlin/factory/ContextFactory {
+	public fun <init> ()V
+	public fun root ()Lio/embrace/opentelemetry/kotlin/context/Context;
+	public fun storeSpan (Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/tracing/model/Span;)Lio/embrace/opentelemetry/kotlin/context/Context;
+}
+
+public final class io/embrace/opentelemetry/kotlin/factory/SdkFactoryExtKt {
+	public static final fun createSdkFactory ()Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;
+}
+
+public final class io/embrace/opentelemetry/kotlin/factory/SdkFactoryImpl : io/embrace/opentelemetry/kotlin/factory/SdkFactory {
+	public fun <init> ()V
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/factory/TracingIdFactory;)V
+	public synthetic fun <init> (Lio/embrace/opentelemetry/kotlin/factory/TracingIdFactory;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getContextFactory ()Lio/embrace/opentelemetry/kotlin/factory/ContextFactory;
+	public fun getSpanContextFactory ()Lio/embrace/opentelemetry/kotlin/factory/SpanContextFactory;
+	public fun getSpanFactory ()Lio/embrace/opentelemetry/kotlin/factory/SpanFactory;
+	public fun getTraceFlagsFactory ()Lio/embrace/opentelemetry/kotlin/factory/TraceFlagsFactory;
+	public fun getTraceStateFactory ()Lio/embrace/opentelemetry/kotlin/factory/TraceStateFactory;
+	public fun getTracingIdFactory ()Lio/embrace/opentelemetry/kotlin/factory/TracingIdFactory;
+}
+
+public final class io/embrace/opentelemetry/kotlin/factory/TraceFlagsFactoryImpl : io/embrace/opentelemetry/kotlin/factory/TraceFlagsFactory {
+	public fun <init> ()V
+	public fun create (ZZ)Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
+	public fun fromHex (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
+	public fun getDefault ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
+}
+
+public final class io/embrace/opentelemetry/kotlin/factory/TracingIdFactoryImpl : io/embrace/opentelemetry/kotlin/factory/TracingIdFactory {
+	public fun <init> ()V
+	public fun <init> (Lkotlin/random/Random;)V
+	public synthetic fun <init> (Lkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun generateSpanId ()Ljava/lang/String;
+	public fun generateTraceId ()Ljava/lang/String;
+	public fun getInvalidSpanId ()Ljava/lang/String;
+	public fun getInvalidTraceId ()Ljava/lang/String;
+}
+

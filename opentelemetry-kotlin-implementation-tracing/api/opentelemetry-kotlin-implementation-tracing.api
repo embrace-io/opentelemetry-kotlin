@@ -1,0 +1,31 @@
+public final class io/embrace/opentelemetry/kotlin/tracing/TraceFlagsImpl : io/embrace/opentelemetry/kotlin/tracing/model/TraceFlags {
+	public fun <init> (ZZ)V
+	public fun getHex ()Ljava/lang/String;
+	public fun isRandom ()Z
+	public fun isSampled ()Z
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/TraceStateImpl : io/embrace/opentelemetry/kotlin/tracing/model/TraceState {
+	public static final field Companion Lio/embrace/opentelemetry/kotlin/tracing/TraceStateImpl$Companion;
+	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun asMap ()Ljava/util/Map;
+	public fun get (Ljava/lang/String;)Ljava/lang/String;
+	public fun put (Ljava/lang/String;Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
+	public fun remove (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/TraceStateImpl$Companion {
+	public final fun create ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/TracerImpl : io/embrace/opentelemetry/kotlin/tracing/Tracer {
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor;Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;Lio/embrace/opentelemetry/kotlin/resource/Resource;Lio/embrace/opentelemetry/kotlin/init/config/SpanLimitConfig;)V
+	public fun createSpan (Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/tracing/model/SpanKind;Ljava/lang/Long;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/tracing/model/Span;
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/TracerProviderImpl : io/embrace/opentelemetry/kotlin/tracing/TracerProvider {
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/init/config/TracingConfig;Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;Lio/embrace/opentelemetry/kotlin/error/SdkErrorHandler;)V
+	public synthetic fun <init> (Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/init/config/TracingConfig;Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;Lio/embrace/opentelemetry/kotlin/error/SdkErrorHandler;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getTracer (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/tracing/Tracer;
+}
+

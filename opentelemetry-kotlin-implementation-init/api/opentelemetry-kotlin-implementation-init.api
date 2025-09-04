@@ -1,0 +1,58 @@
+public final class io/embrace/opentelemetry/kotlin/init/LoggerProviderConfigImpl : io/embrace/opentelemetry/kotlin/init/LoggerProviderConfigDsl, io/embrace/opentelemetry/kotlin/init/ResourceConfigDsl {
+	public fun <init> ()V
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/init/ResourceConfigImpl;)V
+	public synthetic fun <init> (Lio/embrace/opentelemetry/kotlin/init/ResourceConfigImpl;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addLogRecordProcessor (Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor;)V
+	public final fun generateLoggingConfig ()Lio/embrace/opentelemetry/kotlin/init/config/LoggingConfig;
+	public fun logLimits (Lkotlin/jvm/functions/Function1;)V
+	public fun resource (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public fun resource (Ljava/util/Map;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/init/ResourceConfigImpl : io/embrace/opentelemetry/kotlin/init/ResourceConfigDsl {
+	public fun <init> ()V
+	public final fun generateResource ()Lio/embrace/opentelemetry/kotlin/resource/Resource;
+	public fun resource (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public fun resource (Ljava/util/Map;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/init/TracerProviderConfigImpl : io/embrace/opentelemetry/kotlin/init/ResourceConfigDsl, io/embrace/opentelemetry/kotlin/init/TracerProviderConfigDsl {
+	public fun <init> ()V
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/init/ResourceConfigImpl;)V
+	public synthetic fun <init> (Lio/embrace/opentelemetry/kotlin/init/ResourceConfigImpl;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addSpanProcessor (Lio/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor;)V
+	public final fun generateTracingConfig ()Lio/embrace/opentelemetry/kotlin/init/config/TracingConfig;
+	public fun resource (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public fun resource (Ljava/util/Map;)V
+	public fun spanLimits (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/init/config/LogLimitConfig {
+	public fun <init> (II)V
+	public final fun getAttributeCountLimit ()I
+	public final fun getAttributeValueLengthLimit ()I
+}
+
+public final class io/embrace/opentelemetry/kotlin/init/config/LoggingConfig {
+	public fun <init> (Ljava/util/List;Lio/embrace/opentelemetry/kotlin/init/config/LogLimitConfig;Lio/embrace/opentelemetry/kotlin/resource/Resource;)V
+	public final fun getLogLimits ()Lio/embrace/opentelemetry/kotlin/init/config/LogLimitConfig;
+	public final fun getProcessors ()Ljava/util/List;
+	public final fun getResource ()Lio/embrace/opentelemetry/kotlin/resource/Resource;
+}
+
+public final class io/embrace/opentelemetry/kotlin/init/config/SpanLimitConfig {
+	public fun <init> (IIIII)V
+	public final fun getAttributeCountLimit ()I
+	public final fun getAttributeCountPerEventLimit ()I
+	public final fun getAttributeCountPerLinkLimit ()I
+	public final fun getEventCountLimit ()I
+	public final fun getLinkCountLimit ()I
+}
+
+public final class io/embrace/opentelemetry/kotlin/init/config/TracingConfig {
+	public fun <init> (Ljava/util/List;Lio/embrace/opentelemetry/kotlin/init/config/SpanLimitConfig;Lio/embrace/opentelemetry/kotlin/resource/Resource;)V
+	public final fun getProcessors ()Ljava/util/List;
+	public final fun getResource ()Lio/embrace/opentelemetry/kotlin/resource/Resource;
+	public final fun getSpanLimits ()Lio/embrace/opentelemetry/kotlin/init/config/SpanLimitConfig;
+}
+

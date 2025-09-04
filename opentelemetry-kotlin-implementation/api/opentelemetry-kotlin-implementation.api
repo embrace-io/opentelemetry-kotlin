@@ -3,7 +3,3 @@ public final class io/embrace/opentelemetry/kotlin/OpenTelemetryImplEntrypointKt
 	public static synthetic fun createOpenTelemetryInstance$default (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
 }
 
-public final class io/embrace/opentelemetry/kotlin/factory/SdkFactoryExtKt {
-	public static final fun createSdkFactory ()Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;
-}
-

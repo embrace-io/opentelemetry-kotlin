@@ -11,6 +11,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":opentelemetry-kotlin-api-core"))
+                api(project(":opentelemetry-kotlin-api-init"))
                 api(project(":opentelemetry-kotlin-api-context"))
                 api(project(":opentelemetry-kotlin-api-logging"))
                 api(project(":opentelemetry-kotlin-api-tracing"))

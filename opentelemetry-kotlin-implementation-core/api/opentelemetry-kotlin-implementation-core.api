@@ -1,0 +1,59 @@
+public final class io/embrace/opentelemetry/kotlin/attributes/MutableAttributeContainerImpl : io/embrace/opentelemetry/kotlin/attributes/MutableAttributeContainer {
+	public fun <init> (I)V
+	public fun getAttributes ()Ljava/util/Map;
+	public fun setBooleanAttribute (Ljava/lang/String;Z)V
+	public fun setBooleanListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public fun setDoubleAttribute (Ljava/lang/String;D)V
+	public fun setDoubleListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public fun setLongAttribute (Ljava/lang/String;J)V
+	public fun setLongListAttribute (Ljava/lang/String;Ljava/util/List;)V
+	public fun setStringAttribute (Ljava/lang/String;Ljava/lang/String;)V
+	public fun setStringListAttribute (Ljava/lang/String;Ljava/util/List;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/attributes/MutableAttributeContainerImplKt {
+	public static final field DEFAULT_ATTRIBUTE_LIMIT I
+}
+
+public final class io/embrace/opentelemetry/kotlin/clock/ClockImpl : io/embrace/opentelemetry/kotlin/Clock {
+	public fun <init> ()V
+	public fun now ()J
+}
+
+public final class io/embrace/opentelemetry/kotlin/error/NoopSdkErrorHandler : io/embrace/opentelemetry/kotlin/error/SdkErrorHandler {
+	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/error/NoopSdkErrorHandler;
+	public fun onApiMisuse (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+	public fun onSdkCodeError (Ljava/lang/Throwable;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+	public fun onUserCodeError (Ljava/lang/Throwable;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/error/SdkErrorHandler {
+	public abstract fun onApiMisuse (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+	public abstract fun onSdkCodeError (Ljava/lang/Throwable;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+	public abstract fun onUserCodeError (Ljava/lang/Throwable;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/error/SdkErrorSeverity : java/lang/Enum {
+	public static final field ERROR Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
+	public static final field INFO Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
+	public static final field WARNING Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
+	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
+	public static fun values ()[Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
+}
+
+public final class io/embrace/opentelemetry/kotlin/export/BatchExportOperationKt {
+	public static final fun batchExportOperation (Ljava/util/List;Lio/embrace/opentelemetry/kotlin/error/SdkErrorHandler;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+}
+
+public final class io/embrace/opentelemetry/kotlin/export/CompositeTelemetryCloseable : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable {
+	public fun <init> (Ljava/util/List;Lio/embrace/opentelemetry/kotlin/error/SdkErrorHandler;)V
+	public fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+}
+
+public final class io/embrace/opentelemetry/kotlin/provider/ApiProviderImpl {
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public final fun createInstrumentationScopeInfo (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;
+	public final fun getOrCreate (Lio/embrace/opentelemetry/kotlin/InstrumentationScopeInfo;)Ljava/lang/Object;
+}
+

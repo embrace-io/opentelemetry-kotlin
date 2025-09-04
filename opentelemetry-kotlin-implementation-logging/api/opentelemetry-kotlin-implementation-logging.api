@@ -1,0 +1,6 @@
+public final class io/embrace/opentelemetry/kotlin/logging/LoggerProviderImpl : io/embrace/opentelemetry/kotlin/logging/LoggerProvider {
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/init/config/LoggingConfig;Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;Lio/embrace/opentelemetry/kotlin/error/SdkErrorHandler;)V
+	public synthetic fun <init> (Lio/embrace/opentelemetry/kotlin/Clock;Lio/embrace/opentelemetry/kotlin/init/config/LoggingConfig;Lio/embrace/opentelemetry/kotlin/factory/SdkFactory;Lio/embrace/opentelemetry/kotlin/error/SdkErrorHandler;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getLogger (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/logging/Logger;
+}
+

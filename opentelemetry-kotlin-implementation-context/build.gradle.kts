@@ -11,22 +11,13 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":opentelemetry-kotlin-api"))
-                implementation(project(":opentelemetry-kotlin-model"))
-                implementation(project(":opentelemetry-kotlin-primitives"))
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(project(":opentelemetry-kotlin-test-fakes"))
-            }
-        }
-        val jvmTest by getting {
-            dependencies {
-                implementation(project(":opentelemetry-kotlin-integration-test"))
-                implementation(project(":opentelemetry-kotlin-compat"))
-                implementation(project(":opentelemetry-java-typealiases"))
-                implementation(project.dependencies.platform(libs.opentelemetry.bom))
-                implementation(libs.opentelemetry.api)
+                implementation(project(":opentelemetry-kotlin-model"))
+                implementation(project(":opentelemetry-kotlin-implementation-factory"))
             }
         }
     }

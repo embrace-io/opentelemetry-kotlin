@@ -16,3 +16,7 @@ public final class io/embrace/opentelemetry/kotlin/ThreadSafeMap_jvmKt {
 	public static final fun threadSafeMap ()Ljava/util/Map;
 }
 
+public final class io/embrace/opentelemetry/kotlin/Time_jvmKt {
+	public static final fun getCurrentTimeNanos ()J
+}
+

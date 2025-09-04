@@ -1,0 +1,81 @@
+package io.embrace.opentelemetry.kotlin.attributes
+
+import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.ThreadSafe
+import io.embrace.opentelemetry.kotlin.threadSafeMap
+
+@OptIn(ExperimentalApi::class)
+@ThreadSafe
+public class MutableAttributeContainerImpl(
+    private val attributeLimit: Int
+) : MutableAttributeContainer {
+
+    private val attrs: MutableMap<String, Any> = threadSafeMap()
+
+    override fun setBooleanAttribute(key: String, value: Boolean) {
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
+    }
+
+    override fun setStringAttribute(key: String, value: String) {
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
+    }
+
+    override fun setLongAttribute(key: String, value: Long) {
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
+    }
+
+    override fun setDoubleAttribute(key: String, value: Double) {
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
+    }
+
+    override fun setBooleanListAttribute(
+        key: String,
+        value: List<Boolean>
+    ) {
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
+    }
+
+    override fun setStringListAttribute(
+        key: String,
+        value: List<String>
+    ) {
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
+    }
+
+    override fun setLongListAttribute(
+        key: String,
+        value: List<Long>
+    ) {
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
+    }
+
+    override fun setDoubleListAttribute(
+        key: String,
+        value: List<Double>
+    ) {
+        if (canAddAttribute(key)) {
+            attrs[key] = value
+        }
+    }
+
+    override val attributes: Map<String, Any>
+        get() = attrs.toMap()
+
+    private fun canAddAttribute(key: String): Boolean = attrs.size < attributeLimit || attrs.contains(key)
+}
+
+public const val DEFAULT_ATTRIBUTE_LIMIT: Int = 128
