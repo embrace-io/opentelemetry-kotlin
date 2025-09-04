@@ -7,7 +7,7 @@ import io.embrace.opentelemetry.example.ExampleSpanProcessor
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.OpenTelemetry
 import io.embrace.opentelemetry.kotlin.context.Context
-import io.embrace.opentelemetry.kotlin.createOpenTelemetryInstance
+import io.embrace.opentelemetry.kotlin.createOpenTelemetry
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import io.embrace.opentelemetry.kotlin.tracing.Tracer
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
@@ -17,7 +17,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
  * Example of how to instantiate a Kotlin API wrapper around the OTel Java SDK.
  */
 fun instantiateOtelApi(): OpenTelemetry {
-    return createOpenTelemetryInstance(
+    return createOpenTelemetry(
         tracerProvider = {
             addSpanProcessor(ExampleSpanProcessor())
         },

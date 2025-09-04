@@ -1,6 +1,6 @@
 public final class io/embrace/opentelemetry/kotlin/OpenTelemetryImplEntrypointKt {
-	public static final fun createOpenTelemetryInstance (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
-	public static synthetic fun createOpenTelemetryInstance$default (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
+	public static final fun createOpenTelemetry (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
+	public static synthetic fun createOpenTelemetry$default (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
 }
 
 public final class io/embrace/opentelemetry/kotlin/factory/SdkFactoryExtKt {

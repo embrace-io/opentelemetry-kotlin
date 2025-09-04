@@ -18,12 +18,12 @@ import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigDsl
  * [toOtelKotlinApi] instead.
  */
 @ExperimentalApi
-public fun createCompatOpenTelemetryInstance(
+public fun createCompatOpenTelemetry(
     tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
     loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
     clock: Clock = ClockAdapter(io.opentelemetry.sdk.common.Clock.getDefault()),
 ): OpenTelemetry {
-    return createCompatOpenTelemetryInstanceImpl(
+    return createCompatOpenTelemetryImpl(
         tracerProvider,
         loggerProvider,
         clock,
@@ -31,11 +31,11 @@ public fun createCompatOpenTelemetryInstance(
 }
 
 /**
- * Internal implementation of [createCompatOpenTelemetryInstance]. This is not publicly visible as
+ * Internal implementation of [createCompatOpenTelemetry]. This is not publicly visible as
  * we don't want to allow users to supply a custom [SdkFactory].
  */
 @ExperimentalApi
-internal fun createCompatOpenTelemetryInstanceImpl(
+internal fun createCompatOpenTelemetryImpl(
     tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
     loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
     clock: Clock = ClockAdapter(io.opentelemetry.sdk.common.Clock.getDefault()),

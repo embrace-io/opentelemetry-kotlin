@@ -15,12 +15,12 @@ import io.embrace.opentelemetry.kotlin.tracing.TracerProviderImpl
  * Constructs an [OpenTelemetry] instance that uses the opentelemetry-kotlin implementation.
  */
 @ExperimentalApi
-public fun createOpenTelemetryInstance(
+public fun createOpenTelemetry(
     tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
     loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
     clock: Clock = ClockImpl(),
 ): OpenTelemetry {
-    return createOpenTelemetryInstanceImpl(
+    return createOpenTelemetryImpl(
         tracerProvider,
         loggerProvider,
         clock,
@@ -28,11 +28,11 @@ public fun createOpenTelemetryInstance(
 }
 
 /**
- * Internal implementation of [createOpenTelemetryInstance]. This is not publicly visible as
+ * Internal implementation of [createOpenTelemetry]. This is not publicly visible as
  * we don't want to allow users to supply a custom [SdkFactory].
  */
 @ExperimentalApi
-internal fun createOpenTelemetryInstanceImpl(
+internal fun createOpenTelemetryImpl(
     tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
     loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
     clock: Clock = ClockImpl(),
