@@ -8,7 +8,7 @@ import io.embrace.opentelemetry.kotlin.tracing.OtelJavaTracerProviderAdapter
  * Constructs an [OtelJavaOpenTelemetry] instance that makes the Kotlin implementation conform
  * to the opentelemetry-java API.
  *
- * End-users should generally not use this function and should call [createCompatOpenTelemetryInstance]
+ * End-users should generally not use this function and should call [createCompatOpenTelemetry]
  * or [toOtelKotlinApi] instead.
  */
 @ExperimentalApi

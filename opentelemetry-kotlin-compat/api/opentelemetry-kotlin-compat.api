@@ -1,6 +1,6 @@
 public final class io/embrace/opentelemetry/kotlin/OpenTelemetryCompatEntrypointKt {
-	public static final fun createCompatOpenTelemetryInstance (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
-	public static synthetic fun createCompatOpenTelemetryInstance$default (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
+	public static final fun createCompatOpenTelemetry (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
+	public static synthetic fun createCompatOpenTelemetry$default (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
 }
 
 public final class io/embrace/opentelemetry/kotlin/OpenTelemetryCompatExtKt {

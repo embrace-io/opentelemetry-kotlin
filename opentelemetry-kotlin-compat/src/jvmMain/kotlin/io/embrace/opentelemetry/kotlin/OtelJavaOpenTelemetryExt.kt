@@ -16,7 +16,7 @@ import io.embrace.opentelemetry.kotlin.tracing.TracerProviderAdapter
  * This function is useful if you have existing OpenTelemetry Java SDK code that you don't want
  * to/can't rewrite, but still wish to use the Kotlin API for new code. It is permitted to call
  * both the Kotlin and Java APIs throughout the lifecycle of your application, although it would
- * generally be encouraged to migrate to [createCompatOpenTelemetryInstance] as a long-term goal.
+ * generally be encouraged to migrate to [createCompatOpenTelemetry] as a long-term goal.
  */
 @ExperimentalApi
 public fun OtelJavaOpenTelemetry.toOtelKotlinApi(): OpenTelemetry {

@@ -8,7 +8,7 @@ internal class OpenTelemetrySdkTest {
 
     @Test
     fun `retrieve tracer provider`() {
-        val sdk = createCompatOpenTelemetryInstance()
+        val sdk = createCompatOpenTelemetry()
         val provider = sdk.tracerProvider
         val a = provider.getTracer("test")
         val b = provider.getTracer("test")
@@ -23,7 +23,7 @@ internal class OpenTelemetrySdkTest {
 
     @Test
     fun `retrieve logger provider`() {
-        val sdk = createCompatOpenTelemetryInstance()
+        val sdk = createCompatOpenTelemetry()
         val provider = sdk.loggerProvider
         val a = provider.getLogger("test")
         val b = provider.getLogger("test")
