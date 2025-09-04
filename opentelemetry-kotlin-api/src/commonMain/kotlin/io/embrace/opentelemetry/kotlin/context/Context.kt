@@ -38,4 +38,19 @@ public interface Context {
      */
     @ThreadSafe
     public fun <T> get(key: ContextKey<T>): T?
+
+    /**
+     * Attaches then detaches the context after executing an action.
+     */
+    public fun <T> use(storageMode: ContextStorageMode = ContextStorageMode.ThreadLocal, action: () -> T)
+
+    /**
+     * Attaches the context as current to the given storage method.
+     */
+    public fun attach(storageMode: ContextStorageMode = ContextStorageMode.THREAD_LOCAL): Context
+
+    /**
+     * Detaches the context as current from the given storage method.
+     */
+    public fun detach(): Context
 }
