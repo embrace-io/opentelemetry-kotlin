@@ -52,6 +52,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7FEF0B32E6B3208001C4698 /* Build configuration list for PBXNativeTarget "ios-app" */;
 			buildPhases = (
+				E7FEF0B62E6B3639001C4698 /* Build Gradle Project */,
 				E7FEF0A32E6B3207001C4698 /* Sources */,
 				E7FEF0A42E6B3207001C4698 /* Frameworks */,
 				E7FEF0A52E6B3207001C4698 /* Resources */,
@@ -113,6 +114,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E7FEF0B62E6B3639001C4698 /* Build Gradle Project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Gradle Project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"../../\"\n./gradlew embedAndSignAppleFrameworkForXcode\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E7FEF0A32E6B3207001C4698 /* Sources */ = {
