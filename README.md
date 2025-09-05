@@ -3,7 +3,9 @@
 An implementation of the [OpenTelemetry specification](https://opentelemetry.io/docs/specs/otel/) as a Kotlin
 Multiplatform Library, developed by [embrace.io](https://embrace.io/).
 
-Currently this API is a facade for the [OpenTelemetry Java SDK](https://github.com/open-telemetry/opentelemetry-java). In the near future this library will provide its own KMP implementation of the OpenTelemetry specification.
+This API operates in 2 modes:
+1. Compatibility mode, where it acts as a façade for the [OpenTelemetry Java SDK](https://github.com/open-telemetry/opentelemetry-java)
+2. Regular mode, where it captures telemetry via a Kotlin Multiplatform (KMP) implementation
 
 [![codecov](https://codecov.io/github/embrace-io/opentelemetry-kotlin/branch/main/graph/badge.svg?token=GQJYEOUSAU)](https://codecov.io/github/embrace-io/opentelemetry-kotlin)
 
@@ -14,7 +16,7 @@ The following targets are supported:
 - Android (API >=21)
 - JVM (JDK >= 8)
 
-Support for iOS and other platforms is planned for the future.
+Other targets compile but are not considered sufficiently tested to count as 'supported' at this current time.
 
 ## Supported OTel APIs
 
@@ -36,7 +38,7 @@ dependencies {
 
 ```
 val otelJava = io.opentelemetry.sdk.OpenTelemetrySdk.builder().build()
-val otelKotlin = OpenTelemetryInstance.decorateJavaApi(otelJava)
+val otelKotlin = otelJava.toOtelKotlinApi()
 ```
 
 3. Use the Kotlin API instead of the Java API in your app
