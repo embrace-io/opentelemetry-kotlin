@@ -5,6 +5,7 @@ import org.gradle.kotlin.dsl.exclude
 import org.jetbrains.kotlin.gradle.dsl.KotlinCommonCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 fun Project.configureKotlin(
     kotlin: KotlinMultiplatformExtension
@@ -24,8 +25,19 @@ fun Project.configureKotlin(
         }
         // not officially supported yet, beyond confirming the target compiles.
         if (!project.isJavaSdkCompatModule()) {
-            iosArm64 {
+            val frameworkName = createIosFrameworkName(project.name)
+            val framework = XCFramework(frameworkName)
+
+            listOf(
+                iosX64(),
+                iosArm64(),
+                iosSimulatorArm64()
+            ).forEach { target ->
                 compilerOptions.configureCompiler()
+                target.binaries.framework {
+                    baseName = frameworkName
+                }
+                framework.add(target.binaries.getFramework("RELEASE"))
             }
         }
 
@@ -57,4 +69,17 @@ private fun KotlinCommonCompilerOptions.configureCompiler() {
     apiVersion.set(KotlinVersion.KOTLIN_1_8)
     languageVersion.set(KotlinVersion.KOTLIN_1_8)
     freeCompilerArgs.add("-Xexpect-actual-classes")
+}
+
+private fun createIosFrameworkName(input: String): String {
+    return input
+        .split("-")
+        .mapIndexed { _, part ->
+            val normalized = when {
+                part.equals("opentelemetry") -> "Otel"
+                else -> part.replaceFirstChar { it.uppercase() }
+            }
+            normalized
+        }
+        .joinToString("")
 }
