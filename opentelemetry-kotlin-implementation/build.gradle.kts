@@ -13,7 +13,7 @@ kotlin {
                 implementation(project(":opentelemetry-kotlin-api"))
                 implementation(project(":opentelemetry-kotlin-api-ext"))
                 implementation(project(":opentelemetry-kotlin-model"))
-                implementation(project(":opentelemetry-kotlin-primitives"))
+                implementation(project(":opentelemetry-kotlin-platform-implementations"))
             }
         }
         val commonTest by getting {

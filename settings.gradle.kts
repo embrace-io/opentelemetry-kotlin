@@ -22,7 +22,7 @@ include(
     ":opentelemetry-kotlin-implementation",
     ":opentelemetry-kotlin-model",
     ":opentelemetry-kotlin-compat",
-    ":opentelemetry-kotlin-primitives",
+    ":opentelemetry-kotlin-platform-implementations",
     ":opentelemetry-kotlin-testing",
     ":opentelemetry-kotlin-test-fakes",
     ":opentelemetry-kotlin-integration-test",

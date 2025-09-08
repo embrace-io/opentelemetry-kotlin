@@ -17,4 +17,4 @@ The following guidelines should be followed during development:
 7. Default implementations of function signatures in interfaces is strongly discouraged, as this blends the API/implementation
 8. Default values for parameters is permissible. Default values for lambda parameters should be non-complex
 9. Annotate new APIs with `@ExperimentalApi` until they are considered stable
-10. Platform-specific code that isn't specific to a module (e.g. getting the current time) should go in `opentelemetry-kotlin-primitives` to promote reuse
+10. Platform-specific code that isn't specific to a module (e.g. getting the current time) should go in `opentelemetry-kotlin-platform-implementations` to promote reuse

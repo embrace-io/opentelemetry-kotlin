@@ -1,0 +1,26 @@
+public final class io/embrace/opentelemetry/kotlin/ClockImpl_jvmKt {
+	public static final fun getCurrentTimeNanos ()J
+}
+
+public final class io/embrace/opentelemetry/kotlin/ExceptionType_jvmKt {
+	public static final fun exceptionType (Ljava/lang/Throwable;)Ljava/lang/String;
+}
+
+public final class io/embrace/opentelemetry/kotlin/ReentrantReadWriteLock {
+	public fun <init> ()V
+	public final fun read (Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+	public final fun write (Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+}
+
+public final class io/embrace/opentelemetry/kotlin/Sync_jvmKt {
+	public static final fun sync (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+}
+
+public final class io/embrace/opentelemetry/kotlin/ThreadSafeList_jvmKt {
+	public static final fun threadSafeList ()Ljava/util/List;
+}
+
+public final class io/embrace/opentelemetry/kotlin/ThreadSafeMap_jvmKt {
+	public static final fun threadSafeMap ()Ljava/util/Map;
+}
+
