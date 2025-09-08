@@ -3,11 +3,11 @@ package io.embrace.opentelemetry.kotlin.provider
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
+import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 import io.embrace.opentelemetry.kotlin.attributes.DEFAULT_ATTRIBUTE_LIMIT
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
-import io.embrace.opentelemetry.kotlin.sync
 
 /**
  * Provides a tracer/logger implementation, creating a new instance via the supplier if nothing
@@ -26,8 +26,9 @@ internal class ApiProviderImpl<T>(
 ) {
 
     private val map = mutableMapOf<InstrumentationScopeInfo, T>()
+    private val lock = ReentrantReadWriteLock()
 
-    fun getOrCreate(key: InstrumentationScopeInfo): T = sync(map) {
+    fun getOrCreate(key: InstrumentationScopeInfo): T = lock.write {
         map.getOrPut(key) {
             supplier(key)
         }
