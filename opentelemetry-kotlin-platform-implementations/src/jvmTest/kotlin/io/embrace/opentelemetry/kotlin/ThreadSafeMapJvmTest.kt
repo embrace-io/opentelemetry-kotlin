@@ -4,7 +4,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.concurrent.ConcurrentHashMap
 
-internal class ThreadSafeMapTest {
+internal class ThreadSafeMapJvmTest {
 
     @Test
     fun `test threadSafeMap`() {
