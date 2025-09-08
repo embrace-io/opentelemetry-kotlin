@@ -1,6 +1,5 @@
 package io.embrace.opentelemetry.kotlin
 
-import io.embrace.opentelemetry.kotlin.clock.ClockImpl
 import io.embrace.opentelemetry.kotlin.error.NoopSdkErrorHandler
 import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.factory.createSdkFactory
