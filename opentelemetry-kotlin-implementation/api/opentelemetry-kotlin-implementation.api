@@ -3,3 +3,20 @@ public final class io/embrace/opentelemetry/kotlin/OpenTelemetryImplEntrypointKt
 	public static synthetic fun createOpenTelemetry$default (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/embrace/opentelemetry/kotlin/Clock;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/OpenTelemetry;
 }
 
+public final class io/embrace/opentelemetry/kotlin/logging/export/SimpleLogRecordProcessor : io/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor {
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;)V
+	public fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+	public fun onEmit (Lio/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord;Lio/embrace/opentelemetry/kotlin/context/Context;)V
+	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+}
+
+public final class io/embrace/opentelemetry/kotlin/tracing/export/SimpleSpanProcessor : io/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor {
+	public fun <init> (Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;)V
+	public fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+	public fun isEndRequired ()Z
+	public fun isStartRequired ()Z
+	public fun onEnd (Lio/embrace/opentelemetry/kotlin/tracing/model/ReadableSpan;)V
+	public fun onStart (Lio/embrace/opentelemetry/kotlin/tracing/model/ReadWriteSpan;Lio/embrace/opentelemetry/kotlin/context/Context;)V
+	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+}
+
