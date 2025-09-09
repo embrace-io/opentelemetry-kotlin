@@ -10,20 +10,15 @@ import io.embrace.opentelemetry.kotlin.ThreadSafe
  */
 @ExperimentalApi
 @ThreadSafe
-public interface Resource {
+public interface MutableResource {
 
     /**
      * The attributes of the resource.
      */
-    public val attributes: Map<String, Any>
+    public val attributes: MutableMap<String, Any>
 
     /**
      * A schema URL for this resource, if available.
      */
-    public val schemaUrl: String?
-
-    /**
-     * Creates a new resource using the current instance as a template.
-     */
-    public fun asNewResource(action: MutableResource.() -> Unit): Resource
+    public var schemaUrl: String?
 }

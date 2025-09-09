@@ -226,7 +226,14 @@ public final class io/embrace/opentelemetry/kotlin/logging/model/SeverityNumber 
 	public static fun values ()[Lio/embrace/opentelemetry/kotlin/logging/model/SeverityNumber;
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/resource/MutableResource {
+	public abstract fun getAttributes ()Ljava/util/Map;
+	public abstract fun getSchemaUrl ()Ljava/lang/String;
+	public abstract fun setSchemaUrl (Ljava/lang/String;)V
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/resource/Resource {
+	public abstract fun asNewResource (Lkotlin/jvm/functions/Function1;)Lio/embrace/opentelemetry/kotlin/resource/Resource;
 	public abstract fun getAttributes ()Ljava/util/Map;
 	public abstract fun getSchemaUrl ()Ljava/lang/String;
 }
