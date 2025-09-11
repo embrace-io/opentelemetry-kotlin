@@ -13,6 +13,9 @@ import io.embrace.opentelemetry.kotlin.tracing.OtelJavaTracerProviderAdapter
  */
 @ExperimentalApi
 public fun OpenTelemetry.toOtelJavaApi(): OtelJavaOpenTelemetry {
+    if (this == createNoopOpenTelemetry()) {
+        return OtelJavaOpenTelemetry.noop()
+    }
     return OtelJavaOpenTelemetrySdk(
         OtelJavaTracerProviderAdapter(tracerProvider),
         OtelJavaLoggerProviderAdapter(loggerProvider)
