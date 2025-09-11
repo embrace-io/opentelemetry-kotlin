@@ -13,7 +13,7 @@ junit4 = "4.13.2"
 junit5 = "5.13.4"
 koverGradlePlugin = "0.9.1"
 #noinspection GradleDependency
-kotlinExposed = "1.8.22"
+kotlinExposed = "2.2.20"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
