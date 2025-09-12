@@ -16,7 +16,12 @@ fun Project.configureKotlin(
 
         js(IR) {
             nodejs()
-            browser()
+            browser {
+                testTask {
+                    // disable browser tests, as nodejs is enough
+                    enabled = false
+                }
+            }
             binaries.library()
         }
 

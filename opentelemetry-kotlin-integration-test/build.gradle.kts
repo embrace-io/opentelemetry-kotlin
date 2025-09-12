@@ -6,7 +6,7 @@ plugins {
 
 kotlin {
     sourceSets {
-        val jvmMain by getting {
+        val commonMain by getting {
             dependencies {
                 implementation(project(":opentelemetry-kotlin-api"))
                 implementation(project(":opentelemetry-kotlin-test-fakes"))
