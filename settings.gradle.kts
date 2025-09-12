@@ -27,6 +27,7 @@ include(
     ":opentelemetry-kotlin-test-fakes",
     ":opentelemetry-kotlin-integration-test",
     ":opentelemetry-kotlin-compat-bom",
+    ":opentelemetry-kotlin-semconv",
     ":opentelemetry-java-typealiases",
     ":custom-detekt-rules",
     "examples:jvm-app",
