@@ -1,6 +1,8 @@
 package io.embrace.opentelemetry.kotlin.integration.test
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributeKey
+import io.embrace.opentelemetry.kotlin.aliases.OtelJavaAttributes
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSeverity
 import io.embrace.opentelemetry.kotlin.toOtelJavaApi
 import kotlin.test.BeforeTest
@@ -27,6 +29,31 @@ internal class OtelJavaApiExportTest {
             .addEvent("my_event")
             .end()
         harness.assertSpans(1, "span_java_api.json")
+    }
+
+    @Test
+    fun testComplexSpanExport() {
+        val javaApi = harness.kotlinApi.toOtelJavaApi()
+        val tracer = javaApi.tracerProvider.get("tracer")
+        val spanA = tracer.spanBuilder("span_a").startSpan().apply {
+            end()
+        }
+        val spanB = tracer.spanBuilder("span_b").startSpan().apply {
+            end()
+        }
+
+        tracer.spanBuilder("my_span")
+            .setAttribute("key", "value")
+            .setAttribute("long", 5L)
+            .setAttribute("double", 3.5)
+            .setAttribute("boolean", false)
+            .setAttribute(OtelJavaAttributeKey.stringKey("string"), "string")
+            .setNoParent()
+            .addLink(spanA.spanContext)
+            .addLink(spanB.spanContext, OtelJavaAttributes.empty())
+            .startSpan()
+            .end()
+        harness.assertSpans(3, "span_complex_java_api.json")
     }
 
     @Test

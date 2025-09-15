@@ -1,9 +1,11 @@
 package io.embrace.opentelemetry.kotlin
 
+import io.embrace.opentelemetry.kotlin.context.NoopContext
 import io.embrace.opentelemetry.kotlin.context.NoopContextKey
 import io.embrace.opentelemetry.kotlin.logging.model.SeverityNumber
 import io.embrace.opentelemetry.kotlin.tracing.NoopSpan
 import io.embrace.opentelemetry.kotlin.tracing.NoopSpanContext
+import io.embrace.opentelemetry.kotlin.tracing.NoopTraceFlags
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -120,6 +122,22 @@ internal class NoopTests {
             otel.traceStateFactory.default
         )
         assertSame(invalid, other)
+    }
+
+    @Test
+    fun testStoreSpan() {
+        val otel = createNoopOpenTelemetry()
+        val span = otel.tracerProvider.getTracer("tracer").createSpan("span")
+        val ctx = otel.contextFactory.storeSpan(otel.contextFactory.root(), span)
+        assertTrue(ctx is NoopContext)
+    }
+
+    @Test
+    fun testNoopTraceFlagsFactory() {
+        val otel = createNoopOpenTelemetry()
+        val traceFlagsFactory = otel.traceFlagsFactory
+        assertTrue(traceFlagsFactory.create(true, random = false) is NoopTraceFlags)
+        assertTrue(traceFlagsFactory.fromHex("01") is NoopTraceFlags)
     }
 
     @Test

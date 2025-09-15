@@ -22,7 +22,7 @@ internal class LogRecordModel(
     body: String?,
     severityText: String?,
     severityNumber: SeverityNumber?,
-    spanContext: SpanContext,
+    override val spanContext: SpanContext,
     private val logLimitConfig: LogLimitConfig,
 ) : ReadWriteLogRecord {
 
@@ -61,14 +61,6 @@ internal class LogRecordModel(
         }
 
     override var body: String? = body
-        get() = readLogRecord { field }
-        set(value) {
-            writeLogRecord {
-                field = value
-            }
-        }
-
-    override var spanContext: SpanContext = spanContext
         get() = readLogRecord { field }
         set(value) {
             writeLogRecord {

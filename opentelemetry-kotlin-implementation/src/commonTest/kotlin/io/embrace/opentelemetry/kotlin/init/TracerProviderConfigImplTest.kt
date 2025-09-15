@@ -68,6 +68,14 @@ internal class TracerProviderConfigImplTest {
     }
 
     @Test
+    fun testResourceOverride() {
+        val cfg = TracerProviderConfigImpl().apply {
+            resource(mapOf("extra" to true))
+        }.generateTracingConfig()
+        assertEquals(mapOf("extra" to true), cfg.resource.attributes)
+    }
+
+    @Test
     fun testSimpleResourceConfig() {
         val cfg = TracerProviderConfigImpl().apply {
             resource(mapOf("key" to "value"))

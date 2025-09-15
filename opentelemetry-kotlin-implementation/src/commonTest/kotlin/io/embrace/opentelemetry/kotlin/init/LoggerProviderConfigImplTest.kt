@@ -56,6 +56,14 @@ internal class LoggerProviderConfigImplTest {
     }
 
     @Test
+    fun testResourceOverride() {
+        val cfg = LoggerProviderConfigImpl().apply {
+            resource(mapOf("extra" to true))
+        }.generateLoggingConfig()
+        assertEquals(mapOf("extra" to true), cfg.resource.attributes)
+    }
+
+    @Test
     fun testSimpleResourceConfig() {
         val cfg = LoggerProviderConfigImpl().apply {
             resource(mapOf("key" to "value"))
