@@ -14,12 +14,12 @@ kotlin {
                 implementation(project(":opentelemetry-kotlin-api-ext"))
                 implementation(project(":opentelemetry-kotlin-model"))
                 implementation(project(":opentelemetry-kotlin-platform-implementations"))
-                implementation(project(":opentelemetry-kotlin-integration-test"))
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(project(":opentelemetry-kotlin-test-fakes"))
+                implementation(project(":opentelemetry-kotlin-integration-test"))
             }
         }
         val jvmTest by getting {
