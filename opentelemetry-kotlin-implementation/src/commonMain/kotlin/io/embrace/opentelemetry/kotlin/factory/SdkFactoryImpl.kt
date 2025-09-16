@@ -6,17 +6,13 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 internal class SdkFactoryImpl(
     override val tracingIdFactory: TracingIdFactory = TracingIdFactoryImpl()
 ) : SdkFactory {
-
-    override val spanContextFactory: SpanContextFactory = SpanContextFactoryImpl()
-
-    override val traceFlagsFactory: TraceFlagsFactory
-        get() = TraceFlagsFactoryImpl()
-
-    override val traceStateFactory: TraceStateFactory
-        get() = TraceStateFactoryImpl()
-
-    private val contextFactoryImpl = ContextFactoryImpl()
-    override val contextFactory: ContextFactory = contextFactoryImpl
-
-    override val spanFactory: SpanFactory = SpanFactoryImpl(spanContextFactory, contextFactoryImpl.spanKey)
+    override val traceFlagsFactory: TraceFlagsFactory by lazy { TraceFlagsFactoryImpl() }
+    override val traceStateFactory: TraceStateFactory by lazy { TraceStateFactoryImpl() }
+    override val spanContextFactory: SpanContextFactory by lazy {
+        SpanContextFactoryImpl(traceFlagsFactory, traceStateFactory)
+    }
+    override val contextFactory: ContextFactory by lazy { ContextFactoryImpl() }
+    override val spanFactory: SpanFactory by lazy {
+        SpanFactoryImpl(spanContextFactory, (contextFactory as ContextFactoryImpl).spanKey)
+    }
 }

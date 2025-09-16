@@ -18,9 +18,18 @@ internal class LoggerProviderImpl(
     sdkErrorHandler: SdkErrorHandler = NoopSdkErrorHandler,
 ) : LoggerProvider {
 
-    private val apiProvider = ApiProviderImpl<Logger> { key ->
-        val processor = CompositeLogRecordProcessor(loggingConfig.processors, sdkErrorHandler)
-        LoggerImpl(clock, processor, sdkFactory, key, loggingConfig.resource, loggingConfig.logLimits)
+    private val apiProvider by lazy {
+        ApiProviderImpl<Logger> { key ->
+            val processor = CompositeLogRecordProcessor(loggingConfig.processors, sdkErrorHandler)
+            LoggerImpl(
+                clock,
+                processor,
+                sdkFactory,
+                key,
+                loggingConfig.resource,
+                loggingConfig.logLimits
+            )
+        }
     }
 
     override fun getLogger(

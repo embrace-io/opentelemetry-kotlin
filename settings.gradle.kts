@@ -28,6 +28,7 @@ include(
     ":opentelemetry-kotlin-integration-test",
     ":opentelemetry-kotlin-compat-bom",
     ":opentelemetry-kotlin-semconv",
+    ":opentelemetry-kotlin-microbenchmark",
     ":opentelemetry-java-typealiases",
     ":custom-detekt-rules",
     "examples:jvm-app",
