@@ -10,6 +10,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.attributes.CompatMutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.init.CompatSpanLimitsConfig
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
@@ -28,6 +29,7 @@ internal class SpanAdapter(
     parentCtx: OtelJavaContext?,
     override val spanKind: SpanKind,
     override val startTimestamp: Long,
+    private val spanLimitsConfig: CompatSpanLimitsConfig,
 ) : Span, OtelJavaImplicitContextKeyed {
 
     private val attrs: MutableMap<String, Any> = ConcurrentHashMap()
@@ -79,10 +81,15 @@ internal class SpanAdapter(
 
     override fun isRecording(): Boolean = impl.isRecording
 
-    override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
+    override fun addLink(
+        spanContext: SpanContext,
+        attributes: MutableAttributeContainer.() -> Unit
+    ) {
         val container = CompatMutableAttributeContainer()
         attributes(container)
-        linksImpl.add(LinkImpl(spanContext, container))
+        if (linksImpl.size < spanLimitsConfig.linkCountLimit) {
+            linksImpl.add(LinkImpl(spanContext, container))
+        }
         impl.addLink(spanContext.toOtelJavaSpanContext(), container.otelJavaAttributes())
     }
 
@@ -94,48 +101,66 @@ internal class SpanAdapter(
         val container = CompatMutableAttributeContainer()
         attributes(container)
         val time = timestamp ?: clock.now()
-        eventsImpl.add(SpanEventImpl(name, time, container))
+        if (eventsImpl.size < spanLimitsConfig.eventCountLimit) {
+            eventsImpl.add(SpanEventImpl(name, time, container))
+        }
         impl.addEvent(name, container.otelJavaAttributes(), time, TimeUnit.NANOSECONDS)
     }
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
         impl.setAttribute(key, value)
-        attrs[key] = value
+        if (attrs.size < spanLimitsConfig.attributeCountLimit) {
+            attrs[key] = value
+        }
     }
 
     override fun setStringAttribute(key: String, value: String) {
         impl.setAttribute(key, value)
-        attrs[key] = value
+        if (attrs.size < spanLimitsConfig.attributeCountLimit) {
+            attrs[key] = value
+        }
     }
 
     override fun setLongAttribute(key: String, value: Long) {
         impl.setAttribute(key, value)
-        attrs[key] = value
+        if (attrs.size < spanLimitsConfig.attributeCountLimit) {
+            attrs[key] = value
+        }
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
         impl.setAttribute(key, value)
-        attrs[key] = value
+        if (attrs.size < spanLimitsConfig.attributeCountLimit) {
+            attrs[key] = value
+        }
     }
 
     override fun setBooleanListAttribute(key: String, value: List<Boolean>) {
         impl.setAttribute(OtelJavaAttributeKey.booleanArrayKey(key), value)
-        attrs[key] = value
+        if (attrs.size < spanLimitsConfig.attributeCountLimit) {
+            attrs[key] = value
+        }
     }
 
     override fun setStringListAttribute(key: String, value: List<String>) {
         impl.setAttribute(OtelJavaAttributeKey.stringArrayKey(key), value)
-        attrs[key] = value
+        if (attrs.size < spanLimitsConfig.attributeCountLimit) {
+            attrs[key] = value
+        }
     }
 
     override fun setLongListAttribute(key: String, value: List<Long>) {
         impl.setAttribute(OtelJavaAttributeKey.longArrayKey(key), value)
-        attrs[key] = value
+        if (attrs.size < spanLimitsConfig.attributeCountLimit) {
+            attrs[key] = value
+        }
     }
 
     override fun setDoubleListAttribute(key: String, value: List<Double>) {
         impl.setAttribute(OtelJavaAttributeKey.doubleArrayKey(key), value)
-        attrs[key] = value
+        if (attrs.size < spanLimitsConfig.attributeCountLimit) {
+            attrs[key] = value
+        }
     }
 
     override fun storeInContext(context: OtelJavaContext): OtelJavaContext? {
