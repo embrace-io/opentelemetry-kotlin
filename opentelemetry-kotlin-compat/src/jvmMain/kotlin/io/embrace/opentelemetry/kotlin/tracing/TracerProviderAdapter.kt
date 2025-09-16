@@ -4,12 +4,14 @@ import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracerProvider
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
+import io.embrace.opentelemetry.kotlin.init.CompatSpanLimitsConfig
 import java.util.concurrent.ConcurrentHashMap
 
 @ExperimentalApi
 internal class TracerProviderAdapter(
     private val tracerProvider: OtelJavaTracerProvider,
     private val clock: Clock,
+    private val spanLimitsConfig: CompatSpanLimitsConfig,
 ) : TracerProvider {
 
     private val map = ConcurrentHashMap<String, TracerAdapter>()
@@ -28,7 +30,7 @@ internal class TracerProviderAdapter(
             schemaUrl?.let(tracerBuilder::setSchemaUrl)
             version?.let(tracerBuilder::setInstrumentationVersion)
             val tracer = tracerBuilder.build()
-            TracerAdapter(tracer, clock)
+            TracerAdapter(tracer, clock, spanLimitsConfig)
         }
     }
 }

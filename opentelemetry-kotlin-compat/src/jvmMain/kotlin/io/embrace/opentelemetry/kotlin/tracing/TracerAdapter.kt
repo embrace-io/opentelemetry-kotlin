@@ -7,6 +7,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTracer
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.context.OtelJavaContextAdapter
 import io.embrace.opentelemetry.kotlin.context.toOtelJavaContext
+import io.embrace.opentelemetry.kotlin.init.CompatSpanLimitsConfig
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelJavaSpanKind
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanAdapter
@@ -17,7 +18,8 @@ import java.util.concurrent.TimeUnit
 @OptIn(ExperimentalApi::class)
 internal class TracerAdapter(
     private val tracer: OtelJavaTracer,
-    private val clock: Clock
+    private val clock: Clock,
+    private val spanLimitsConfig: CompatSpanLimitsConfig
 ) : Tracer {
 
     override fun createSpan(
@@ -44,7 +46,8 @@ internal class TracerAdapter(
             clock = clock,
             parentCtx = parentContext?.let(::OtelJavaContextAdapter) ?: OtelJavaContext.current(),
             spanKind = spanKind,
-            startTimestamp = start
+            startTimestamp = start,
+            spanLimitsConfig = spanLimitsConfig,
         ).apply {
             this.name = name
             action(this)
