@@ -27,6 +27,7 @@ public fun createCompatOpenTelemetry(
         tracerProvider,
         loggerProvider,
         clock,
+        createCompatSdkFactory(),
     )
 }
 
@@ -36,10 +37,10 @@ public fun createCompatOpenTelemetry(
  */
 @ExperimentalApi
 internal fun createCompatOpenTelemetryImpl(
-    tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
-    loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
-    clock: Clock = ClockAdapter(io.opentelemetry.sdk.common.Clock.getDefault()),
-    sdkFactory: SdkFactory = createCompatSdkFactory(),
+    tracerProvider: TracerProviderConfigDsl.() -> Unit,
+    loggerProvider: LoggerProviderConfigDsl.() -> Unit,
+    clock: Clock,
+    sdkFactory: SdkFactory,
 ): OpenTelemetry {
     val tracerCfg = CompatTracerProviderConfig(clock, sdkFactory).apply(tracerProvider)
     val loggerCfg = CompatLoggerProviderConfig(clock).apply(loggerProvider)

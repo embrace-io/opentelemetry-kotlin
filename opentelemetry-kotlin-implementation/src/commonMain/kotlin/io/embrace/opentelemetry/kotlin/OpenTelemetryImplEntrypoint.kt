@@ -23,6 +23,7 @@ public fun createOpenTelemetry(
         tracerProvider,
         loggerProvider,
         clock,
+        createSdkFactory(),
     )
 }
 
@@ -32,10 +33,10 @@ public fun createOpenTelemetry(
  */
 @ExperimentalApi
 internal fun createOpenTelemetryImpl(
-    tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
-    loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
-    clock: Clock = ClockImpl(),
-    sdkFactory: SdkFactory = createSdkFactory()
+    tracerProvider: TracerProviderConfigDsl.() -> Unit,
+    loggerProvider: LoggerProviderConfigDsl.() -> Unit,
+    clock: Clock,
+    sdkFactory: SdkFactory,
 ): OpenTelemetry {
     val tracingConfig = TracerProviderConfigImpl().apply(tracerProvider).generateTracingConfig()
     val loggingConfig = LoggerProviderConfigImpl().apply(loggerProvider).generateLoggingConfig()

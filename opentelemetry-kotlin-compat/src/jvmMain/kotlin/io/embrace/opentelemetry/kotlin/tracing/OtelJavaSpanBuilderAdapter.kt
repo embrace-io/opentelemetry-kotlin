@@ -9,10 +9,10 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpan
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanBuilder
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanContext
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaSpanKind
-import io.embrace.opentelemetry.kotlin.attributes.attrsFromMap
 import io.embrace.opentelemetry.kotlin.attributes.setAttributes
 import io.embrace.opentelemetry.kotlin.attributes.toMap
 import io.embrace.opentelemetry.kotlin.context.ContextAdapter
+import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelKotlinSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelKotlinSpanKind
 import io.embrace.opentelemetry.kotlin.tracing.model.OtelJavaSpanAdapter
 import java.util.concurrent.TimeUnit
@@ -98,8 +98,10 @@ internal class OtelJavaSpanBuilderAdapter(
             parentContext = ContextAdapter(parent ?: OtelJavaContext.current())
         ) {
             setAttributes(attrs.build().asMap().mapKeys { it.key.key })
-            links.forEach {
-                addLink(it.spanContext, attrsFromMap(it.attributes.toMap()))
+            links.forEach { link ->
+                this.addLink(link.spanContext.toOtelKotlinSpanContext()) {
+                    setAttributes(link.attributes.toMap())
+                }
             }
         }
         return OtelJavaSpanAdapter(span)

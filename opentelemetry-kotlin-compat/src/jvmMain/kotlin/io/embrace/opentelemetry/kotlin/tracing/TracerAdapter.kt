@@ -42,8 +42,7 @@ internal class TracerAdapter(
         return SpanAdapter(
             impl = span,
             clock = clock,
-            parentCtx = parentContext?.let(::OtelJavaContextAdapter) ?: OtelJavaContext.current()
-                ?: OtelJavaContext.root(),
+            parentCtx = parentContext?.let(::OtelJavaContextAdapter) ?: OtelJavaContext.current(),
             spanKind = spanKind,
             startTimestamp = start
         ).apply {

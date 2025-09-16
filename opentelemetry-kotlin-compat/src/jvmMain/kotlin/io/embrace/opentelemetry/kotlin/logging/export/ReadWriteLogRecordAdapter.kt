@@ -79,9 +79,8 @@ internal class ReadWriteLogRecordAdapter(
     override val attributes: Map<String, Any>
         get() = impl.attributes.toMap()
 
-    override var spanContext: SpanContext
+    override val spanContext: SpanContext
         get() = SpanContextAdapter(impl.spanContext)
-        set(value) {}
 
     override val resource: Resource
         get() = ResourceAdapter(impl.toLogRecordData().resource)
