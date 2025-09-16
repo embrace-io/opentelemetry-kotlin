@@ -3,11 +3,11 @@ package io.embrace.opentelemetry.kotlin.provider
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
-import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
 import io.embrace.opentelemetry.kotlin.ThreadSafe
 import io.embrace.opentelemetry.kotlin.attributes.DEFAULT_ATTRIBUTE_LIMIT
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
+import io.embrace.opentelemetry.kotlin.threadSafeMap
 
 /**
  * Provides a tracer/logger implementation, creating a new instance via the supplier if nothing
@@ -25,13 +25,10 @@ internal class ApiProviderImpl<T>(
     val supplier: (key: InstrumentationScopeInfo) -> T
 ) {
 
-    private val map = mutableMapOf<InstrumentationScopeInfo, T>()
-    private val lock = ReentrantReadWriteLock()
+    private val map = threadSafeMap<InstrumentationScopeInfo, T>()
 
-    fun getOrCreate(key: InstrumentationScopeInfo): T = lock.write {
-        map.getOrPut(key) {
-            supplier(key)
-        }
+    fun getOrCreate(key: InstrumentationScopeInfo): T = map.getOrPut(key) {
+        supplier(key)
     }
 
     fun createInstrumentationScopeInfo(
@@ -40,7 +37,7 @@ internal class ApiProviderImpl<T>(
         schemaUrl: String?,
         attributes: MutableAttributeContainer.() -> Unit
     ): InstrumentationScopeInfo {
-        val attrs = MutableAttributeContainerImpl(DEFAULT_ATTRIBUTE_LIMIT).apply {
+        val attrs = MutableAttributeContainerImpl(DEFAULT_ATTRIBUTE_LIMIT, mutableMapOf()).apply {
             attributes()
         }.attributes
         return InstrumentationScopeInfoImpl(name, version, schemaUrl, attrs)
