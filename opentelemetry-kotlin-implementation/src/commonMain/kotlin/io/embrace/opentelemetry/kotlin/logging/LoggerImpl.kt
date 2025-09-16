@@ -4,7 +4,6 @@ import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
-import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.init.config.LogLimitConfig
@@ -33,10 +32,15 @@ internal class LoggerImpl(
         severityText: String?,
         attributes: MutableAttributeContainer.() -> Unit
     ) {
-        val attrs = MutableAttributeContainerImpl(logLimitConfig.attributeCountLimit, mutableMapOf()).apply(attributes)
-        val ctx = context ?: sdkFactory.contextFactory.root()
+        val root = sdkFactory.contextFactory.root()
+        val ctx = context ?: root
+
+        val spanContext = when (ctx) {
+            root -> sdkFactory.spanContextFactory.invalid
+            else -> sdkFactory.spanFactory.fromContext(ctx).spanContext
+        }
+
         val log = LogRecordModel(
-            attributeContainer = attrs,
             resource = resource,
             instrumentationScopeInfo = key,
             timestamp = timestamp ?: clock.now(),
@@ -44,9 +48,10 @@ internal class LoggerImpl(
             body = body,
             severityText = severityText,
             severityNumber = severityNumber ?: SeverityNumber.UNKNOWN,
-            spanContext = sdkFactory.spanFactory.fromContext(ctx).spanContext,
+            spanContext = spanContext,
             logLimitConfig = logLimitConfig
         )
+        attributes(log)
         processor.onEmit(ReadWriteLogRecordImpl(log), ctx)
     }
 }

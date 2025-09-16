@@ -22,11 +22,21 @@ class NonRecordingSpan(
 
     override var name: String = ""
     override var status: StatusData = StatusData.Unset
-    override val spanKind: SpanKind = SpanKind.INTERNAL
-    override val startTimestamp: Long = 0
-    override val attributes: Map<String, Any> = emptyMap()
-    override val events: List<EventData> = emptyList()
-    override val links: List<LinkData> = emptyList()
+
+    override val spanKind: SpanKind
+        get() = SpanKind.INTERNAL
+
+    override val startTimestamp: Long
+        get() = 0
+
+    override val attributes: Map<String, Any>
+        get() = emptyMap()
+
+    override val events: List<EventData>
+        get() = emptyList()
+
+    override val links: List<LinkData>
+        get() = emptyList()
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
     }
@@ -39,7 +49,10 @@ class NonRecordingSpan(
 
     override fun isRecording(): Boolean = false
 
-    override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
+    override fun addLink(
+        spanContext: SpanContext,
+        attributes: MutableAttributeContainer.() -> Unit
+    ) {
     }
 
     override fun addEvent(

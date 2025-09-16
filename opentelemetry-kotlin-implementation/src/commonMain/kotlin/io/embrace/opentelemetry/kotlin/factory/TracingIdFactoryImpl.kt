@@ -14,13 +14,28 @@ internal class TracingIdFactoryImpl(
     override val invalidTraceId: String = "00000000000000000000000000000000"
     override val invalidSpanId: String = "0000000000000000"
 
-    private fun randomHex(count: Int): String {
-        val bytes = random.nextBytes(count / 2)
-        return buildString(count / 2) {
-            for (byte in bytes) {
-                val unsigned = byte.toInt() and 0xFF
-                append(unsigned.toString(16).padStart(2, '0'))
+    // follows approach taken in opentelemetry-java (optimized for speed)
+
+    private val hexChars = "0123456789abcdef".toCharArray()
+
+    private fun randomHex(charCount: Int): String {
+        var bytes: ByteArray
+        do {
+            bytes = ByteArray(charCount / 2).apply { // 2 chars per byte
+                random.nextBytes(this)
             }
+        } while (bytes.all { it == 0.toByte() }) // reject all-zero
+        return toHex(bytes)
+    }
+
+    private fun toHex(bytes: ByteArray): String {
+        val result = CharArray(bytes.size * 2)
+        var k = 0
+        for (byte in bytes) {
+            val i = byte.toInt() and 0xFF
+            result[k++] = hexChars[i ushr 4]
+            result[k++] = hexChars[i and 0x0F]
         }
+        return result.concatToString()
     }
 }

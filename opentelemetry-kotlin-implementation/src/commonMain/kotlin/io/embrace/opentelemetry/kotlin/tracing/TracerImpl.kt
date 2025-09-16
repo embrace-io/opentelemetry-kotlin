@@ -33,8 +33,14 @@ internal class TracerImpl(
         startTimestamp: Long?,
         action: SpanRelationships.() -> Unit
     ): Span {
-        val ctx = parentContext ?: sdkFactory.contextFactory.root()
-        val parentSpanContext = retrieveParentSpanContext(ctx)
+        val root = sdkFactory.contextFactory.root()
+        val ctx = parentContext ?: root
+
+        val parentSpanContext = when (ctx) {
+            root -> sdkFactory.spanContextFactory.invalid
+            else -> sdkFactory.spanFactory.fromContext(ctx).spanContext
+        }
+
         val spanContext = calculateSpanContext(parentSpanContext, sdkFactory)
 
         val spanModel = SpanModel(
@@ -52,11 +58,6 @@ internal class TracerImpl(
         action(spanModel)
         processor.onStart(ReadWriteSpanImpl(spanModel), ctx)
         return CreatedSpan(spanModel)
-    }
-
-    private fun retrieveParentSpanContext(parent: Context): SpanContext {
-        val parentSpan = sdkFactory.spanFactory.fromContext(parent)
-        return parentSpan.spanContext
     }
 
     private fun calculateSpanContext(
