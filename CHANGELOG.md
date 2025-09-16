@@ -1,5 +1,15 @@
 # opentelemetry-kotlin changelog
 
+# 0.5.1
+*Sep 15, 2025*
+
+- Fixes dependency resolution error in `opentelemetry-kotlin-implementation` module that was introduced in 0.5.0
+
+# 0.5.0
+*Sep 15, 2025*
+
+- Various API changes and improvements
+
 # 0.4.2
 *Sep 4, 2025*
 
