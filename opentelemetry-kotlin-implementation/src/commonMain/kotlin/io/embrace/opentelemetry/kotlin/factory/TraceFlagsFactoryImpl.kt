@@ -6,7 +6,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.TraceFlags
 
 @ExperimentalApi
 internal class TraceFlagsFactoryImpl : TraceFlagsFactory {
-    override val default: TraceFlags = TraceFlagsImpl(isSampled = true, isRandom = false)
+    override val default: TraceFlags by lazy { TraceFlagsImpl(isSampled = true, isRandom = false) }
 
     override fun create(sampled: Boolean, random: Boolean): TraceFlags {
         return TraceFlagsImpl(isSampled = sampled, isRandom = random)

@@ -10,6 +10,7 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceState
 import io.embrace.opentelemetry.kotlin.assertions.assertSpanContextsMatch
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.factory.createCompatSdkFactory
+import io.embrace.opentelemetry.kotlin.init.CompatSpanLimitsConfig
 import io.embrace.opentelemetry.kotlin.tracing.ext.storeInContext
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanAdapter
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContextAdapter
@@ -69,7 +70,8 @@ internal class SpanExtTest {
             FakeClock(),
             OtelJavaContext.root(),
             SpanKind.INTERNAL,
-            0
+            0,
+            CompatSpanLimitsConfig(),
         )
         val root = factory.contextFactory.root()
         val ctx = span.storeInContext(root)

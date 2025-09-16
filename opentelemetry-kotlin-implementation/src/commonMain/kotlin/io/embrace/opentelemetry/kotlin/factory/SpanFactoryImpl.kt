@@ -13,9 +13,9 @@ internal class SpanFactoryImpl(
     private val spanKey: ContextKey<Span>
 ) : SpanFactory {
 
-    private val invalidSpanContext = spanContextFactory.invalid
+    private val invalidSpanContext by lazy { spanContextFactory.invalid }
 
-    override val invalid: Span = NonRecordingSpan(invalidSpanContext, invalidSpanContext)
+    override val invalid: Span by lazy { NonRecordingSpan(invalidSpanContext, invalidSpanContext) }
 
     override fun fromSpanContext(spanContext: SpanContext): Span =
         NonRecordingSpan(invalidSpanContext, spanContext)

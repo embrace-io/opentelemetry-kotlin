@@ -8,8 +8,8 @@ import io.embrace.opentelemetry.kotlin.tracing.model.Span
 @OptIn(ExperimentalApi::class)
 internal class ContextFactoryImpl : ContextFactory {
 
-    private val root = ContextImpl()
-    internal val spanKey = root.createKey<Span>("opentelemetry-kotlin-span")
+    private val root by lazy { ContextImpl() }
+    internal val spanKey by lazy { root.createKey<Span>("opentelemetry-kotlin-span") }
 
     override fun root(): Context = root
 

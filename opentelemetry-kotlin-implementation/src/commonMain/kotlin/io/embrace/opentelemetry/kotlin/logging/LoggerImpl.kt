@@ -33,7 +33,7 @@ internal class LoggerImpl(
         severityText: String?,
         attributes: MutableAttributeContainer.() -> Unit
     ) {
-        val attrs = MutableAttributeContainerImpl(logLimitConfig.attributeCountLimit).apply(attributes)
+        val attrs = MutableAttributeContainerImpl(logLimitConfig.attributeCountLimit, mutableMapOf()).apply(attributes)
         val ctx = context ?: sdkFactory.contextFactory.root()
         val log = LogRecordModel(
             attributeContainer = attrs,

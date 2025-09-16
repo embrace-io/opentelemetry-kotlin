@@ -33,6 +33,13 @@ internal class SpanExportTest {
     @BeforeTest
     fun setUp() {
         harness = OtelKotlinHarness()
+        harness.config.spanLimits = {
+            attributeCountLimit = 100
+            linkCountLimit = 100
+            eventCountLimit = 100
+            attributeCountPerLinkLimit = 100
+            attributeCountPerEventLimit = 100
+        }
     }
 
     @Test

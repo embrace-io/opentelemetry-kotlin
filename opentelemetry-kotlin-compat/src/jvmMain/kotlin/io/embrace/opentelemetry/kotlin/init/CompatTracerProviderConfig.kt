@@ -22,6 +22,7 @@ internal class CompatTracerProviderConfig(
 ) : TracerProviderConfigDsl {
 
     private val builder: OtelJavaSdkTracerProviderBuilder = OtelJavaSdkTracerProvider.builder()
+    private val spanLimitsConfig = CompatSpanLimitsConfig()
 
     init {
         builder.setClock(OtelJavaClockWrapper(clock))
@@ -44,12 +45,12 @@ internal class CompatTracerProviderConfig(
     }
 
     override fun spanLimits(action: SpanLimitsConfigDsl.() -> Unit) {
-        builder.setSpanLimits(CompatSpanLimitsConfig().apply(action).build())
+        builder.setSpanLimits(spanLimitsConfig.apply(action).build())
     }
 
     override fun addSpanProcessor(processor: SpanProcessor) {
         builder.addSpanProcessor(OtelJavaSpanProcessorAdapter(processor))
     }
 
-    fun build(): TracerProvider = TracerProviderAdapter(builder.build(), clock)
+    fun build(): TracerProvider = TracerProviderAdapter(builder.build(), clock, spanLimitsConfig)
 }

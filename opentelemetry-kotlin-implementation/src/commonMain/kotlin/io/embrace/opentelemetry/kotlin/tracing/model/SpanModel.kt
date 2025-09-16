@@ -11,7 +11,6 @@ import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.LinkImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanDataImpl
 import io.embrace.opentelemetry.kotlin.tracing.SpanEventImpl
-import io.embrace.opentelemetry.kotlin.tracing.SpanRelationshipsImpl
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
@@ -27,7 +26,6 @@ internal class SpanModel(
     private val clock: Clock,
     private val processor: SpanProcessor,
     name: String,
-    spanRelationships: SpanRelationshipsImpl,
     override val spanKind: SpanKind,
     override val startTimestamp: Long,
     override val instrumentationScopeInfo: InstrumentationScopeInfo,
@@ -91,12 +89,12 @@ internal class SpanModel(
 
     override fun isRecording(): Boolean = state != State.ENDED
 
-    private val eventsList = spanRelationships.events.toMutableList()
+    private val eventsList = mutableListOf<EventData>()
 
     override val events: List<EventData>
         get() = readSpan { eventsList.toList() }
 
-    private val linksList = spanRelationships.links.toMutableList()
+    private val linksList = mutableListOf<LinkData>()
 
     override val links: List<LinkData>
         get() = readSpan { linksList.toList() }
@@ -153,34 +151,34 @@ internal class SpanModel(
     override val hasEnded: Boolean
         get() = state == State.ENDED
 
-    private val attrs: MutableMap<String, Any> = spanRelationships.attributes.toMutableMap()
+    private val attrs = MutableAttributeContainerImpl(spanLimitConfig.attributeCountLimit, mutableMapOf())
 
     override val attributes: Map<String, Any>
         get() = readSpan {
-            attrs.toMap()
+            attrs.attributes
         }
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
-        addAttribute(key) {
-            attrs[key] = value
+        writeSpan {
+            attrs.setBooleanAttribute(key, value)
         }
     }
 
     override fun setStringAttribute(key: String, value: String) {
-        addAttribute(key) {
-            attrs[key] = value
+        writeSpan {
+            attrs.setStringAttribute(key, value)
         }
     }
 
     override fun setLongAttribute(key: String, value: Long) {
-        addAttribute(key) {
-            attrs[key] = value
+        writeSpan {
+            attrs.setLongAttribute(key, value)
         }
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
-        addAttribute(key) {
-            attrs[key] = value
+        writeSpan {
+            attrs.setDoubleAttribute(key, value)
         }
     }
 
@@ -188,8 +186,8 @@ internal class SpanModel(
         key: String,
         value: List<Boolean>
     ) {
-        addAttribute(key) {
-            attrs[key] = value
+        writeSpan {
+            attrs.setBooleanListAttribute(key, value)
         }
     }
 
@@ -197,8 +195,8 @@ internal class SpanModel(
         key: String,
         value: List<String>
     ) {
-        addAttribute(key) {
-            attrs[key] = value
+        writeSpan {
+            attrs.setStringListAttribute(key, value)
         }
     }
 
@@ -206,8 +204,8 @@ internal class SpanModel(
         key: String,
         value: List<Long>
     ) {
-        addAttribute(key) {
-            attrs[key] = value
+        writeSpan {
+            attrs.setLongListAttribute(key, value)
         }
     }
 
@@ -215,21 +213,9 @@ internal class SpanModel(
         key: String,
         value: List<Double>
     ) {
-        addAttribute(key) {
-            attrs[key] = value
+        writeSpan {
+            attrs.setDoubleListAttribute(key, value)
         }
-    }
-
-    private inline fun <T> addAttribute(
-        key: String,
-        crossinline action: () -> T,
-    ) {
-        return writeSpan(
-            condition = {
-                isRecording() && (attrs.size < spanLimitConfig.attributeCountLimit || attrs.contains(key))
-            },
-            action = action
-        )
     }
 
     private inline fun <T> writeSpan(
