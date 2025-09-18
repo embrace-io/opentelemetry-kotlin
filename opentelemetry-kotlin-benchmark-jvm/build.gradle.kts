@@ -25,7 +25,6 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-
                 implementation(project.dependencies.platform(libs.opentelemetry.bom))
                 implementation(libs.opentelemetry.api)
                 implementation(libs.opentelemetry.sdk)
@@ -41,5 +40,16 @@ kotlin {
 benchmark {
     targets {
         register("jvm")
+    }
+    configurations {
+        // trade off between accuracy & speed
+        register("perf") {
+            warmups = 1
+            iterations = 5
+            mode = "avgt"
+            outputTimeUnit = "ns"
+            iterationTime = 1
+            iterationTimeUnit = "s"
+        }
     }
 }
