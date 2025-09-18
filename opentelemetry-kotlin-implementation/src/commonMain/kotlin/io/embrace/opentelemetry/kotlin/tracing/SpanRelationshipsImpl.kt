@@ -23,22 +23,28 @@ internal class SpanRelationshipsImpl(
 
     override fun addLink(
         spanContext: SpanContext,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
         if (links.size < spanLimitConfig.linkCountLimit) {
-            val attrs = MutableAttributeContainerImpl(spanLimitConfig.attributeCountPerLinkLimit).apply(attributes)
-            links.add(LinkImpl(spanContext, attrs))
+            val container = MutableAttributeContainerImpl(spanLimitConfig.attributeCountPerLinkLimit)
+            if (attributes != null) {
+                attributes(container)
+            }
+            links.add(LinkImpl(spanContext, container))
         }
     }
 
     override fun addEvent(
         name: String,
         timestamp: Long?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
         if (events.size < spanLimitConfig.eventCountLimit) {
-            val attrs = MutableAttributeContainerImpl(spanLimitConfig.attributeCountPerEventLimit).apply(attributes)
-            events.add(SpanEventImpl(name, timestamp ?: clock.now(), attrs))
+            val container = MutableAttributeContainerImpl(spanLimitConfig.attributeCountPerEventLimit)
+            if (attributes != null) {
+                attributes(container)
+            }
+            events.add(SpanEventImpl(name, timestamp ?: clock.now(), container))
         }
     }
 }

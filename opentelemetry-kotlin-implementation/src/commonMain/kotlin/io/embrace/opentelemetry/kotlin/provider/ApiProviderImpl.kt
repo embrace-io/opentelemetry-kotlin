@@ -35,11 +35,12 @@ internal class ApiProviderImpl<T>(
         name: String,
         version: String?,
         schemaUrl: String?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ): InstrumentationScopeInfo {
-        val attrs = MutableAttributeContainerImpl(DEFAULT_ATTRIBUTE_LIMIT, mutableMapOf()).apply {
-            attributes()
-        }.attributes
-        return InstrumentationScopeInfoImpl(name, version, schemaUrl, attrs)
+        val container = MutableAttributeContainerImpl(DEFAULT_ATTRIBUTE_LIMIT, mutableMapOf())
+        if (attributes != null) {
+            attributes(container)
+        }
+        return InstrumentationScopeInfoImpl(name, version, schemaUrl, container.attributes)
     }
 }

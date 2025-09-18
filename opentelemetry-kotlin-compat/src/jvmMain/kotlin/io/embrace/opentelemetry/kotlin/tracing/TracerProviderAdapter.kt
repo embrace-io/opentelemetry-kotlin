@@ -20,7 +20,7 @@ internal class TracerProviderAdapter(
         name: String,
         version: String?,
         schemaUrl: String?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ): Tracer {
         val key = name.plus(version).plus(schemaUrl)
 

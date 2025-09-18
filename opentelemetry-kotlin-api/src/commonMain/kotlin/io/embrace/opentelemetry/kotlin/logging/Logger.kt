@@ -33,6 +33,6 @@ public interface Logger {
         context: Context? = null,
         severityNumber: SeverityNumber? = null,
         severityText: String? = null,
-        attributes: MutableAttributeContainer.() -> Unit = {},
+        attributes: (MutableAttributeContainer.() -> Unit)? = null,
     )
 }

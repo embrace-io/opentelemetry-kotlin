@@ -8,10 +8,10 @@ public expect class ReentrantReadWriteLock() {
     /**
      * Performs an operation behind the write lock.
      */
-    public fun <T> write(action: () -> T): T
+    public inline fun <T> write(action: () -> T): T
 
     /**
      * Performs an operation behind the read lock.
      */
-    public fun <T> read(action: () -> T): T
+    public inline fun <T> read(action: () -> T): T
 }

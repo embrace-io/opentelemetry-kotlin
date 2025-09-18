@@ -8,6 +8,7 @@ public final class io/embrace/opentelemetry/kotlin/ExceptionType_jvmKt {
 
 public final class io/embrace/opentelemetry/kotlin/ReentrantReadWriteLock {
 	public fun <init> ()V
+	public final fun getImpl ()Ljava/util/concurrent/locks/ReentrantReadWriteLock;
 	public final fun read (Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 	public final fun write (Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }

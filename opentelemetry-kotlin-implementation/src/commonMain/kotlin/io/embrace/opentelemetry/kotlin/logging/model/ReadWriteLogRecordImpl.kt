@@ -7,5 +7,5 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
  */
 @OptIn(ExperimentalApi::class)
 internal class ReadWriteLogRecordImpl(
-    private val impl: ReadWriteLogRecord
+    private val impl: LogRecordModel
 ) : ReadWriteLogRecord by impl

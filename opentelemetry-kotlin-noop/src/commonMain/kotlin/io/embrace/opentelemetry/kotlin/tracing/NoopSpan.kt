@@ -28,10 +28,10 @@ internal object NoopSpan : Span {
     override fun end(timestamp: Long) {
     }
 
-    override fun addLink(spanContext: SpanContext, attributes: MutableAttributeContainer.() -> Unit) {
+    override fun addLink(spanContext: SpanContext, attributes: (MutableAttributeContainer.() -> Unit)?) {
     }
 
-    override fun addEvent(name: String, timestamp: Long?, attributes: MutableAttributeContainer.() -> Unit) {
+    override fun addEvent(name: String, timestamp: Long?, attributes: (MutableAttributeContainer.() -> Unit)?) {
     }
 
     override fun isRecording(): Boolean = false

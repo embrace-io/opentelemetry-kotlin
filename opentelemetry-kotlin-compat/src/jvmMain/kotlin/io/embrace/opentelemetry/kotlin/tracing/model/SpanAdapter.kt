@@ -83,10 +83,12 @@ internal class SpanAdapter(
 
     override fun addLink(
         spanContext: SpanContext,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
         val container = CompatMutableAttributeContainer()
-        attributes(container)
+        if (attributes != null) {
+            attributes(container)
+        }
         if (linksImpl.size < spanLimitsConfig.linkCountLimit) {
             linksImpl.add(LinkImpl(spanContext, container))
         }
@@ -96,10 +98,12 @@ internal class SpanAdapter(
     override fun addEvent(
         name: String,
         timestamp: Long?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
         val container = CompatMutableAttributeContainer()
-        attributes(container)
+        if (attributes != null) {
+            attributes(container)
+        }
         val time = timestamp ?: clock.now()
         if (eventsImpl.size < spanLimitsConfig.eventCountLimit) {
             eventsImpl.add(SpanEventImpl(name, time, container))

@@ -16,12 +16,16 @@ import io.embrace.opentelemetry.kotlin.resource.Resource
 @OptIn(ExperimentalApi::class)
 internal class LoggerImpl(
     private val clock: Clock,
-    private val processor: LogRecordProcessor,
-    private val sdkFactory: SdkFactory,
+    private val processor: LogRecordProcessor?,
+    sdkFactory: SdkFactory,
     private val key: InstrumentationScopeInfo,
     private val resource: Resource,
     private val logLimitConfig: LogLimitConfig,
 ) : Logger {
+
+    private val root = sdkFactory.contextFactory.root()
+    private val invalidSpanContext = sdkFactory.spanContextFactory.invalid
+    private val spanFactory = sdkFactory.spanFactory
 
     override fun log(
         body: String?,
@@ -30,28 +34,29 @@ internal class LoggerImpl(
         context: Context?,
         severityNumber: SeverityNumber?,
         severityText: String?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
-        val root = sdkFactory.contextFactory.root()
         val ctx = context ?: root
-
         val spanContext = when (ctx) {
-            root -> sdkFactory.spanContextFactory.invalid
-            else -> sdkFactory.spanFactory.fromContext(ctx).spanContext
+            root -> invalidSpanContext
+            else -> spanFactory.fromContext(ctx).spanContext
         }
 
+        val now = clock.now()
         val log = LogRecordModel(
             resource = resource,
             instrumentationScopeInfo = key,
-            timestamp = timestamp ?: clock.now(),
-            observedTimestamp = observedTimestamp ?: clock.now(),
+            timestamp = timestamp ?: now,
+            observedTimestamp = observedTimestamp ?: now,
             body = body,
             severityText = severityText,
             severityNumber = severityNumber ?: SeverityNumber.UNKNOWN,
             spanContext = spanContext,
             logLimitConfig = logLimitConfig
         )
-        attributes(log)
-        processor.onEmit(ReadWriteLogRecordImpl(log), ctx)
+        if (attributes != null) {
+            attributes(log)
+        }
+        processor?.onEmit(ReadWriteLogRecordImpl(log), ctx)
     }
 }

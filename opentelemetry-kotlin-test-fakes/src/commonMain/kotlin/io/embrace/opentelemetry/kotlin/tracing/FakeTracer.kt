@@ -16,6 +16,6 @@ class FakeTracer(
         parentContext: Context?,
         spanKind: SpanKind,
         startTimestamp: Long?,
-        action: SpanRelationships.() -> Unit
+        action: (SpanRelationships.() -> Unit)?
     ): Span = FakeSpan()
 }

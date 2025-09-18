@@ -25,75 +25,89 @@ internal class LogRecordModel(
     logLimitConfig: LogLimitConfig,
 ) : ReadWriteLogRecord {
 
-    private val lock = ReentrantReadWriteLock()
+    private val lock by lazy {
+        ReentrantReadWriteLock()
+    }
 
     override var timestamp: Long? = timestamp
-        get() = readLogRecord { field }
+        get() = lock.read {
+            field
+        }
         set(value) {
-            writeLogRecord {
+            lock.write {
                 field = value
             }
         }
 
     override var observedTimestamp: Long? = observedTimestamp
-        get() = readLogRecord { field }
+        get() = lock.read {
+            field
+        }
         set(value) {
-            writeLogRecord {
+            lock.write {
                 field = value
             }
         }
 
     override var severityNumber: SeverityNumber? = severityNumber
-        get() = readLogRecord { field }
+        get() = lock.read {
+            field
+        }
         set(value) {
-            writeLogRecord {
+            lock.write {
                 field = value
             }
         }
 
     override var severityText: String? = severityText
-        get() = readLogRecord { field }
+        get() = lock.read {
+            field
+        }
         set(value) {
-            writeLogRecord {
+            lock.write {
                 field = value
             }
         }
 
     override var body: String? = body
-        get() = readLogRecord { field }
+        get() = lock.read {
+            field
+        }
         set(value) {
-            writeLogRecord {
+            lock.write {
                 field = value
             }
         }
 
-    private val attrs = MutableAttributeContainerImpl(logLimitConfig.attributeCountLimit, mutableMapOf())
+    private val attrs by lazy {
+        MutableAttributeContainerImpl(logLimitConfig.attributeCountLimit, mutableMapOf())
+    }
 
     override val attributes: Map<String, Any>
-        get() = readLogRecord {
+        get() = lock.read {
             attrs.attributes.toMap()
         }
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
-        writeLogRecord {
+        lock.write {
             attrs.setBooleanAttribute(key, value)
         }
     }
 
     override fun setStringAttribute(key: String, value: String) {
-        writeLogRecord {
+        lock.write {
             attrs.setStringAttribute(key, value)
         }
     }
 
     override fun setLongAttribute(key: String, value: Long) {
-        writeLogRecord {
+        lock.write {
             attrs.setLongAttribute(key, value)
         }
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
-        writeLogRecord {
+        lock.write {
             attrs.setDoubleAttribute(key, value)
         }
     }
@@ -102,7 +116,7 @@ internal class LogRecordModel(
         key: String,
         value: List<Boolean>
     ) {
-        writeLogRecord {
+        lock.write {
             attrs.setBooleanListAttribute(key, value)
         }
     }
@@ -111,7 +125,7 @@ internal class LogRecordModel(
         key: String,
         value: List<String>
     ) {
-        writeLogRecord {
+        lock.write {
             attrs.setStringListAttribute(key, value)
         }
     }
@@ -120,7 +134,7 @@ internal class LogRecordModel(
         key: String,
         value: List<Long>
     ) {
-        writeLogRecord {
+        lock.write {
             attrs.setLongListAttribute(key, value)
         }
     }
@@ -129,25 +143,8 @@ internal class LogRecordModel(
         key: String,
         value: List<Double>
     ) {
-        writeLogRecord {
+        lock.write {
             attrs.setDoubleListAttribute(key, value)
-        }
-    }
-
-    private inline fun <T> writeLogRecord(
-        crossinline condition: () -> Boolean = { true },
-        crossinline action: () -> T
-    ) {
-        return lock.write {
-            if (condition()) {
-                action()
-            }
-        }
-    }
-
-    private inline fun <T> readLogRecord(crossinline action: () -> T): T {
-        return lock.read {
-            action()
         }
     }
 }
