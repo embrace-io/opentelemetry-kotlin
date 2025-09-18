@@ -11,7 +11,7 @@ import kotlinx.benchmark.State
 class ImplementationEntrypointBenchmark {
 
     @Benchmark
-    fun benchmarkEntrypoint() {
+    fun benchmarkEntrypointImplementation() {
         createOpenTelemetry()
     }
 }

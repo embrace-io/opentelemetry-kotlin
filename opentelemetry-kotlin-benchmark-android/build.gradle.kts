@@ -45,5 +45,6 @@ dependencies {
     androidTestImplementation(project(":opentelemetry-kotlin"))
     androidTestImplementation(project(":opentelemetry-kotlin-compat"))
     androidTestImplementation(project(":opentelemetry-kotlin-implementation"))
+    androidTestImplementation(project(":opentelemetry-kotlin-benchmark-fixtures"))
     androidTestImplementation(project(":opentelemetry-java-typealiases"))
 }

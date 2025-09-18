@@ -1,5 +1,6 @@
 package io.embrace.kotlin.opentelemetry.benchmark.entrypoint
 
+import io.embrace.kotlin.opentelemetry.benchmark.createOtelJavaOpenTelemetry
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetry
 import io.embrace.opentelemetry.kotlin.aliases.OtelJavaOpenTelemetrySdk
@@ -12,7 +13,7 @@ import kotlinx.benchmark.State
 class OtelJavaImplementationEntrypointBenchmark {
 
     @Benchmark
-    fun benchmarkEntrypoint() {
-        OtelJavaOpenTelemetrySdk.builder().build()
+    fun benchmarkEntrypointImplementationOtelJava() {
+        createOtelJavaOpenTelemetry()
     }
 }
