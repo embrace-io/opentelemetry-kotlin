@@ -3,7 +3,7 @@ package io.embrace.opentelemetry.kotlin.logging.model
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfo
 import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
-import io.embrace.opentelemetry.kotlin.attributes.AttributeContainer
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.init.config.LogLimitConfig
 import io.embrace.opentelemetry.kotlin.resource.Resource
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
@@ -14,7 +14,6 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
  */
 @OptIn(ExperimentalApi::class)
 internal class LogRecordModel(
-    attributeContainer: AttributeContainer,
     override val resource: Resource,
     override val instrumentationScopeInfo: InstrumentationScopeInfo,
     timestamp: Long,
@@ -23,7 +22,7 @@ internal class LogRecordModel(
     severityText: String?,
     severityNumber: SeverityNumber?,
     override val spanContext: SpanContext,
-    private val logLimitConfig: LogLimitConfig,
+    logLimitConfig: LogLimitConfig,
 ) : ReadWriteLogRecord {
 
     private val lock = ReentrantReadWriteLock()
@@ -68,34 +67,34 @@ internal class LogRecordModel(
             }
         }
 
-    private val attrs: MutableMap<String, Any> = attributeContainer.attributes.toMutableMap()
+    private val attrs = MutableAttributeContainerImpl(logLimitConfig.attributeCountLimit, mutableMapOf())
 
     override val attributes: Map<String, Any>
         get() = readLogRecord {
-            attrs.toMap()
+            attrs.attributes.toMap()
         }
 
     override fun setBooleanAttribute(key: String, value: Boolean) {
-        addAttribute(key = key) {
-            attrs[key] = value
+        writeLogRecord {
+            attrs.setBooleanAttribute(key, value)
         }
     }
 
     override fun setStringAttribute(key: String, value: String) {
-        addAttribute(key = key) {
-            attrs[key] = value
+        writeLogRecord {
+            attrs.setStringAttribute(key, value)
         }
     }
 
     override fun setLongAttribute(key: String, value: Long) {
-        addAttribute(key = key) {
-            attrs[key] = value
+        writeLogRecord {
+            attrs.setLongAttribute(key, value)
         }
     }
 
     override fun setDoubleAttribute(key: String, value: Double) {
-        addAttribute(key = key) {
-            attrs[key] = value
+        writeLogRecord {
+            attrs.setDoubleAttribute(key, value)
         }
     }
 
@@ -103,8 +102,8 @@ internal class LogRecordModel(
         key: String,
         value: List<Boolean>
     ) {
-        addAttribute(key = key) {
-            attrs[key] = value
+        writeLogRecord {
+            attrs.setBooleanListAttribute(key, value)
         }
     }
 
@@ -112,8 +111,8 @@ internal class LogRecordModel(
         key: String,
         value: List<String>
     ) {
-        addAttribute(key = key) {
-            attrs[key] = value
+        writeLogRecord {
+            attrs.setStringListAttribute(key, value)
         }
     }
 
@@ -121,8 +120,8 @@ internal class LogRecordModel(
         key: String,
         value: List<Long>
     ) {
-        addAttribute(key = key) {
-            attrs[key] = value
+        writeLogRecord {
+            attrs.setLongListAttribute(key, value)
         }
     }
 
@@ -130,21 +129,9 @@ internal class LogRecordModel(
         key: String,
         value: List<Double>
     ) {
-        addAttribute(key = key) {
-            attrs[key] = value
+        writeLogRecord {
+            attrs.setDoubleListAttribute(key, value)
         }
-    }
-
-    private inline fun <T> addAttribute(
-        key: String,
-        crossinline action: () -> T,
-    ) {
-        return writeLogRecord(
-            condition = {
-                attrs.size < logLimitConfig.attributeCountLimit || attrs.contains(key)
-            },
-            action = action
-        )
     }
 
     private inline fun <T> writeLogRecord(
