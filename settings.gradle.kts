@@ -30,6 +30,7 @@ include(
     ":opentelemetry-kotlin-semconv",
     ":opentelemetry-kotlin-benchmark-android",
     ":opentelemetry-kotlin-benchmark-jvm",
+    ":opentelemetry-kotlin-benchmark-fixtures",
     ":opentelemetry-java-typealiases",
     ":custom-detekt-rules",
     "examples:jvm-app",
