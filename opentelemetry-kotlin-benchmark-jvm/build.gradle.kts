@@ -21,6 +21,7 @@ kotlin {
                 implementation(libs.kotlinx.benchmark.runtime)
                 implementation(project(":opentelemetry-kotlin"))
                 implementation(project(":opentelemetry-kotlin-implementation"))
+                implementation(project(":opentelemetry-kotlin-benchmark-fixtures"))
             }
         }
         val jvmMain by getting {
@@ -31,6 +32,7 @@ kotlin {
                 implementation(project(":opentelemetry-kotlin"))
                 implementation(project(":opentelemetry-kotlin-compat"))
                 implementation(project(":opentelemetry-kotlin-implementation"))
+                implementation(project(":opentelemetry-kotlin-benchmark-fixtures"))
                 implementation(project(":opentelemetry-java-typealiases"))
             }
         }

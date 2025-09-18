@@ -11,7 +11,7 @@ import kotlinx.benchmark.State
 class NoopEntrypointBenchmark {
 
     @Benchmark
-    fun benchmarkEntrypoint() {
+    fun benchmarkEntrypointNoop() {
         createNoopOpenTelemetry()
     }
 }
