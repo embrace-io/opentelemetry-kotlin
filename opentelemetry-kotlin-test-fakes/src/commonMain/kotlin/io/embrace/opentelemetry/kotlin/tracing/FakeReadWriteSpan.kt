@@ -41,7 +41,7 @@ class FakeReadWriteSpan(
 
     override fun addLink(
         spanContext: SpanContext,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
         throw UnsupportedOperationException()
     }
@@ -49,7 +49,7 @@ class FakeReadWriteSpan(
     override fun addEvent(
         name: String,
         timestamp: Long?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
         throw UnsupportedOperationException()
     }

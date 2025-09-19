@@ -44,10 +44,12 @@ internal class ReadWriteSpanAdapter(
 
     override fun addLink(
         spanContext: SpanContext,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
         val container = CompatMutableAttributeContainer()
-        attributes(container)
+        if (attributes != null) {
+            attributes(container)
+        }
         val ctx = (spanContext as SpanContextAdapter).impl
         impl.addLink(ctx, container.otelJavaAttributes())
     }
@@ -55,10 +57,12 @@ internal class ReadWriteSpanAdapter(
     override fun addEvent(
         name: String,
         timestamp: Long?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
         val container = CompatMutableAttributeContainer()
-        attributes(container)
+        if (attributes != null) {
+            attributes(container)
+        }
         impl.addEvent(name, container.otelJavaAttributes(), timestamp ?: 0, TimeUnit.NANOSECONDS)
     }
 

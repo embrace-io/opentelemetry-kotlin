@@ -13,6 +13,6 @@ internal object NoopTracer : Tracer {
         parentContext: Context?,
         spanKind: SpanKind,
         startTimestamp: Long?,
-        action: SpanRelationships.() -> Unit
+        action: (SpanRelationships.() -> Unit)?
     ): Span = NoopSpan
 }

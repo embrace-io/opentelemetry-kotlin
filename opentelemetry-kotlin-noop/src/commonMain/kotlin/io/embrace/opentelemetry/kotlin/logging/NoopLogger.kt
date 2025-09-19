@@ -14,7 +14,7 @@ internal object NoopLogger : Logger {
         context: Context?,
         severityNumber: SeverityNumber?,
         severityText: String?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
     }
 }

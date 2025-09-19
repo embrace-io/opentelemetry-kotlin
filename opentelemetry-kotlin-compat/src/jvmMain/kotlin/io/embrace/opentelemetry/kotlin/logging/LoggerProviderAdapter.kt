@@ -14,7 +14,7 @@ internal class LoggerProviderAdapter(private val impl: OtelJavaLoggerProvider) :
         name: String,
         version: String?,
         schemaUrl: String?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ): Logger {
         val key = name.plus(version).plus(schemaUrl)
         return map.getOrPut(key) {

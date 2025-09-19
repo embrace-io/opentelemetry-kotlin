@@ -20,7 +20,10 @@ internal class LoggerProviderImpl(
 
     private val apiProvider by lazy {
         ApiProviderImpl<Logger> { key ->
-            val processor = CompositeLogRecordProcessor(loggingConfig.processors, sdkErrorHandler)
+            val processor = when {
+                loggingConfig.processors.isEmpty() -> null
+                else -> CompositeLogRecordProcessor(loggingConfig.processors, sdkErrorHandler)
+            }
             LoggerImpl(
                 clock,
                 processor,
@@ -36,7 +39,7 @@ internal class LoggerProviderImpl(
         name: String,
         version: String?,
         schemaUrl: String?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ): Logger {
         val key = apiProvider.createInstrumentationScopeInfo(name, version, schemaUrl, attributes)
         return apiProvider.getOrCreate(key)

@@ -24,6 +24,6 @@ public interface TracerProvider {
         name: String,
         version: String? = null,
         schemaUrl: String? = null,
-        attributes: MutableAttributeContainer.() -> Unit = {},
+        attributes: (MutableAttributeContainer.() -> Unit)? = null,
     ): Tracer
 }
