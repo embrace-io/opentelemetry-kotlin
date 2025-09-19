@@ -17,13 +17,21 @@ class OtelJavaComplexSpanCreationFixture(
     private val other = tracer.spanBuilder("other").startSpan()
 
     override fun execute() {
-        val span = tracer.spanBuilder("new_span")
+        val builder = tracer.spanBuilder("new_span")
             .setParent(OtelJavaContext.root())
             .setSpanKind(OtelJavaSpanKind.CLIENT)
-            .setAttribute("key", "value")
-            .addLink(other.spanContext)
-            .startSpan()
-        val attrs = OtelJavaAttributes.of(OtelJavaAttributeKey.stringKey("key"), "value")
-        span.addEvent("my_event", attrs)
+
+        repeat(100) { k ->
+            builder.setAttribute("key_$k", "value")
+            val attrs = OtelJavaAttributes.of(OtelJavaAttributeKey.stringKey("link_$k"), "value")
+            builder.addLink(other.spanContext, attrs)
+        }
+
+        val span = builder.startSpan()
+
+        repeat(100) { k ->
+            val attrs = OtelJavaAttributes.of(OtelJavaAttributeKey.stringKey("key"), "value")
+            span.addEvent("my_event_$k", attrs)
+        }
     }
 }

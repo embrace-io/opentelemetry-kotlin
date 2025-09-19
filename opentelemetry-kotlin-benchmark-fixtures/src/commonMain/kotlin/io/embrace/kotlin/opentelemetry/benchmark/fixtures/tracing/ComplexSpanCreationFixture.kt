@@ -19,11 +19,15 @@ class ComplexSpanCreationFixture(
             otel.contextFactory.root(),
             SpanKind.CLIENT,
         ) {
-            setStringAttribute("key", "value")
-            addEvent("my_event") {
-                setBooleanAttribute("event", true)
+            repeat(100) { k ->
+                setStringAttribute("key_$k", "value")
+                addEvent("my_event_$k") {
+                    setBooleanAttribute("event", true)
+                }
+                addLink(other.spanContext) {
+                    setStringAttribute("link_$k", "value")
+                }
             }
-            addLink(other.spanContext)
         }
     }
 }
