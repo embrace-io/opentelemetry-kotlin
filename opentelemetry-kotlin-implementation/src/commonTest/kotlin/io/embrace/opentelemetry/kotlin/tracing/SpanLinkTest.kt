@@ -18,7 +18,7 @@ internal class SpanLinkTest {
 
     private val linkLimit = 3
     private val fakeSpanContext = FakeSpanContext()
-    private val otherFakeSpanContext = FakeSpanContext()
+    private val otherFakeSpanContext = FakeSpanContext("12341234123412341234123412341234", "1234123412341234")
     private val key = InstrumentationScopeInfoImpl("key", null, null, emptyMap())
 
     private lateinit var tracer: TracerImpl
@@ -69,9 +69,8 @@ internal class SpanLinkTest {
             addLink(fakeSpanContext)
             end()
         }
-        val links = retrieveLinks(2)
+        val links = retrieveLinks(1)
         assertLinkData(links[0], fakeSpanContext, emptyMap())
-        assertLinkData(links[1], fakeSpanContext, emptyMap())
     }
 
     @Test
@@ -103,7 +102,7 @@ internal class SpanLinkTest {
     fun testLinksLimitNotExceeded() {
         tracer.createSpan("test", action = {
             repeat(linkLimit + 1) {
-                addLink(fakeSpanContext)
+                addLink(FakeSpanContext("$it".repeat(32), "$it".repeat(16)))
             }
         }).apply {
             end()
@@ -116,7 +115,7 @@ internal class SpanLinkTest {
     fun testLinksLimitNotExceeded2() {
         tracer.createSpan("test").apply {
             repeat(linkLimit + 1) {
-                addLink(fakeSpanContext)
+                addLink(FakeSpanContext("$it".repeat(32), "$it".repeat(16)))
             }
             end()
         }
