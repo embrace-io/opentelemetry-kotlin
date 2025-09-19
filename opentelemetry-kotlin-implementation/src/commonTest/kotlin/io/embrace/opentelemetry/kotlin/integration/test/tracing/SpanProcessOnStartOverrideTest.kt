@@ -72,7 +72,7 @@ internal class SpanProcessOnStartOverrideTest {
             addEvent("test", 5) {
                 setStringAttribute("foo", "bar")
             }
-            addLink(FakeSpanContext()) {
+            addLink(FakeSpanContext("1".repeat(32), "2".repeat(16))) {
                 setStringAttribute("foo", "bar")
             }
             end(678)
