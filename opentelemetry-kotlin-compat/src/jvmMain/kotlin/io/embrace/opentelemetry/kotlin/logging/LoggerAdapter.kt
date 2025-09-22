@@ -23,7 +23,7 @@ internal class LoggerAdapter(
         context: Context?,
         severityNumber: SeverityNumber?,
         severityText: String?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
         val builder = impl.logRecordBuilder()
 
@@ -46,9 +46,11 @@ internal class LoggerAdapter(
             builder.setSeverityText(severityText)
         }
 
-        val container = CompatMutableAttributeContainer()
-        attributes(container)
-        builder.setAllAttributes(container.otelJavaAttributes())
+        if (attributes != null) {
+            val container = CompatMutableAttributeContainer()
+            attributes(container)
+            builder.setAllAttributes(container.otelJavaAttributes())
+        }
         builder.emit()
     }
 }

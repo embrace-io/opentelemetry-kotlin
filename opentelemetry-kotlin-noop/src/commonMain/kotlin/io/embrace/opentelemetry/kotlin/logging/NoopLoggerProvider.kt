@@ -9,6 +9,6 @@ internal object NoopLoggerProvider : LoggerProvider {
         name: String,
         version: String?,
         schemaUrl: String?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ): Logger = NoopLogger
 }

@@ -4,17 +4,18 @@ import platform.Foundation.NSRecursiveLock
 
 public actual class ReentrantReadWriteLock {
 
-    private val lock = NSRecursiveLock()
+    // visible to allow inlining
+    public val impl: NSRecursiveLock = NSRecursiveLock()
 
-    public actual fun <T> write(action: () -> T): T {
-        lock.lock()
+    public actual inline fun <T> write(action: () -> T): T {
+        impl.lock()
         try {
             return action()
         } finally {
-            lock.unlock()
+            impl.unlock()
         }
     }
 
     // take perf hit of obtaining the same lock for now, for the sake of simplicity
-    public actual fun <T> read(action: () -> T): T = write(action)
+    public actual inline fun <T> read(action: () -> T): T = write(action)
 }

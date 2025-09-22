@@ -48,18 +48,26 @@ class FakeSpan(
 
     override fun addLink(
         spanContext: SpanContext,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
-        val attrs = FakeMutableAttributeContainer().apply(attributes).attributes
+        val container = FakeMutableAttributeContainer()
+        if (attributes != null) {
+            attributes(container)
+        }
+        val attrs = container.attributes
         links.add(FakeLinkData(spanContext, attrs))
     }
 
     override fun addEvent(
         name: String,
         timestamp: Long?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
-        events.add(FakeSpanEvent(name, timestamp ?: 0).apply(attributes))
+        val fakeSpanEvent = FakeSpanEvent(name, timestamp ?: 0)
+        if (attributes != null) {
+            attributes(fakeSpanEvent)
+        }
+        events.add(fakeSpanEvent)
     }
 
     override fun setStringAttribute(key: String, value: String) {

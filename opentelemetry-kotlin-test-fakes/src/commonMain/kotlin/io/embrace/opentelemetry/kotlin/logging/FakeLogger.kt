@@ -20,7 +20,7 @@ class FakeLogger(
         context: Context?,
         severityNumber: SeverityNumber?,
         severityText: String?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
         logs.add(
             FakeReadableLogRecord(

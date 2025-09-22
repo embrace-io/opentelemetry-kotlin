@@ -27,7 +27,7 @@ internal class TracerAdapter(
         parentContext: Context?,
         spanKind: SpanKind,
         startTimestamp: Long?,
-        action: SpanRelationships.() -> Unit
+        action: (SpanRelationships.() -> Unit)?
     ): Span {
         val start = startTimestamp ?: clock.now()
         val builder = tracer.spanBuilder(name)
@@ -50,7 +50,9 @@ internal class TracerAdapter(
             spanLimitsConfig = spanLimitsConfig,
         ).apply {
             this.name = name
-            action(this)
+            if (action != null) {
+                action(this)
+            }
         }
     }
 }

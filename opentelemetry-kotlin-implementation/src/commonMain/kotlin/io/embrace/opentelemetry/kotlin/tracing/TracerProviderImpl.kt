@@ -19,7 +19,10 @@ internal class TracerProviderImpl(
 ) : TracerProvider {
 
     private val apiProvider = ApiProviderImpl<Tracer> { key ->
-        val processor = CompositeSpanProcessor(tracingConfig.processors, sdkErrorHandler)
+        val processor = when {
+            tracingConfig.processors.isEmpty() -> null
+            else -> CompositeSpanProcessor(tracingConfig.processors, sdkErrorHandler)
+        }
         TracerImpl(
             clock = clock,
             processor = processor,
@@ -34,7 +37,7 @@ internal class TracerProviderImpl(
         name: String,
         version: String?,
         schemaUrl: String?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ): Tracer {
         val key = apiProvider.createInstrumentationScopeInfo(
             name = name,

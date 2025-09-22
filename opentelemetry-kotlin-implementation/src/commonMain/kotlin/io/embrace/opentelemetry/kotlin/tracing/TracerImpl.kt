@@ -19,29 +19,35 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanRelationships
 @OptIn(ExperimentalApi::class)
 internal class TracerImpl(
     private val clock: Clock,
-    private val processor: SpanProcessor,
-    private val sdkFactory: SdkFactory,
+    private val processor: SpanProcessor?,
+    sdkFactory: SdkFactory,
     private val scope: InstrumentationScopeInfo,
     private val resource: Resource,
     private val spanLimitConfig: SpanLimitConfig,
 ) : Tracer {
+
+    private val root = sdkFactory.contextFactory.root()
+    private val invalidSpanContext = sdkFactory.spanContextFactory.invalid
+    private val traceFlagsDefault = sdkFactory.traceFlagsFactory.default
+    private val traceStateDefault = sdkFactory.traceStateFactory.default
+    private val spanFactory = sdkFactory.spanFactory
+    private val tracingIdFactory = sdkFactory.tracingIdFactory
 
     override fun createSpan(
         name: String,
         parentContext: Context?,
         spanKind: SpanKind,
         startTimestamp: Long?,
-        action: SpanRelationships.() -> Unit
+        action: (SpanRelationships.() -> Unit)?
     ): Span {
-        val root = sdkFactory.contextFactory.root()
         val ctx = parentContext ?: root
 
         val parentSpanContext = when (ctx) {
-            root -> sdkFactory.spanContextFactory.invalid
-            else -> sdkFactory.spanFactory.fromContext(ctx).spanContext
+            root -> invalidSpanContext
+            else -> spanFactory.fromContext(ctx).spanContext
         }
 
-        val spanContext = calculateSpanContext(parentSpanContext, sdkFactory)
+        val spanContext = calculateSpanContext(parentSpanContext)
 
         val spanModel = SpanModel(
             clock = clock,
@@ -55,16 +61,15 @@ internal class TracerImpl(
             spanContext = spanContext,
             spanLimitConfig = spanLimitConfig
         )
-        action(spanModel)
-        processor.onStart(ReadWriteSpanImpl(spanModel), ctx)
+        if (action != null) {
+            action(spanModel)
+        }
+        processor?.onStart(ReadWriteSpanImpl(spanModel), ctx)
         return CreatedSpan(spanModel)
     }
 
-    private fun calculateSpanContext(
-        parent: SpanContext,
-        sdkFactory: SdkFactory
-    ): SpanContext {
-        val factory = sdkFactory.tracingIdFactory
+    private fun calculateSpanContext(parent: SpanContext): SpanContext {
+        val factory = tracingIdFactory
 
         val traceId = if (parent.isValid) {
             parent.traceId
@@ -76,10 +81,10 @@ internal class TracerImpl(
         return SpanContextImpl(
             traceId = traceId,
             spanId = spanId,
-            traceFlags = sdkFactory.traceFlagsFactory.default,
+            traceFlags = traceFlagsDefault,
             isValid = true,
             isRemote = false,
-            traceState = sdkFactory.traceStateFactory.default,
+            traceState = traceStateDefault,
         )
     }
 }

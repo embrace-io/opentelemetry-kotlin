@@ -9,6 +9,6 @@ internal object NoopTracerProvider : TracerProvider {
         name: String,
         version: String?,
         schemaUrl: String?,
-        attributes: MutableAttributeContainer.() -> Unit
+        attributes: (MutableAttributeContainer.() -> Unit)?
     ): Tracer = NoopTracer
 }

@@ -5,9 +5,11 @@ import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 public actual class ReentrantReadWriteLock {
-    private val lock: ReentrantReadWriteLock = ReentrantReadWriteLock()
 
-    public actual fun <T> write(action: () -> T): T = lock.write { action() }
+    // visible to allow inlining
+    public val impl: ReentrantReadWriteLock = ReentrantReadWriteLock()
 
-    public actual fun <T> read(action: () -> T): T = lock.read { action() }
+    public actual inline fun <T> write(action: () -> T): T = impl.write { action() }
+
+    public actual inline fun <T> read(action: () -> T): T = impl.read { action() }
 }
