@@ -31,6 +31,7 @@ include(
     ":opentelemetry-kotlin-benchmark-android",
     ":opentelemetry-kotlin-benchmark-jvm",
     ":opentelemetry-kotlin-benchmark-fixtures",
+    ":opentelemetry-kotlin-exporters",
     ":opentelemetry-java-typealiases",
     ":custom-detekt-rules",
     "examples:jvm-app",
