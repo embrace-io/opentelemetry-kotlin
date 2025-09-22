@@ -1,22 +1,14 @@
+import com.google.protobuf.gradle.id
 import de.undercouch.gradle.tasks.download.Download
 
 plugins {
-    kotlin("multiplatform")
+    kotlin("jvm")
     id("io.embrace.opentelemetry.kotlin.build-logic")
     id("signing")
     id("com.vanniktech.maven.publish")
     id("org.jetbrains.kotlinx.kover")
     alias(libs.plugins.download)
-}
-
-kotlin {
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(project(":opentelemetry-kotlin-api"))
-            }
-        }
-    }
+    alias(libs.plugins.google.protobuf)
 }
 
 // The release version of https://github.com/open-telemetry/opentelemetry-proto used to generate
@@ -31,11 +23,43 @@ val downloadOtelProtoDefinitions by tasks.registering(Download::class) {
     overwrite(false)
 }
 
-val extractOtelProtoDefinitions by tasks.registering(Copy::class) {
+val updateOtelProtoDefinitions by tasks.registering(Copy::class) {
+    val prefix = "opentelemetry-proto-$otelProtoVersion"
+
     dependsOn(downloadOtelProtoDefinitions)
     from(zipTree(downloadOtelProtoDefinitions.get().dest)) {
         include("opentelemetry-proto-$otelProtoVersion/opentelemetry/proto/**")
+        eachFile {
+            path = path.removePrefix(prefix)
+        }
+        exclude {
+            !it.path.endsWith(".proto")
+        }
         includeEmptyDirs = false
     }
-    into(layout.buildDirectory.dir("."))
+    into(layout.projectDirectory.dir("src/main/proto"))
+}
+
+dependencies {
+    implementation(project(":opentelemetry-kotlin-api"))
+    implementation(libs.protobuf.kotlin)
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.32.1"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins.id("kotlin")
+        }
+    }
+}
+
+kotlin {
+    sourceSets {
+        main {
+            kotlin.srcDir("build/generated/source/proto/main/kotlin")
+        }
+    }
 }
