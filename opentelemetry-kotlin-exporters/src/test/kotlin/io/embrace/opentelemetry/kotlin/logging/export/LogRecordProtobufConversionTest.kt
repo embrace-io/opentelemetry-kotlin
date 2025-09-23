@@ -13,7 +13,7 @@ class LogRecordProtobufConversionTest {
 
     @Test
     fun testEmptyConversion() {
-        val log = FakeReadableLogRecord(
+        val obj = FakeReadableLogRecord(
             timestamp = null,
             observedTimestamp = null,
             severityNumber = null,
@@ -21,15 +21,15 @@ class LogRecordProtobufConversionTest {
             body = null,
             attributes = emptyMap(),
         )
-        val protobuf = log.toProtobuf()
+        val protobuf = obj.toProtobuf()
         assertEquals(0, protobuf.timeUnixNano)
         assertEquals(0, protobuf.observedTimeUnixNano)
         assertFalse(protobuf.body.hasStringValue())
-        assertEquals(log.spanContext.traceId, protobuf.traceId.toStringUtf8())
-        assertEquals(log.spanContext.spanId, protobuf.spanId.toStringUtf8())
+        assertEquals(obj.spanContext.traceId, protobuf.traceId.toStringUtf8())
+        assertEquals(obj.spanContext.spanId, protobuf.spanId.toStringUtf8())
         assertEquals("", protobuf.severityText)
         assertEquals(0, protobuf.severityNumber.number)
-        assertAttributesMatch(log, protobuf)
+        assertAttributesMatch(obj, protobuf)
     }
 
     @Test
@@ -40,16 +40,16 @@ class LogRecordProtobufConversionTest {
             "double" to 10.0,
             "bool" to true,
         )
-        val log = FakeReadableLogRecord(attributes = attrs)
-        val protobuf = log.toProtobuf()
-        assertEquals(log.timestamp, protobuf.timeUnixNano)
-        assertEquals(log.observedTimestamp, protobuf.observedTimeUnixNano)
-        assertEquals(log.body, protobuf.body.stringValue)
-        assertEquals(log.spanContext.traceId, protobuf.traceId.toStringUtf8())
-        assertEquals(log.spanContext.spanId, protobuf.spanId.toStringUtf8())
-        assertEquals(log.severityText, protobuf.severityText)
-        assertEquals(log.severityNumber?.severityNumber, protobuf.severityNumber.number)
-        assertAttributesMatch(log, protobuf)
+        val obj = FakeReadableLogRecord(attributes = attrs)
+        val protobuf = obj.toProtobuf()
+        assertEquals(obj.timestamp, protobuf.timeUnixNano)
+        assertEquals(obj.observedTimestamp, protobuf.observedTimeUnixNano)
+        assertEquals(obj.body, protobuf.body.stringValue)
+        assertEquals(obj.spanContext.traceId, protobuf.traceId.toStringUtf8())
+        assertEquals(obj.spanContext.spanId, protobuf.spanId.toStringUtf8())
+        assertEquals(obj.severityText, protobuf.severityText)
+        assertEquals(obj.severityNumber?.severityNumber, protobuf.severityNumber.number)
+        assertAttributesMatch(obj, protobuf)
     }
 
     private fun assertAttributesMatch(
