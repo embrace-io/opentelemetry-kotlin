@@ -165,7 +165,6 @@ internal class TracerExportTest {
 
     @Test
     fun testSpanLimitExport() {
-        val linkedSpan = harness.tracer.createSpan("linkedSpan")
         harness.tracer.createSpan("test") {
             repeat(spanAttributeLimit + 1) {
                 setStringAttribute("key-$it", "value")
@@ -178,6 +177,7 @@ internal class TracerExportTest {
                 }
             }
             repeat(linkLimit + 1) {
+                val linkedSpan = harness.tracer.createSpan("linkedSpan")
                 addLink(linkedSpan.spanContext) {
                     repeat(spanAttributeLimit + 1) {
                         setStringAttribute("key-$it", "value")
