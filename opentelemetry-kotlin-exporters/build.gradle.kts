@@ -43,7 +43,7 @@ val updateOtelProtoDefinitions by tasks.registering(Copy::class) {
 dependencies {
     implementation(project(":opentelemetry-kotlin-api"))
     implementation(libs.protobuf.kotlin)
-    implementation(libs.kotlin.test)
+    testImplementation(libs.kotlin.test)
     testImplementation(project(":opentelemetry-kotlin-test-fakes"))
 }
 
