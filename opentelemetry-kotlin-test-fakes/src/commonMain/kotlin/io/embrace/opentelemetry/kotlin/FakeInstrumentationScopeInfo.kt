@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin
 
 @OptIn(ExperimentalApi::class)
-internal class FakeInstrumentationScopeInfo(
+class FakeInstrumentationScopeInfo(
     override val name: String = "name",
     override val version: String? = "version",
     override val schemaUrl: String? = "schemaUrl",
