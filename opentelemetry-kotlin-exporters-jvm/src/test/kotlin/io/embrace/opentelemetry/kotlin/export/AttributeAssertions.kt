@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.export
 
 import io.opentelemetry.proto.common.v1.AnyValue
 import io.opentelemetry.proto.common.v1.KeyValue
+import kotlin.collections.map
 import kotlin.test.assertEquals
 
 fun assertAttributesMatch(
