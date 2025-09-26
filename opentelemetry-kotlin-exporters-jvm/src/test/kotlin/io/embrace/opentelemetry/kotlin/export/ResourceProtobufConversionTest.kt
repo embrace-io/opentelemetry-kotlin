@@ -3,6 +3,7 @@ package io.embrace.opentelemetry.kotlin.export
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.export.conversion.toProtobuf
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
+import kotlin.collections.get
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
