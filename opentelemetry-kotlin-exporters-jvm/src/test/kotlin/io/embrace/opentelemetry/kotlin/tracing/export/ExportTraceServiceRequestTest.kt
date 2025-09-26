@@ -2,9 +2,9 @@ package io.embrace.opentelemetry.kotlin.tracing.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.tracing.data.FakeSpanData
+import org.junit.Test
 import kotlin.collections.get
 import kotlin.test.assertEquals
-import org.junit.Test
 
 @OptIn(ExperimentalApi::class)
 class ExportTraceServiceRequestTest {

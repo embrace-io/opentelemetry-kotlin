@@ -1,7 +1,6 @@
 package io.embrace.opentelemetry.kotlin.export.conversion
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.export.conversion.convertAttributeValue
 import io.opentelemetry.proto.common.v1.AnyValue
 import io.opentelemetry.proto.common.v1.AnyValueKt
 import io.opentelemetry.proto.common.v1.ArrayValue
