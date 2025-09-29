@@ -33,7 +33,7 @@ internal class SpanProcessOnStartOverrideTest {
         harness.tracer.createSpan("span") {
             setStringAttribute("key", "value")
             addEvent("test")
-            addLink(FakeSpanContext())
+            addLink(FakeSpanContext.INVALID)
         }
         harness.assertSpans(
             expectedCount = 1,
@@ -72,7 +72,7 @@ internal class SpanProcessOnStartOverrideTest {
             addEvent("test", 5) {
                 setStringAttribute("foo", "bar")
             }
-            addLink(FakeSpanContext("1".repeat(32), "2".repeat(16))) {
+            addLink(FakeSpanContext.VALID) {
                 setStringAttribute("foo", "bar")
             }
             end(678)

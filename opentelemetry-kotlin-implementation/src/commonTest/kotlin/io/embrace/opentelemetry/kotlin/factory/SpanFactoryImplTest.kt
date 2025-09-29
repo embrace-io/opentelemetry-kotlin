@@ -19,10 +19,7 @@ internal class SpanFactoryImplTest {
 
     @Test
     fun testFromSpanContext() {
-        val spanContext = FakeSpanContext(
-            traceId = "12345678901234567890123456789012",
-            spanId = "1234567890123456",
-        )
+        val spanContext = FakeSpanContext.VALID
         assertEquals(spanContext, factory.fromSpanContext(spanContext).spanContext)
     }
 }

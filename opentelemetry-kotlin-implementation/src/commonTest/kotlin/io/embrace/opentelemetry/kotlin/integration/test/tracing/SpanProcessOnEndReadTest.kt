@@ -33,7 +33,7 @@ internal class SpanProcessOnEndReadTest {
         harness.tracer.createSpan("span") {
             setStringAttribute("key", "value")
             addEvent("test")
-            addLink(FakeSpanContext()) {
+            addLink(FakeSpanContext.INVALID) {
                 setStringAttribute("foo", "bar")
             }
         }.end()

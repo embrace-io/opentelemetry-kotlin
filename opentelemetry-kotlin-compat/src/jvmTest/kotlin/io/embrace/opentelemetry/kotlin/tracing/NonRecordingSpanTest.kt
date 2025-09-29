@@ -12,8 +12,8 @@ internal class NonRecordingSpanTest {
     @Test
     fun `test non recording span`() {
         val span = NonRecordingSpan(
-            FakeSpanContext(),
-            FakeSpanContext(),
+            FakeSpanContext.INVALID,
+            FakeSpanContext.INVALID,
         )
         assertEquals(0, span.startTimestamp)
         assertFalse(span.isRecording())
@@ -30,7 +30,7 @@ internal class NonRecordingSpanTest {
 
         span.addEvent("test")
         assertTrue(span.events.isEmpty())
-        span.addLink(FakeSpanContext())
+        span.addLink(FakeSpanContext.INVALID)
         assertTrue(span.links.isEmpty())
 
         span.end()

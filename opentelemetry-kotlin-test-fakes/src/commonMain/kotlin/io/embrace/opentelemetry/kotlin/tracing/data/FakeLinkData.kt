@@ -6,6 +6,6 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
 
 @OptIn(ExperimentalApi::class)
 class FakeLinkData(
-    override val spanContext: SpanContext = FakeSpanContext(),
+    override val spanContext: SpanContext = FakeSpanContext.INVALID,
     override val attributes: Map<String, Any> = mapOf("key" to "value")
 ) : LinkData

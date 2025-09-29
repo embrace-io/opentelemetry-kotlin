@@ -15,7 +15,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 @OptIn(ExperimentalApi::class)
 class FakeSpan(
     override var name: String = "",
-    override val spanContext: SpanContext = FakeSpanContext(),
+    override val spanContext: SpanContext = FakeSpanContext.INVALID,
 ) : Span {
 
     override val events: MutableList<EventData> = mutableListOf()
@@ -28,7 +28,7 @@ class FakeSpan(
     override var status: StatusData
         get() = TODO("Not yet implemented")
         set(value) {}
-    override val parent: SpanContext = FakeSpanContext()
+    override val parent: SpanContext = FakeSpanContext.INVALID
     override val spanKind: SpanKind
         get() = TODO("Not yet implemented")
     override val startTimestamp: Long

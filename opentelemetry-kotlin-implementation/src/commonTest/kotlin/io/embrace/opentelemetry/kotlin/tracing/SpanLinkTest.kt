@@ -17,8 +17,8 @@ import kotlin.test.assertEquals
 internal class SpanLinkTest {
 
     private val linkLimit = 3
-    private val fakeSpanContext = FakeSpanContext()
-    private val otherFakeSpanContext = FakeSpanContext("12341234123412341234123412341234", "1234123412341234")
+    private val fakeSpanContext = FakeSpanContext.INVALID
+    private val otherFakeSpanContext = FakeSpanContext.VALID
     private val key = InstrumentationScopeInfoImpl("key", null, null, emptyMap())
 
     private lateinit var tracer: TracerImpl
