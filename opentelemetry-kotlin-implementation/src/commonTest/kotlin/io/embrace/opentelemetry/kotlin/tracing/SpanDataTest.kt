@@ -30,7 +30,7 @@ internal class SpanDataTest {
         clock = FakeClock()
         processor = FakeSpanProcessor()
         fakeResource = FakeResource()
-        fakeSpanContext = FakeSpanContext()
+        fakeSpanContext = FakeSpanContext.INVALID
         tracer = TracerImpl(
             clock,
             processor,

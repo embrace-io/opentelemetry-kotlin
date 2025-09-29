@@ -15,7 +15,7 @@ class FakeReadableLogRecord(
     override val severityText: String? = "warning",
     override val body: String? = "Hello, World!",
     override val attributes: Map<String, Any> = mapOf("key" to "value"),
-    override val spanContext: FakeSpanContext = FakeSpanContext(),
+    override val spanContext: FakeSpanContext = FakeSpanContext.INVALID,
     override val resource: Resource = FakeResource(),
     override val instrumentationScopeInfo: InstrumentationScopeInfo = FakeInstrumentationScopeInfo()
 ) : ReadableLogRecord

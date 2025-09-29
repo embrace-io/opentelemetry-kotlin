@@ -27,7 +27,7 @@ internal class ReadableSpanConversionTest {
             attributes = mapOf("foo" to "bar"),
             links = listOf(
                 FakeLinkData(
-                    FakeSpanContext(),
+                    FakeSpanContext.INVALID,
                     mapOf("foo" to "bar")
                 )
             ),
