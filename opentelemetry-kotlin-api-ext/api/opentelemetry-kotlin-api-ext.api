@@ -7,11 +7,6 @@ public final class io/embrace/opentelemetry/kotlin/attributes/MutableAttributeCo
 	public static final fun setAttributes (Lio/embrace/opentelemetry/kotlin/attributes/MutableAttributeContainer;Ljava/util/Map;)V
 }
 
-public final class io/embrace/opentelemetry/kotlin/tracing/SpanContextExtKt {
-	public static final fun getSpanIdBytes (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;)[B
-	public static final fun getTraceIdBytes (Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;)[B
-}
-
 public final class io/embrace/opentelemetry/kotlin/tracing/SpanExtKt {
 	public static final fun addLink (Lio/embrace/opentelemetry/kotlin/tracing/model/Span;Lio/embrace/opentelemetry/kotlin/tracing/model/Span;Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun addLink$default (Lio/embrace/opentelemetry/kotlin/tracing/model/Span;Lio/embrace/opentelemetry/kotlin/tracing/model/Span;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V

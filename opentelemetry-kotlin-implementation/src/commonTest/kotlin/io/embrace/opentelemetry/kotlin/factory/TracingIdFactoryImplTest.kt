@@ -24,20 +24,20 @@ internal class TracingIdFactoryImplTest {
 
     @Test
     fun testInvalidId() {
-        assertEquals("00000000000000000000000000000000", factory.invalidTraceId)
-        assertEquals("0000000000000000", factory.invalidSpanId)
+        assertEquals("00000000000000000000000000000000", factory.invalidTraceId.toHexString())
+        assertEquals("0000000000000000", factory.invalidSpanId.toHexString())
     }
 
     @Test
     fun testValidSpanId() {
-        val spanId = factory.generateSpanId()
-        assertEquals(16, spanId.length)
-        assertTrue(spanId.matches(SPAN_ID_PATTERN.toRegex()))
+        val spanId = factory.generateSpanIdBytes()
+        assertEquals(16, spanId.toHexString().length)
+        assertTrue(spanId.toHexString().matches(SPAN_ID_PATTERN.toRegex()))
     }
 
     @Test
     fun testValidTraceId() {
-        val traceId = factory.generateTraceId()
+        val traceId = factory.generateTraceIdBytes().toHexString()
         assertEquals(32, traceId.length)
         assertTrue(traceId.matches(TRACE_ID_PATTERN.toRegex()))
     }
@@ -46,22 +46,22 @@ internal class TracingIdFactoryImplTest {
     fun testDistinctTraceIds() {
         assertEquals(
             "2cc2b48c50aefe53b3974ed91e6b4ea9",
-            factory.generateTraceId()
+            factory.generateTraceIdBytes().toHexString()
         )
         assertEquals(
             "e77bcc2f537f0b02efe86030ac2c3153",
-            factory.generateTraceId()
+            factory.generateTraceIdBytes().toHexString()
         )
         assertEquals(
             "c0a79602f9a51310c8eed9889d46ef3b",
-            factory.generateTraceId()
+            factory.generateTraceIdBytes().toHexString()
         )
     }
 
     @Test
     fun testDistinctSpanIds() {
-        assertEquals("2cc2b48c50aefe53", factory.generateSpanId())
-        assertEquals("1e6b4ea924f9baa8", factory.generateSpanId())
-        assertEquals("537f0b02efe86030", factory.generateSpanId())
+        assertEquals("2cc2b48c50aefe53", factory.generateSpanIdBytes().toHexString())
+        assertEquals("1e6b4ea924f9baa8", factory.generateSpanIdBytes().toHexString())
+        assertEquals("537f0b02efe86030", factory.generateSpanIdBytes().toHexString())
     }
 }

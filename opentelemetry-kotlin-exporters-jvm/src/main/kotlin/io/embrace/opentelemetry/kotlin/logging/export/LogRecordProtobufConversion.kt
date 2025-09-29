@@ -12,8 +12,8 @@ import io.opentelemetry.proto.logs.v1.logRecord
 fun ReadableLogRecord.toProtobuf(): LogRecord {
     val record = this
     return logRecord {
-        traceId = ByteString.copyFromUtf8(record.spanContext.traceId)
-        spanId = ByteString.copyFromUtf8(record.spanContext.spanId)
+        traceId = ByteString.copyFrom(record.spanContext.traceIdBytes)
+        spanId = ByteString.copyFrom(record.spanContext.spanIdBytes)
 
         record.body?.let {
             body = anyValue {

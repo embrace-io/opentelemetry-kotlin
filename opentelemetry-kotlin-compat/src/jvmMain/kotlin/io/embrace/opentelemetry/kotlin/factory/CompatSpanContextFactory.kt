@@ -19,8 +19,8 @@ internal class CompatSpanContextFactory : SpanContextFactory {
         val impl: OtelJavaSpanContext = OtelJavaSpanContext.getInvalid()
 
         SpanContextImpl(
-            traceId = impl.traceId,
-            spanId = impl.spanId,
+            traceIdBytes = impl.traceId.hexToByteArray(),
+            spanIdBytes = impl.spanId.hexToByteArray(),
             traceFlags = TraceFlagsAdapter(impl.traceFlags),
             isValid = impl.isValid,
             isRemote = impl.isRemote,
@@ -37,6 +37,20 @@ internal class CompatSpanContextFactory : SpanContextFactory {
         OtelJavaSpanContext.create(
             traceId,
             spanId,
+            traceFlags.toOtelJavaTraceFlags(),
+            traceState.toOtelJavaTraceState()
+        )
+    )
+
+    override fun create(
+        traceIdBytes: ByteArray,
+        spanIdBytes: ByteArray,
+        traceFlags: TraceFlags,
+        traceState: TraceState
+    ): SpanContext = SpanContextAdapter(
+        OtelJavaSpanContext.create(
+            traceIdBytes.toHexString(),
+            spanIdBytes.toHexString(),
             traceFlags.toOtelJavaTraceFlags(),
             traceState.toOtelJavaTraceState()
         )

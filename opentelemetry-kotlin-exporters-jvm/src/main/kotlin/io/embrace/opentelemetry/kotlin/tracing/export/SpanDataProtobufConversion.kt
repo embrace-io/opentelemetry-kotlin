@@ -17,8 +17,8 @@ fun SpanData.toProtobuf(): Span {
     val spanData = this
     return span {
         name = spanData.name
-        traceId = ByteString.copyFromUtf8(spanData.spanContext.traceId)
-        spanId = ByteString.copyFromUtf8(spanData.spanContext.spanId)
+        traceId = ByteString.copyFrom(spanData.spanContext.traceIdBytes)
+        spanId = ByteString.copyFrom(spanData.spanContext.spanIdBytes)
         startTimeUnixNano = spanData.startTimestamp
         endTimeUnixNano = spanData.endTimestamp ?: 0
         attributes.addAll(spanData.attributes.createKeyValues())
@@ -43,7 +43,7 @@ private fun convertEvent(data: EventData): Span.Event = event {
 
 @OptIn(ExperimentalApi::class)
 private fun convertLink(data: LinkData): Span.Link = link {
-    traceId = ByteString.copyFromUtf8(data.spanContext.traceId)
-    spanId = ByteString.copyFromUtf8(data.spanContext.spanId)
+    traceId = ByteString.copyFrom(data.spanContext.traceIdBytes)
+    spanId = ByteString.copyFrom(data.spanContext.spanIdBytes)
     attributes.addAll(data.attributes.createKeyValues())
 }

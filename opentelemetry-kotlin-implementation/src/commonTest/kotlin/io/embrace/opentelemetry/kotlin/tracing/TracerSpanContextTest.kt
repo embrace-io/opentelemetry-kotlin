@@ -5,6 +5,7 @@ import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.factory.createSdkFactory
+import io.embrace.opentelemetry.kotlin.factory.toHexString
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.model.SpanContext
@@ -75,8 +76,8 @@ internal class TracerSpanContextTest {
     private fun assertValidSpanContext(spanContext: SpanContext) {
         assertTrue(spanContext.isValid)
         assertFalse(spanContext.isRemote)
-        assertNotEquals(sdkFactory.tracingIdFactory.invalidTraceId, spanContext.traceId)
-        assertNotEquals(sdkFactory.tracingIdFactory.invalidSpanId, spanContext.spanId)
+        assertNotEquals(sdkFactory.tracingIdFactory.invalidTraceId.toHexString(), spanContext.traceId)
+        assertNotEquals(sdkFactory.tracingIdFactory.invalidSpanId.toHexString(), spanContext.spanId)
         assertEquals(emptyMap(), spanContext.traceState.asMap())
         assertEquals("01", spanContext.traceFlags.hex)
     }

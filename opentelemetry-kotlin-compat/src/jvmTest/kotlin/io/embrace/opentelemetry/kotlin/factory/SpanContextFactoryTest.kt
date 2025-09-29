@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.factory
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertSame
 
 @OptIn(ExperimentalApi::class)
@@ -17,8 +18,8 @@ internal class SpanContextFactoryTest {
     @Test
     fun `test valid`() {
         val generator = CompatTracingIdFactory()
-        val traceId = generator.generateTraceId()
-        val spanId = generator.generateSpanId()
+        val traceId = generator.generateTraceIdBytes()
+        val spanId = generator.generateSpanIdBytes()
         val traceFlags = factory.traceFlagsFactory.default
         val traceState = factory.traceStateFactory.default
         val spanContext = factory.spanContextFactory.create(
@@ -27,7 +28,7 @@ internal class SpanContextFactoryTest {
             traceFlags,
             traceState
         )
-        assertSame(traceId, spanContext.traceId)
-        assertSame(spanId, spanContext.spanId)
+        assertEquals(traceId.toHexString(), spanContext.traceIdBytes.toHexString())
+        assertEquals(spanId.toHexString(), spanContext.spanIdBytes.toHexString())
     }
 }

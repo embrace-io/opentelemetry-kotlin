@@ -1,9 +1,9 @@
 package io.embrace.opentelemetry.kotlin.tracing.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.factory.toHexString
 import io.embrace.opentelemetry.kotlin.tracing.data.FakeSpanData
 import org.junit.Test
-import kotlin.collections.get
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalApi::class)
@@ -22,6 +22,6 @@ class ExportTraceServiceRequestTest {
         assertEquals(1, scopeSpans.spansCount)
         val span = scopeSpans.spansList[0]
 
-        assertEquals(spanData.spanContext.traceId, span.traceId.toStringUtf8())
+        assertEquals(spanData.spanContext.traceId, span.traceId.toByteArray().toHexString())
     }
 }

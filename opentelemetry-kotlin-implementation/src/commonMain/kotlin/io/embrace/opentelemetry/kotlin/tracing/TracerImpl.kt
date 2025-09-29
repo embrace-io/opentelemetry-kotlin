@@ -72,15 +72,15 @@ internal class TracerImpl(
         val factory = tracingIdFactory
 
         val traceId = if (parent.isValid) {
-            parent.traceId
+            parent.traceIdBytes
         } else {
-            factory.generateTraceId()
+            factory.generateTraceIdBytes()
         }
-        val spanId = factory.generateSpanId()
+        val spanId = factory.generateSpanIdBytes()
 
         return SpanContextImpl(
-            traceId = traceId,
-            spanId = spanId,
+            traceIdBytes = traceId,
+            spanIdBytes = spanId,
             traceFlags = traceFlagsDefault,
             isValid = true,
             isRemote = false,
