@@ -22,16 +22,16 @@ import io.opentelemetry.proto.logs.v1.SeverityNumber.SEVERITY_NUMBER_TRACE
 import io.opentelemetry.proto.logs.v1.SeverityNumber.SEVERITY_NUMBER_TRACE2
 import io.opentelemetry.proto.logs.v1.SeverityNumber.SEVERITY_NUMBER_TRACE3
 import io.opentelemetry.proto.logs.v1.SeverityNumber.SEVERITY_NUMBER_TRACE4
+import io.opentelemetry.proto.logs.v1.SeverityNumber.SEVERITY_NUMBER_UNSPECIFIED
 import io.opentelemetry.proto.logs.v1.SeverityNumber.SEVERITY_NUMBER_WARN
 import io.opentelemetry.proto.logs.v1.SeverityNumber.SEVERITY_NUMBER_WARN2
 import io.opentelemetry.proto.logs.v1.SeverityNumber.SEVERITY_NUMBER_WARN3
 import io.opentelemetry.proto.logs.v1.SeverityNumber.SEVERITY_NUMBER_WARN4
-import io.opentelemetry.proto.logs.v1.SeverityNumber.UNRECOGNIZED
 
 @OptIn(ExperimentalApi::class)
 fun SeverityNumber.convertSeverityNumber(): io.opentelemetry.proto.logs.v1.SeverityNumber =
     when (this) {
-        SeverityNumber.UNKNOWN -> UNRECOGNIZED
+        SeverityNumber.UNKNOWN -> SEVERITY_NUMBER_UNSPECIFIED
         SeverityNumber.TRACE -> SEVERITY_NUMBER_TRACE
         SeverityNumber.TRACE2 -> SEVERITY_NUMBER_TRACE2
         SeverityNumber.TRACE3 -> SEVERITY_NUMBER_TRACE3

@@ -9,7 +9,8 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val otelApi: OpenTelemetry = instantiateOtelApi()
+        val endpoint = null // supply a URL string here to export telemetry
+        val otelApi: OpenTelemetry = instantiateOtelApi(endpoint)
         runTracingExamples(otelApi)
         runLoggingExamples(otelApi)
     }

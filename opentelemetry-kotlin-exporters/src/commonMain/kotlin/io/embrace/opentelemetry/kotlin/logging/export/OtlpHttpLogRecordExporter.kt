@@ -15,7 +15,9 @@ internal class OtlpHttpLogRecordExporter(
 ) : LogRecordExporter {
 
     private val exporter = TelemetryExporter(initialDelayMs, maxAttemptIntervalMs, maxAttempts) {
-        otlpClient.exportLogs(it)
+        otlpClient.exportLogs(it).also { response ->
+            println("OTLP exported log: $response")
+        }
     }
 
     override fun export(telemetry: List<ReadableLogRecord>): OperationResultCode {
