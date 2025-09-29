@@ -8,14 +8,15 @@ import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 
 @OptIn(ExperimentalApi::class)
 internal class SpanContextFactoryImpl(
+    private val tracingIdFactory: TracingIdFactory,
     private val traceFlagsFactory: TraceFlagsFactory = TraceFlagsFactoryImpl(),
     private val traceStateFactory: TraceStateFactory = TraceStateFactoryImpl()
 ) : SpanContextFactory {
 
     override val invalid: SpanContext by lazy {
         SpanContextImpl(
-            traceId = "00000000000000000000000000000000",
-            spanId = "0000000000000000",
+            traceIdBytes = tracingIdFactory.invalidTraceId,
+            spanIdBytes = tracingIdFactory.invalidSpanId,
             traceFlags = traceFlagsFactory.default,
             isValid = false,
             isRemote = false,
@@ -33,13 +34,13 @@ internal class SpanContextFactoryImpl(
         val isValidSpanId = isValidSpanId(spanId)
 
         return SpanContextImpl(
-            traceId = when {
-                isValidTraceId -> traceId
-                else -> "00000000000000000000000000000000"
+            traceIdBytes = when {
+                isValidTraceId -> traceId.hexToByteArray()
+                else -> tracingIdFactory.invalidTraceId
             },
-            spanId = when {
-                isValidSpanId -> spanId
-                else -> "0000000000000000"
+            spanIdBytes = when {
+                isValidSpanId -> spanId.hexToByteArray()
+                else -> tracingIdFactory.invalidSpanId
             },
             traceFlags = traceFlags,
             isValid = isValidTraceId && isValidSpanId,
@@ -47,6 +48,18 @@ internal class SpanContextFactoryImpl(
             traceState = traceState
         )
     }
+
+    override fun create(
+        traceIdBytes: ByteArray,
+        spanIdBytes: ByteArray,
+        traceFlags: TraceFlags,
+        traceState: TraceState
+    ): SpanContext = create(
+        traceIdBytes.toHexString(),
+        spanIdBytes.toHexString(),
+        traceFlags,
+        traceState
+    )
 
     private fun isValidTraceId(traceId: String): Boolean {
         // Must be 32 hex characters (16 bytes)

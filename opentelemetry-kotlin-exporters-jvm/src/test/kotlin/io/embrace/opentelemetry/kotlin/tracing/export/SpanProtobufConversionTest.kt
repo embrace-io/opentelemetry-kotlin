@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.tracing.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.export.assertAttributesMatch
+import io.embrace.opentelemetry.kotlin.factory.toHexString
 import io.embrace.opentelemetry.kotlin.tracing.data.EventData
 import io.embrace.opentelemetry.kotlin.tracing.data.FakeSpanData
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
@@ -32,8 +33,8 @@ class SpanProtobufConversionTest {
         val protobuf = obj.toProtobuf()
 
         assertEquals(obj.name, protobuf.name)
-        assertEquals(obj.spanContext.traceId, protobuf.traceId.toStringUtf8())
-        assertEquals(obj.spanContext.spanId, protobuf.spanId.toStringUtf8())
+        assertEquals(obj.spanContext.traceId, protobuf.traceId.toByteArray().toHexString())
+        assertEquals(obj.spanContext.spanId, protobuf.spanId.toByteArray().toHexString())
         assertEquals(obj.startTimestamp, protobuf.startTimeUnixNano)
         assertEquals(obj.endTimestamp, protobuf.endTimeUnixNano)
         assertEquals(obj.status.statusCode.ordinal, protobuf.status.codeValue)
@@ -63,8 +64,8 @@ class SpanProtobufConversionTest {
         assertEquals(links.size, linksList.size)
         links.forEachIndexed { index, link ->
             val proto = linksList[index]
-            assertEquals(link.spanContext.traceId, proto.traceId.toStringUtf8())
-            assertEquals(link.spanContext.spanId, proto.spanId.toStringUtf8())
+            assertEquals(link.spanContext.traceId, proto.traceId.toByteArray().toHexString())
+            assertEquals(link.spanContext.spanId, proto.spanId.toByteArray().toHexString())
             assertAttributesMatch(link.attributes, proto.attributesList)
         }
     }

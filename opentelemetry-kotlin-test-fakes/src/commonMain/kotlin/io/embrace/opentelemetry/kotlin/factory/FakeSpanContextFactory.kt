@@ -16,5 +16,22 @@ internal class FakeSpanContextFactory : SpanContextFactory {
         spanId: String,
         traceFlags: TraceFlags,
         traceState: TraceState
-    ): SpanContext = FakeSpanContext(traceId, spanId, traceFlags, traceState)
+    ): SpanContext = FakeSpanContext(
+        traceId.hexToByteArray(),
+        spanId.hexToByteArray(),
+        traceFlags,
+        traceState
+    )
+
+    override fun create(
+        traceIdBytes: ByteArray,
+        spanIdBytes: ByteArray,
+        traceFlags: TraceFlags,
+        traceState: TraceState
+    ): SpanContext = FakeSpanContext(
+        traceIdBytes,
+        spanIdBytes,
+        traceFlags,
+        traceState
+    )
 }

@@ -4,6 +4,7 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.InstrumentationScopeInfoImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.factory.FakeSdkFactory
+import io.embrace.opentelemetry.kotlin.factory.hexToByteArray
 import io.embrace.opentelemetry.kotlin.init.config.SpanLimitConfig
 import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import io.embrace.opentelemetry.kotlin.tracing.data.LinkData
@@ -102,7 +103,12 @@ internal class SpanLinkTest {
     fun testLinksLimitNotExceeded() {
         tracer.createSpan("test", action = {
             repeat(linkLimit + 1) {
-                addLink(FakeSpanContext("$it".repeat(32), "$it".repeat(16)))
+                addLink(
+                    FakeSpanContext(
+                        "$it".repeat(32).hexToByteArray(),
+                        "$it".repeat(16).hexToByteArray()
+                    )
+                )
             }
         }).apply {
             end()
@@ -115,7 +121,12 @@ internal class SpanLinkTest {
     fun testLinksLimitNotExceeded2() {
         tracer.createSpan("test").apply {
             repeat(linkLimit + 1) {
-                addLink(FakeSpanContext("$it".repeat(32), "$it".repeat(16)))
+                addLink(
+                    FakeSpanContext(
+                        "$it".repeat(32).hexToByteArray(),
+                        "$it".repeat(16).hexToByteArray()
+                    )
+                )
             }
             end()
         }

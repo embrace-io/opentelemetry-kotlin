@@ -2,6 +2,7 @@ package io.embrace.opentelemetry.kotlin.logging.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.export.assertAttributesMatch
+import io.embrace.opentelemetry.kotlin.factory.toHexString
 import io.embrace.opentelemetry.kotlin.logging.model.FakeReadableLogRecord
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -24,8 +25,8 @@ class LogRecordProtobufConversionTest {
         assertEquals(0, protobuf.timeUnixNano)
         assertEquals(0, protobuf.observedTimeUnixNano)
         assertFalse(protobuf.body.hasStringValue())
-        assertEquals(obj.spanContext.traceId, protobuf.traceId.toStringUtf8())
-        assertEquals(obj.spanContext.spanId, protobuf.spanId.toStringUtf8())
+        assertEquals(obj.spanContext.traceId, protobuf.traceId.toByteArray().toHexString())
+        assertEquals(obj.spanContext.spanId, protobuf.spanId.toByteArray().toHexString())
         assertEquals("", protobuf.severityText)
         assertEquals(0, protobuf.severityNumber.number)
         assertAttributesMatch(obj.attributes, protobuf.attributesList)
@@ -48,8 +49,8 @@ class LogRecordProtobufConversionTest {
         assertEquals(obj.timestamp, protobuf.timeUnixNano)
         assertEquals(obj.observedTimestamp, protobuf.observedTimeUnixNano)
         assertEquals(obj.body, protobuf.body.stringValue)
-        assertEquals(obj.spanContext.traceId, protobuf.traceId.toStringUtf8())
-        assertEquals(obj.spanContext.spanId, protobuf.spanId.toStringUtf8())
+        assertEquals(obj.spanContext.traceId, protobuf.traceId.toByteArray().toHexString())
+        assertEquals(obj.spanContext.spanId, protobuf.spanId.toByteArray().toHexString())
         assertEquals(obj.severityText, protobuf.severityText)
         assertEquals(obj.severityNumber?.severityNumber, protobuf.severityNumber.number)
         assertAttributesMatch(obj.attributes, protobuf.attributesList)

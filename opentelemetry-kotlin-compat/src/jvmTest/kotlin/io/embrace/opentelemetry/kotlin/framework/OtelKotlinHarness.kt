@@ -7,6 +7,7 @@ import io.embrace.opentelemetry.kotlin.createCompatOpenTelemetryImpl
 import io.embrace.opentelemetry.kotlin.factory.CompatSdkFactory
 import io.embrace.opentelemetry.kotlin.factory.CompatTracingIdFactory
 import io.embrace.opentelemetry.kotlin.factory.TracingIdFactory
+import io.embrace.opentelemetry.kotlin.factory.hexToByteArray
 import io.embrace.opentelemetry.kotlin.toOtelJavaApi
 import kotlin.random.Random
 
@@ -34,6 +35,8 @@ private class FakeTracingIdFactory(
 
     private val random: Random = Random(0)
 
+    override fun generateSpanIdBytes(): ByteArray = generateTraceId().hexToByteArray()
+    override fun generateTraceIdBytes(): ByteArray = generateSpanId().hexToByteArray()
     override fun generateSpanId(): String = randomHex(16)
     override fun generateTraceId(): String = randomHex(32)
 

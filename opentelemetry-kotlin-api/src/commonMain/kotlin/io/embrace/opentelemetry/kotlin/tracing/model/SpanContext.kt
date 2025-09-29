@@ -21,10 +21,22 @@ public interface SpanContext {
     public val traceId: String
 
     /**
+     * Gets the trace ID as a byte array.
+     */
+    @ThreadSafe
+    public val traceIdBytes: ByteArray
+
+    /**
      * Hexadecimal representation of span ID.
      */
     @ThreadSafe
     public val spanId: String
+
+    /**
+     * Gets the span ID as a byte array.
+     */
+    @ThreadSafe
+    public val spanIdBytes: ByteArray
 
     /**
      * Contains details about the trace.

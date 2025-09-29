@@ -9,9 +9,10 @@ import kotlin.test.assertTrue
 @OptIn(ExperimentalApi::class)
 internal class SpanContextFactoryImplTest {
 
+    private val idFactory = TracingIdFactoryImpl()
     private val traceFlagsFactory = TraceFlagsFactoryImpl()
     private val traceStateFactory = TraceStateFactoryImpl()
-    private val factory = SpanContextFactoryImpl(traceFlagsFactory, traceStateFactory)
+    private val factory = SpanContextFactoryImpl(idFactory, traceFlagsFactory, traceStateFactory)
 
     @Test
     internal fun testInvalidProperty() {
@@ -115,8 +116,8 @@ internal class SpanContextFactoryImplTest {
 
         val spanContext = factory.create(traceId, spanId, traceFlags, traceState)
 
-        assertEquals(traceId, spanContext.traceId)
-        assertEquals(spanId, spanContext.spanId)
+        assertEquals(traceId.lowercase(), spanContext.traceId)
+        assertEquals(spanId.lowercase(), spanContext.spanId)
         assertEquals(traceFlags, spanContext.traceFlags)
         assertEquals(traceState, spanContext.traceState)
         assertTrue(spanContext.isValid) // valid because uppercase hex is accepted

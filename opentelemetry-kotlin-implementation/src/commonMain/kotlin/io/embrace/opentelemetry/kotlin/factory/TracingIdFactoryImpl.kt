@@ -8,34 +8,22 @@ internal class TracingIdFactoryImpl(
     private val random: Random = Random.Default
 ) : TracingIdFactory {
 
-    override fun generateTraceId(): String = randomHex(32)
-    override fun generateSpanId(): String = randomHex(16)
-
-    override val invalidTraceId: String = "00000000000000000000000000000000"
-    override val invalidSpanId: String = "0000000000000000"
-
-    // follows approach taken in opentelemetry-java (optimized for speed)
-
-    private val hexChars = "0123456789abcdef".toCharArray()
-
-    private fun randomHex(charCount: Int): String {
-        var bytes: ByteArray
-        do {
-            bytes = ByteArray(charCount / 2).apply { // 2 chars per byte
-                random.nextBytes(this)
-            }
-        } while (bytes.all { it == 0.toByte() }) // reject all-zero
-        return toHex(bytes)
+    private companion object {
+        private const val TRACE_ID_BYTES = 16
+        private const val SPAN_ID_BYTES = 8
     }
 
-    private fun toHex(bytes: ByteArray): String {
-        val result = CharArray(bytes.size * 2)
-        var k = 0
-        for (byte in bytes) {
-            val i = byte.toInt() and 0xFF
-            result[k++] = hexChars[i ushr 4]
-            result[k++] = hexChars[i and 0x0F]
-        }
-        return result.concatToString()
+    override fun generateTraceIdBytes(): ByteArray = generateId(TRACE_ID_BYTES)
+    override fun generateSpanIdBytes(): ByteArray = generateId(SPAN_ID_BYTES)
+
+    override val invalidTraceId: ByteArray = ByteArray(TRACE_ID_BYTES)
+    override val invalidSpanId: ByteArray = ByteArray(SPAN_ID_BYTES)
+
+    private fun generateId(length: Int): ByteArray {
+        val bytes = ByteArray(length)
+        do {
+            random.nextBytes(bytes)
+        } while (bytes.all { it == 0.toByte() }) // reject all-zero IDs
+        return bytes
     }
 }

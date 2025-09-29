@@ -17,4 +17,11 @@ internal object NoopSpanContextFactory : SpanContextFactory {
         traceFlags: TraceFlags,
         traceState: TraceState
     ): SpanContext = NoopSpanContext
+
+    override fun create(
+        traceIdBytes: ByteArray,
+        spanIdBytes: ByteArray,
+        traceFlags: TraceFlags,
+        traceState: TraceState
+    ): SpanContext = NoopSpanContext
 }
