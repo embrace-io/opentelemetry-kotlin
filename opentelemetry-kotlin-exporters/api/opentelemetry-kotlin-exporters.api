@@ -1,44 +1,20 @@
-public final class io/embrace/opentelemetry/kotlin/logging/export/CompositeLogRecordProcessor : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable, io/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor {
-	public fun <init> (Ljava/util/List;Lio/embrace/opentelemetry/kotlin/error/SdkErrorHandler;Lio/embrace/opentelemetry/kotlin/export/TelemetryCloseable;)V
-	public synthetic fun <init> (Ljava/util/List;Lio/embrace/opentelemetry/kotlin/error/SdkErrorHandler;Lio/embrace/opentelemetry/kotlin/export/TelemetryCloseable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
-	public fun onEmit (Lio/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord;Lio/embrace/opentelemetry/kotlin/context/Context;)V
-	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+public final class io/embrace/opentelemetry/kotlin/logging/export/LogRecordExporterApiKt {
+	public static final fun createCompositeLogRecordExporter (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;
+	public static final fun createCompositeLogRecordProcessor (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor;
+	public static final fun createSimpleLogRecordProcessor (Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor;
 }
 
 public final class io/embrace/opentelemetry/kotlin/logging/export/OtlpHttpLogRecordExporterApi_jvmKt {
 	public static final fun createOtlpHttpLogRecordExporter (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;
 }
 
-public final class io/embrace/opentelemetry/kotlin/logging/export/SimpleLogRecordProcessor : io/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor {
-	public fun <init> (Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;)V
-	public fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
-	public fun onEmit (Lio/embrace/opentelemetry/kotlin/logging/model/ReadWriteLogRecord;Lio/embrace/opentelemetry/kotlin/context/Context;)V
-	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
-}
-
-public final class io/embrace/opentelemetry/kotlin/tracing/export/CompositeSpanProcessor : io/embrace/opentelemetry/kotlin/export/TelemetryCloseable, io/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor {
-	public fun <init> (Ljava/util/List;Lio/embrace/opentelemetry/kotlin/error/SdkErrorHandler;Lio/embrace/opentelemetry/kotlin/export/TelemetryCloseable;)V
-	public synthetic fun <init> (Ljava/util/List;Lio/embrace/opentelemetry/kotlin/error/SdkErrorHandler;Lio/embrace/opentelemetry/kotlin/export/TelemetryCloseable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
-	public fun isEndRequired ()Z
-	public fun isStartRequired ()Z
-	public fun onEnd (Lio/embrace/opentelemetry/kotlin/tracing/model/ReadableSpan;)V
-	public fun onStart (Lio/embrace/opentelemetry/kotlin/tracing/model/ReadWriteSpan;Lio/embrace/opentelemetry/kotlin/context/Context;)V
-	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
-}
-
 public final class io/embrace/opentelemetry/kotlin/tracing/export/OtlpHttpSpanExporterApi_jvmKt {
 	public static final fun createOtlpHttpSpanExporter (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;
 }
 
-public final class io/embrace/opentelemetry/kotlin/tracing/export/SimpleSpanProcessor : io/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor {
-	public fun <init> (Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;)V
-	public fun forceFlush ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
-	public fun isEndRequired ()Z
-	public fun isStartRequired ()Z
-	public fun onEnd (Lio/embrace/opentelemetry/kotlin/tracing/model/ReadableSpan;)V
-	public fun onStart (Lio/embrace/opentelemetry/kotlin/tracing/model/ReadWriteSpan;Lio/embrace/opentelemetry/kotlin/context/Context;)V
-	public fun shutdown ()Lio/embrace/opentelemetry/kotlin/export/OperationResultCode;
+public final class io/embrace/opentelemetry/kotlin/tracing/export/SpanExporterApiKt {
+	public static final fun createCompositeSpanExporter (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;
+	public static final fun createCompositeSpanProcessor (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor;
+	public static final fun createSimpleSpanProcessor (Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor;
 }
 
