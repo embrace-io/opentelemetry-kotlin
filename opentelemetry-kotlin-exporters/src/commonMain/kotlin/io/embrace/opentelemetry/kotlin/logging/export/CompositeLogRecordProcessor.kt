@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.logging.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.error.SdkErrorHandler
 import io.embrace.opentelemetry.kotlin.export.CompositeTelemetryCloseable
@@ -19,10 +20,14 @@ internal class CompositeLogRecordProcessor(
     ),
 ) : LogRecordProcessor, TelemetryCloseable by telemetryCloseable {
 
+    private val lock = ReentrantReadWriteLock()
+
     override fun onEmit(log: ReadWriteLogRecord, context: Context) {
-        batchExportOperation(processors, sdkErrorHandler) {
-            it.onEmit(log, context)
-            OperationResultCode.Success
+        lock.write {
+            batchExportOperation(processors, sdkErrorHandler) {
+                it.onEmit(log, context)
+                OperationResultCode.Success
+            }
         }
     }
 }
