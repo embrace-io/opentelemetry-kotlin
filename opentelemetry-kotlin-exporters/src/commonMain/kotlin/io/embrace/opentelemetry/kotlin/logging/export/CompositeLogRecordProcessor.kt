@@ -10,7 +10,7 @@ import io.embrace.opentelemetry.kotlin.export.batchExportOperation
 import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
 
 @OptIn(ExperimentalApi::class)
-internal class CompositeLogRecordProcessor(
+public class CompositeLogRecordProcessor(
     private val processors: List<LogRecordProcessor>,
     private val sdkErrorHandler: SdkErrorHandler,
     private val telemetryCloseable: TelemetryCloseable = CompositeTelemetryCloseable(

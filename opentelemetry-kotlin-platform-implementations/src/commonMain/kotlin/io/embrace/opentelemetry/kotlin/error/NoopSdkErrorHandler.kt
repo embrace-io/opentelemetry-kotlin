@@ -1,6 +1,6 @@
 package io.embrace.opentelemetry.kotlin.error
 
-internal object NoopSdkErrorHandler : SdkErrorHandler {
+public object NoopSdkErrorHandler : SdkErrorHandler {
 
     override fun onApiMisuse(
         api: String,

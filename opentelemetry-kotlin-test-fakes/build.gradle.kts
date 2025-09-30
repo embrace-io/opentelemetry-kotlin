@@ -8,6 +8,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":opentelemetry-kotlin-api"))
+                api(project(":opentelemetry-kotlin-platform-implementations"))
             }
         }
     }

@@ -11,7 +11,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.ReadWriteSpan
 import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
 
 @OptIn(ExperimentalApi::class)
-internal class CompositeSpanProcessor(
+public class CompositeSpanProcessor(
     private val processors: List<SpanProcessor>,
     private val sdkErrorHandler: SdkErrorHandler,
     private val telemetryCloseable: TelemetryCloseable = CompositeTelemetryCloseable(

@@ -12,6 +12,7 @@ kotlin {
                 api(project(":opentelemetry-kotlin-api"))
                 api(project(":opentelemetry-kotlin-api-ext"))
                 api(project(":opentelemetry-kotlin-noop"))
+                api(project(":opentelemetry-kotlin-exporters"))
                 implementation(project(":opentelemetry-kotlin-model"))
             }
         }

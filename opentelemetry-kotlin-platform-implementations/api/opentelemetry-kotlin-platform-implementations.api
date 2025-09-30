@@ -21,3 +21,24 @@ public final class io/embrace/opentelemetry/kotlin/ThreadSafeMap_jvmKt {
 	public static final fun threadSafeMap ()Ljava/util/Map;
 }
 
+public final class io/embrace/opentelemetry/kotlin/error/NoopSdkErrorHandler : io/embrace/opentelemetry/kotlin/error/SdkErrorHandler {
+	public static final field INSTANCE Lio/embrace/opentelemetry/kotlin/error/NoopSdkErrorHandler;
+	public fun onApiMisuse (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+	public fun onSdkCodeError (Ljava/lang/Throwable;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+	public fun onUserCodeError (Ljava/lang/Throwable;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/error/SdkErrorHandler {
+	public abstract fun onApiMisuse (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+	public abstract fun onSdkCodeError (Ljava/lang/Throwable;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+	public abstract fun onUserCodeError (Ljava/lang/Throwable;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/error/SdkErrorSeverity : java/lang/Enum {
+	public static final field ERROR Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
+	public static final field INFO Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
+	public static final field WARNING Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
+	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
+	public static fun values ()[Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
+}
+

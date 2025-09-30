@@ -11,10 +11,17 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":opentelemetry-kotlin-api"))
+                implementation(project(":opentelemetry-kotlin-platform-implementations"))
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.cio)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.client.encoding)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(project(":opentelemetry-kotlin-test-fakes"))
+                implementation(libs.kotlin.test)
             }
         }
         val jvmTest by getting {

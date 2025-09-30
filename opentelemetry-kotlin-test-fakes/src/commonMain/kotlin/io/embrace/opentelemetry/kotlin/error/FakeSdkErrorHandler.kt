@@ -1,6 +1,6 @@
 package io.embrace.opentelemetry.kotlin.error
 
-internal class FakeSdkErrorHandler : SdkErrorHandler {
+class FakeSdkErrorHandler : SdkErrorHandler {
 
     class ApiMisuseDetails(
         val api: String,
