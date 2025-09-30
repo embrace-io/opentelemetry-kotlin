@@ -12,7 +12,7 @@ import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
  * https://opentelemetry.io/docs/specs/otel/logs/sdk/#built-in-processors
  */
 @OptIn(ExperimentalApi::class)
-public class SimpleLogRecordProcessor(
+internal class SimpleLogRecordProcessor(
     private val exporter: LogRecordExporter,
 ) : LogRecordProcessor {
 

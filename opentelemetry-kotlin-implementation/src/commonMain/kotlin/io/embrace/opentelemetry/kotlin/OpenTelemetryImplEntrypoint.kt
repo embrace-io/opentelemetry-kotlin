@@ -1,6 +1,5 @@
 package io.embrace.opentelemetry.kotlin
 
-import io.embrace.opentelemetry.kotlin.error.NoopSdkErrorHandler
 import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.factory.createSdkFactory
 import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigDsl
@@ -40,10 +39,9 @@ internal fun createOpenTelemetryImpl(
 ): OpenTelemetry {
     val tracingConfig = TracerProviderConfigImpl().apply(tracerProvider).generateTracingConfig()
     val loggingConfig = LoggerProviderConfigImpl().apply(loggerProvider).generateLoggingConfig()
-    val sdkErrorHandler = NoopSdkErrorHandler
     return OpenTelemetryImpl(
-        tracerProvider = TracerProviderImpl(clock, tracingConfig, sdkFactory, sdkErrorHandler),
-        loggerProvider = LoggerProviderImpl(clock, loggingConfig, sdkFactory, sdkErrorHandler),
+        tracerProvider = TracerProviderImpl(clock, tracingConfig, sdkFactory),
+        loggerProvider = LoggerProviderImpl(clock, loggingConfig, sdkFactory),
         clock = clock,
         sdkFactory = sdkFactory
     )

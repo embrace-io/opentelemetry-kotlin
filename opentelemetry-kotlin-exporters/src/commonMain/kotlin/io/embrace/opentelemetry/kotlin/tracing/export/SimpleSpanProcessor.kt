@@ -13,7 +13,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.ReadableSpan
  * https://opentelemetry.io/docs/specs/otel/trace/sdk/#built-in-span-processors
  */
 @OptIn(ExperimentalApi::class)
-public class SimpleSpanProcessor(
+internal class SimpleSpanProcessor(
     private val exporter: SpanExporter,
 ) : SpanProcessor {
 
