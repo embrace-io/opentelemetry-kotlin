@@ -4,6 +4,10 @@ package io.embrace.opentelemetry.kotlin.logging.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.error.NoopSdkErrorHandler
+import io.embrace.opentelemetry.kotlin.export.EXPORT_TIMEOUT_MS
+import io.embrace.opentelemetry.kotlin.export.MAX_EXPORT_BATCH_SIZE
+import io.embrace.opentelemetry.kotlin.export.MAX_QUEUE_SIZE
+import io.embrace.opentelemetry.kotlin.export.SCHEDULE_DELAY_MS
 
 /**
  * Creates a log record exporter that sends telemetry to the specified URL over OTLP.
@@ -34,3 +38,21 @@ public fun createSimpleLogRecordProcessor(exporter: LogRecordExporter): LogRecor
 public fun createCompositeLogRecordExporter(exporters: List<LogRecordExporter>): LogRecordExporter {
     return CompositeLogRecordExporter(exporters, NoopSdkErrorHandler)
 }
+
+/**
+ * Creates a batching processor that sends telemetry in batches.
+ * See https://opentelemetry.io/docs/specs/otel/logs/sdk/#batching-processor
+ */
+public fun createBatchLogRecordProcessor(
+    exporter: LogRecordExporter,
+    maxQueueSize: Int = MAX_QUEUE_SIZE,
+    scheduleDelayMs: Long = SCHEDULE_DELAY_MS,
+    exportTimeoutMs: Long = EXPORT_TIMEOUT_MS,
+    maxExportBatchSize: Int = MAX_EXPORT_BATCH_SIZE
+): LogRecordProcessor = BatchLogRecordProcessorImpl(
+    exporter,
+    maxQueueSize,
+    scheduleDelayMs,
+    exportTimeoutMs,
+    maxExportBatchSize
+)

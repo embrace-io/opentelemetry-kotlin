@@ -22,6 +22,7 @@ kotlin {
             dependencies {
                 implementation(project(":opentelemetry-kotlin-test-fakes"))
                 implementation(libs.kotlin.test)
+                implementation(libs.kotlinx.coroutines.test)
             }
         }
         val jvmTest by getting {

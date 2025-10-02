@@ -1,4 +1,6 @@
 public final class io/embrace/opentelemetry/kotlin/logging/export/LogRecordExporterApiKt {
+	public static final fun createBatchLogRecordProcessor (Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;IJJI)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor;
+	public static synthetic fun createBatchLogRecordProcessor$default (Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;IJJIILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor;
 	public static final fun createCompositeLogRecordExporter (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;
 	public static final fun createCompositeLogRecordProcessor (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor;
 	public static final fun createSimpleLogRecordProcessor (Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordProcessor;
@@ -13,6 +15,8 @@ public final class io/embrace/opentelemetry/kotlin/tracing/export/OtlpHttpSpanEx
 }
 
 public final class io/embrace/opentelemetry/kotlin/tracing/export/SpanExporterApiKt {
+	public static final fun createBatchSpanProcessor (Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;IJJI)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor;
+	public static synthetic fun createBatchSpanProcessor$default (Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;IJJIILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor;
 	public static final fun createCompositeSpanExporter (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;
 	public static final fun createCompositeSpanProcessor (Ljava/util/List;)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor;
 	public static final fun createSimpleSpanProcessor (Lio/embrace/opentelemetry/kotlin/tracing/export/SpanExporter;)Lio/embrace/opentelemetry/kotlin/tracing/export/SpanProcessor;
