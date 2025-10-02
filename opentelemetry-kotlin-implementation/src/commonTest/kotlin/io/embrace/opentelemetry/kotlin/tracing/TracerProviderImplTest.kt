@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.factory.FakeSdkFactory
 import io.embrace.opentelemetry.kotlin.init.config.TracingConfig
@@ -17,7 +18,7 @@ internal class TracerProviderImplTest {
     private val tracingConfig = TracingConfig(
         emptyList(),
         fakeSpanLimitsConfig,
-        ResourceImpl(emptyMap(), null)
+        ResourceImpl(MutableAttributeContainerImpl(), null)
     )
 
     private lateinit var impl: TracerProvider
