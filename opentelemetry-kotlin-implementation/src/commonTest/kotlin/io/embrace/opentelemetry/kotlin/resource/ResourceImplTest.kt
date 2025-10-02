@@ -1,6 +1,8 @@
 package io.embrace.opentelemetry.kotlin.resource
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.attributes.DEFAULT_ATTRIBUTE_LIMIT
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -10,7 +12,9 @@ internal class ResourceImplTest {
 
     @Test
     fun testResourceImpl() {
-        val resource = ResourceImpl(mapOf("key" to "value"), "https://example.com/schema")
+        val attrs =
+            MutableAttributeContainerImpl(attrs = mutableMapOf("key" to "value"))
+        val resource = ResourceImpl(attrs, "https://example.com/schema")
         val another = resource.asNewResource {
             attributes["foo"] = "value"
             schemaUrl = "https://example.com/another"
@@ -28,7 +32,9 @@ internal class ResourceImplTest {
 
     @Test
     fun testEmptyResource() {
-        val resource = ResourceImpl(mapOf("key" to "value"), "https://example.com/schema")
+        val attrs =
+            MutableAttributeContainerImpl(attrs = mutableMapOf("key" to "value"))
+        val resource = ResourceImpl(attrs, "https://example.com/schema")
         val another = resource.asNewResource {
             attributes.clear()
             schemaUrl = null
@@ -39,12 +45,36 @@ internal class ResourceImplTest {
 
     @Test
     fun testDefensiveCopy() {
-        val resource = ResourceImpl(emptyMap(), null)
+        val container = MutableAttributeContainerImpl(attrs = mutableMapOf())
+        val resource = ResourceImpl(container, null)
         lateinit var attrs: MutableMap<String, Any>
         val another = resource.asNewResource {
             attrs = attributes
         }
         attrs["key"] = "value"
         assertEquals(emptyMap(), another.attributes)
+    }
+
+    @Test
+    fun testNewResourceAttributeLimit() {
+        val attrs = (0..DEFAULT_ATTRIBUTE_LIMIT + 2).associate {
+            "key$it" to "value$it"
+        }
+        val container = MutableAttributeContainerImpl(attrs = attrs.toMutableMap())
+        val resource = ResourceImpl(container, "https://example.com/schema")
+        assertEquals(DEFAULT_ATTRIBUTE_LIMIT, resource.attributes.size)
+    }
+
+    @Test
+    fun testMutateResourceAttributeLimit() {
+        val attrs = (0..DEFAULT_ATTRIBUTE_LIMIT + 2).associate {
+            "key$it" to "value$it"
+        }
+        val container = MutableAttributeContainerImpl(attrs = attrs.toMutableMap())
+        val resource = ResourceImpl(container, "https://example.com/schema")
+        resource.asNewResource {
+            attributes.putAll(attrs)
+        }
+        assertEquals(DEFAULT_ATTRIBUTE_LIMIT, resource.attributes.size)
     }
 }

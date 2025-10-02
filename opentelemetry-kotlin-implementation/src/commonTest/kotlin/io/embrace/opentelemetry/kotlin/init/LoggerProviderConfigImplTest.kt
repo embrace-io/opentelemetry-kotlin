@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.init
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.attributes.DEFAULT_ATTRIBUTE_LIMIT
 import io.embrace.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -69,5 +70,16 @@ internal class LoggerProviderConfigImplTest {
             resource(mapOf("key" to "value"))
         }.generateLoggingConfig()
         assertEquals(mapOf("key" to "value"), cfg.resource.attributes)
+    }
+
+    @Test
+    fun testResourceLimit() {
+        val attrs = (0..DEFAULT_ATTRIBUTE_LIMIT + 2).associate {
+            "key$it" to "value$it"
+        }
+        val cfg = LoggerProviderConfigImpl().apply {
+            resource(attrs)
+        }.generateLoggingConfig()
+        assertEquals(DEFAULT_ATTRIBUTE_LIMIT, cfg.resource.attributes.size)
     }
 }

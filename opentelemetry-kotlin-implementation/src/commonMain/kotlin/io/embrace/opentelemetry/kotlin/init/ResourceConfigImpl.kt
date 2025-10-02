@@ -30,6 +30,9 @@ internal class ResourceConfigImpl : ResourceConfigDsl {
 
     fun generateResource(): Resource = ResourceImpl(
         schemaUrl = schemaUrl,
-        attributes = resourceAttrs.attributes
+        container = MutableAttributeContainerImpl(
+            DEFAULT_ATTRIBUTE_LIMIT,
+            resourceAttrs.attributes.toMutableMap()
+        )
     )
 }

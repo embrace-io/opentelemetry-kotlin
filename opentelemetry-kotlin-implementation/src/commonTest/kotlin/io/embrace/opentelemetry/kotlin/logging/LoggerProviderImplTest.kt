@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.logging
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainerImpl
 import io.embrace.opentelemetry.kotlin.clock.FakeClock
 import io.embrace.opentelemetry.kotlin.factory.createSdkFactory
 import io.embrace.opentelemetry.kotlin.init.config.LogLimitConfig
@@ -18,7 +19,7 @@ internal class LoggerProviderImplTest {
     private val loggingConfig = LoggingConfig(
         emptyList(),
         LogLimitConfig(100, 100),
-        ResourceImpl(emptyMap(), null)
+        ResourceImpl(MutableAttributeContainerImpl(), null)
     )
     private val factory = createSdkFactory()
 
