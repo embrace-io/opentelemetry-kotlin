@@ -123,6 +123,23 @@ internal class LogExportTest {
         )
     }
 
+    @Test
+    fun `test event export`() {
+        val logger = harness.kotlinApi.loggerProvider.getLogger("test_logger")
+        logger.logEvent(
+            eventName = "my_event_name",
+            body = "Some Event",
+            severityNumber = SeverityNumber.WARN4
+        ) {
+            setStringAttribute("key1", "value1")
+        }
+
+        harness.assertLogRecords(
+            expectedCount = 1,
+            goldenFileName = "event.json",
+        )
+    }
+
     /**
      * Custom processor that captures the context passed to onEmit
      */

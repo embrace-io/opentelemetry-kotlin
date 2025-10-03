@@ -14,6 +14,7 @@ fun ReadableLogRecord.toSerializable() = SerializableLogRecordData(
     severity = severityNumber?.name.orEmpty(),
     severityText = severityText,
     body = body,
+    eventName = eventName,
     attributes = attributes.toSerializable(),
     totalAttributeCount = attributes.size,
 )

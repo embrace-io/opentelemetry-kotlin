@@ -17,4 +17,16 @@ internal object NoopLogger : Logger {
         attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
     }
+
+    override fun logEvent(
+        eventName: String,
+        body: String?,
+        timestamp: Long?,
+        observedTimestamp: Long?,
+        context: Context?,
+        severityNumber: SeverityNumber?,
+        severityText: String?,
+        attributes: (MutableAttributeContainer.() -> Unit)?
+    ) {
+    }
 }

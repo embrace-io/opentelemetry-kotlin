@@ -14,7 +14,7 @@ internal class SerializableLogRecordDataTest {
 
     @Test
     fun testConversion() {
-        val fake = FakeReadableLogRecord()
+        val fake = FakeReadableLogRecord(eventName = "event")
         val observed = fake.toSerializable()
 
         compareResource(checkNotNull(fake.resource), checkNotNull(observed.resource))
@@ -28,6 +28,7 @@ internal class SerializableLogRecordDataTest {
         assertEquals(fake.severityNumber?.name, observed.severity)
         assertEquals(fake.severityText, observed.severityText)
         assertEquals(fake.body, observed.body)
+        assertEquals(fake.eventName, observed.eventName)
         compareAttributes(fake.attributes.mapValues { it.value.toString() }, observed.attributes)
     }
 

@@ -44,6 +44,11 @@ internal class ReadWriteLogRecordAdapter(
         set(value) {
         }
 
+    override var eventName: String?
+        get() = impl.eventName
+        set(value) {
+        }
+
     override fun setBooleanAttribute(key: String, value: Boolean) {
         impl.setAttribute(OtelJavaAttributeKey.booleanKey(key), value)
     }
