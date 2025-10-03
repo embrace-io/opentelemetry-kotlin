@@ -36,6 +36,50 @@ internal class LoggerImpl(
         severityText: String?,
         attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
+        processTelemetry(
+            context = context,
+            timestamp = timestamp,
+            observedTimestamp = observedTimestamp,
+            body = body,
+            eventName = null,
+            severityText = severityText,
+            severityNumber = severityNumber,
+            attributes = attributes
+        )
+    }
+
+    override fun logEvent(
+        eventName: String,
+        body: String?,
+        timestamp: Long?,
+        observedTimestamp: Long?,
+        context: Context?,
+        severityNumber: SeverityNumber?,
+        severityText: String?,
+        attributes: (MutableAttributeContainer.() -> Unit)?
+    ) {
+        processTelemetry(
+            context = context,
+            timestamp = timestamp,
+            observedTimestamp = observedTimestamp,
+            body = body,
+            eventName = eventName,
+            severityText = severityText,
+            severityNumber = severityNumber,
+            attributes = attributes
+        )
+    }
+
+    private fun processTelemetry(
+        context: Context?,
+        timestamp: Long?,
+        observedTimestamp: Long?,
+        body: String?,
+        eventName: String?,
+        severityText: String?,
+        severityNumber: SeverityNumber?,
+        attributes: (MutableAttributeContainer.() -> Unit)?
+    ) {
         val ctx = context ?: root
         val spanContext = when (ctx) {
             root -> invalidSpanContext
@@ -52,7 +96,8 @@ internal class LoggerImpl(
             severityText = severityText,
             severityNumber = severityNumber ?: SeverityNumber.UNKNOWN,
             spanContext = spanContext,
-            logLimitConfig = logLimitConfig
+            logLimitConfig = logLimitConfig,
+            eventName = eventName,
         )
         if (attributes != null) {
             attributes(log)

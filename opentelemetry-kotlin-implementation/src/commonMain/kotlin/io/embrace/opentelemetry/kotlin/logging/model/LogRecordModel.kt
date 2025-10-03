@@ -19,6 +19,7 @@ internal class LogRecordModel(
     timestamp: Long,
     observedTimestamp: Long,
     body: String?,
+    eventName: String?,
     severityText: String?,
     severityNumber: SeverityNumber?,
     override val spanContext: SpanContext,
@@ -70,6 +71,16 @@ internal class LogRecordModel(
         }
 
     override var body: String? = body
+        get() = lock.read {
+            field
+        }
+        set(value) {
+            lock.write {
+                field = value
+            }
+        }
+
+    override var eventName: String? = eventName
         get() = lock.read {
             field
         }

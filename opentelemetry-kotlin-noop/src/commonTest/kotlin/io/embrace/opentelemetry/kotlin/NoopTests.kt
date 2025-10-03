@@ -85,6 +85,34 @@ internal class NoopTests {
     }
 
     @Test
+    fun testNoopEvent() {
+        val otel = createNoopOpenTelemetry()
+        val loggerProvider = otel.loggerProvider
+        val logger = loggerProvider.getLogger("test-logger")
+
+        // Logging does nothing
+        logger.logEvent(
+            eventName = "my_event",
+            body = "Complex message",
+            timestamp = 1000000L,
+            observedTimestamp = 2000000L,
+            context = null,
+            severityNumber = SeverityNumber.ERROR,
+            severityText = "ERROR"
+        ) {
+            setStringAttribute("service", "test-service")
+            setBooleanAttribute("success", false)
+            setLongAttribute("duration", 1500L)
+            setDoubleAttribute("rate", 95.5)
+
+            setStringListAttribute("tags", listOf("test", "noop"))
+            setBooleanListAttribute("flags", listOf(true, false))
+            setLongListAttribute("numbers", listOf(1L, 2L, 3L))
+            setDoubleListAttribute("rates", listOf(1.0, 2.5))
+        }
+    }
+
+    @Test
     fun testNoopClockDefault() {
         val otel = createNoopOpenTelemetry()
         val clock = otel.clock

@@ -27,7 +27,8 @@ internal class LogProcessorOnEmitTest {
         prepareConfig()
         val ctx = prepareContext()
 
-        harness.logger.log(
+        harness.logger.logEvent(
+            eventName = "my_event",
             body = "custom_log",
             timestamp = 500,
             observedTimestamp = 600,
@@ -66,6 +67,7 @@ internal class LogProcessorOnEmitTest {
         }
 
         private fun ReadWriteLogRecord.assertAttributes() {
+            assertEquals("my_event", eventName)
             assertEquals("custom_log", body)
             assertEquals(500, timestamp)
             assertEquals(600, observedTimestamp)
@@ -79,6 +81,7 @@ internal class LogProcessorOnEmitTest {
         }
 
         private fun ReadWriteLogRecord.overrideAttributes() {
+            eventName = "override"
             body = "override"
             timestamp = 123
             observedTimestamp = 456

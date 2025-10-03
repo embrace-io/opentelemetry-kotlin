@@ -23,6 +23,7 @@
     "severity": "INFO",
     "severityText": "info",
     "body": "override",
+    "eventName": "override",
     "attributes": {
       "experiment_enabled": "true",
       "foo": "bar",
