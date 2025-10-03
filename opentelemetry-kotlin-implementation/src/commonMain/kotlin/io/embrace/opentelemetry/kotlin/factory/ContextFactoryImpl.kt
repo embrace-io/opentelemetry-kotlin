@@ -17,5 +17,5 @@ internal class ContextFactoryImpl : ContextFactory {
         return context.set(spanKey, span)
     }
 
-    override fun implicitContext(): Context = root()
+    override fun implicitContext(): Context = root() // FIXME
 }

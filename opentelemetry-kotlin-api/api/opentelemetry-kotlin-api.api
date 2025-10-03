@@ -43,8 +43,18 @@ public abstract interface class io/embrace/opentelemetry/kotlin/context/Context 
 	public abstract fun set (Lio/embrace/opentelemetry/kotlin/context/ContextKey;Ljava/lang/Object;)Lio/embrace/opentelemetry/kotlin/context/Context;
 }
 
+public final class io/embrace/opentelemetry/kotlin/context/ContextApiExtKt {
+	public static final fun with (Lio/embrace/opentelemetry/kotlin/context/Context;Ljava/util/Map;)Lio/embrace/opentelemetry/kotlin/context/Context;
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/context/ContextKey {
 	public abstract fun getName ()Ljava/lang/String;
+}
+
+public final class io/embrace/opentelemetry/kotlin/context/ImplicitContextKt {
+	public static final fun attachImpl (Lio/embrace/opentelemetry/kotlin/context/Context;)Lio/embrace/opentelemetry/kotlin/context/Scope;
+	public static final fun executeInContext (Lio/embrace/opentelemetry/kotlin/context/Context;Ljava/util/Map;Lkotlin/jvm/functions/Function0;)Lio/embrace/opentelemetry/kotlin/context/Context;
+	public static synthetic fun executeInContext$default (Lio/embrace/opentelemetry/kotlin/context/Context;Ljava/util/Map;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lio/embrace/opentelemetry/kotlin/context/Context;
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/context/ImplicitContextStorage {

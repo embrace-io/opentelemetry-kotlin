@@ -20,7 +20,7 @@ internal class ContextImpl(private val impl: Map<ContextKey<*>, Any?> = emptyMap
         return impl[key] as? T
     }
 
-    override fun attach(): Scope {
+    override fun attach(): Scope { // FIXME
         throw UnsupportedOperationException()
     }
 }
