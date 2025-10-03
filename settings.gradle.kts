@@ -23,6 +23,7 @@ include(
     ":opentelemetry-kotlin-model",
     ":opentelemetry-kotlin-compat",
     ":opentelemetry-kotlin-platform-implementations",
+    ":opentelemetry-kotlin-implicit-context-api",
     ":opentelemetry-kotlin-testing",
     ":opentelemetry-kotlin-test-fakes",
     ":opentelemetry-kotlin-integration-test",
