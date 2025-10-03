@@ -92,4 +92,21 @@ internal class LoggerExportTest {
             assertEquals(logAttributeLimit, logs.single().attributes.size)
         }
     }
+
+    @Test
+    fun `testEventExport`() {
+        val logger = harness.kotlinApi.loggerProvider.getLogger("test_logger")
+        logger.logEvent(
+            eventName = "my_event_name",
+            body = "Some Event",
+            severityNumber = SeverityNumber.WARN4
+        ) {
+            setStringAttribute("key1", "value1")
+        }
+
+        harness.assertLogRecords(
+            expectedCount = 1,
+            goldenFileName = "event.json",
+        )
+    }
 }

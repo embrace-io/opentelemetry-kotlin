@@ -22,13 +22,39 @@ class FakeLogger(
         severityText: String?,
         attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
+        processTelemetry(null, timestamp, observedTimestamp, severityNumber, severityText, body)
+    }
+
+    override fun logEvent(
+        eventName: String,
+        body: String?,
+        timestamp: Long?,
+        observedTimestamp: Long?,
+        context: Context?,
+        severityNumber: SeverityNumber?,
+        severityText: String?,
+        attributes: (MutableAttributeContainer.() -> Unit)?
+    ) {
+        processTelemetry(eventName, timestamp, observedTimestamp, severityNumber, severityText, body)
+    }
+
+    private fun processTelemetry(
+        eventName: String?,
+        timestamp: Long?,
+        observedTimestamp: Long?,
+        severityNumber: SeverityNumber?,
+        severityText: String?,
+        body: String?
+    ) {
+        eventName.toString()
         logs.add(
             FakeReadableLogRecord(
                 timestamp,
                 observedTimestamp,
                 severityNumber,
                 severityText,
-                body
+                body,
+                eventName,
             )
         )
     }
