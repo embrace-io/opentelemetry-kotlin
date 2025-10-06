@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
-    id("org.jetbrains.kotlin.multiplatform")
+    kotlin("multiplatform")
 }
 
 kotlin {
@@ -35,6 +35,11 @@ kotlin {
                 api(project(":opentelemetry-kotlin-noop"))
                 implementation(project(":opentelemetry-kotlin-model"))
                 implementation(project(":opentelemetry-kotlin-implementation"))
+            }
+        }
+        val jvmMain by getting {
+            dependencies {
+                api(project(":opentelemetry-kotlin-exporters"))
             }
         }
     }

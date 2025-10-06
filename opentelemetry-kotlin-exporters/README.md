@@ -1,6 +1,5 @@
 # opentelemetry-kotlin-exporters
 
-This module contains span/log exporter implementations.
-
-Run `./gradlew updateOtelProtoDefinitions` to update the definitions to the latest from opentelemetry-proto.
-Run `./gradlew generateProto` to generate classes from the definitions.
+This module contains span/log exporter implementations. Currently only the JVM platform is
+supported. `ProtobufSerialization` contains the functions that would be necessary to
+serialize/deserialize protobuf classes on non-JVM platforms in future.

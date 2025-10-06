@@ -9,7 +9,7 @@ internal class SpanContextExtTest {
 
     @Test
     fun testSpanIdBytes() {
-        val spanContext = FakeSpanContext()
+        val spanContext = FakeSpanContext.INVALID
         val expected = spanContext.spanId
         val observed = spanContext.spanIdBytes.decodeToString()
         assertEquals(expected, observed)
@@ -17,7 +17,7 @@ internal class SpanContextExtTest {
 
     @Test
     fun testTraceIdBytes() {
-        val spanContext = FakeSpanContext()
+        val spanContext = FakeSpanContext.INVALID
         val expected = spanContext.traceId
         val observed = spanContext.traceIdBytes.decodeToString()
         assertEquals(expected, observed)

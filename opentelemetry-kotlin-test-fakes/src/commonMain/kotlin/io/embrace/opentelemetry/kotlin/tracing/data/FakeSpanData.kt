@@ -13,8 +13,8 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 class FakeSpanData(
     override val name: String = "span",
     override val status: StatusData = StatusData.Ok,
-    override val parent: SpanContext = FakeSpanContext(),
-    override val spanContext: SpanContext = FakeSpanContext(),
+    override val parent: SpanContext = FakeSpanContext.INVALID,
+    override val spanContext: SpanContext = FakeSpanContext.INVALID,
     override val spanKind: SpanKind = SpanKind.INTERNAL,
     override val startTimestamp: Long = 1000,
     override val endTimestamp: Long = 2000,

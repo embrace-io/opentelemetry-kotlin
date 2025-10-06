@@ -9,7 +9,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.TraceState
 @OptIn(ExperimentalApi::class)
 internal class FakeSpanContextFactory : SpanContextFactory {
 
-    override val invalid: SpanContext = FakeSpanContext(isValid = false)
+    override val invalid: SpanContext = FakeSpanContext.INVALID
 
     override fun create(
         traceId: String,
