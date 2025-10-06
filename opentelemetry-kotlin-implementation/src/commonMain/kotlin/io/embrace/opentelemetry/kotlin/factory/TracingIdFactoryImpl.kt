@@ -3,6 +3,15 @@ package io.embrace.opentelemetry.kotlin.factory
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import kotlin.random.Random
 
+/**
+ * Generates random trace and span IDs.
+ *
+ * The implementation generates a random ByteArray of the correct size & then lazily constructs
+ * a string if it's required (e.g. when the end-user retrieves the string via the API).
+ *
+ * In the happy path, a string will never need to be constructed & the library will happily
+ * put the ByteArray directly in the Protobuf payload without any serialization/deserialization.
+ */
 @OptIn(ExperimentalApi::class)
 internal class TracingIdFactoryImpl(
     private val random: Random = Random.Default
