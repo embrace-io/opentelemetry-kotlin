@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.tracing
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.factory.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -11,7 +12,7 @@ internal class SpanContextExtTest {
     fun testSpanIdBytes() {
         val spanContext = FakeSpanContext.INVALID
         val expected = spanContext.spanId
-        val observed = spanContext.spanIdBytes.decodeToString()
+        val observed = spanContext.spanIdBytes.toHexString()
         assertEquals(expected, observed)
     }
 
@@ -19,7 +20,7 @@ internal class SpanContextExtTest {
     fun testTraceIdBytes() {
         val spanContext = FakeSpanContext.INVALID
         val expected = spanContext.traceId
-        val observed = spanContext.traceIdBytes.decodeToString()
+        val observed = spanContext.traceIdBytes.toHexString()
         assertEquals(expected, observed)
     }
 }

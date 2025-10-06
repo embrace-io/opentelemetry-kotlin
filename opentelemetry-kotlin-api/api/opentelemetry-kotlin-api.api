@@ -78,6 +78,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/factory/SdkFacto
 
 public abstract interface class io/embrace/opentelemetry/kotlin/factory/SpanContextFactory {
 	public abstract fun create (Ljava/lang/String;Ljava/lang/String;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
+	public abstract fun create ([B[BLio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;)Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 	public abstract fun getInvalid ()Lio/embrace/opentelemetry/kotlin/tracing/model/SpanContext;
 }
 
@@ -98,10 +99,15 @@ public abstract interface class io/embrace/opentelemetry/kotlin/factory/TraceSta
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/factory/TracingIdFactory {
-	public abstract fun generateSpanId ()Ljava/lang/String;
-	public abstract fun generateTraceId ()Ljava/lang/String;
-	public abstract fun getInvalidSpanId ()Ljava/lang/String;
-	public abstract fun getInvalidTraceId ()Ljava/lang/String;
+	public abstract fun generateSpanIdBytes ()[B
+	public abstract fun generateTraceIdBytes ()[B
+	public abstract fun getInvalidSpanId ()[B
+	public abstract fun getInvalidTraceId ()[B
+}
+
+public final class io/embrace/opentelemetry/kotlin/factory/TracingIdFactoryKt {
+	public static final fun hexToByteArray (Ljava/lang/String;)[B
+	public static final fun toHexString ([B)Ljava/lang/String;
 }
 
 public abstract interface annotation class io/embrace/opentelemetry/kotlin/init/ConfigDsl : java/lang/annotation/Annotation {
@@ -343,8 +349,10 @@ public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/Sp
 
 public abstract interface class io/embrace/opentelemetry/kotlin/tracing/model/SpanContext {
 	public abstract fun getSpanId ()Ljava/lang/String;
+	public abstract fun getSpanIdBytes ()[B
 	public abstract fun getTraceFlags ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceFlags;
 	public abstract fun getTraceId ()Ljava/lang/String;
+	public abstract fun getTraceIdBytes ()[B
 	public abstract fun getTraceState ()Lio/embrace/opentelemetry/kotlin/tracing/model/TraceState;
 	public abstract fun isRemote ()Z
 	public abstract fun isValid ()Z

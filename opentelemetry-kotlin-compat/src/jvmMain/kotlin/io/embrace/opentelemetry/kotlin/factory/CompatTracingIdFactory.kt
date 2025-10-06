@@ -9,8 +9,8 @@ import io.embrace.opentelemetry.kotlin.aliases.OtelJavaTraceId
 internal class CompatTracingIdFactory(
     private val generator: OtelJavaIdGenerator = OtelJavaIdGenerator.random()
 ) : TracingIdFactory {
-    override fun generateSpanId(): String = generator.generateSpanId()
-    override fun generateTraceId(): String = generator.generateTraceId()
-    override val invalidTraceId: String = OtelJavaTraceId.getInvalid()
-    override val invalidSpanId: String = OtelJavaSpanId.getInvalid()
+    override fun generateSpanIdBytes(): ByteArray = generator.generateSpanId().hexToByteArray()
+    override fun generateTraceIdBytes(): ByteArray = generator.generateTraceId().hexToByteArray()
+    override val invalidTraceId: ByteArray = OtelJavaTraceId.getInvalid().hexToByteArray()
+    override val invalidSpanId: ByteArray = OtelJavaSpanId.getInvalid().hexToByteArray()
 }

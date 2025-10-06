@@ -14,6 +14,7 @@ kotlin {
                 implementation(project(":opentelemetry-kotlin-api-ext"))
                 implementation(project(":opentelemetry-kotlin-model"))
                 implementation(project(":opentelemetry-kotlin-platform-implementations"))
+                implementation(project(":opentelemetry-kotlin-exporters"))
             }
         }
         val commonTest by getting {

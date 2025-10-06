@@ -4,8 +4,9 @@ import io.embrace.opentelemetry.kotlin.ExperimentalApi
 
 @OptIn(ExperimentalApi::class)
 internal object NoopTracingIdFactory : TracingIdFactory {
-    override fun generateSpanId(): String = ""
-    override fun generateTraceId(): String = ""
-    override val invalidTraceId: String = ""
-    override val invalidSpanId: String = ""
+    private val empty = ByteArray(0)
+    override fun generateSpanIdBytes(): ByteArray = empty
+    override fun generateTraceIdBytes(): ByteArray = empty
+    override val invalidTraceId: ByteArray = empty
+    override val invalidSpanId: ByteArray = empty
 }

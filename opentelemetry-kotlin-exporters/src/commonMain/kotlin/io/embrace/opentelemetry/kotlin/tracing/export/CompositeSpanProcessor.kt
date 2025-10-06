@@ -1,6 +1,7 @@
 package io.embrace.opentelemetry.kotlin.tracing.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.ReentrantReadWriteLock
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.error.SdkErrorHandler
 import io.embrace.opentelemetry.kotlin.export.CompositeTelemetryCloseable
@@ -20,24 +21,30 @@ internal class CompositeSpanProcessor(
     ),
 ) : SpanProcessor, TelemetryCloseable by telemetryCloseable {
 
+    private val lock = ReentrantReadWriteLock()
+
     override fun onStart(
         span: ReadWriteSpan,
         parentContext: Context
     ) {
-        batchExportOperation(processors, sdkErrorHandler) {
-            if (it.isStartRequired()) {
-                it.onStart(span, parentContext)
+        lock.write {
+            batchExportOperation(processors, sdkErrorHandler) {
+                if (it.isStartRequired()) {
+                    it.onStart(span, parentContext)
+                }
+                OperationResultCode.Success
             }
-            OperationResultCode.Success
         }
     }
 
     override fun onEnd(span: ReadableSpan) {
-        batchExportOperation(processors, sdkErrorHandler) {
-            if (it.isEndRequired()) {
-                it.onEnd(span)
+        lock.write {
+            batchExportOperation(processors, sdkErrorHandler) {
+                if (it.isEndRequired()) {
+                    it.onEnd(span)
+                }
+                OperationResultCode.Success
             }
-            OperationResultCode.Success
         }
     }
 
