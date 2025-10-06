@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlin.multiplatform")
+    kotlin("multiplatform")
     id("io.embrace.opentelemetry.kotlin.build-logic")
     alias(libs.plugins.kotlin.serialization)
 }
