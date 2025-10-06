@@ -19,4 +19,8 @@ internal class ContextImpl(private val impl: Map<ContextKey<*>, Any?> = emptyMap
     override fun <T> get(key: ContextKey<T>): T? {
         return impl[key] as? T
     }
+
+    override fun attach(): Scope {
+        throw UnsupportedOperationException()
+    }
 }

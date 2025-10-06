@@ -16,4 +16,6 @@ internal class ContextFactoryImpl : ContextFactory {
     override fun storeSpan(context: Context, span: Span): Context {
         return context.set(spanKey, span)
     }
+
+    override fun implicitContext(): Context = root()
 }

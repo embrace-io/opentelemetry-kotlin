@@ -7,9 +7,13 @@ import io.embrace.opentelemetry.kotlin.tracing.model.Span
 
 @OptIn(ExperimentalApi::class)
 internal object NoopContextFactory : ContextFactory {
+
     override fun root(): Context = NoopContext
+
     override fun storeSpan(
         context: Context,
         span: Span
     ): Context = NoopContext
+
+    override fun implicitContext(): Context = NoopContext
 }
