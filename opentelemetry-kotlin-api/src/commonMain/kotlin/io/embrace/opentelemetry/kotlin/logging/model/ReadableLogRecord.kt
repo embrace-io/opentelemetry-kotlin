@@ -40,6 +40,11 @@ public interface ReadableLogRecord {
     public val body: String?
 
     /**
+     * Contains the event name if this is an event, otherwise null
+     */
+    public val eventName: String?
+
+    /**
      * A map of attributes associated with the log record.
      */
     public val attributes: Map<String, Any>

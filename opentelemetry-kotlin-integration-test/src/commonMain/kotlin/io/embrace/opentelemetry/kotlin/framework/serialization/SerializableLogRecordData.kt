@@ -14,4 +14,5 @@ data class SerializableLogRecordData(
     val body: String?,
     val attributes: Map<String, String>,
     val totalAttributeCount: Int,
+    val eventName: String? = null,
 )
