@@ -3,25 +3,22 @@ package io.embrace.opentelemetry.kotlin.tracing
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
-import io.embrace.opentelemetry.kotlin.error.NoopSdkErrorHandler
-import io.embrace.opentelemetry.kotlin.error.SdkErrorHandler
 import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.init.config.TracingConfig
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderImpl
-import io.embrace.opentelemetry.kotlin.tracing.export.CompositeSpanProcessor
+import io.embrace.opentelemetry.kotlin.tracing.export.createCompositeSpanProcessor
 
 @OptIn(ExperimentalApi::class)
 internal class TracerProviderImpl(
     private val clock: Clock,
     tracingConfig: TracingConfig,
     sdkFactory: SdkFactory,
-    sdkErrorHandler: SdkErrorHandler = NoopSdkErrorHandler,
 ) : TracerProvider {
 
     private val apiProvider = ApiProviderImpl<Tracer> { key ->
         val processor = when {
             tracingConfig.processors.isEmpty() -> null
-            else -> CompositeSpanProcessor(tracingConfig.processors, sdkErrorHandler)
+            else -> createCompositeSpanProcessor(tracingConfig.processors)
         }
         TracerImpl(
             clock = clock,

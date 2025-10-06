@@ -3,11 +3,9 @@ package io.embrace.opentelemetry.kotlin.logging
 import io.embrace.opentelemetry.kotlin.Clock
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.attributes.MutableAttributeContainer
-import io.embrace.opentelemetry.kotlin.error.NoopSdkErrorHandler
-import io.embrace.opentelemetry.kotlin.error.SdkErrorHandler
 import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.init.config.LoggingConfig
-import io.embrace.opentelemetry.kotlin.logging.export.CompositeLogRecordProcessor
+import io.embrace.opentelemetry.kotlin.logging.export.createCompositeLogRecordProcessor
 import io.embrace.opentelemetry.kotlin.provider.ApiProviderImpl
 
 @OptIn(ExperimentalApi::class)
@@ -15,14 +13,13 @@ internal class LoggerProviderImpl(
     private val clock: Clock,
     loggingConfig: LoggingConfig,
     sdkFactory: SdkFactory,
-    sdkErrorHandler: SdkErrorHandler = NoopSdkErrorHandler,
 ) : LoggerProvider {
 
     private val apiProvider by lazy {
         ApiProviderImpl<Logger> { key ->
             val processor = when {
                 loggingConfig.processors.isEmpty() -> null
-                else -> CompositeLogRecordProcessor(loggingConfig.processors, sdkErrorHandler)
+                else -> createCompositeLogRecordProcessor(loggingConfig.processors)
             }
             LoggerImpl(
                 clock,
