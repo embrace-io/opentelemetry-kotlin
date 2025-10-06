@@ -1,12 +1,9 @@
 package io.embrace.opentelemetry.kotlin
 
-import io.embrace.opentelemetry.kotlin.clock.ClockAdapter
 import io.embrace.opentelemetry.kotlin.factory.SdkFactory
 import io.embrace.opentelemetry.kotlin.factory.createCompatSdkFactory
-import io.embrace.opentelemetry.kotlin.init.CompatLoggerProviderConfig
-import io.embrace.opentelemetry.kotlin.init.CompatTracerProviderConfig
-import io.embrace.opentelemetry.kotlin.init.LoggerProviderConfigDsl
-import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigDsl
+import io.embrace.opentelemetry.kotlin.init.CompatOpenTelemetryConfig
+import io.embrace.opentelemetry.kotlin.init.OpenTelemetryConfigDsl
 
 /**
  * Constructs an [OpenTelemetry] instance that exposes OpenTelemetry as a Kotlin API. The SDK is
@@ -19,14 +16,10 @@ import io.embrace.opentelemetry.kotlin.init.TracerProviderConfigDsl
  */
 @ExperimentalApi
 public fun createCompatOpenTelemetry(
-    tracerProvider: TracerProviderConfigDsl.() -> Unit = {},
-    loggerProvider: LoggerProviderConfigDsl.() -> Unit = {},
-    clock: Clock = ClockAdapter(io.opentelemetry.sdk.common.Clock.getDefault()),
+    config: OpenTelemetryConfigDsl.() -> Unit = {}
 ): OpenTelemetry {
     return createCompatOpenTelemetryImpl(
-        tracerProvider,
-        loggerProvider,
-        clock,
+        config,
         createCompatSdkFactory(),
     )
 }
@@ -37,17 +30,14 @@ public fun createCompatOpenTelemetry(
  */
 @ExperimentalApi
 internal fun createCompatOpenTelemetryImpl(
-    tracerProvider: TracerProviderConfigDsl.() -> Unit,
-    loggerProvider: LoggerProviderConfigDsl.() -> Unit,
-    clock: Clock,
+    config: OpenTelemetryConfigDsl.() -> Unit,
     sdkFactory: SdkFactory,
 ): OpenTelemetry {
-    val tracerCfg = CompatTracerProviderConfig(clock, sdkFactory).apply(tracerProvider)
-    val loggerCfg = CompatLoggerProviderConfig(clock).apply(loggerProvider)
-
+    val cfg = CompatOpenTelemetryConfig(sdkFactory).apply(config)
+    val clock = cfg.clock
     return OpenTelemetryImpl(
-        tracerProvider = tracerCfg.build(),
-        loggerProvider = loggerCfg.build(),
+        tracerProvider = cfg.tracerProviderConfig.build(clock),
+        loggerProvider = cfg.loggerProviderConfig.build(clock),
         clock = clock,
         sdkFactory = sdkFactory,
     )
