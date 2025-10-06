@@ -36,4 +36,9 @@ public interface ReadWriteLogRecord : ReadableLogRecord, MutableAttributeContain
      * Contains the body of the log message - i.e. a human-readable string or free-form string data.
      */
     public override var body: String?
+
+    /**
+     * Contains the event name if this is an event, otherwise null
+     */
+    public override var eventName: String?
 }

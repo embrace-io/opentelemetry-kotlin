@@ -25,10 +25,57 @@ internal class LoggerAdapter(
         severityText: String?,
         attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
+        processTelemetry(
+            eventName = null,
+            body = body,
+            timestamp = timestamp,
+            observedTimestamp = observedTimestamp,
+            context = context,
+            severityNumber = severityNumber,
+            severityText = severityText,
+            attributes = attributes
+        )
+    }
+
+    override fun logEvent(
+        eventName: String,
+        body: String?,
+        timestamp: Long?,
+        observedTimestamp: Long?,
+        context: Context?,
+        severityNumber: SeverityNumber?,
+        severityText: String?,
+        attributes: (MutableAttributeContainer.() -> Unit)?
+    ) {
+        processTelemetry(
+            eventName = eventName,
+            body = body,
+            timestamp = timestamp,
+            observedTimestamp = observedTimestamp,
+            context = context,
+            severityNumber = severityNumber,
+            severityText = severityText,
+            attributes = attributes
+        )
+    }
+
+    private fun processTelemetry(
+        eventName: String?,
+        body: String?,
+        timestamp: Long?,
+        observedTimestamp: Long?,
+        context: Context?,
+        severityNumber: SeverityNumber?,
+        severityText: String?,
+        attributes: (MutableAttributeContainer.() -> Unit)?
+    ) {
         val builder = impl.logRecordBuilder()
 
         if (body != null) {
             builder.setBody(body)
+        }
+        if (eventName != null) {
+            builder.setEventName(eventName)
         }
         if (timestamp != null) {
             builder.setTimestamp(timestamp, TimeUnit.NANOSECONDS)
