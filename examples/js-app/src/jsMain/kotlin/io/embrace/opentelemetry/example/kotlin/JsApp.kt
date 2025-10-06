@@ -5,7 +5,7 @@ import io.embrace.opentelemetry.kotlin.OpenTelemetry
 
 @OptIn(ExperimentalApi::class)
 fun main() {
-    val otelApi: OpenTelemetry = instantiateOtelApi()
+    val otelApi: OpenTelemetry = instantiateOtelApi(null)
     runTracingExamples(otelApi)
     runLoggingExamples(otelApi)
 }
