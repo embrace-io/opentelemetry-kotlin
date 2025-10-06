@@ -126,6 +126,32 @@ internal class SpanEventTest {
         retrieveEvents(3)
     }
 
+    @Test
+    fun testSpanEventAttributesLimit() {
+        val span = tracer.createSpan("test", action = {
+            addEvent("event") {
+                repeat(fakeSpanLimitsConfig.attributeCountLimit + 1) {
+                    setStringAttribute("foo$it", "bar")
+                }
+            }
+        })
+        val event = span.events.single()
+        assertEquals(fakeSpanLimitsConfig.attributeCountLimit, event.attributes.size)
+    }
+
+    @Test
+    fun testSpanEventAttributesLimit2() {
+        val span = tracer.createSpan("test").apply {
+            addEvent("event", attributes = {
+                repeat(fakeSpanLimitsConfig.attributeCountLimit + 1) {
+                    setStringAttribute("foo$it", "bar")
+                }
+            })
+        }
+        val event = span.events.single()
+        assertEquals(fakeSpanLimitsConfig.attributeCountLimit, event.attributes.size)
+    }
+
     private fun retrieveEvents(expected: Int): List<EventData> {
         val events = processor.endCalls.single().events
         assertEquals(expected, events.size)

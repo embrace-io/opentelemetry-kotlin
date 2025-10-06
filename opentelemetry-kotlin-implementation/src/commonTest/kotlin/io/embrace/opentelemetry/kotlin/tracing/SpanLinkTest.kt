@@ -134,6 +134,32 @@ internal class SpanLinkTest {
         retrieveLinks(3)
     }
 
+    @Test
+    fun testSpanLinkAttributesLimit() {
+        val span = tracer.createSpan("test", action = {
+            addLink(FakeSpanContext()) {
+                repeat(fakeSpanLimitsConfig.attributeCountLimit + 1) {
+                    setStringAttribute("foo$it", "bar")
+                }
+            }
+        })
+        val link = span.links.single()
+        assertEquals(fakeSpanLimitsConfig.attributeCountLimit, link.attributes.size)
+    }
+
+    @Test
+    fun testSpanLinkAttributesLimit2() {
+        val span = tracer.createSpan("test").apply {
+            addLink(FakeSpanContext(), attributes = {
+                repeat(fakeSpanLimitsConfig.attributeCountLimit + 1) {
+                    setStringAttribute("foo$it", "bar")
+                }
+            })
+        }
+        val link = span.links.single()
+        assertEquals(fakeSpanLimitsConfig.attributeCountLimit, link.attributes.size)
+    }
+
     private fun retrieveLinks(expected: Int): List<LinkData> {
         val links = processor.endCalls.single().links
         assertEquals(expected, links.size)
