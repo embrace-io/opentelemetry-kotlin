@@ -16,9 +16,11 @@ internal class OtelKotlinHarness : OtelKotlinTestRule() {
 
     override val kotlinApi: OpenTelemetry by lazy {
         createCompatOpenTelemetryImpl(
-            tracerProvider = tracerProviderConfig,
-            loggerProvider = loggerProviderConfig,
-            clock = clock,
+            config = {
+                tracerProvider { tracerProviderConfig() }
+                loggerProvider { loggerProviderConfig() }
+                clock = fakeClock
+            },
             sdkFactory = CompatSdkFactory(tracingIdFactory = FakeTracingIdFactory())
         )
     }

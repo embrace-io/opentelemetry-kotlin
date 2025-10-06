@@ -14,15 +14,9 @@ import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.embrace.opentelemetry.kotlin.logging.export.OtelJavaLogRecordProcessorAdapter
 
 @ExperimentalApi
-internal class CompatLoggerProviderConfig(
-    clock: Clock
-) : LoggerProviderConfigDsl {
+internal class CompatLoggerProviderConfig : LoggerProviderConfigDsl {
 
     private val builder: OtelJavaSdkLoggerProviderBuilder = OtelJavaSdkLoggerProvider.builder()
-
-    init {
-        builder.setClock(OtelJavaClockWrapper(clock))
-    }
 
     override fun resource(schemaUrl: String?, attributes: MutableAttributeContainer.() -> Unit) {
         val attrs = CompatMutableAttributeContainer().apply(attributes).otelJavaAttributes()
@@ -43,5 +37,8 @@ internal class CompatLoggerProviderConfig(
         builder.setLogLimits { CompatLogLimitsConfig().apply(action).build() }
     }
 
-    fun build(): LoggerProvider = LoggerProviderAdapter(builder.build())
+    fun build(clock: Clock): LoggerProvider {
+        builder.setClock(OtelJavaClockWrapper(clock))
+        return LoggerProviderAdapter(builder.build())
+    }
 }

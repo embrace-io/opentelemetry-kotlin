@@ -22,7 +22,7 @@ abstract class OtelKotlinTestRule {
 
     /**
      * Reference to an instance of the opentelemetry-kotlin API. Implementations should pass in
-     * [tracerProviderConfig], [loggerProviderConfig], and [clock].
+     * [tracerProviderConfig], [loggerProviderConfig], and [fakeClock].
      */
     abstract val kotlinApi: OpenTelemetry
 
@@ -34,7 +34,7 @@ abstract class OtelKotlinTestRule {
     /**
      * Fake clock used by the test harness.
      */
-    val clock: FakeClock = FakeClock()
+    val fakeClock: FakeClock = FakeClock()
 
     private val spanExporter = InMemorySpanExporter()
     private val logRecordExporter = InMemoryLogRecordExporter()
