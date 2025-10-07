@@ -34,7 +34,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation(project(":opentelemetry-kotlin-exporters-jvm"))
+                implementation(project(":opentelemetry-kotlin-exporters-java"))
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.protobuf.kotlin)
             }

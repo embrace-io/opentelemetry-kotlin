@@ -32,7 +32,7 @@ include(
     ":opentelemetry-kotlin-benchmark-jvm",
     ":opentelemetry-kotlin-benchmark-fixtures",
     ":opentelemetry-kotlin-exporters",
-    ":opentelemetry-kotlin-exporters-jvm",
+    ":opentelemetry-kotlin-exporters-java",
     ":opentelemetry-java-typealiases",
     ":custom-detekt-rules",
     "examples:jvm-app",
