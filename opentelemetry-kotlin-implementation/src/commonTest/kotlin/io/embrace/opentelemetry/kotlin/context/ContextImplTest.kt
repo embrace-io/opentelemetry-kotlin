@@ -5,7 +5,6 @@ import io.embrace.opentelemetry.kotlin.factory.ContextFactoryImpl
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNull
 import kotlin.test.assertSame
@@ -87,9 +86,8 @@ internal class ContextImplTest {
     @Test
     fun testAttach() {
         val ctx = factory.root()
-        assertFailsWith(UnsupportedOperationException::class) {
-            ctx.attach()
-        }
+        ctx.attach()
+        assertSame(ctx, factory.implicitContext())
     }
 
     @Test
