@@ -14,6 +14,10 @@ internal class CompatOpenTelemetryConfig(
     internal val tracerProviderConfig = CompatTracerProviderConfig(sdkFactory)
     internal val loggerProviderConfig = CompatLoggerProviderConfig()
 
+    override fun context(action: ContextConfigDsl.() -> Unit) {
+        // no-op
+    }
+
     override fun tracerProvider(action: TracerProviderConfigDsl.() -> Unit) {
         tracerProviderConfig.action()
     }
