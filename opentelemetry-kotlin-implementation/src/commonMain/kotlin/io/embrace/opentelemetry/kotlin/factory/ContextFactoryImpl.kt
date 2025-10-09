@@ -3,12 +3,15 @@ package io.embrace.opentelemetry.kotlin.factory
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.context.ContextImpl
+import io.embrace.opentelemetry.kotlin.context.DefaultImplicitContextStorage
+import io.embrace.opentelemetry.kotlin.context.ImplicitContextStorage
 import io.embrace.opentelemetry.kotlin.tracing.model.Span
 
 @OptIn(ExperimentalApi::class)
 internal class ContextFactoryImpl : ContextFactory {
 
-    private val root by lazy { ContextImpl() }
+    private val storage: ImplicitContextStorage = DefaultImplicitContextStorage { root }
+    private val root by lazy { ContextImpl(storage) }
     internal val spanKey by lazy { root.createKey<Span>("opentelemetry-kotlin-span") }
 
     override fun root(): Context = root
@@ -17,5 +20,5 @@ internal class ContextFactoryImpl : ContextFactory {
         return context.set(spanKey, span)
     }
 
-    override fun implicitContext(): Context = root()
+    override fun implicitContext(): Context = storage.implicitContext()
 }

@@ -26,7 +26,8 @@ internal class TracerImpl(
     private val spanLimitConfig: SpanLimitConfig,
 ) : Tracer {
 
-    private val root = sdkFactory.contextFactory.root()
+    private val contextFactory = sdkFactory.contextFactory
+    private val root = contextFactory.root()
     private val invalidSpanContext = sdkFactory.spanContextFactory.invalid
     private val traceFlagsDefault = sdkFactory.traceFlagsFactory.default
     private val traceStateDefault = sdkFactory.traceStateFactory.default
@@ -40,7 +41,7 @@ internal class TracerImpl(
         startTimestamp: Long?,
         action: (SpanRelationships.() -> Unit)?
     ): Span {
-        val ctx = parentContext ?: root
+        val ctx = parentContext ?: contextFactory.implicitContext()
 
         val parentSpanContext = when (ctx) {
             root -> invalidSpanContext
