@@ -8,14 +8,16 @@ import org.gradle.api.Project
  * compatibility validation.
  */
 fun Project.containsPublicApi(): Boolean {
-    return findProperty("io.embrace.opentelemetry.kotlin.containsPublicApi")?.toString()?.toBoolean() ?: true
+    return findProperty("io.embrace.opentelemetry.kotlin.containsPublicApi")?.toString()
+        ?.toBoolean() ?: true
 }
 
 /**
- * Whether a module consists of a compatibility layer for the opentelemetry-java SDK. This is determined by
- * the presence of the property `io.embrace.opentelemetry.kotlin.javaSdkCompatModule` in the module. We only need to build JVM
- * targets for these modules.
+ * Whether a module consists of a Java + Android implementation only.
+ * the presence of the property `io.embrace.opentelemetry.kotlin.jvmAndroidModule` in the module.
+ * We only need to build JVM/Android targets for these modules.
  */
-fun Project.isJavaSdkCompatModule(): Boolean {
-    return findProperty("io.embrace.opentelemetry.kotlin.javaSdkCompatModule")?.toString()?.toBoolean() ?: false
+fun Project.isJvmAndroidModule(): Boolean {
+    return findProperty("io.embrace.opentelemetry.kotlin.jvmAndroidModule")?.toString()?.toBoolean()
+        ?: false
 }
