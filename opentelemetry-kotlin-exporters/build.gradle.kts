@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    id("com.android.kotlin.multiplatform.library")
     id("io.embrace.opentelemetry.kotlin.build-logic")
     id("signing")
     id("com.vanniktech.maven.publish")
@@ -32,9 +33,9 @@ kotlin {
                 implementation(libs.kotlin.test)
             }
         }
-        val jvmMain by getting {
+        val jvmAndAndroidMain by getting {
             dependencies {
-                implementation(project(":opentelemetry-kotlin-exporters-jvm"))
+                implementation(project(":opentelemetry-kotlin-exporters-protobuf-java"))
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.protobuf.kotlin)
             }
