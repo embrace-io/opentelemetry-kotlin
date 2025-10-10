@@ -10,12 +10,6 @@ import io.embrace.opentelemetry.kotlin.export.MAX_QUEUE_SIZE
 import io.embrace.opentelemetry.kotlin.export.SCHEDULE_DELAY_MS
 
 /**
- * Creates a log record exporter that sends telemetry to the specified URL over OTLP.
- */
-@ExperimentalApi
-public expect fun createOtlpHttpLogRecordExporter(baseUrl: String): LogRecordExporter
-
-/**
  * Creates a composite log record processor that delegates to a list of processors.
  */
 @ExperimentalApi

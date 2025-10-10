@@ -8,12 +8,6 @@ import io.embrace.opentelemetry.kotlin.export.MAX_QUEUE_SIZE
 import io.embrace.opentelemetry.kotlin.export.SCHEDULE_DELAY_MS
 
 /**
- * Creates a span exporter that sends telemetry to the specified URL over OTLP.
- */
-@ExperimentalApi
-public expect fun createOtlpHttpSpanExporter(baseUrl: String): SpanExporter
-
-/**
  * Creates a composite span processor that delegates to a list of processors.
  */
 @ExperimentalApi

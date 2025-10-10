@@ -6,7 +6,7 @@ android-compileSdk = "36"
 detekt = "1.23.8"
 binaryCompatibilityValidator = "0.18.1"
 kotlinxBenchmarkRuntime = "0.4.14"
-kotlinxCoroutinesTest = "1.10.2"
+kotlinxCoroutines = "1.10.2"
 ktor = "3.2.3"
 otel = "1.54.1"
 kotlinSerialization = "1.7.3"
@@ -36,7 +36,8 @@ detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plu
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 binary-compatibility-validator = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "binaryCompatibilityValidator" }
 kotlinx-benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "kotlinxBenchmarkRuntime" }
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = "ktor" }
