@@ -23,7 +23,8 @@ internal class LoggerImpl(
     private val logLimitConfig: LogLimitConfig,
 ) : Logger {
 
-    private val root = sdkFactory.contextFactory.root()
+    private val contextFactory = sdkFactory.contextFactory
+    private val root = contextFactory.root()
     private val invalidSpanContext = sdkFactory.spanContextFactory.invalid
     private val spanFactory = sdkFactory.spanFactory
 
@@ -80,7 +81,7 @@ internal class LoggerImpl(
         severityNumber: SeverityNumber?,
         attributes: (MutableAttributeContainer.() -> Unit)?
     ) {
-        val ctx = context ?: root
+        val ctx = context ?: contextFactory.implicitContext()
         val spanContext = when (ctx) {
             root -> invalidSpanContext
             else -> spanFactory.fromContext(ctx).spanContext

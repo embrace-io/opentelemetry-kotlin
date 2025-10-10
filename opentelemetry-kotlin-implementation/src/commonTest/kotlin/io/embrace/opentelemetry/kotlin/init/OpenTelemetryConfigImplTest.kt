@@ -1,9 +1,11 @@
 package io.embrace.opentelemetry.kotlin.init
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
+import io.embrace.opentelemetry.kotlin.context.ImplicitContextStorageMode
 import io.embrace.opentelemetry.kotlin.logging.export.FakeLogRecordProcessor
 import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -16,6 +18,7 @@ internal class OpenTelemetryConfigImplTest {
         val cfg = OpenTelemetryConfigImpl()
         assertTrue(cfg.tracingConfig.generateTracingConfig().processors.isEmpty())
         assertTrue(cfg.loggingConfig.generateLoggingConfig().processors.isEmpty())
+        assertEquals(ImplicitContextStorageMode.GLOBAL, cfg.contextConfig.storageMode)
         assertNotNull(cfg.clock)
     }
 
@@ -24,6 +27,9 @@ internal class OpenTelemetryConfigImplTest {
         val cfg = OpenTelemetryConfigImpl()
         cfg.loggerProvider { addLogRecordProcessor(FakeLogRecordProcessor()) }
         cfg.tracerProvider { addSpanProcessor(FakeSpanProcessor()) }
+        cfg.context {
+            assertEquals(ImplicitContextStorageMode.GLOBAL, storageMode)
+        }
         assertFalse(cfg.tracingConfig.generateTracingConfig().processors.isEmpty())
         assertFalse(cfg.loggingConfig.generateLoggingConfig().processors.isEmpty())
         assertNotNull(cfg.clock)

@@ -14,4 +14,6 @@ internal object NoopContext : Context {
     override fun <T> get(key: ContextKey<T>): T? {
         return null
     }
+
+    override fun attach(): Scope = NoopScope
 }

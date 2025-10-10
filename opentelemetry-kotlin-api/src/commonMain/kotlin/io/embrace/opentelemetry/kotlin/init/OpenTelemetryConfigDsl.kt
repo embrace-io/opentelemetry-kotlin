@@ -21,6 +21,11 @@ public interface OpenTelemetryConfigDsl {
     public fun loggerProvider(action: LoggerProviderConfigDsl.() -> Unit)
 
     /**
+     * Defines configuration for how Context behaves.
+     */
+    public fun context(action: ContextConfigDsl.() -> Unit)
+
+    /**
      * Defines the [Clock] implementation used by OpenTelemetry.
      */
     public var clock: Clock

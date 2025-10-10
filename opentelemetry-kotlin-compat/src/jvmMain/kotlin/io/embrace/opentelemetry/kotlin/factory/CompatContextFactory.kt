@@ -16,4 +16,6 @@ internal class CompatContextFactory : ContextFactory {
         context: Context,
         span: Span
     ): Context = span.storeInContext(context)
+
+    override fun implicitContext(): Context = OtelJavaContext.root().toOtelKotlinContext()
 }

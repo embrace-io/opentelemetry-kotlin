@@ -23,10 +23,6 @@ public final class io/embrace/opentelemetry/kotlin/context/OtelJavaContextExtKt 
 	public static final fun toOtelKotlinContext (Lio/opentelemetry/context/Context;)Lio/embrace/opentelemetry/kotlin/context/Context;
 }
 
-public final class io/embrace/opentelemetry/kotlin/factory/ContextFactoryExtKt {
-	public static final fun current (Lio/embrace/opentelemetry/kotlin/factory/ContextFactory;)Lio/embrace/opentelemetry/kotlin/context/Context;
-}
-
 public final class io/embrace/opentelemetry/kotlin/logging/export/LogRecordExporterExtKt {
 	public static final fun toOtelKotlinLogRecordExporter (Lio/opentelemetry/sdk/logs/export/LogRecordExporter;)Lio/embrace/opentelemetry/kotlin/logging/export/LogRecordExporter;
 }

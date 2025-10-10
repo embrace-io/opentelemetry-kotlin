@@ -3,7 +3,6 @@ package io.embrace.opentelemetry.kotlin.logging
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.context.Context
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
-import io.embrace.opentelemetry.kotlin.factory.current
 import io.embrace.opentelemetry.kotlin.framework.OtelKotlinHarness
 import io.embrace.opentelemetry.kotlin.logging.export.LogRecordProcessor
 import io.embrace.opentelemetry.kotlin.logging.model.ReadWriteLogRecord
@@ -85,7 +84,7 @@ internal class LogExportTest {
         harness.config.logRecordProcessors.add(contextCapturingProcessor)
 
         // Create a context key and add a test value
-        val currentContext = harness.kotlinApi.contextFactory.current()
+        val currentContext = harness.kotlinApi.contextFactory.implicitContext()
         val contextKey = currentContext.createKey<String>("best_team")
         val testContextValue = "independiente"
         val testContext = currentContext.set(contextKey, testContextValue)

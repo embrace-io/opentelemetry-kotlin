@@ -10,6 +10,7 @@ import io.embrace.opentelemetry.kotlin.tracing.model.SpanKind
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
@@ -123,7 +124,7 @@ internal class NoopTests {
     }
 
     @Test
-    fun testNoopContext() {
+    fun testNoopExplicitContext() {
         val otel = createNoopOpenTelemetry()
         val ctx = otel.contextFactory.root()
 
@@ -134,6 +135,16 @@ internal class NoopTests {
         assertSame(ctx, other)
 
         assertNull(ctx.get(key))
+    }
+
+    @Test
+    fun testNoopImplicitContext() {
+        val otel = createNoopOpenTelemetry()
+        val ctx = otel.contextFactory.root()
+
+        // implicit context
+        ctx.attach().detach()
+        assertNotNull(otel.contextFactory.implicitContext())
     }
 
     @Test

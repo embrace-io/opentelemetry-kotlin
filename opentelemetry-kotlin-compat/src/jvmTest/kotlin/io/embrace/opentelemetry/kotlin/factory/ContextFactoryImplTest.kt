@@ -30,6 +30,6 @@ internal class ContextFactoryImplTest {
 
     @Test
     fun `test current`() {
-        assertSame(OtelJavaContext.current(), factory.contextFactory.current().toOtelJavaContext())
+        assertSame(OtelJavaContext.current(), factory.contextFactory.implicitContext().toOtelJavaContext())
     }
 }
