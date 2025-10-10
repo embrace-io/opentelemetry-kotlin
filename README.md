@@ -106,7 +106,7 @@ repositories {
         name = "Central Portal Snapshots"
         url = uri("https://central.sonatype.com/repository/maven-snapshots/")
         content {
-            includeGroup("io.embrace")
+            includeGroup("io.embrace.opentelemetry.kotlin")
         }
     }
     ...
