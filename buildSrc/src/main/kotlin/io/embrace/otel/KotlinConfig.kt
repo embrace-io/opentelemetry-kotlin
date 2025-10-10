@@ -1,5 +1,6 @@
 package io.embrace.opentelemetry.kotlin
 
+import com.android.build.api.dsl.androidLibrary
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.exclude
 import org.jetbrains.kotlin.gradle.dsl.KotlinCommonCompilerOptions
@@ -14,22 +15,33 @@ fun Project.configureKotlin(
         jvmToolchain(8)
         compilerOptions.configureCompiler()
 
-        js(IR) {
-            nodejs()
-            browser {
-                testTask {
-                    // disable browser tests, as nodejs is enough
-                    enabled = false
+        androidLibrary {
+            namespace = "io.embrace.opentelemetry.kotlin.${project.name.replace("-", ".")}"
+            compileSdk = 36
+            minSdk = 21
+
+            compilations.configureEach {
+                compileTaskProvider.configure {
+                    compilerOptions.configureCompiler()
                 }
             }
-            binaries.library()
         }
-
         jvm {
             compilerOptions.configureCompiler()
         }
-        // not officially supported yet, beyond confirming the target compiles.
-        if (!project.isJavaSdkCompatModule()) {
+
+        if (!project.isJvmAndroidModule()) {
+            js(IR) {
+                nodejs()
+                browser {
+                    testTask {
+                        // disable browser tests, as nodejs is enough
+                        enabled = false
+                    }
+                }
+                binaries.library()
+            }
+
             val frameworkName = createIosFrameworkName(project.name)
             val framework = XCFramework(frameworkName)
 
@@ -47,6 +59,8 @@ fun Project.configureKotlin(
         }
 
         sourceSets.apply {
+            applyDefaultHierarchyTemplate()
+
             getByName("commonMain").apply {
                 dependencies {
                     implementation(findLibrary("kotlin-exposed"))
@@ -61,7 +75,20 @@ fun Project.configureKotlin(
                     }
                 }
             }
-            getByName("jsMain")
+
+            val jvmAndAndroidMain = create("jvmAndAndroidMain").apply {
+                dependsOn(commonMain.get())
+            }
+            getByName("androidMain").apply {
+                dependsOn(jvmAndAndroidMain)
+            }
+            getByName("jvmMain").apply {
+                dependsOn(jvmAndAndroidMain)
+            }
+
+            if (!project.isJvmAndroidModule()) {
+                getByName("jsMain")
+            }
         }
         compilerOptions {
             configureCompiler()

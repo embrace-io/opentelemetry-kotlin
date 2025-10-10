@@ -39,7 +39,8 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                api(project(":opentelemetry-kotlin-exporters"))
+                api(project(":opentelemetry-kotlin-exporters-core"))
+                api(project(":opentelemetry-kotlin-exporters-otlp"))
             }
         }
     }
