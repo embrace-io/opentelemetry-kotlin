@@ -25,6 +25,30 @@ Other targets compile but are not considered sufficiently tested to count as 'su
 
 ## Getting Started
 
+### Regular mode
+
+1. Add the following dependencies to your Android/Java project:
+
+```
+dependencies {
+    implementation("io.embrace.opentelemetry.kotlin:opentelemetry-kotlin:<latest-version>")
+    implementation("io.embrace.opentelemetry.kotlin:opentelemetry-kotlin-implementation:<latest-version>")
+}
+```
+
+2. Initialize the SDK:
+
+```
+val otelKotlin = createOpenTelemetryKotlin()
+```
+
+3. Use the Kotlin API in your app
+
+### Compatibility mode
+
+Compatibility mode allows you to use a Kotlin API that under the hood uses the OpenTelemetry Java SDK under the hood to export telemetry.
+This can be helpful if you already use the Java implementation, or don't want to use the Kotlin implementation for whatever reason.
+
 1. Add the following dependencies to your Android/Java project:
 
 ```
@@ -82,7 +106,7 @@ repositories {
         name = "Central Portal Snapshots"
         url = uri("https://central.sonatype.com/repository/maven-snapshots/")
         content {
-            includeGroup("io.embrace")
+            includeGroup("io.embrace.opentelemetry.kotlin")
         }
     }
     ...

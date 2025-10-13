@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    id("com.android.kotlin.multiplatform.library")
     id("io.embrace.opentelemetry.kotlin.build-logic")
     id("signing")
     id("com.vanniktech.maven.publish")
@@ -12,7 +13,7 @@ kotlin {
                 api(project(":opentelemetry-kotlin-api"))
                 api(project(":opentelemetry-kotlin-api-ext"))
                 api(project(":opentelemetry-kotlin-noop"))
-                api(project(":opentelemetry-kotlin-exporters"))
+                api(project(":opentelemetry-kotlin-exporters-core"))
                 implementation(project(":opentelemetry-kotlin-model"))
             }
         }

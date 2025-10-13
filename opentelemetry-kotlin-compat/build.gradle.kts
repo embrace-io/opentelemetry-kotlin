@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    id("com.android.kotlin.multiplatform.library")
     id("io.embrace.opentelemetry.kotlin.build-logic")
     id("signing")
     id("com.vanniktech.maven.publish")
@@ -8,7 +9,7 @@ plugins {
 
 kotlin {
     sourceSets {
-        val jvmMain by getting {
+        val jvmAndAndroidMain by getting {
             dependencies {
                 api(project(":opentelemetry-kotlin"))
                 implementation(project(":opentelemetry-kotlin-model"))
