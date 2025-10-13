@@ -11,8 +11,10 @@ import io.embrace.opentelemetry.kotlin.tracing.TracerImpl
 import io.embrace.opentelemetry.kotlin.tracing.export.FakeSpanProcessor
 import io.embrace.opentelemetry.kotlin.tracing.fakeLogLimitsConfig
 import io.embrace.opentelemetry.kotlin.tracing.fakeSpanLimitsConfig
+import kotlin.math.log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertSame
 
 @OptIn(ExperimentalApi::class)
@@ -64,5 +66,20 @@ internal class LogContextTest {
 
         val log = processor.logs.single()
         assertSame(span.spanContext, log.spanContext)
+    }
+
+    @Test
+    fun testImplicitContext() {
+        val span = tracer.createSpan("span")
+        val ctx = sdkFactory.contextFactory.storeSpan(sdkFactory.contextFactory.root(), span)
+        val scope = ctx.attach()
+        logger.log()
+
+        scope.detach()
+        logger.log()
+
+        assertEquals(2, processor.logs.size)
+        assertSame(span.spanContext, processor.logs[0].spanContext)
+        assertSame(sdkFactory.spanContextFactory.invalid, processor.logs[1].spanContext)
     }
 }

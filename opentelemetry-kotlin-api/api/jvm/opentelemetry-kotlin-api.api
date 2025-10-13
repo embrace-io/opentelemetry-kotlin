@@ -37,6 +37,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/attributes/Mutab
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/context/Context {
+	public abstract fun attach ()Lio/embrace/opentelemetry/kotlin/context/Scope;
 	public abstract fun createKey (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/context/ContextKey;
 	public abstract fun get (Lio/embrace/opentelemetry/kotlin/context/ContextKey;)Ljava/lang/Object;
 	public abstract fun set (Lio/embrace/opentelemetry/kotlin/context/ContextKey;Ljava/lang/Object;)Lio/embrace/opentelemetry/kotlin/context/Context;
@@ -44,6 +45,21 @@ public abstract interface class io/embrace/opentelemetry/kotlin/context/Context 
 
 public abstract interface class io/embrace/opentelemetry/kotlin/context/ContextKey {
 	public abstract fun getName ()Ljava/lang/String;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/context/ImplicitContextStorage {
+	public abstract fun implicitContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
+	public abstract fun setImplicitContext (Lio/embrace/opentelemetry/kotlin/context/Context;)V
+}
+
+public final class io/embrace/opentelemetry/kotlin/context/ImplicitContextStorageMode : java/lang/Enum {
+	public static final field GLOBAL Lio/embrace/opentelemetry/kotlin/context/ImplicitContextStorageMode;
+	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/context/ImplicitContextStorageMode;
+	public static fun values ()[Lio/embrace/opentelemetry/kotlin/context/ImplicitContextStorageMode;
+}
+
+public abstract interface class io/embrace/opentelemetry/kotlin/context/Scope {
+	public abstract fun detach ()V
 }
 
 public abstract class io/embrace/opentelemetry/kotlin/export/OperationResultCode {
@@ -63,6 +79,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/export/Telemetry
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/factory/ContextFactory {
+	public abstract fun implicitContext ()Lio/embrace/opentelemetry/kotlin/context/Context;
 	public abstract fun root ()Lio/embrace/opentelemetry/kotlin/context/Context;
 	public abstract fun storeSpan (Lio/embrace/opentelemetry/kotlin/context/Context;Lio/embrace/opentelemetry/kotlin/tracing/model/Span;)Lio/embrace/opentelemetry/kotlin/context/Context;
 }
@@ -113,6 +130,11 @@ public final class io/embrace/opentelemetry/kotlin/factory/TracingIdFactoryKt {
 public abstract interface annotation class io/embrace/opentelemetry/kotlin/init/ConfigDsl : java/lang/annotation/Annotation {
 }
 
+public abstract interface class io/embrace/opentelemetry/kotlin/init/ContextConfigDsl {
+	public abstract fun getStorageMode ()Lio/embrace/opentelemetry/kotlin/context/ImplicitContextStorageMode;
+	public abstract fun setStorageMode (Lio/embrace/opentelemetry/kotlin/context/ImplicitContextStorageMode;)V
+}
+
 public abstract interface class io/embrace/opentelemetry/kotlin/init/LogLimitsConfigDsl {
 	public abstract fun getAttributeCountLimit ()I
 	public abstract fun getAttributeValueLengthLimit ()I
@@ -126,6 +148,7 @@ public abstract interface class io/embrace/opentelemetry/kotlin/init/LoggerProvi
 }
 
 public abstract interface class io/embrace/opentelemetry/kotlin/init/OpenTelemetryConfigDsl {
+	public abstract fun context (Lkotlin/jvm/functions/Function1;)V
 	public abstract fun getClock ()Lio/embrace/opentelemetry/kotlin/Clock;
 	public abstract fun loggerProvider (Lkotlin/jvm/functions/Function1;)V
 	public abstract fun setClock (Lio/embrace/opentelemetry/kotlin/Clock;)V

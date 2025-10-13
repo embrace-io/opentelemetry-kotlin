@@ -3,7 +3,10 @@ package io.embrace.opentelemetry.kotlin.context
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 
 @OptIn(ExperimentalApi::class)
-internal class ContextImpl(private val impl: Map<ContextKey<*>, Any?> = emptyMap()) : Context {
+internal class ContextImpl(
+    private val storage: ImplicitContextStorage,
+    private val impl: Map<ContextKey<*>, Any?> = emptyMap()
+) : Context {
 
     override fun <T> createKey(name: String): ContextKey<T> = ContextKeyImpl(name)
 
@@ -12,11 +15,25 @@ internal class ContextImpl(private val impl: Map<ContextKey<*>, Any?> = emptyMap
         value: T?
     ): Context {
         val newValues = impl.plus(Pair(key, value))
-        return ContextImpl(newValues)
+        return ContextImpl(storage, newValues)
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun <T> get(key: ContextKey<T>): T? {
         return impl[key] as? T
+    }
+
+    override fun attach(): Scope {
+        if (storage.implicitContext() == this) {
+            return NoopScope
+        }
+        val current = storage.implicitContext()
+        storage.setImplicitContext(this)
+        return ScopeImpl(current, this, storage)
+    }
+
+    private object NoopScope : Scope {
+        override fun detach() {
+        }
     }
 }

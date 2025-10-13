@@ -14,6 +14,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
+import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalApi::class)
@@ -71,6 +72,24 @@ internal class TracerSpanContextTest {
         assertValidSpanContext(spanContext)
         assertEquals(parentSpan.spanContext.traceId, spanContext.traceId)
         assertNotEquals(parentSpan.spanContext.spanId, spanContext.spanId)
+    }
+
+    @Test
+    fun testImplicitContext() {
+        val span = tracer.createSpan("span")
+        val ctx = sdkFactory.contextFactory.storeSpan(sdkFactory.contextFactory.root(), span)
+        val scope = ctx.attach()
+
+        val first = tracer.createSpan("first")
+        first.end()
+
+        scope.detach()
+
+        val second = tracer.createSpan("second")
+        second.end()
+
+        assertSame(span.spanContext, first.parent)
+        assertSame(sdkFactory.spanContextFactory.invalid, second.parent)
     }
 
     private fun assertValidSpanContext(spanContext: SpanContext) {

@@ -23,4 +23,8 @@ internal class ContextAdapter(
     override fun <T> get(key: ContextKey<T>): T? {
         return impl[repository.get(key)]
     }
+
+    override fun attach(): Scope {
+        return ScopeAdapter(impl.makeCurrent())
+    }
 }
