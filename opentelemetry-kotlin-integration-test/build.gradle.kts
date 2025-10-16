@@ -11,6 +11,7 @@ kotlin {
             dependencies {
                 implementation(project(":opentelemetry-kotlin-api"))
                 implementation(project(":opentelemetry-kotlin-test-fakes"))
+                implementation(project(":opentelemetry-kotlin-semconv"))
                 implementation(libs.kotlin.serialization)
             }
         }
