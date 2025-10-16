@@ -87,7 +87,7 @@
         "service.name": "unknown_service:java",
         "telemetry.sdk.language": "java",
         "telemetry.sdk.name": "opentelemetry",
-        "telemetry.sdk.version": "1.54.1"
+        "telemetry.sdk.version": "1.55.0"
       }
     },
     "instrumentationScopeInfo": {
@@ -131,7 +131,7 @@
         "service.name": "unknown_service:java",
         "telemetry.sdk.language": "java",
         "telemetry.sdk.name": "opentelemetry",
-        "telemetry.sdk.version": "1.54.1"
+        "telemetry.sdk.version": "1.55.0"
       }
     },
     "instrumentationScopeInfo": {
@@ -175,7 +175,7 @@
         "service.name": "unknown_service:java",
         "telemetry.sdk.language": "java",
         "telemetry.sdk.name": "opentelemetry",
-        "telemetry.sdk.version": "1.54.1"
+        "telemetry.sdk.version": "1.55.0"
       }
     },
     "instrumentationScopeInfo": {
@@ -219,7 +219,7 @@
         "service.name": "unknown_service:java",
         "telemetry.sdk.language": "java",
         "telemetry.sdk.name": "opentelemetry",
-        "telemetry.sdk.version": "1.54.1"
+        "telemetry.sdk.version": "1.55.0"
       }
     },
     "instrumentationScopeInfo": {
