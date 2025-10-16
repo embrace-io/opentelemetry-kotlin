@@ -38,6 +38,7 @@ public final class io/embrace/opentelemetry/kotlin/error/SdkErrorSeverity : java
 	public static final field ERROR Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
 	public static final field INFO Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
 	public static final field WARNING Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
 	public static fun values ()[Lio/embrace/opentelemetry/kotlin/error/SdkErrorSeverity;
 }

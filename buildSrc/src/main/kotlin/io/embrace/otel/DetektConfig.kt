@@ -36,7 +36,7 @@ fun Project.configureDetekt() {
         buildUponDefaultConfig = true
     }
     project.tasks.withType(Detekt::class.java).configureEach {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
         reports {
             html.required.set(true)
             xml.required.set(false)
@@ -46,7 +46,7 @@ fun Project.configureDetekt() {
         }
     }
     project.tasks.withType(DetektCreateBaselineTask::class.java).configureEach {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 
     project.tasks.named("check").configure {

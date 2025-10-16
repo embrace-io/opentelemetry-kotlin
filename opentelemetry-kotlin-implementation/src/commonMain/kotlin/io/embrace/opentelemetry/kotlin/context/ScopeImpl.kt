@@ -1,7 +1,7 @@
 package io.embrace.opentelemetry.kotlin.context
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import kotlin.jvm.Volatile
+import kotlin.concurrent.Volatile
 
 @OptIn(ExperimentalApi::class)
 internal class ScopeImpl(

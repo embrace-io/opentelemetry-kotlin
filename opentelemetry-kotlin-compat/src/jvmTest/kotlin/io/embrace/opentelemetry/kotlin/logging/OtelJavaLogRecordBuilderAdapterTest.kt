@@ -29,8 +29,9 @@ internal class OtelJavaLogRecordBuilderAdapterTest {
         val log = impl.logs.single()
         assertEquals(body, log.body)
 
-        val expected = now.toEpochMilli() * 1000000
-        assertEquals(expected, log.timestamp)
-        assertEquals(expected, log.observedTimestamp)
+        val factor = 1000000
+        val expected = now.toEpochMilli() * factor
+        assertEquals(expected, (checkNotNull(log.timestamp) / factor) * factor)
+        assertEquals(expected, (checkNotNull(log.observedTimestamp) / factor) * factor)
     }
 }
