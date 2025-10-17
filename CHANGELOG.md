@@ -1,5 +1,11 @@
 # opentelemetry-kotlin changelog
 
+# 0.7.0
+*Oct 15, 2025*
+
+- Initial OTLP export implementation
+- Various API changes and improvements
+
 # 0.6.0
 *Sep 25, 2025*
 
