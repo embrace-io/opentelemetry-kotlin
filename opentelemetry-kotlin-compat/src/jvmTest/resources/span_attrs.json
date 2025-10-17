@@ -42,7 +42,7 @@
         "service.name": "unknown_service:java",
         "telemetry.sdk.language": "java",
         "telemetry.sdk.name": "opentelemetry",
-        "telemetry.sdk.version": "1.55.0"
+        "telemetry.sdk.version": "UNKNOWN"
       }
     },
     "instrumentationScopeInfo": {
