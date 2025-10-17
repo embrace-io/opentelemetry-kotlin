@@ -29,6 +29,8 @@ internal class FakeOtelJavaLogRecordData(
     override fun getSpanContext(): OtelJavaSpanContext = implSpanContext
     override fun getSeverity(): OtelJavaSeverity = implSeverity
     override fun getSeverityText(): String? = implSeverityText
+
+    @Deprecated("Deprecated in Java")
     override fun getBody(): OtelJavaBody = OtelJavaBody.string(implBody)
     override fun getAttributes(): OtelJavaAttributes = implAttributes
     override fun getTotalAttributeCount(): Int = implAttributes.size()

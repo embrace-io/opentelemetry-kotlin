@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeout
-import kotlin.jvm.Volatile
+import kotlin.concurrent.Volatile
 
 @OptIn(ExperimentalApi::class)
 internal class BatchTelemetryProcessor<T>(

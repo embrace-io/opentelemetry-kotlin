@@ -32,15 +32,15 @@ gradlePlugin {
 
 // ensure the Kotlin + Java compilers both use the same language level.
 project.tasks.withType(JavaCompile::class.java).configureEach {
-    sourceCompatibility = JavaVersion.VERSION_1_8.toString()
-    targetCompatibility = JavaVersion.VERSION_1_8.toString()
+    sourceCompatibility = JavaVersion.VERSION_11.toString()
+    targetCompatibility = JavaVersion.VERSION_11.toString()
 }
 
 // ensure the Kotlin + Java compilers both use the same language level.
 kotlin {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_1_8)
-        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_8)
-        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_8)
+        jvmTarget.set(JvmTarget.JVM_11)
+        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
     }
 }
