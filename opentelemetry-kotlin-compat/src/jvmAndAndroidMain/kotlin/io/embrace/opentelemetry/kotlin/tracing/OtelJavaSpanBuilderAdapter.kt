@@ -15,6 +15,8 @@ import io.embrace.opentelemetry.kotlin.context.ContextAdapter
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelKotlinSpanContext
 import io.embrace.opentelemetry.kotlin.tracing.ext.toOtelKotlinSpanKind
 import io.embrace.opentelemetry.kotlin.tracing.model.OtelJavaSpanAdapter
+import java.util.Queue
+import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalApi::class)
@@ -27,7 +29,7 @@ internal class OtelJavaSpanBuilderAdapter(
     private var parent: OtelJavaContext? = null
     private var kind: OtelJavaSpanKind = OtelJavaSpanKind.INTERNAL
     private val attrs: OtelJavaAttributesBuilder = OtelJavaAttributes.builder()
-    private val links: MutableList<LinkBuilder> = mutableListOf()
+    private val links: Queue<LinkBuilder> = ConcurrentLinkedQueue()
 
     override fun setParent(context: OtelJavaContext): OtelJavaSpanBuilder {
         parent = context
