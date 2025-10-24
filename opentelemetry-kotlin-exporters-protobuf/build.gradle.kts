@@ -49,10 +49,20 @@ kotlin {
                 implementation(libs.wire.runtime)
             }
         }
+        val commonTest by getting {
+            dependencies {
+                implementation(project(":opentelemetry-kotlin-test-fakes"))
+                implementation(libs.kotlin.test)
+            }
+        }
+        val jvmTest by getting {
+            dependencies {
+                implementation(project(":opentelemetry-kotlin-test-fakes"))
+                implementation(libs.kotlin.test)
+            }
+        }
     }
 }
-
-
 
 
 // Disable Detekt tasks for generated code

@@ -8,11 +8,11 @@ import io.opentelemetry.proto.logs.v1.ResourceLogs
 import io.opentelemetry.proto.logs.v1.ScopeLogs
 
 @OptIn(ExperimentalApi::class)
-public fun List<ReadableLogRecord>.toProtobufByteArray() : ByteArray =
+fun List<ReadableLogRecord>.toProtobufByteArray() : ByteArray =
     ExportLogsServiceRequest.ADAPTER.encode(toExportLogsServiceRequest())
 
 @OptIn(ExperimentalApi::class)
-private fun List<ReadableLogRecord>.toExportLogsServiceRequest(): ExportLogsServiceRequest = ExportLogsServiceRequest(
+internal fun List<ReadableLogRecord>.toExportLogsServiceRequest(): ExportLogsServiceRequest = ExportLogsServiceRequest(
     resource_logs = toResourceLogs()
 )
 
