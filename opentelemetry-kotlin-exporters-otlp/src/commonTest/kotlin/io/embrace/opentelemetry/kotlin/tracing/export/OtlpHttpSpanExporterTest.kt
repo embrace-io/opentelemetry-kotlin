@@ -13,7 +13,7 @@ import io.ktor.client.request.HttpRequestData
 import io.ktor.http.HttpStatusCode
 import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withTimeout
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -53,7 +53,7 @@ internal class OtlpHttpSpanExporterTest {
     }
 
     @Test
-    fun testExportInitialSuccess() {
+    fun testExportInitialSuccess() = runTest {
         mockResponseStatus = HttpStatusCode.OK
         val code = exporter.export(spans)
         assertEquals(OperationResultCode.Success, code)
@@ -67,7 +67,7 @@ internal class OtlpHttpSpanExporterTest {
     }
 
     @Test
-    fun testExportShutdown() {
+    fun testExportShutdown() = runTest {
         mockResponseStatus = HttpStatusCode.OK
         serverDelayMs = 1000
         val code = exporter.export(spans)
@@ -76,15 +76,13 @@ internal class OtlpHttpSpanExporterTest {
         val shutdownCode = exporter.shutdown()
         assertEquals(OperationResultCode.Success, shutdownCode)
 
-        runBlocking {
-            withTimeout(10) {
-                assertTrue(server.requestHistory.isEmpty())
-            }
+        withTimeout(10) {
+            assertTrue(server.requestHistory.isEmpty())
         }
     }
 
     @Test
-    fun testExportRetryAttempts() {
+    fun testExportRetryAttempts() = runTest {
         mockResponseStatus = HttpStatusCode.OK
         serverDelayMs = 2
         val code = exporter.export(spans)
@@ -92,29 +90,26 @@ internal class OtlpHttpSpanExporterTest {
         assertTelemetryExported(spans)
     }
 
-    private fun waitForExportedTelemetry(
+    private suspend fun waitForExportedTelemetry(
         telemetrySize: Int = 1,
         timeoutMs: Long = 1000,
-    ): List<HttpRequestData> =
-        runBlocking {
-            withTimeout(timeoutMs) {
-                while (server.requestHistory.size < telemetrySize) {
-                    delay(1L)
-                }
+    ): List<HttpRequestData> {
+        withTimeout(timeoutMs) {
+            while (server.requestHistory.size < telemetrySize) {
+                delay(1L)
             }
-            val requests = server.requestHistory
-            check(requests.size == telemetrySize) {
-                "Expected 1 request, got ${requests.size}"
-            }
-            requests
         }
+        val requests = server.requestHistory
+        check(requests.size == telemetrySize) {
+            "Expected 1 request, got ${requests.size}"
+        }
+        return requests
+    }
 
-    private fun assertTelemetryExported(telemetry: List<SpanData>) {
+    private suspend fun assertTelemetryExported(telemetry: List<SpanData>) {
         val requests = waitForExportedTelemetry()
         val request = requests.single()
-        val bytes = runBlocking {
-            request.body.toByteArray()
-        }
+        val bytes = request.body.toByteArray()
         assertContentEquals(telemetry.toProtobufByteArray(), bytes)
     }
 }

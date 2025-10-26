@@ -52,13 +52,8 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(project(":opentelemetry-kotlin-test-fakes"))
-                implementation(libs.kotlin.test)
-            }
-        }
-        val jvmTest by getting {
-            dependencies {
-                implementation(project(":opentelemetry-kotlin-test-fakes"))
-                implementation(libs.kotlin.test)
+                implementation(libs.kotlin.test.common)
+                implementation(libs.kotlin.test.common.annotations)
             }
         }
     }

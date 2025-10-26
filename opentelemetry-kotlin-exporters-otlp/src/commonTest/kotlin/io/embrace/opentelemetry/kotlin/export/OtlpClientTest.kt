@@ -15,7 +15,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.util.toMap
 import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlinx.io.readByteArray
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -50,7 +50,7 @@ internal class OtlpClientTest {
     }
 
     @Test
-    fun testExportSingleLogSuccess() {
+    fun testExportSingleLogSuccess() = runTest {
         sendAndAssertLogRequest(
             telemetry = logRecords,
             mockResponseStatus = HttpStatusCode.OK,
@@ -59,7 +59,7 @@ internal class OtlpClientTest {
     }
 
     @Test
-    fun testExportMultiLogSuccess() {
+    fun testExportMultiLogSuccess() = runTest {
         sendAndAssertLogRequest(
             telemetry = listOf(
                 FakeReadableLogRecord(body = "a"),
@@ -71,7 +71,7 @@ internal class OtlpClientTest {
     }
 
     @Test
-    fun testExportLogClientError() {
+    fun testExportLogClientError() = runTest {
         sendAndAssertLogRequest(
             telemetry = logRecords,
             mockResponseStatus = HttpStatusCode.BadRequest,
@@ -80,7 +80,7 @@ internal class OtlpClientTest {
     }
 
     @Test
-    fun testExportLogServerError() {
+    fun testExportLogServerError() = runTest {
         sendAndAssertLogRequest(
             telemetry = logRecords,
             mockResponseStatus = HttpStatusCode.GatewayTimeout,
@@ -89,7 +89,7 @@ internal class OtlpClientTest {
     }
 
     @Test
-    fun testExportSingleTraceSuccess() {
+    fun testExportSingleTraceSuccess() = runTest {
         sendAndAssertTraceRequest(
             telemetry = spans,
             mockResponseStatus = HttpStatusCode.OK,
@@ -98,7 +98,7 @@ internal class OtlpClientTest {
     }
 
     @Test
-    fun testExportMultiTraceSuccess() {
+    fun testExportMultiTraceSuccess() = runTest {
         sendAndAssertTraceRequest(
             telemetry = listOf(
                 FakeSpanData(name = "a"),
@@ -110,7 +110,7 @@ internal class OtlpClientTest {
     }
 
     @Test
-    fun testExportTraceClientError() {
+    fun testExportTraceClientError() = runTest {
         sendAndAssertTraceRequest(
             telemetry = spans,
             mockResponseStatus = HttpStatusCode.BadRequest,
@@ -119,7 +119,7 @@ internal class OtlpClientTest {
     }
 
     @Test
-    fun testExportTraceServerError() {
+    fun testExportTraceServerError() = runTest {
         sendAndAssertTraceRequest(
             telemetry = spans,
             mockResponseStatus = HttpStatusCode.GatewayTimeout,
@@ -128,7 +128,7 @@ internal class OtlpClientTest {
     }
 
     @Test
-    fun testExportLogClientTimeout() {
+    fun testExportLogClientTimeout() = runTest {
         serverDelayMs = 10000
         sendAndAssertLogRequest(
             telemetry = logRecords,
@@ -138,7 +138,7 @@ internal class OtlpClientTest {
     }
 
     @Test
-    fun testExportTraceClientTimeout() {
+    fun testExportTraceClientTimeout() = runTest {
         serverDelayMs = 10000
         sendAndAssertTraceRequest(
             telemetry = spans,
@@ -147,7 +147,7 @@ internal class OtlpClientTest {
         )
     }
 
-    private fun sendAndAssertLogRequest(
+    private suspend fun sendAndAssertLogRequest(
         telemetry: List<ReadableLogRecord>,
         mockResponseStatus: HttpStatusCode,
         expectedResponse: OtlpResponse
@@ -162,7 +162,7 @@ internal class OtlpClientTest {
         assertContentEquals(telemetry.toProtobufByteArray(), bytes)
     }
 
-    private fun sendAndAssertTraceRequest(
+    private suspend fun sendAndAssertTraceRequest(
         telemetry: List<SpanData>,
         mockResponseStatus: HttpStatusCode,
         expectedResponse: OtlpResponse
@@ -177,16 +177,14 @@ internal class OtlpClientTest {
         assertContentEquals(telemetry.toProtobufByteArray(), bytes)
     }
 
-    private fun sendAndAssertTelemetry(
+    private suspend fun sendAndAssertTelemetry(
         mockResponseStatus: HttpStatusCode,
         expectedResponse: OtlpResponse,
         endpoint: OtlpEndpoint,
         exportAction: suspend () -> OtlpResponse,
     ): ByteArray? {
         this.mockResponseStatus = mockResponseStatus
-        val response = runBlocking {
-            exportAction()
-        }
+        val response = exportAction()
         assertEquals(expectedResponse.statusCode, response.statusCode)
 
         if (expectedResponse is OtlpResponse.Unknown) {
@@ -203,9 +201,7 @@ internal class OtlpClientTest {
         val headers = request.headers.toMap().mapValues { it.value.joinToString() }
         assertEquals("gzip,deflate", headers["Accept-Encoding"])
 
-        val bytes = runBlocking {
-            request.body.toByteReadPacket().readByteArray()
-        }
+        val bytes = request.body.toByteReadPacket().readByteArray()
         return bytes
     }
 }
