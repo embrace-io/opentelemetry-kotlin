@@ -25,13 +25,7 @@ kotlin {
                 implementation(project(":opentelemetry-kotlin-test-fakes"))
                 implementation(libs.kotlin.test)
                 implementation(libs.kotlinx.coroutines.test)
-            }
-        }
-        val jvmTest by getting {
-            dependencies {
-                implementation(project(":opentelemetry-kotlin-test-fakes"))
                 implementation(libs.ktor.client.mock)
-                implementation(libs.kotlin.test)
             }
         }
         val jvmAndAndroidMain by getting {

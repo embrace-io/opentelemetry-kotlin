@@ -1,12 +1,12 @@
 package io.embrace.opentelemetry.kotlin.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
-import io.embrace.opentelemetry.kotlin.logging.export.toExportLogsServiceRequest
+import io.embrace.opentelemetry.kotlin.logging.export.toProtobufByteArray
 import io.embrace.opentelemetry.kotlin.logging.model.FakeReadableLogRecord
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 import io.embrace.opentelemetry.kotlin.tracing.data.FakeSpanData
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
-import io.embrace.opentelemetry.kotlin.tracing.export.toExportTraceServiceRequest
+import io.embrace.opentelemetry.kotlin.tracing.export.toProtobufByteArray
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.toByteReadPacket
@@ -14,13 +14,12 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.util.toMap
 import io.ktor.utils.io.ByteReadChannel
-import io.opentelemetry.proto.collector.logs.v1.ExportLogsServiceRequest
-import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.io.readByteArray
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalApi::class)
@@ -160,8 +159,7 @@ internal class OtlpClientTest {
         ) {
             client.exportLogs(telemetry)
         } ?: return
-        val protobuf = ExportLogsServiceRequest.parseFrom(bytes)
-        assertEquals(telemetry.toExportLogsServiceRequest(), protobuf)
+        assertContentEquals(telemetry.toProtobufByteArray(), bytes)
     }
 
     private fun sendAndAssertTraceRequest(
@@ -176,8 +174,7 @@ internal class OtlpClientTest {
         ) {
             client.exportTraces(telemetry)
         } ?: return
-        val protobuf = ExportTraceServiceRequest.parseFrom(bytes)
-        assertEquals(telemetry.toExportTraceServiceRequest(), protobuf)
+        assertContentEquals(telemetry.toProtobufByteArray(), bytes)
     }
 
     private fun sendAndAssertTelemetry(

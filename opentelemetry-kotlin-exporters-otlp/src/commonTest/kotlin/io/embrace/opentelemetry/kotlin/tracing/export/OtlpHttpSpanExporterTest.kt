@@ -1,36 +1,36 @@
-package io.embrace.opentelemetry.kotlin.logging.export
+package io.embrace.opentelemetry.kotlin.tracing.export
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.export.OperationResultCode
 import io.embrace.opentelemetry.kotlin.export.OtlpClient
 import io.embrace.opentelemetry.kotlin.export.createDefaultHttpClient
-import io.embrace.opentelemetry.kotlin.logging.model.FakeReadableLogRecord
-import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
+import io.embrace.opentelemetry.kotlin.tracing.data.FakeSpanData
+import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.toByteArray
 import io.ktor.client.request.HttpRequestData
 import io.ktor.http.HttpStatusCode
 import io.ktor.utils.io.ByteReadChannel
-import io.opentelemetry.proto.collector.logs.v1.ExportLogsServiceRequest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalApi::class)
-internal class OtlpHttpLogRecordExporterTest {
+internal class OtlpHttpSpanExporterTest {
 
-    private val logRecords = listOf(FakeReadableLogRecord())
+    private val spans = listOf(FakeSpanData())
     private val baseUrl = "http://localhost:1234"
 
     private lateinit var client: OtlpClient
     private lateinit var server: MockEngine
     private lateinit var mockResponseStatus: HttpStatusCode
-    private lateinit var exporter: OtlpHttpLogRecordExporter
+    private lateinit var exporter: OtlpHttpSpanExporter
     private var serverDelayMs: Long = 0
 
     @BeforeTest
@@ -44,7 +44,7 @@ internal class OtlpHttpLogRecordExporterTest {
         }
         val httpClient = createDefaultHttpClient(engine = server)
         client = OtlpClient(baseUrl, httpClient = httpClient)
-        exporter = OtlpHttpLogRecordExporter(
+        exporter = OtlpHttpSpanExporter(
             client,
             initialDelayMs = 3,
             maxAttemptIntervalMs = 5,
@@ -55,9 +55,9 @@ internal class OtlpHttpLogRecordExporterTest {
     @Test
     fun testExportInitialSuccess() {
         mockResponseStatus = HttpStatusCode.OK
-        val code = exporter.export(logRecords)
+        val code = exporter.export(spans)
         assertEquals(OperationResultCode.Success, code)
-        assertTelemetryExported(logRecords)
+        assertTelemetryExported(spans)
     }
 
     @Test
@@ -70,7 +70,7 @@ internal class OtlpHttpLogRecordExporterTest {
     fun testExportShutdown() {
         mockResponseStatus = HttpStatusCode.OK
         serverDelayMs = 1000
-        val code = exporter.export(logRecords)
+        val code = exporter.export(spans)
         assertEquals(OperationResultCode.Success, code)
 
         val shutdownCode = exporter.shutdown()
@@ -87,9 +87,9 @@ internal class OtlpHttpLogRecordExporterTest {
     fun testExportRetryAttempts() {
         mockResponseStatus = HttpStatusCode.OK
         serverDelayMs = 2
-        val code = exporter.export(logRecords)
+        val code = exporter.export(spans)
         assertEquals(OperationResultCode.Success, code)
-        assertTelemetryExported(logRecords)
+        assertTelemetryExported(spans)
     }
 
     private fun waitForExportedTelemetry(
@@ -109,13 +109,12 @@ internal class OtlpHttpLogRecordExporterTest {
             requests
         }
 
-    private fun assertTelemetryExported(telemetry: List<ReadableLogRecord>) {
+    private fun assertTelemetryExported(telemetry: List<SpanData>) {
         val requests = waitForExportedTelemetry()
         val request = requests.single()
         val bytes = runBlocking {
             request.body.toByteArray()
         }
-        val protobuf = ExportLogsServiceRequest.parseFrom(bytes)
-        assertEquals(telemetry.toExportLogsServiceRequest(), protobuf)
+        assertContentEquals(telemetry.toProtobufByteArray(), bytes)
     }
 }
