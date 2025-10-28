@@ -1,3 +1,4 @@
+import com.squareup.wire.gradle.WireTask
 import de.undercouch.gradle.tasks.download.Download
 
 plugins {
@@ -16,6 +17,7 @@ plugins {
 val otelProtoVersion = "1.8.0"
 val otelProtoRepoZip =
     "https://github.com/open-telemetry/opentelemetry-proto/archive/v${otelProtoVersion}.zip"
+val protoResultDir = layout.buildDirectory.dir("proto")
 
 val downloadOtelProtoDefinitions by tasks.registering(Download::class) {
     src(otelProtoRepoZip)
@@ -37,7 +39,11 @@ val updateOtelProtoDefinitions by tasks.registering(Copy::class) {
         }
         includeEmptyDirs = false
     }
-    into(layout.projectDirectory.dir("src/main/proto"))
+    into(protoResultDir)
+}
+
+tasks.withType<WireTask>().configureEach {
+    dependsOn(updateOtelProtoDefinitions)
 }
 
 kotlin {
@@ -67,7 +73,7 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 
 wire {
     sourcePath {
-        srcDir("src/commonMain/proto")
+        srcDir(protoResultDir)
     }
     kotlin {
         rpcRole = "none"
