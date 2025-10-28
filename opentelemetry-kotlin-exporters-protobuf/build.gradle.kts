@@ -65,18 +65,6 @@ kotlin {
     }
 }
 
-kover {
-    reports {
-        filters {
-            excludes {
-                // exclusion rules - classes to exclude from report
-                classes("io.opentelemetry.proto.*")
-            }
-        }
-    }
-}
-
-
 // Disable Detekt tasks for generated code
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     enabled = false

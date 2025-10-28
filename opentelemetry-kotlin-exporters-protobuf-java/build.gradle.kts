@@ -8,6 +8,7 @@ plugins {
     id("io.embrace.opentelemetry.kotlin.build-logic")
     id("signing")
     id("com.vanniktech.maven.publish")
+    id("org.jetbrains.kotlinx.kover")
     alias(libs.plugins.download)
     alias(libs.plugins.google.protobuf)
 }
