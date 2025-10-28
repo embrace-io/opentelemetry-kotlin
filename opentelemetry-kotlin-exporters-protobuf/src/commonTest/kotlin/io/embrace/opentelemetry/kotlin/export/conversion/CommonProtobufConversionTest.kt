@@ -2,14 +2,15 @@ package io.embrace.opentelemetry.kotlin.export.conversion
 
 import io.embrace.opentelemetry.kotlin.ExperimentalApi
 import io.embrace.opentelemetry.kotlin.FakeInstrumentationScopeInfo
+import io.embrace.opentelemetry.kotlin.resource.FakeResource
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalApi::class)
-class InstrumentationScopeProtobufConversionTest {
+class CommonProtobufConversionTest {
 
     @Test
-    fun testEmptyConversion() {
+    fun testEmptyInstrumentationScopeConversion() {
         val obj = FakeInstrumentationScopeInfo("name", null, null, emptyMap())
         val protobuf = obj.toProtobuf()
         assertEquals(0, protobuf.attributes.size)
@@ -18,7 +19,7 @@ class InstrumentationScopeProtobufConversionTest {
     }
 
     @Test
-    fun testConversionWithValues() {
+    fun testInstrumentationConversionWithValues() {
         val obj = FakeInstrumentationScopeInfo(
             "custom_name",
             "0.1.0",
@@ -32,5 +33,26 @@ class InstrumentationScopeProtobufConversionTest {
         val attribute = protobuf.attributes[0]
         assertEquals("foo", attribute.key)
         assertEquals("bar", attribute.value_?.string_value)
+    }
+
+    @Test
+    fun testEmptyResourceConversion() {
+        val obj = FakeResource(attributes = emptyMap())
+        val protobuf = obj.toProtobuf()
+        assertEquals(0, protobuf.attributes.size)
+        assertEquals(0, protobuf.dropped_attributes_count)
+    }
+
+    @Test
+    fun testResourceNonDefaultConversion() {
+        val obj = FakeResource(
+            attributes = mapOf(
+                "string" to "foo"
+            )
+        )
+        val protobuf = obj.toProtobuf()
+        assertEquals(1, protobuf.attributes.size)
+        assertEquals("foo", protobuf.attributes[0].value_?.string_value)
+        assertEquals(0, protobuf.dropped_attributes_count)
     }
 }
