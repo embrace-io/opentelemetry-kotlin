@@ -18,7 +18,7 @@ kover {
         filters {
             excludes {
                 androidGeneratedClasses()
-                classes("*.BuildConfig")
+                classes("*.BuildConfig", "io.opentelemetry.proto.*")
             }
         }
     }

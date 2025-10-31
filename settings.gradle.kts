@@ -33,7 +33,7 @@ include(
     ":opentelemetry-kotlin-benchmark-fixtures",
     ":opentelemetry-kotlin-exporters-core",
     ":opentelemetry-kotlin-exporters-otlp",
-    ":opentelemetry-kotlin-exporters-protobuf-java",
+    ":opentelemetry-kotlin-exporters-protobuf",
     ":opentelemetry-java-typealiases",
     ":custom-detekt-rules",
     "examples:jvm-app",

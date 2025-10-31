@@ -5,8 +5,12 @@ import io.embrace.opentelemetry.kotlin.export.OtlpResponse.ClientError
 import io.embrace.opentelemetry.kotlin.export.OtlpResponse.ServerError
 import io.embrace.opentelemetry.kotlin.export.OtlpResponse.Success
 import io.embrace.opentelemetry.kotlin.export.OtlpResponse.Unknown
+import io.embrace.opentelemetry.kotlin.logging.export.deserializeLogRecordErrorMessage
+import io.embrace.opentelemetry.kotlin.logging.export.toProtobufByteArray
 import io.embrace.opentelemetry.kotlin.logging.model.ReadableLogRecord
 import io.embrace.opentelemetry.kotlin.tracing.data.SpanData
+import io.embrace.opentelemetry.kotlin.tracing.export.deserializeTraceRecordErrorMessage
+import io.embrace.opentelemetry.kotlin.tracing.export.toProtobufByteArray
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.compression.compress
@@ -26,14 +30,14 @@ internal class OtlpClient(
 
     suspend fun exportLogs(telemetry: List<ReadableLogRecord>): OtlpResponse = exportTelemetry(
         OtlpEndpoint.Logs,
-        telemetry::serializeLogRecordData,
+        telemetry::toProtobufByteArray,
         ByteArray::deserializeLogRecordErrorMessage
     )
 
     suspend fun exportTraces(telemetry: List<SpanData>): OtlpResponse = exportTelemetry(
         OtlpEndpoint.Traces,
-        telemetry::serializeSpanData,
-        ByteArray::deserializeTracesErrorMessage
+        telemetry::toProtobufByteArray,
+        ByteArray::deserializeTraceRecordErrorMessage
     )
 
     private suspend fun exportTelemetry(

@@ -12,6 +12,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":opentelemetry-kotlin-api"))
+                implementation(project(":opentelemetry-kotlin-exporters-protobuf"))
                 implementation(project(":opentelemetry-kotlin-platform-implementations"))
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.cio)
@@ -22,22 +23,15 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(project(":opentelemetry-kotlin-test-fakes"))
-                implementation(libs.kotlin.test)
+                implementation(libs.kotlin.test.common)
+                implementation(libs.kotlin.test.common.annotations)
                 implementation(libs.kotlinx.coroutines.test)
-            }
-        }
-        val jvmTest by getting {
-            dependencies {
-                implementation(project(":opentelemetry-kotlin-test-fakes"))
                 implementation(libs.ktor.client.mock)
-                implementation(libs.kotlin.test)
             }
         }
         val jvmAndAndroidMain by getting {
             dependencies {
-                implementation(project(":opentelemetry-kotlin-exporters-protobuf-java"))
                 implementation(libs.ktor.client.okhttp)
-                implementation(libs.protobuf.kotlin)
             }
         }
     }
