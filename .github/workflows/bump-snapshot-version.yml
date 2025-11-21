@@ -24,7 +24,7 @@ jobs:
     steps:
 
       - name: Checkout SDK
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set next version
         run: sed -i -r "s#version=([^\']+)#version=${{ inputs.next_version }}-SNAPSHOT#" gradle.properties
