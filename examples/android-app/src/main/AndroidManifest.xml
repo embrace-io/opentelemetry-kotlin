@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-            android:name=".MainApplication"
+            android:name="io.opentelemetry.example.kotlin.MainApplication"
             android:label="OtelKotlinApp">
         <activity
-                android:name=".MainActivity"
+                android:name="io.opentelemetry.example.kotlin.MainActivity"
                 android:exported="true"
                 android:label="OtelKotlinExample">
             <intent-filter>
