@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.kotlinx.kover") version "0.9.4"
 }
 
-group = "io.embrace"
+group = "io.opentelemetry.kotlin"
 version = project.version
 
 kover {

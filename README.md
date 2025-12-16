@@ -7,7 +7,7 @@ This API operates in 2 modes:
 1. Compatibility mode, where it acts as a façade for the [OpenTelemetry Java SDK](https://github.com/open-telemetry/opentelemetry-java)
 2. Regular mode, where it captures telemetry via a Kotlin Multiplatform (KMP) implementation
 
-[![codecov](https://codecov.io/github/embrace-io/opentelemetry-kotlin/branch/main/graph/badge.svg?token=GQJYEOUSAU)](https://codecov.io/github/embrace-io/opentelemetry-kotlin)
+[![codecov](https://codecov.io/github/open-telemetry/opentelemetry-kotlin/branch/main/graph/badge.svg?token=GQJYEOUSAU)](https://codecov.io/github/open-telemetry/opentelemetry-kotlin)
 
 ## Supported targets
 
@@ -31,8 +31,8 @@ Other targets compile but are not considered sufficiently tested to count as 'su
 
 ```
 dependencies {
-    implementation("io.embrace.opentelemetry.kotlin:opentelemetry-kotlin:<latest-version>")
-    implementation("io.embrace.opentelemetry.kotlin:opentelemetry-kotlin-implementation:<latest-version>")
+    implementation("io.opentelemetry.kotlin:opentelemetry-kotlin:<latest-version>")
+    implementation("io.opentelemetry.kotlin:opentelemetry-kotlin-implementation:<latest-version>")
 }
 ```
 
@@ -53,8 +53,8 @@ This can be helpful if you already use the Java implementation, or don't want to
 
 ```
 dependencies {
-    implementation("io.embrace.opentelemetry.kotlin:opentelemetry-kotlin:<latest-version>")
-    implementation("io.embrace.opentelemetry.kotlin:opentelemetry-kotlin-compat:<latest-version>")
+    implementation("io.opentelemetry.kotlin:opentelemetry-kotlin:<latest-version>")
+    implementation("io.opentelemetry.kotlin:opentelemetry-kotlin-compat:<latest-version>")
 }
 ```
 
@@ -106,7 +106,7 @@ repositories {
         name = "Central Portal Snapshots"
         url = uri("https://central.sonatype.com/repository/maven-snapshots/")
         content {
-            includeGroup("io.embrace.opentelemetry.kotlin")
+            includeGroup("io.opentelemetry.kotlin")
         }
     }
     ...

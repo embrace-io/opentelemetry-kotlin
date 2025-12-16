@@ -10,13 +10,13 @@ fun Project.configurePublishing() {
         mavenPublishing.apply {
             publishToMavenCentral()
             signAllPublications()
-            coordinates("io.embrace.opentelemetry.kotlin", project.name, project.version.toString())
+            coordinates("io.opentelemetry.kotlin", project.name, project.version.toString())
 
             pom {
                 name.set("Opentelemetry Kotlin")
                 description.set("An implementation of the OpenTelemetry specification as a Kotlin Multiplatform Library.")
                 inceptionYear.set("2025")
-                url.set("https://github.com/embrace-io/opentelemetry-kotlin")
+                url.set("https://github.com/open-telemetry/opentelemetry-kotlin")
 
                 licenses {
                     license {
@@ -26,15 +26,15 @@ fun Project.configurePublishing() {
                 }
                 developers {
                     developer {
-                        id.set("dev1")
-                        name.set("Embrace")
-                        email.set("support@embrace.io")
+                        id.set("opentelemetry")
+                        name.set("OpenTelemetry")
+                        url.set("https://github.com/open-telemetry/community")
                     }
                 }
                 scm {
-                    connection.set("scm:git:github.com/embrace-io/opentelemetry-kotlin.git")
-                    developerConnection.set("scm:git:ssh://github.com/embrace-io/opentelemetry-kotlin.git")
-                    url.set("https://github.com/embrace-io/opentelemetry-kotlin/tree/main")
+                    connection.set("scm:git:github.com/open-telemetry/opentelemetry-kotlin.git")
+                    developerConnection.set("scm:git:ssh://github.com/open-telemetry/opentelemetry-kotlin.git")
+                    url.set("https://github.com/open-telemetry/opentelemetry-kotlin/tree/main")
                 }
             }
         }
