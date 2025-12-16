@@ -5,7 +5,7 @@ plugins {
 }
 
 application {
-    mainClass.set("io.embrace.opentelemetry.example.kotlin.JvmAppKt")
+    mainClass.set("io.opentelemetry.example.kotlin.JvmAppKt")
 }
 
 dependencies {

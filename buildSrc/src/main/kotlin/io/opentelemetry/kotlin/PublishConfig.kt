@@ -14,7 +14,7 @@ fun Project.configurePublishing() {
 
             pom {
                 name.set("Opentelemetry Kotlin")
-                description.set("An implementation of the OpenTelemetry specification as a Kotlin Multiplatform Library, initially developed by embrace.io.")
+                description.set("An implementation of the OpenTelemetry specification as a Kotlin Multiplatform Library.")
                 inceptionYear.set("2025")
                 url.set("https://github.com/embrace-io/opentelemetry-kotlin")
 

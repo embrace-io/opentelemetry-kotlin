@@ -57,7 +57,7 @@ style:
   BracesOnWhenStatements:
     active: true
     singleLine: 'consistent'
-    multiLine: 'always'
+    multiLine: 'consistent'
   MandatoryBracesLoops:
     active: true
   SpacingBetweenPackageAndImports:
@@ -65,11 +65,7 @@ style:
   UnusedImports:
     active: true
 
-# Discourage 'embrace' anywhere in symbol names
 naming:
-  ForbiddenClassName:
-    active: true
-    forbiddenName: ['*Embrace']
   ClassNaming:
     active: true
     classPattern: '^(?!.*Utils)[A-Z][A-Za-z0-9]*$'
