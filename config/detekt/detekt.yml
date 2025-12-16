@@ -73,17 +73,3 @@ naming:
   ClassNaming:
     active: true
     classPattern: '^(?!.*Utils)[A-Z][A-Za-z0-9]*$'
-
-# Custom rules defined in this project
-custom-rules:
-  DiscouragedImport:
-    active: true
-    restrictedPackages:
-      - "io.opentelemetry"
-    allowedFileIds:
-      - "io.embrace.opentelemetry.kotlin.aliases.Aliases"
-      - "io.embrace.opentelemetry.kotlin.factory.SpanFactoryImpl"
-      - "io.embrace.opentelemetry.kotlin.export.ProtobufSerialization.jvm"
-      - "io.embrace.opentelemetry.kotlin.export.OtlpClientTest"
-      - "io.embrace.opentelemetry.kotlin.logging.export.OtlpHttpLogRecordExporterTest"
-      - "io.embrace.opentelemetry.kotlin.tracing.export.OtlpHttpSpanExporterTest"

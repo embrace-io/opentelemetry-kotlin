@@ -35,7 +35,6 @@ include(
     ":opentelemetry-kotlin-exporters-otlp",
     ":opentelemetry-kotlin-exporters-protobuf",
     ":opentelemetry-java-typealiases",
-    ":custom-detekt-rules",
     "examples:jvm-app",
     "examples:js-app",
     "examples:android-app",
