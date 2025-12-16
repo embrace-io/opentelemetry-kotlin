@@ -1,4 +1,4 @@
-package io.embrace.opentelemetry.kotlin
+package io.opentelemetry.kotlin
 
 import com.android.build.api.dsl.androidLibrary
 import org.gradle.api.Project
@@ -16,7 +16,7 @@ fun Project.configureKotlin(
         compilerOptions.configureCompiler()
 
         androidLibrary {
-            namespace = "io.embrace.opentelemetry.kotlin.${project.name.replace("-", ".")}"
+            namespace = "io.opentelemetry.kotlin.${project.name.replace("-", ".")}"
             compileSdk = 36
             minSdk = 21
 

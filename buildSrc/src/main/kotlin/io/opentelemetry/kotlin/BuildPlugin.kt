@@ -1,4 +1,4 @@
-package io.embrace.opentelemetry.kotlin
+package io.opentelemetry.kotlin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

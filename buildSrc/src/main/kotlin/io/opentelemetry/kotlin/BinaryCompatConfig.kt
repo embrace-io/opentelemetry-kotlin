@@ -1,4 +1,4 @@
-package io.embrace.opentelemetry.kotlin
+package io.opentelemetry.kotlin
 
 import kotlinx.validation.ApiValidationExtension
 import org.gradle.api.Project
