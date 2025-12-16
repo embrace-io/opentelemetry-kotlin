@@ -41,7 +41,7 @@ abstract class GenerateSemanticConventionsTask @Inject constructor(
                     "-r", "build/semantic-conventions-${version.get()}/model", // directory for semantic convention schemas
                     "--templates", "templates", // directory containing jinja2 templates
                     "kotlin", // use the Kotlin jinja2 template
-                    "src/commonMain/kotlin/io/embrace/opentelemetry/kotlin/semconv" // output directory
+                    "src/commonMain/kotlin/io/opentelemetry/kotlin/semconv" // output directory
                 )
                 isIgnoreExitValue = true
             }

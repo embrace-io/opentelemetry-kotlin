@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "io.embrace.opentelemetry.kotlin.benchmark"
+    namespace = "io.opentelemetry.kotlin.benchmark"
     compileSdk = 36
 
     defaultConfig {

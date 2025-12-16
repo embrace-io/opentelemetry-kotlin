@@ -1,1 +1,1 @@
-io.embrace.opentelemetry.kotlin.detekt.DiscouragedImportRuleSetProvider
+io.opentelemetry.kotlin.detekt.DiscouragedImportRuleSetProvider
