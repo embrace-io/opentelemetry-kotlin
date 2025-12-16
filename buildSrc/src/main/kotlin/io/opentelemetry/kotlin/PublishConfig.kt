@@ -1,4 +1,4 @@
-package io.embrace.opentelemetry.kotlin
+package io.opentelemetry.kotlin
 
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.gradle.api.Project
