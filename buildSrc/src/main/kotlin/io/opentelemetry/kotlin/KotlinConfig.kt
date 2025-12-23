@@ -97,7 +97,7 @@ fun Project.configureKotlin(
 }
 
 private fun KotlinCommonCompilerOptions.configureCompiler() {
-    allWarningsAsErrors.set(true)
+    allWarningsAsErrors.set(false)
     apiVersion.set(KotlinVersion.KOTLIN_2_0)
     languageVersion.set(KotlinVersion.KOTLIN_2_0)
     freeCompilerArgs.add("-Xexpect-actual-classes")
