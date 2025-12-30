@@ -97,10 +97,10 @@ fun Project.configureKotlin(
 }
 
 private fun KotlinCommonCompilerOptions.configureCompiler() {
-    allWarningsAsErrors.set(false)
+    allWarningsAsErrors.set(true)
     apiVersion.set(KotlinVersion.KOTLIN_2_0)
     languageVersion.set(KotlinVersion.KOTLIN_2_0)
-    freeCompilerArgs.add("-Xexpect-actual-classes")
+    freeCompilerArgs.addAll("-Xexpect-actual-classes", "-Xsuppress-version-warnings")
 }
 
 private fun createIosFrameworkName(input: String): String {
